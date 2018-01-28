@@ -1,0 +1,27 @@
+# Ignore bundler config.
+.bundle
+
+# Ignore all logfiles and tempfiles.
+backend/log/*
+backend/tmp/*
+tmp/*
+# But keep the directories
+!backend/log/.keep
+!backend/tmp/.keep
+
+# Ignore uploaded files in development
+backend/storage/*
+
+*/yarn-error.log
+
+public/assets
+.byebug_history
+
+# Frontend
+node_modules
+frontend/.next
+frontend/**/*.js
+!frontend/jestconfig/jestSetup.js
+!frontend/jestconfig/preprocessor.js
+
+.DS_Store

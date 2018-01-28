@@ -1,0 +1,9 @@
+{
+  "types": ["jasmine"],
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "strict": true,
+    "target": "es2017"
+  }
+}

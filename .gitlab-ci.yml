@@ -1,0 +1,58 @@
+variables:
+  POSTGRES_DB: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: super_secret_password__DO_NOT_STEAL
+
+jest:
+  image: mhart/alpine-node:latest
+  stage: test
+  tags:
+    - ci-alpine-latest
+  script:
+    - cd frontend
+    - yarn install && yarn quicktest
+
+rubocop:
+  stage: test
+  tags:
+    - ci-ruby-latest
+  script:
+    - gem install rubocop --no-ri --no-rdoc
+    - cd backend
+    - rubocop -R
+
+rspec:
+  stage: test
+  variables:
+    CI_DATABASE: postgres
+  services:
+    - postgres:alpine
+  tags:
+    - ci-ruby-latest
+  script:
+    - "echo gem: --no-ri --no-rdoc >> ~/.gemrc"
+    - cd backend
+    - gem install bundler
+    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+    - bundle exec rspec
+
+# TODO: finish this??
+# cypress:
+#   stage: test
+#   # We need the database
+#   services:
+#     - postgres:alpine
+#   tags:
+#     - ci-ruby-latest
+#   # We want to:
+#   # - install all the frontend packages and start the next server
+#   # - install all the backend gems and start the rails server
+#   # - install cypress and run it
+#   script:
+#     - export POSTGRES_DB=production
+#     - "echo gem: --no-ri --no-rdoc >> ~/.gemrc"
+#     - cd backend
+#     - gem install bundler
+#     - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+#     - bundle exec rails db:create db:migrate db:seed
+#     - bundle exec rails server RAILS_ENV=production &
