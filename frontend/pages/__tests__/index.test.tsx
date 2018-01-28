@@ -12,7 +12,7 @@ describe('App home page', () => {
   it('has a title', () => {
     const title = component.find('title').text()
 
-    expect(title).toBe('App Name')
+    expect(title).toBe('Volkano')
   })
 
   it('greets the world', () => {

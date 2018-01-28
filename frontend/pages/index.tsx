@@ -6,7 +6,7 @@ class App extends React.Component {
     return (
       <div>
         <Head>
-          <title>App Name</title>
+          <title>Volkano</title>
         </Head>
         <h1>Hello World!</h1>
       </div>
