@@ -1,7 +1,17 @@
 # Recommended VSCode plugins
 
-* Prettier (Auto style formatting)
-* ruby-rubocop (Lints and autocorrects)
+## Prettier
+
+* Auto style formatting for javascript and json
+
+## ruby-rubocop
+
+* Lints and autocorrects ruby code
+
+## Ruby Solargraph
+
+* Intellisense for ruby
+* NB! First you must do `gem install solargraph`
 
 # Initializing the git hooks
 
@@ -31,21 +41,26 @@
 * To nuke all docker containers: `docker rmi $(docker images -q) --force`
 * To nuke the database: `rails db:drop`
 
-# Dirty Bits Repo
-
 # Development guide
 
 _Info: Master and development branches are protected, so you can't push directly to them_  
 Read [this](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) guide for more information on how the dev workflow works.
 
-## Creating a new feature
+## Branch naming conventions
 
-To create a new feature create a branch of `development` and create your feature.  
+* Features `feature/great-branch-name`
+* Bug fixes `bugfix/great-branch-name`
+* Changes on documentation `doc/great-branch-name`
+* Tooling changes `tooling/great-branch-name`
+
+## Example of developing a new feature
+
+To create a new feature you must fork from `development` and create your own branch.  
 Change to the `development` branch and create a new feature branch, give it a descriptive name.
 
 ```shell
 git checkout development
-git checkout -b feature/[name]
+git checkout -b feature/great-branch-name
 ```
 
 Do your work and create a nice commit message.
@@ -60,12 +75,14 @@ This allows you to combine your commits if you wish, and renaming them if you ha
 You should now be ready to push your changes to GitLab.
 
 ```shell
-git push -u origin new-feature
+git push -u origin feature/great-branch-name
 ```
 
 You should now be able to create a merge request in GitLab.  
 Make sure you ask for a merge request into `development` and not into `master`.
 
-## Fixing a bug
+Once the feature has been merged into development you can delete your feature branch localy.
 
-Same as feature, but name the branch as `git checkout -b bugfix/[name/bug-number]`
+```shell
+git branch -D feature/great-branch-name
+```
