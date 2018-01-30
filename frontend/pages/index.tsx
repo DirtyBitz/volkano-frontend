@@ -13,7 +13,7 @@ interface Props extends StoreState {
   signOut: () => ISignOutAction
 }
 
-class App extends React.Component<Props, {}> {
+export class App extends React.Component<Props, {}> {
   private renderSignedIn() {
     return <div>You just fake signed in! Auth with backend needs implementation.</div>
   }
