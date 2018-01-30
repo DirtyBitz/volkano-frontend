@@ -1,3 +1,5 @@
+[![pipeline status](https://inf2900v18.cs.uit.no/team4/volkano/badges/development/pipeline.svg)](https://inf2900v18.cs.uit.no/team4/volkano/commits/development)
+
 # Recommended VSCode plugins
 
 ## Prettier
