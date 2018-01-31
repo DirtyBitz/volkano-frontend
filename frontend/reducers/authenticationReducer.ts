@@ -1,7 +1,9 @@
 import ActionTypeKeys from '../actions/ActionTypeKeys'
 import ActionTypes from '../actions/ActionTypes'
 
-export default function authenticationReducer(state = false, action: ActionTypes) {
+export default function authenticationReducer(state = false, action?: ActionTypes) {
+  if (!action) return state
+
   switch (action.type) {
     case ActionTypeKeys.SIGN_IN:
       return onSignIn()

@@ -8,10 +8,8 @@ describe('Authentication actions', () => {
 
     const expectedAction = {
       type: types.SIGN_IN,
-      payload: {
-        username,
-        password,
-      },
+      username,
+      password,
     }
     expect(actions.signIn(username, password)).toEqual(expectedAction)
   })

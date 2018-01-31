@@ -5,10 +5,8 @@ import ISignOutAction from './ISignOutAction'
 export function signIn(username: string, password: string): ISignInAction {
   return {
     type: keys.SIGN_IN,
-    payload: {
-      username,
-      password,
-    },
+    username,
+    password,
   }
 }
 
