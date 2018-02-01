@@ -1,23 +1,31 @@
-import * as actions from '../authenticationActions'
-import types from '../../ActionTypeKeys'
+import * as actions from '../AuthActions'
+import AuthActionTypeKeys from '../AuthActionTypeKeys'
 
 describe('Authentication actions', () => {
   it('Should create a action to sign in', () => {
     const username = 'test_user'
     const password = 'test_pw'
 
+    const createdAction = actions.signIn(username, password)
+
     const expectedAction = {
-      type: types.SIGN_IN,
-      username,
-      password,
+      type: AuthActionTypeKeys.SIGN_IN,
+      payload: {
+        username,
+        password,
+      },
     }
-    expect(actions.signIn(username, password)).toEqual(expectedAction)
+
+    expect(createdAction).toEqual(expectedAction)
   })
 
   it('Should create a action to sign out', () => {
+    const createdAction = actions.signOut()
+
     const expectedAction = {
-      type: types.SIGN_OUT,
+      type: AuthActionTypeKeys.SIGN_OUT,
     }
-    expect(actions.signOut()).toEqual(expectedAction)
+
+    expect(createdAction).toEqual(expectedAction)
   })
 })

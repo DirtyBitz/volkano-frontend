@@ -1,23 +1,38 @@
-import ActionTypeKeys from '../actions/ActionTypeKeys'
-import ActionTypes from '../actions/ActionTypes'
+import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
+import AuthActionTypes from '../actions/authentication/AuthActionTypes'
 
-export default function authenticationReducer(state = false, action?: ActionTypes) {
-  if (!action) return state
-
-  switch (action.type) {
-    case ActionTypeKeys.SIGN_IN:
-      return onSignIn()
-    case ActionTypeKeys.SIGN_OUT:
-      return onSignOut()
-    default:
-      return state
+export interface AuthStateI {
+  isAuthenticated: boolean
+  tokens?: {
+    refresh_token: string
+    access_token: string
   }
 }
 
-function onSignIn() {
-  return true
+export const authInitialState: AuthStateI = {
+  isAuthenticated: false,
+  tokens: undefined,
 }
 
-function onSignOut() {
-  return false
+export default function authenticationReducer(
+  state = authInitialState,
+  action: AuthActionTypes
+): AuthStateI {
+  switch (action.type) {
+    case AuthActionTypeKeys.SIGN_IN:
+      return {
+        isAuthenticated: true,
+        tokens: {
+          refresh_token: '',
+          access_token: '',
+        },
+      }
+    case AuthActionTypeKeys.SIGN_OUT:
+      return {
+        isAuthenticated: false,
+        tokens: undefined,
+      }
+    default:
+      return state
+  }
 }

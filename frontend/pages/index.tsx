@@ -2,18 +2,17 @@ import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import { store } from '../store'
 import { bindActionCreators } from 'redux'
-import { signIn, signOut } from '../actions/authentication/authenticationActions'
 import { Dispatch } from 'react-redux'
 import StoreState from '../store/StoreState'
-import ISignOutAction from '../actions/authentication/ISignOutAction'
-import ISignInAction from '../actions/authentication/ISignInAction'
+import { ISignInAction, ISignOutAction } from '../actions/authentication/AuthActionTypes'
+import { signIn, signOut } from '../actions/authentication/AuthActions'
 
-interface Props extends StoreState {
+interface AppProps extends StoreState {
   signIn: (username: string, password: string) => ISignInAction
   signOut: () => ISignOutAction
 }
 
-export class App extends React.Component<Props, {}> {
+export class App extends React.Component<AppProps, {}> {
   private renderSignedIn() {
     return <div>You just fake signed in! Auth with backend needs implementation.</div>
   }
@@ -32,13 +31,14 @@ export class App extends React.Component<Props, {}> {
   }
 
   render() {
-    return this.props.isAuthenticated ? this.renderSignedIn() : this.renderAnonymous()
+    const { authentication } = this.props
+    return authentication.isAuthenticated ? this.renderSignedIn() : this.renderAnonymous()
   }
 }
 
 const mapStateToProps = (state: StoreState, ownProps = {}) => {
   return {
-    isAuthenticated: state.isAuthenticated,
+    authentication: state.authentication,
   }
 }
 

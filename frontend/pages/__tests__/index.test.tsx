@@ -1,14 +1,16 @@
 import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { App } from '../index'
-import { Provider } from 'react-redux'
-import ISignInAction from '../../actions/authentication/ISignInAction'
-import ISignOutAction from '../../actions/authentication/ISignOutAction'
+import {
+  ISignInAction,
+  ISignOutAction,
+} from '../../actions/authentication/AuthActionTypes'
+import { AuthStateI } from '../../reducers/authenticationReducer'
 
 interface MockProps {
   signIn: (username: string, password: string) => ISignInAction
   signOut: () => ISignOutAction
-  isAuthenticated: boolean
+  authentication: AuthStateI
 }
 
 describe('App home page', () => {
@@ -19,7 +21,13 @@ describe('App home page', () => {
     mockProps = {
       signIn: jest.fn(),
       signOut: jest.fn(),
-      isAuthenticated: false,
+      authentication: {
+        isAuthenticated: false,
+        tokens: {
+          access_token: 'fake-token',
+          refresh_token: 'fake-token',
+        },
+      },
     }
     app = shallow(<App {...mockProps} />)
   })

@@ -3,7 +3,7 @@ import StoreState from '../store/StoreState'
 import isAuthenticated from './authenticationReducer'
 
 const rootReducer = combineReducers<StoreState>({
-  isAuthenticated,
+  authentication: isAuthenticated,
 })
 
 export default rootReducer
