@@ -4,7 +4,9 @@ variables:
   POSTGRES_PASSWORD: super_secret_password__DO_NOT_STEAL
 
 cache:
-  untracked: true
+  key: "$CI_COMMIT_REF_NAME"
+
+image: maxjohansen/volkano
 
 stages:
   - Code climate
@@ -14,15 +16,15 @@ stages:
 rubocop:
   stage: Code climate
   tags:
-    - ci-ruby-latest
+    - ci-alpine-latest
   script:
-    - gem install rubocop --no-ri --no-rdoc
-    - cd backend
-    - rubocop -R
+    - rubocop -R backend
 
 jest:
   stage: Unit tests
-  image: mhart/alpine-node:latest
+  cache:
+    paths:
+      - frontend/node_modules
   tags:
     - ci-alpine-latest
   script:
@@ -32,42 +34,39 @@ jest:
 
 rspec:
   stage: Unit tests
-  variables:
-    CI_DATABASE: postgres
+  cache:
+    paths:
+      - backend/gems
+  tags:
+    - ci-alpine-latest
   services:
     - postgres:alpine
-  tags:
-    - ci-ruby-latest
+  variables:
+    CI_DATABASE: postgres
   script:
-    - "echo gem: --no-ri --no-rdoc >> ~/.gemrc"
     - cd backend
-    - gem install bundler
-    - bundle install --jobs $(nproc)
+    - bundle install --jobs $(nproc) --path=gems
     - bundle exec rspec
 
 cypress:
   stage: End to end tests
-  image: cypress/base:ubuntu16
+  cache:
+    paths:
+      - backend/gems
+      - frontend/node_modules
+  tags:
+    - ci-alpine-latest
   # We need the database
   services:
     - postgres:alpine
-  only:
-    - master
-    - development
   variables:
     CI_DATABASE: postgres
-  tags:
-    - ci-alpine-latest
-  # TODO: Build our own Docker image with all dependencies
   script:
-    - apt-get -qq -y update && apt-get -qq -y install ruby ruby-dev zlib1g-dev liblzma-dev build-essential patch libpq-dev nodejs
     - cd backend
-    - gem install bundle
-    - bundle install
+    - bundle install --jobs $(nproc) --path=gems
     - bundle exec rails db:create db:migrate db:seed
     - bundle exec rails s & > /dev/null
     - cd ../frontend
-    - npm install -g yarn
     - yarn install
     - yarn dev & > /dev/null
     - yarn run cypress run
