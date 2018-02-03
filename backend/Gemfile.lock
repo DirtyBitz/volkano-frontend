@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/lynndylanhurley/devise_token_auth.git
+  revision: cf55a71398dbc85ef86656abb70c9bcc8ae40ff4
+  specs:
+    devise_token_auth (0.1.43.beta1)
+      devise (> 3.5.2, < 4.5)
+      rails (< 6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -49,15 +57,12 @@ GEM
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     debug_inspector (0.0.3)
-    devise (4.3.0)
+    devise (4.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (0.1.42)
-      devise (> 3.5.2, <= 4.3)
-      rails (< 6)
     diff-lcs (1.3)
     erubi (1.7.0)
     ffi (1.9.18)
@@ -218,7 +223,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  devise_token_auth
+  devise_token_auth!
   guard-rspec
   listen (>= 3.0.5, < 3.2)
   omniauth
