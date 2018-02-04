@@ -3,39 +3,52 @@
 require 'rails_helper'
 
 RSpec.describe 'User authentication', type: :request do
-  let(:valid_params) do
-    { email: 'gallant@example.com',
+  let(:valid_user) do
+    {
+      email: 'gallant@example.com',
       password: 'password',
-      password_confirmation: 'password' }
+    }
   end
-  let(:invalid_params) do
-    { email: 'goofus@example.com',
-      password: 'wrong',
-      password_confirmation: 'password' }
-  end
-
-  it 'can sign up a new account' do
-    post '/auth', params: valid_params
-
-    expect(response).to be_success
-    expect(ActionMailer::Base.deliveries).to eq([])
-  end
+  let(:valid_params) { valid_user.merge(password_confirmation: valid_user[:password]) }
+  let(:user) { User.create! valid_params }
 
   context 'with valid credentials' do
-    it 'returns an auth token' do
-      get '/auth/sign_in', params: valid_params
-
+    it 'can create a new user' do
+      expect { post '/auth', params: valid_params }.to change { User.count }.by(1)
       expect(response).to be_success
-      json = JSON.parse(response.body)
-      expect(json).to include(:token)
+    end
+
+    it 'returns an auth token' do
+      user.skip_confirmation!
+      user.save!
+      post '/auth/sign_in', params: valid_user
+      expect(response).to be_success
+      expect(response.headers).to include('client')
+      expect(response.headers).to include('access-token')
+    end
+
+    it 'returns valid tokens' do
+      user.skip_confirmation!
+      user.save!
+      post '/auth/sign_in', params: valid_user
+      params = {
+        uid: response.headers['uid'],
+        'access-token': response.headers['access-token'],
+        client: response.headers['client']
+      }
+      get '/auth/validate_token', params: params
+      expect(response).to be_success
     end
   end
 
-  context 'with invalid credentials' do
-    it 'does not grand authorization' do
-      get '/auth/sign_in', params: invalid_params
-
-      expect(response).to be_unauthorized
-    end
+  it 'does not create a new user when password is too short' do
+    post '/auth', params: { email: 'goofus@example.com', password: 'short' }
+    expect(response).to be_unprocessable
   end
+
+  it 'does not grant authorization without registered account' do
+    post '/auth/sign_in', params: { email: 'goofus@example.com', password: 'password' }
+    expect(response).to be_unauthorized
+  end
+
 end
