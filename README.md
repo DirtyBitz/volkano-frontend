@@ -38,6 +38,10 @@
 4. Run `rails db:create db:migrate` to create the database and set up tables
 5. Run `rails s` to start the development server
 
+## Using [mailcatcher](https://mailcatcher.me/) to catch emails in development
+
+The mailcatcher gem tends to conflict with gems that are common in Rails projects so we do not include it in the Gemfile. Instead, simply run `gem install mailcatcher` to install it along your system gems and start it with the `mailcatcher` command. It will run in the background and catch any mail that the backend sends to `smpt://localhost:1025`. You can view these emails at `http://localhost:1080/`.
+
 ## "Oh shit!" commands
 
 * To nuke all docker containers: `docker rmi $(docker images -q) --force`
