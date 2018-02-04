@@ -47,5 +47,6 @@ DeviseTokenAuth.setup do |config|
   # config.enable_standard_devise_support = false
 
   # Redirect back to root upon account creation
-  config.default_confirm_success_url = ''
+  # TODO set this to a sensible value for the frontend
+  config.default_confirm_success_url = 'http://localhost:5000'
 end
