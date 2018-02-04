@@ -6,15 +6,18 @@ RSpec.describe 'User authentication', type: :request do
   let(:valid_user) do
     {
       email: 'gallant@example.com',
-      password: 'password',
+      password: 'password'
     }
   end
-  let(:valid_params) { valid_user.merge(password_confirmation: valid_user[:password]) }
+  let(:valid_params) do
+    valid_user.merge(password_confirmation: valid_user[:password])
+  end
   let(:user) { User.create! valid_params }
 
   context 'with valid credentials' do
     it 'can create a new user' do
-      expect { post '/auth', params: valid_params }.to change { User.count }.by(1)
+      expect { post '/auth', params: valid_params }
+        .to change { User.count }.by(1)
       expect(response).to be_success
     end
 
@@ -47,8 +50,8 @@ RSpec.describe 'User authentication', type: :request do
   end
 
   it 'does not grant authorization without registered account' do
-    post '/auth/sign_in', params: { email: 'goofus@example.com', password: 'password' }
+    bad_params = { email: 'goofus@example.com', password: 'password' }
+    post '/auth/sign_in', params: bad_params
     expect(response).to be_unauthorized
   end
-
 end
