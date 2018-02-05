@@ -46,4 +46,7 @@ describe('App home page', () => {
     expect(mockProps.signIn).toHaveBeenCalledTimes(1)
     expect(mockProps.signIn).toHaveBeenLastCalledWith('test', 'test')
   })
+
+  it('Is wrapped in a Layout component')
+  it('It gives Layout component the auth prop')
 })
