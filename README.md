@@ -15,14 +15,12 @@
 * Intellisense for ruby
 * NB! First you must do `gem install solargraph`
 
-# Initializing the git hooks
-
-1. Run the `init_hooks` script found in the project root directory
-
-# Setting up the database
+# Setting up the external services
 
 1. [Install docker](https://docs.docker.com/engine/installation/)
-2. Start the database and run it in the background `docker-compose up -d`
+2. Run all external services in the background with `docker-compose up -d`
+
+Emails can be sent to `smtp://localhost:1025` and read at [`http://localhost:1080`](http://localhost:1080). You can examine the database with `psql -h 0.0.0.0 -U postgres` or by running `rails dbconsole` from the backend directory.
 
 # The frontend
 
@@ -35,12 +33,8 @@
 1. [Install rvm](https://rvm.io/)
 2. Run `rvm install "ruby-2.5.0"`
 3. Run `bundle install` in the `backend` directory
-4. Run `rails db:create db:migrate` to create the database and set up tables
+4. Run `rails db:setup` to create the database and set up tables
 5. Run `rails s` to start the development server
-
-## Using [mailcatcher](https://mailcatcher.me/) to catch emails in development
-
-The mailcatcher gem tends to conflict with gems that are common in Rails projects so we do not include it in the Gemfile. Instead, simply run `gem install mailcatcher` to install it along your system gems and start it with the `mailcatcher` command. It will run in the background and catch any mail that the backend sends to `smpt://localhost:1025`. You can view these emails at `http://localhost:1080/`.
 
 ## "Oh shit!" commands
 
