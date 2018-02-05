@@ -2,16 +2,14 @@ import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
 import AuthActionTypes from '../actions/authentication/AuthActionTypes'
 
 export interface AuthStateI {
-  isAuthenticated: boolean
-  tokens?: {
-    refresh_token: string
-    access_token: string
-  }
+  isLoading: boolean
+  user?: Object
+  token?: string
+  error?: Error
 }
 
 export const authInitialState: AuthStateI = {
-  isAuthenticated: false,
-  tokens: undefined,
+  isLoading: false,
 }
 
 export default function authenticationReducer(
@@ -19,19 +17,19 @@ export default function authenticationReducer(
   action: AuthActionTypes
 ): AuthStateI {
   switch (action.type) {
-    case AuthActionTypeKeys.SIGN_IN:
+    case AuthActionTypeKeys.SIGN_IN_PENDING:
       return {
-        isAuthenticated: true,
-        tokens: {
-          refresh_token: '',
-          access_token: '',
-        },
+        ...state,
+        isLoading: true,
       }
-    case AuthActionTypeKeys.SIGN_OUT:
+    case AuthActionTypeKeys.SIGN_IN_FULFILLED:
       return {
-        isAuthenticated: false,
-        tokens: undefined,
+        ...state,
+        isLoading: false,
+        user: action.payload.data,
+        token: action.payload.token,
       }
+    // TODO: Add missing actions
     default:
       return state
   }

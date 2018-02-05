@@ -1,5 +1,5 @@
 import { AuthStateI } from '../reducers/authenticationReducer'
 
-export default interface StoreState {
+export interface IStoreState {
   readonly authentication: AuthStateI
 }
