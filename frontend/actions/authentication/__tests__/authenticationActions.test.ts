@@ -1,31 +1,39 @@
 import * as actions from '../AuthActions'
 import AuthActionTypeKeys from '../AuthActionTypeKeys'
+import { signInPending } from '../AuthActions'
 
 describe('Authentication actions', () => {
-  it('Should create a action to sign in', () => {
-    const username = 'test_user'
-    const password = 'test_pw'
+  describe('User authenticate actions', () => {
+    it('Creates a signin pending action', () => {
+      const expectedSingInProgressAction = {
+        type: AuthActionTypeKeys.SIGN_IN_PENDING,
+      }
 
-    const createdAction = actions.signIn(username, password)
+      const signInProgressAction = signInPending()
 
-    const expectedAction = {
-      type: AuthActionTypeKeys.SIGN_IN,
-      payload: {
-        username,
-        password,
-      },
-    }
+      expect(signInProgressAction).toEqual(expectedSingInProgressAction)
+    })
 
-    expect(createdAction).toEqual(expectedAction)
+    it('Creates a signin success action', () => {})
+
+    it('Creates a signin error action', () => {})
+
+    it('Creates a signout action', () => {})
+
+    it('Calls the correct actions when a signin is ok', () => {})
+
+    // signIn thunk
+    it('Calls the correct actions when a signin fails', () => {})
   })
 
-  it('Should create a action to sign out', () => {
-    const createdAction = actions.signOut()
+  describe('User create actions', () => {
+    it('Creates a user pending action', () => {})
 
-    const expectedAction = {
-      type: AuthActionTypeKeys.SIGN_OUT,
-    }
+    it('Creates a user success action', () => {})
 
-    expect(createdAction).toEqual(expectedAction)
+    it('Creates a user error action', () => {})
+
+    // createUser thunk
+    it('Dispatches the correct actions when succesfully creating a user', () => {})
   })
 })

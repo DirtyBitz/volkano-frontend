@@ -3,48 +3,47 @@ import authenticationReducer, {
   AuthStateI,
 } from '../authenticationReducer'
 import { OtherAction } from '../../actions/IOtherAction'
-import { signOut, signIn } from '../../actions/authentication/AuthActions'
+import { signInPending, signInSuccess } from '../../actions/authentication/AuthActions'
+import { AuthApi } from '../../api/AuthApi'
+
+jest.mock('../../api/AuthApi')
 
 describe('todos reducer', () => {
-  it('should return the initial state', () => {
+  it('Should return the initial state', () => {
     const expectedState: AuthStateI = {
-      isAuthenticated: false,
-      tokens: undefined,
+      isLoading: false,
+      token: undefined,
+      error: undefined,
+      user: undefined,
     }
-
     expect(authenticationReducer(undefined, OtherAction)).toEqual(expectedState)
   })
 
-  it('should handle SIGN_IN', () => {
+  it('Should handle sign in pending', () => {
     const expectedState: AuthStateI = {
-      isAuthenticated: true,
-      tokens: {
-        refresh_token: '',
-        access_token: '',
-      },
+      isLoading: true,
+      token: undefined,
+      error: undefined,
+      user: undefined,
     }
 
-    const newState = authenticationReducer(authInitialState, signIn('test', 'test'))
+    const newState = authenticationReducer(authInitialState, signInPending())
 
     expect(newState).toEqual(expectedState)
   })
 
-  it('Should handle SIGN_OUT', () => {
-    const currentState: AuthStateI = {
-      isAuthenticated: false,
-      tokens: {
-        refresh_token: '',
-        access_token: '',
-      },
-    }
-
-    const newState = authenticationReducer(currentState, signOut())
+  it('Should handle when sign in is successfull', async () => {
+    const mockResponse = await AuthApi.authenticateUser('fake', 'fake')
 
     const expectedState: AuthStateI = {
-      isAuthenticated: false,
-      tokens: undefined,
+      isLoading: false,
+      token: mockResponse.token,
+      user: mockResponse.data,
+      error: undefined,
     }
 
-    expect(newState).toEqual(expectedState)
+    const state = authenticationReducer(expectedState, signInSuccess(mockResponse))
+
+    expect(state).toBe(expectedState)
   })
 })
