@@ -27,8 +27,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.7",
@@ -48,6 +47,7 @@
     "prettier": "^1.10.2",
     "react-addons-test-utils": "^15.6.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0",
     "typescript": "^2.7.1"
   }
 }
