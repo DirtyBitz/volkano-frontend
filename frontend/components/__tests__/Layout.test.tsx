@@ -1,20 +1,12 @@
-/*
- * README!
- * When layout component is implemented, remove sign in button
- * on pages/index.tsx and instead use Layout component there.
- * Modify tests for index.tsx to check that Layout component is present.
- *
- * See suggested render of this component on the bottom
- */
-
-//import { shallow, ShallowWrapper } from 'enzyme'
-//import Layout from '../Layout'
+import * as React from 'react'
+import { shallow, ShallowWrapper } from 'enzyme'
+import { Layout } from '../Layout'
 
 describe('Layout component', () => {
-  //let layout: ShallowWrapper<any>
+  let layout: ShallowWrapper<any>
 
   beforeEach(() => {
-    //layout = shallow(<Layout {...defaultProps} />)
+    layout = shallow(<Layout />)
   })
 
   it('Should wrap everything in a div')
