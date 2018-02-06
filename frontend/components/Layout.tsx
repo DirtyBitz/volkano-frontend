@@ -24,7 +24,6 @@ class Layout extends React.Component<Props, any>{
         <header>
           <Navigation userData={userData} />
         </header>
-        <p>This suuucks</p>
       <Footer />
       </div>
     )
