@@ -1,12 +1,33 @@
 import * as React from "react"
-default
+import Head from "next/head"
+import Navigation from "./Navigation"
+import Footer from "./Footer"
 
 interface Props {
-  userData?: Object
+  userData?: {
+    username: string
+  }
+  title?: string
 }
 
-export class Layout extends React.Component<Props, any>{
+class Layout extends React.Component<Props, any>{
   render() {
-    return <div>Hello</div>
+    const { userData, title } = this.props
+
+    return (
+      <div>
+        <Head>
+          <title>{ title || "Volkano" }</title>
+          <meta charSet='utf-8' />
+          <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+        </Head>
+        <header>
+          <Navigation userData={userData} />
+        </header>
+        <p>This suuucks</p>
+      <Footer />
+      </div>
+    )
   }
 }
+export default Layout
