@@ -1,0 +1,9 @@
+#!/bin/sh
+
+INPUT_FILE=$1
+START_LINE=`head -n1 $INPUT_FILE`
+PATTERN="^:[[:alpha:]]+: .+"
+if ! [[ "$START_LINE" =~ $PATTERN ]]; then
+  echo "Commit message missing emoji tag: https://inf2900v18.cs.uit.no/team4/volkano/wikis/Git-Commit-Message-StyleGuide"
+  exit 1
+fi
