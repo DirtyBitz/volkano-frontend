@@ -1,14 +1,16 @@
-//import { shallow, ShallowWrapper } from 'enzyme'
-//import Footer from '../Navigation'
-
-//const defaultProps = {}
+import * as React from 'react'
+import { shallow, ShallowWrapper } from 'enzyme'
+import Footer from '../Footer'
 
 describe('Footer component', () => {
-  //let footer: ShallowWrapper<any>
+  let footer: ShallowWrapper<any>
 
   beforeEach(() => {
-    //footer = shallow(<Footer />)
+    footer = shallow(<Footer />)
   })
 
-  it('Footer renders something')
+  it('renders current year', () => {
+    const currentYear = new Date().getFullYear()
+    expect(footer.text()).toContain(currentYear)
+  })
 })
