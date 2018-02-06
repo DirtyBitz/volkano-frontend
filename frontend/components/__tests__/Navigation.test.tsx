@@ -13,7 +13,7 @@ describe('Layout component', () => {
     navigation = shallow(<Navigation {...props} />)
   })
 
-  it('Has a link to the homepage', () => {
+  it('has a link to the homepage', () => {
     const links = navigation.find("Link")
 
     const homelink = links.filterWhere((link: any) =>
@@ -32,7 +32,7 @@ describe('Layout component', () => {
       navigation = shallow(<Navigation userData={fakeUserData} />)
     })
 
-    it('does not have a link to sign in page when already signed in', () => {
+    it('does not have a link to sign in page', () => {
       const links = navigation.find("Link")
       
       const signin = links.filterWhere((link: any) =>
@@ -42,7 +42,7 @@ describe('Layout component', () => {
       expect(signin.length).toBe(0)
     })
     
-    it('Contains link to profile page when signed in', () => {
+    it('has a link to profile page', () => {
       const links = navigation.find("Link")
       
       const profile = links.filterWhere((link: any) => {
@@ -55,23 +55,26 @@ describe('Layout component', () => {
     })
   })
 
-  it('Has a link to sign in page when no not signed in', () => {
-    const links = navigation.find("Link")
+  describe('when not signed in', () => {
+    it('has a link to sign in page', () => {
+      const links = navigation.find("Link")
+      const signin = links.filterWhere((link: any) =>
+        link.prop("href") === "/signin"
+      )
+    
+      expect(signin.length).toBe(1)
+    })
 
-    const signin = links.filterWhere((link: any) =>
-      link.prop("href") === "/signin"
-    )
+    it('does not have a link to profile', () => {
+      const links = navigation.find("Link")
+      
+      const profile = links.filterWhere((link: any) =>
+        link.prop("href") === "/profile"
+      )
+    
+      expect(profile.length).toBe(0)
+    })
 
-    expect(signin.length).toBe(1)
-  })
-
-  it('Should not show profile link when no userData is present', () => {
-    const links = navigation.find("Link")
-
-    const profile = links.filterWhere((link: any) =>
-      link.prop("href") === "/profile"
-    )
-
-    expect(profile.length).toBe(0)
-  })
+  
+})
 })
