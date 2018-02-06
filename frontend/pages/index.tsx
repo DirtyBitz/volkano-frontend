@@ -3,12 +3,12 @@ import * as withRedux from 'next-redux-wrapper'
 import { store } from '../store'
 import { bindActionCreators } from 'redux'
 import { Dispatch } from 'react-redux'
-import StoreState from '../store/StoreState'
-import { ISignInAction, ISignOutAction } from '../actions/authentication/AuthActionTypes'
+import { IStoreState } from '../store/StoreState'
+import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
 import { signIn, signOut } from '../actions/authentication/AuthActions'
 
-interface AppProps extends StoreState {
-  signIn: (username: string, password: string) => ISignInAction
+interface AppProps extends IStoreState {
+  signIn: (username: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
 }
 
@@ -32,17 +32,17 @@ export class App extends React.Component<AppProps, {}> {
 
   render() {
     const { authentication } = this.props
-    return authentication.isAuthenticated ? this.renderSignedIn() : this.renderAnonymous()
+    return authentication.user ? this.renderSignedIn() : this.renderAnonymous()
   }
 }
 
-const mapStateToProps = (state: StoreState, ownProps = {}) => {
+const mapStateToProps = (state: IStoreState, ownProps = {}) => {
   return {
     authentication: state.authentication,
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<StoreState>) => {
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     signIn: bindActionCreators(signIn, dispatch),
     signOut: bindActionCreators(signOut, dispatch),
