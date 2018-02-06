@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Unset GIT_DIR because we have to change directories to run rspec / rubocop / etc.
-unset GIT_DIR
-
 STAGED_FILES=$(git diff --cached --name-only)
 if [[ -z "$STAGED_FILES" ]]; then
     exit 0
@@ -10,13 +7,6 @@ fi
 
 # Redirect output to stderr.
 exec 1>&2
-
-BASEDIR=`git rev-parse --show-toplevel`
-GOTO_BACKEND="cd $BASEDIR/backend"
-GOTO_FRONTEND="cd $BASEDIR/frontend"
-RSPEC_COMMAND="bundle exec rspec --format documentation spec"
-RUBOCOP_COMMAND="rubocop -Ra --no-color"
-JEST_COMMAND="yarn quicktest"
 
 # Helper functions
 allow() {
@@ -28,30 +18,6 @@ allow() {
 flunk() {
     printf "$*"
     exit 1
-}
-
-ensure_docker_is_running() {
-    docker-compose ps db | grep Up >/dev/null 2>&1 && docker-compose up -d >/dev/null 2>&1
-}
-
-frontend_has_changed() {
-    if [[ ! -z $(echo -e "$STAGED_FILES" | grep frontend/) ]]; then
-        echo "true"
-    fi
-}
-
-backend_has_changed() {
-    if [[ ! -z $(echo -e "$STAGED_FILES" | grep backend/) ]]; then
-        echo "true"
-    fi
-}
-
-code_has_changed() {
-    if [[ $(frontend_has_changed) == "true" || $(backend_has_changed) == "true" ]]; then
-        echo "true"
-    else
-        echo "false"
-    fi
 }
 
 # The actual assertions
@@ -86,45 +52,6 @@ proper_whitespace() {
     fi
 }
 
-run_all_js_tests() {
-    local failures=$($GOTO_FRONTEND && $JEST_COMMAND 2>&1 | grep ● | sed 's/^[ ]*//g')
-    if [[ ! -z "$failures" ]]; then
-        flunk "Error: Attempt to commit with failing tests.\n\n$failures\n\nRun '$JEST_COMMAND' in frontend and ensure that tests are passing or pending before you commit your changes."
-    fi
-}
-
-run_specs_successfully() {
-    local tester=$($GOTO_BACKEND && $RSPEC_COMMAND)
-    local failures=$(echo -e "$tester" | gawk '/Failed examples/,/0/')
-    if [[ ! -z $failures ]]; then
-        flunk "Error: Attempt to commit with failing tests.\n\n${failures}\n\nRun '$RSPEC_COMMAND' in backend and ensure that tests are passing or pending before you commit your changes."
-    fi
-    local errors=$(echo -e "$tester" | grep 'occurred outside of examples')
-    if [[ ! -z $errors ]]; then
-        flunk "Error: Attempt to commit with test errors\n\n${errors}\n\nRun '$RSPEC_COMMAND' in backend and fix the error before you commit your changes."
-    fi
-}
-
-reject_all_violations() {
-    # Run rubocop with autocorrect and re-stage anything it fixes
-    $GOTO_BACKEND && $RUBOCOP_COMMAND >/dev/null && git update-index --again
-    # Any remaining violations will abort the commit
-    local violations=$($RUBOCOP_COMMAND | grep -oE '([[:digit:]]+) offense(s?) detected')
-    if [[ ! -z $violations ]]; then
-        flunk "Error: Attempt to commit with $violations.\n\nRun '$RUBOCOP_COMMAND' in backend and fix the violations before you commit your changes."
-    fi
-}
-
 # Is this DSL shit just being too clever?
 allow "file names" that contain only_ascii_chars
 allow "files" that contain proper_whitespace
-
-if [[ $(frontend_has_changed) == "true" ]]; then
-    allow "jest" to run_all_js_tests
-fi
-
-if [[ $(backend_has_changed) == "true" ]]; then
-    ensure_docker_is_running
-    allow "rspec" to run_specs_successfully
-    allow "rubocop" to reject_all_violations
-fi
