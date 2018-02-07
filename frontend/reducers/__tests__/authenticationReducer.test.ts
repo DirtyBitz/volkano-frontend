@@ -44,6 +44,6 @@ describe('todos reducer', () => {
 
     const state = authenticationReducer(expectedState, signInSuccess(mockResponse))
 
-    expect(state).toBe(expectedState)
+    expect(state).toEqual(expectedState)
   })
 })
