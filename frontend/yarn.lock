@@ -131,6 +131,13 @@
   version "16.0.36"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.36.tgz#ceb5639013bdb92a94147883052e69bb2c22c69b"
 
+"@types/redux-form@^7.0.13":
+  version "7.0.13"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-7.0.13.tgz#39fff04e4354c65b059d9720df271701ce237706"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
+
 "@types/sinon-chai@2.7.29":
   version "2.7.29"
   resolved "https://registry.yarnpkg.com/@types/sinon-chai/-/sinon-chai-2.7.29.tgz#4db01497e2dd1908b2bd30d1782f456353f5f723"
