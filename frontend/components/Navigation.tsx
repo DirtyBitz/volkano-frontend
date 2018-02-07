@@ -11,19 +11,40 @@ export default class Navigation extends React.Component<Props> {
     const { userData } = this.props
     return (
       <nav>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-        {!userData && (
-          <Link href="/signin">
-            <a>Sign in</a>
+        <div className="main-nav">
+          <Link href="/">
+            <a>Home</a>
           </Link>
-        )}
-        {userData && (
-          <Link href="/profile">
-            <a>{this.props.userData.email}</a>
-          </Link>
-        )}
+        </div>
+        <div className="user-nav">
+          {!userData && (
+            <Link href="/signin">
+              <a>Sign in</a>
+            </Link>
+          )}
+          {userData && (
+            <Link href="/profile">
+              <a>{this.props.userData.email}</a>
+            </Link>
+          )}
+        </div>
+
+        <style jsx>{`
+          nav {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+          }
+
+          nav a {
+            color: #fff;
+            text-decoration: none;
+          }
+
+          nav a:hover {
+            color: pink;
+          }
+        `}</style>
       </nav>
     )
   }
