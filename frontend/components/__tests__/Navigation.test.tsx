@@ -25,7 +25,7 @@ describe('Layout component', () => {
     let fakeUserData: any
     beforeEach(() => {
       fakeUserData = {
-        username: 'testuser',
+        email: 'testuser',
       }
       navigation = shallow(<Navigation userData={fakeUserData} />)
     })
@@ -46,7 +46,7 @@ describe('Layout component', () => {
           link
             .find('a')
             .first()
-            .text() === fakeUserData.username
+            .text() === fakeUserData.email
         const linkurl = link.prop('href') === '/profile'
         return linktext && linkurl
       })
