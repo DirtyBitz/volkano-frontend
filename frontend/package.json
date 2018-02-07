@@ -12,20 +12,10 @@
     "quicktest": "jest --no-cache"
   },
   "jest": {
-    "setupFiles": [
-      "<rootDir>/jestconfig/jestSetup.js"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/jestconfig/preprocessor.js"
-    },
-    "testMatch": [
-      "**/__tests__/*.(ts|tsx)"
-    ]
+    "setupFiles": ["<rootDir>/jestconfig/jestSetup.js"],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "transform": {"^.+\\.(ts|tsx)$": "<rootDir>/jestconfig/preprocessor.js"},
+    "testMatch": ["**/__tests__/*.(ts|tsx)"]
   },
   "dependencies": {
     "axios": "^0.17.1",
