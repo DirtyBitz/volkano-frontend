@@ -14,28 +14,40 @@ interface AppProps extends IStoreState {
 }
 
 export class App extends React.Component<AppProps, {}> {
-  private renderSignedIn() {
-    return <div>You just fake signed in! Auth with backend needs implementation.</div>
+  private renderSignOut() {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            this.props.signOut()
+          }}>
+          Sign out!
+        </button>
+      </div>
+    )
   }
-
   private renderAnonymous() {
     return (
-      <Layout title="Homepage">
-        <div>
-          <button
-            onClick={() => {
-              this.props.signIn('test', 'test')
-            }}>
-            Sign in!
-          </button>
-        </div>
-      </Layout>
+      <div>
+        <button
+          onClick={() => {
+            this.props.signIn('test', 'test')
+          }}>
+          Sign in!
+        </button>
+      </div>
     )
   }
 
   render() {
     const { authentication } = this.props
-    return authentication.user ? this.renderSignedIn() : this.renderAnonymous()
+
+    return (
+      <Layout title="Homepage" userData={authentication.user}>
+        {!authentication.user && this.renderAnonymous()}
+        {authentication.user && this.renderSignOut()}
+      </Layout>
+    )
   }
 }
 

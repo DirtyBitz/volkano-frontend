@@ -1,9 +1,10 @@
 import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
 import AuthActionTypes from '../actions/authentication/AuthActionTypes'
+import { IUserJson } from 'models/User'
 
 export interface AuthStateI {
   isLoading: boolean
-  user?: Object
+  user?: IUserJson
   token?: string
   error?: Error
 }
@@ -29,7 +30,19 @@ export default function authenticationReducer(
         user: action.payload.data,
         token: action.payload.token,
       }
-    // TODO: Add missing actions
+    case AuthActionTypeKeys.SIGN_OUT:
+      return {
+        ...state,
+        user: undefined,
+        token: undefined,
+        isLoading: false,
+      }
+    case AuthActionTypeKeys.SIGN_IN_REJECTED:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      }
     default:
       return state
   }
