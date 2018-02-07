@@ -1,12 +1,8 @@
-import * as React from "react"
+import * as React from 'react'
 
 class Footer extends React.Component {
   render() {
-    return (
-      <footer>
-          Copyright © { new Date().getFullYear() } Volkano
-      </footer>
-    )
+    return <footer>Copyright © {new Date().getFullYear()} Volkano</footer>
   }
 }
 

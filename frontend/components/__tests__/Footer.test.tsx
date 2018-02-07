@@ -1,6 +1,6 @@
+import Footer from '../Footer'
 import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
-import Footer from '../Footer'
 
 describe('Footer component', () => {
   let footer: ShallowWrapper<any>

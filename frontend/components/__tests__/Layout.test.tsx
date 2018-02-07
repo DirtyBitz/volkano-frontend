@@ -12,7 +12,7 @@ describe('Layout component', () => {
   let layout: ShallowWrapper<any>
 
   beforeEach(() => {
-    layout = shallow(<Layout {...props}/>)
+    layout = shallow(<Layout {...props} />)
   })
 
   it('Should wrap everything in a div', () => {
@@ -20,7 +20,7 @@ describe('Layout component', () => {
   })
 
   it('Contains a header element', () => {
-    const headers = layout.find("header")
+    const headers = layout.find('header')
 
     expect(headers.length).toBe(1)
   })
@@ -34,17 +34,22 @@ describe('Layout component', () => {
   })
 
   it('Has default title if none is set', () => {
-    const titleText = layout.find("title").first().text()
+    const titleText = layout
+      .find('title')
+      .first()
+      .text()
 
-    expect(titleText).toBe("Volkano")
+    expect(titleText).toBe('Volkano')
   })
 
   it('Changes title when title prop is set', () => {
-    const fakeProps = {...props, title: 'Testpage'}
+    const fakeProps = { ...props, title: 'Testpage' }
     layout = shallow(<Layout {...fakeProps} />)
-    const titleText = layout.find("title").first().text()
+    const titleText = layout
+      .find('title')
+      .first()
+      .text()
 
-    expect(titleText).toBe("Testpage")
+    expect(titleText).toBe('Testpage')
   })
 })
-
