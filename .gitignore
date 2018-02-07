@@ -20,11 +20,7 @@ public/assets
 # Frontend
 node_modules
 frontend/.next
-frontend/**/*.js
 frontend/cypress/screenshots/
 frontend/cypress/videos/
-!frontend/jestconfig/jestSetup.js
-!frontend/jestconfig/preprocessor.js
-!frontend/next.config.js
 
 .DS_Store

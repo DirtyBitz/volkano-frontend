@@ -6,6 +6,7 @@ import { Dispatch } from 'react-redux'
 import { IStoreState } from '../store/StoreState'
 import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
 import { signIn, signOut } from '../actions/authentication/AuthActions'
+import Layout from '../components/Layout'
 
 interface AppProps extends IStoreState {
   signIn: (username: string, password: string) => Promise<void>
@@ -19,14 +20,16 @@ export class App extends React.Component<AppProps, {}> {
 
   private renderAnonymous() {
     return (
-      <div>
-        <button
-          onClick={() => {
-            this.props.signIn('test', 'test')
-          }}>
-          Sign in!
-        </button>
-      </div>
+      <Layout title="Homepage">
+        <div>
+          <button
+            onClick={() => {
+              this.props.signIn('test', 'test')
+            }}>
+            Sign in!
+          </button>
+        </div>
+      </Layout>
     )
   }
 
