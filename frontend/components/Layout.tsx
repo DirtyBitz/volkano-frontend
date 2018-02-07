@@ -14,7 +14,7 @@ class Layout extends React.Component<Props, any> {
     const { userData, title, children } = this.props
 
     return (
-      <div>
+      <div className="page">
         <Head>
           <title>{title || 'Volkano'}</title>
           <meta charSet="utf-8" />
@@ -23,8 +23,34 @@ class Layout extends React.Component<Props, any> {
         <header>
           <Navigation userData={userData} />
         </header>
-        {children}
+        <div className="main">{children}</div>
         <Footer />
+
+        <style jsx>{`
+          .page {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+
+          header {
+            background: #222;
+            color: #fff;
+          }
+
+          .main {
+            padding: 15px;
+            flex: 1;
+          }
+        `}</style>
+
+        <style global>{`
+            body, html, #__next {
+                margin:0;
+                height: 100%;
+                font-family: Menlo, Helvetica, sans-serif;
+            }
+        `}</style>
       </div>
     )
   }
