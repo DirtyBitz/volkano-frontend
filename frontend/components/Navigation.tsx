@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
+import { IUserJson } from 'models/User'
 
 interface Props {
-  userData?: {
-    username: string
-  }
+  userData?: IUserJson
 }
 
 export default class Navigation extends React.Component<Props> {
@@ -22,7 +21,7 @@ export default class Navigation extends React.Component<Props> {
         )}
         {userData && (
           <Link href="/profile">
-            <a>{this.props.userData.username}</a>
+            <a>{this.props.userData.email}</a>
           </Link>
         )}
       </nav>
