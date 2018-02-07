@@ -39,7 +39,6 @@
     "@types/react-redux": "^5.0.14",
     "@types/styled-jsx": "^2.2.1",
     "@zeit/next-typescript": "^0.0.8",
-    "concurrently": "^3.5.0",
     "cypress": "^1.4.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
