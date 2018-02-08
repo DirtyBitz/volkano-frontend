@@ -14,41 +14,6 @@ describe('App home page', () => {
   let mockProps: MockProps
   let app: ShallowWrapper<any>
 
-  it('Should show sign in button initially', () => {
-    mockProps = {
-      signIn: jest.fn(),
-      signOut: jest.fn(),
-      authentication: {
-        isLoading: false,
-      },
-    }
-
-    app = shallow(<App {...mockProps} />)
-
-    const signInButton = app.find('button')
-
-    expect(signInButton.text()).toBe('Sign in!')
-  })
-
-  it('Should call signIn function when button is pressed', () => {
-    mockProps = {
-      signIn: jest.fn(),
-      signOut: jest.fn(),
-      authentication: {
-        isLoading: false,
-      },
-    }
-
-    app = shallow(<App {...mockProps} />)
-
-    const signInButton = app.find('button')
-
-    signInButton.simulate('click')
-
-    expect(mockProps.signIn).toHaveBeenCalledTimes(1)
-    expect(mockProps.signIn).toHaveBeenLastCalledWith('test', 'test')
-  })
-
   it('Is wrapped in a Layout component')
   it('It gives Layout component the auth prop')
 })
