@@ -1,4 +1,3 @@
-/// <reference types="jest"/>
 import thunk from 'redux-thunk'
 import * as actions from '../AuthActions'
 import * as createMockStore from 'redux-mock-store'
