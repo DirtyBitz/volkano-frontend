@@ -1,6 +1,6 @@
 import * as actions from '../AuthActions'
 import AuthActionTypeKeys from '../AuthActionTypeKeys'
-import { signInPending } from '../AuthActions'
+import { AuthApi } from '../../../api/AuthApi'
 
 describe('Authentication actions', () => {
   describe('User authenticate actions', () => {
@@ -9,18 +9,34 @@ describe('Authentication actions', () => {
         type: AuthActionTypeKeys.SIGN_IN_PENDING,
       }
 
-      const signInProgressAction = signInPending()
+      const signInProgressAction = actions.signInPending()
 
       expect(signInProgressAction).toEqual(expectedSingInProgressAction)
     })
 
-    it('Creates a signin success action', () => {})
+    it('Creates a signin success action', async () => {
+      const mockResponse = await AuthApi.authenticateUser('fake', 'fake')
 
-    it('Creates a signin error action', () => {})
+      const expectedSingInProgressAction = {
+        type: AuthActionTypeKeys.SIGN_IN_FULFILLED,
+        payload: mockResponse,
+      }
 
-    it('Creates a signout action', () => {})
+      const signInProgressAction = actions.signInSuccess(mockResponse)
 
-    it('Calls the correct actions when a signin is ok', () => {})
+      expect(signInProgressAction).toEqual(expectedSingInProgressAction)
+    })
+
+    it('Creates a signout action', () => {
+      const expectedSingInProgressAction = {
+        type: AuthActionTypeKeys.SIGN_OUT,
+      }
+      const signInProgressAction = actions.signOut()
+
+      expect(signInProgressAction).toEqual(expectedSingInProgressAction)
+    })
+
+    it('Calls the correct actions when a signin is ok', async () => {})
 
     // signIn thunk
     it('Calls the correct actions when a signin fails', () => {})

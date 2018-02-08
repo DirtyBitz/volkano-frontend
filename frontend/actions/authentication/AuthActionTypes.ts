@@ -13,7 +13,7 @@ export interface ISignInFulfilledAction {
 
 export interface ISignInRejectedAction {
   readonly type: AuthActionTypeKeys.SIGN_IN_REJECTED
-  readonly payload: Error
+  readonly payload: string[]
 }
 
 export interface ISignOutAction {
@@ -31,7 +31,7 @@ export interface ICreateUserFulfilledAction {
 
 export interface ICreateUserRejectedAction {
   readonly type: AuthActionTypeKeys.CREATE_USER_REJECTED
-  readonly payload: IUserCreateResponse | Error
+  readonly payload: IUserCreateResponse | string[]
 }
 
 type AuthActionTypes =
