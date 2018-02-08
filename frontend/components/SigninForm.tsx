@@ -30,6 +30,7 @@ class SigninForm extends React.Component<IProps> {
     return (
       <form onSubmit={handleSubmit}>
         <Field
+          //@ts-ignore
           name="username"
           type="text"
           component={this.renderField}
@@ -37,6 +38,7 @@ class SigninForm extends React.Component<IProps> {
         />
 
         <Field
+          //@ts-ignore
           name="password"
           type="password"
           component={this.renderField}
@@ -59,18 +61,15 @@ class SigninForm extends React.Component<IProps> {
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const asyncValidate = (values /*, dispatch */) => {
-  console.log('asyncValidate', values)
   return sleep(1000).then(() => {
     // simulate server latency
     if (['john', 'paul', 'george', 'ringo'].includes(values.username)) {
-      console.log('Ops!')
       throw { username: 'That username is taken' }
     }
   })
 }
 
 const validate = values => {
-  console.log('validate', values)
   const errors = {}
   if (!values.username) {
     errors.username = 'Required'

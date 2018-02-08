@@ -14,38 +14,12 @@ interface AppProps extends IStoreState {
 }
 
 export class App extends React.Component<AppProps, {}> {
-  private renderSignOut() {
-    return (
-      <div>
-        <button
-          onClick={() => {
-            this.props.signOut()
-          }}>
-          Sign out!
-        </button>
-      </div>
-    )
-  }
-  private renderAnonymous() {
-    return (
-      <div>
-        <button
-          onClick={() => {
-            this.props.signIn('test', 'test')
-          }}>
-          Sign in!
-        </button>
-      </div>
-    )
-  }
-
   render() {
     const { authentication } = this.props
 
     return (
       <Layout title="Homepage" userData={authentication.user}>
-        {!authentication.user && this.renderAnonymous()}
-        {authentication.user && this.renderSignOut()}
+        <div>Welcome to Volka.no</div>
       </Layout>
     )
   }
@@ -57,11 +31,4 @@ const mapStateToProps = (state: IStoreState, ownProps = {}) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
-  return {
-    signIn: bindActionCreators(signIn, dispatch),
-    signOut: bindActionCreators(signOut, dispatch),
-  }
-}
-
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(App)
+export default withRedux(store, mapStateToProps)(App)

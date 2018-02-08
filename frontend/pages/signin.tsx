@@ -1,21 +1,52 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
+import Router from 'next/router'
 import { store } from '../store'
 import Form from '../components/SigninForm'
 import Layout from '../components/Layout'
+import { IStoreState } from 'store/StoreState'
+import { Dispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { signIn, signOut } from '../actions/authentication/AuthActions'
+import { ISignOutAction } from 'actions/authentication/AuthActionTypes'
 
-class SigninPage extends React.Component {
-  private handleSumbit = () => {
-    console.log('Did sumbit')
+interface IProps extends IStoreState {
+  signIn: (username: string, password: string) => Promise<void>
+  signOut: () => ISignOutAction
+  url: any
+}
+
+class SigninPage extends React.Component<IProps> {
+  private handleSumbit = ({ username, password }) => {
+    console.log('Did sign in!')
+    this.props.signIn(username, password)
+  }
+
+  componentDidUpdate() {
+    if (this.props.authentication.user) {
+      Router.push('/profile')
+    }
   }
 
   render() {
     return (
-      <Layout>
+      <Layout userData={this.props.authentication.user}>
         <Form onSubmit={this.handleSumbit} />
       </Layout>
     )
   }
 }
 
-export default withRedux(store, undefined, undefined)(SigninPage)
+const mapStateToProps = (state: IStoreState, ownProps = {}) => {
+  return {
+    authentication: state.authentication,
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
+  return {
+    signIn: bindActionCreators(signIn, dispatch),
+  }
+}
+
+export default withRedux(store, mapStateToProps, mapDispatchToProps)(SigninPage)
