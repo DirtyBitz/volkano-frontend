@@ -12,7 +12,7 @@ interface Props {
 
 class Layout extends React.Component<Props, any> {
   render() {
-    const { userData, title } = this.props
+    const { userData, title, children } = this.props
 
     return (
       <div>
@@ -24,6 +24,7 @@ class Layout extends React.Component<Props, any> {
         <header>
           <Navigation userData={userData} />
         </header>
+        {children}
         <Footer />
       </div>
     )

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
-import StoreState from '../store/StoreState'
+import { reducer as formReducer } from 'redux-form'
+import { IStoreState } from '../store/StoreState'
 import isAuthenticated from './authenticationReducer'
 
-const rootReducer = combineReducers<StoreState>({
+const rootReducer = combineReducers<IStoreState>({
   authentication: isAuthenticated,
+  form: formReducer,
 })
 
 export default rootReducer
