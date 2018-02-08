@@ -46,7 +46,6 @@ const mapStateToProps = (state: IStoreState, ownProps = {}) => {
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     signIn: bindActionCreators(signIn, dispatch),
-    signOut: bindActionCreators(signOut, dispatch),
   }
 }
 

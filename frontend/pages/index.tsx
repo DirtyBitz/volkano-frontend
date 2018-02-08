@@ -31,11 +31,4 @@ const mapStateToProps = (state: IStoreState, ownProps = {}) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
-  return {
-    signIn: bindActionCreators(signIn, dispatch),
-    signOut: bindActionCreators(signOut, dispatch),
-  }
-}
-
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(App)
+export default withRedux(store, mapStateToProps)(App)

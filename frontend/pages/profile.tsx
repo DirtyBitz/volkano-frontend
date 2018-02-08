@@ -2,12 +2,11 @@ import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
 import { store } from '../store'
-import Form from '../components/SigninForm'
 import Layout from '../components/Layout'
 import { IStoreState } from 'store/StoreState'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { signIn, signOut } from '../actions/authentication/AuthActions'
+import { signOut } from '../actions/authentication/AuthActions'
 import { ISignOutAction } from 'actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
@@ -63,7 +62,6 @@ const mapStateToProps = (state: IStoreState, ownProps = {}) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
-    signIn: bindActionCreators(signIn, dispatch),
     signOut: bindActionCreators(signOut, dispatch),
   }
 }
