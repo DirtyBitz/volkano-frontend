@@ -27,7 +27,9 @@ module Api
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', headers: :any, methods: %i[get post options], expose: ['access-token']
+        resource '*', headers: :any,
+                      methods: %i[get post options],
+                      expose: ['access-token']
       end
     end
 
