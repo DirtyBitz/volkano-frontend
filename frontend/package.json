@@ -53,11 +53,11 @@
     "cypress": "^1.4.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "jest": "^22.1.4",
+    "jest": "^22.2.1",
     "prettier": "^1.10.2",
     "react-addons-test-utils": "^15.6.2",
     "redux-devtools-extension": "^2.13.2",
-    "redux-mock-store": "^1.4.0",
+    "redux-mock-store": "^1.5.1",
     "redux-thunk": "^2.2.0",
     "typescript": "^2.7.1"
   }
