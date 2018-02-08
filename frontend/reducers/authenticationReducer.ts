@@ -6,7 +6,7 @@ export interface AuthStateI {
   isLoading: boolean
   user?: IUserJson
   token?: string
-  error?: Error
+  error?: string[]
 }
 
 export const authInitialState: AuthStateI = {
