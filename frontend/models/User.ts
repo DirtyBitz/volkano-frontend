@@ -8,14 +8,17 @@ export interface IUserJson {
   email: string
 }
 
-export class User {
+export interface User {
   id: number
   name?: string
   nickname?: string
   image?: string
   email: string
-  register_date: Date
-  constructor(userJson: IUserJson) {
-    // Do convertion from IUserJson to the correct types in this class
-  }
 }
+
+export const convertUserJson = (userJson: IUserJson): User => ({
+  id: userJson.id,
+  email: userJson.email,
+  name: userJson.name,
+  nickname: userJson.nickname,
+})

@@ -11,7 +11,6 @@ import { ISignOutAction } from 'actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
   signOut: () => ISignOutAction
-  url: any
 }
 
 class ProfilePage extends React.Component<IProps> {
@@ -54,7 +53,7 @@ class ProfilePage extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: IStoreState, ownProps = {}) => {
+const mapStateToProps = (state: IStoreState) => {
   return {
     authentication: state.authentication,
   }

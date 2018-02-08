@@ -2,10 +2,10 @@ import * as React from 'react'
 import Head from 'next/head'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import { IUserJson } from 'models/User'
+import { User } from 'models/User'
 
 interface Props {
-  userData?: IUserJson
+  userData?: User
   title?: string
 }
 

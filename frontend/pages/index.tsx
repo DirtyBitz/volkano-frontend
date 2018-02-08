@@ -1,11 +1,8 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import { store } from '../store'
-import { bindActionCreators } from 'redux'
-import { Dispatch } from 'react-redux'
 import { IStoreState } from '../store/StoreState'
 import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
-import { signIn, signOut } from '../actions/authentication/AuthActions'
 import Layout from '../components/Layout'
 
 interface AppProps extends IStoreState {
@@ -25,7 +22,7 @@ export class App extends React.Component<AppProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IStoreState, ownProps = {}) => {
+const mapStateToProps = (state: IStoreState) => {
   return {
     authentication: state.authentication,
   }

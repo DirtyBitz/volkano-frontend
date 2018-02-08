@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { IUserJson } from 'models/User'
+import { User } from 'models/User'
 
 interface Props {
-  userData?: IUserJson
+  userData?: User
 }
 
 export default class Navigation extends React.Component<Props> {
