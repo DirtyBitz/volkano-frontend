@@ -35,7 +35,8 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-form": "^7.2.3"
+    "redux-form": "^7.2.3",
+    "redux-persist": "^5.6.12"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.7",

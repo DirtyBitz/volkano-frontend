@@ -1,18 +1,47 @@
-import { applyMiddleware, createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import { persistStore, persistReducer } from 'redux-persist'
 import thunkMiddleware from 'redux-thunk'
-import rootReducer from '../reducers'
-import { IStoreState } from './StoreState'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import storage from 'redux-persist/lib/storage'
+import reducers from '../reducers'
+import { IStoreState } from './StoreState'
 import { authInitialState } from '../reducers/authenticationReducer'
 
-export const inititalStore: IStoreState = {
+export const initialState: IStoreState = {
   authentication: authInitialState,
 }
 
-export const store = (initialState = inititalStore) => {
-  return createStore(
-    rootReducer,
-    initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware))
-  )
+/**
+ * Client state
+ */
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers)
+
+const clientStore = createStore(
+  persistedReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
+)
+
+persistStore(clientStore)
+
+/**
+ * Server state
+ */
+const serverStore = createStore(
+  reducers,
+  initialState,
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
+)
+
+export const store = (initialState, props) => {
+  if (props.isServer) {
+    return serverStore
+  } else {
+    return clientStore
+  }
 }
