@@ -1,6 +1,6 @@
 import AuthActionTypeKeys from './AuthActionTypeKeys'
 import { IOtherAction } from '../IOtherAction'
-import { IUserCreateResponse } from '../../api/AuthApi'
+import { IAuthData } from '../../api/AuthApi'
 
 export interface ISignInPendingAction {
   readonly type: AuthActionTypeKeys.SIGN_IN_PENDING
@@ -8,7 +8,7 @@ export interface ISignInPendingAction {
 
 export interface ISignInFulfilledAction {
   readonly type: AuthActionTypeKeys.SIGN_IN_FULFILLED
-  readonly payload: any
+  readonly payload: IAuthData
 }
 
 export interface ISignInRejectedAction {
@@ -26,12 +26,12 @@ export interface ICreateUserPendingAction {
 
 export interface ICreateUserFulfilledAction {
   readonly type: AuthActionTypeKeys.CREATE_USER_FULFILLED
-  readonly payload: IUserCreateResponse
+  readonly payload: any
 }
 
 export interface ICreateUserRejectedAction {
   readonly type: AuthActionTypeKeys.CREATE_USER_REJECTED
-  readonly payload: IUserCreateResponse | string[]
+  readonly payload: string[]
 }
 
 type AuthActionTypes =

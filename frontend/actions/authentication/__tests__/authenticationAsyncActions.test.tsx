@@ -1,3 +1,4 @@
+jest.mock('../../../api/AuthApi')
 import thunk from 'redux-thunk'
 import * as actions from '../AuthActions'
 import * as createMockStore from 'redux-mock-store'
@@ -14,10 +15,10 @@ describe('Authentication thunk actions', () => {
   it('Sign in action happy path', async () => {
     const expectedActions = [
       actions.signInPending(),
-      actions.signInSuccess(await AuthApi.authenticateUser('test', 'test')),
+      actions.signInSuccess(await AuthApi.authenticateUser('username', 'passworrd')),
     ]
 
-    await store.dispatch(actions.signIn('test', 'test'))
+    await store.dispatch(actions.signIn('username', 'passworrd'))
 
     expect(store.getActions()).toEqual(expectedActions)
   })

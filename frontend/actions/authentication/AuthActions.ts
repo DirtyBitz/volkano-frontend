@@ -1,6 +1,6 @@
 import { Dispatch } from 'react-redux'
 import { IStoreState } from '../../store/StoreState'
-import { IUserRegisterDetails, IUserAuthResponse, AuthApi } from '../../api/AuthApi'
+import { IUserRegisterDetails, AuthApi, IAuthData } from '../../api/AuthApi'
 import AuthActionTypeKeys from './AuthActionTypeKeys'
 import {
   ISignOutAction,
@@ -41,12 +41,12 @@ export const signInPending = (): ISignInPendingAction => ({
   type: AuthActionTypeKeys.SIGN_IN_PENDING,
 })
 
-export const signInSuccess = (data: IUserAuthResponse): ISignInFulfilledAction => ({
+export const signInSuccess = (data: IAuthData): ISignInFulfilledAction => ({
   type: AuthActionTypeKeys.SIGN_IN_FULFILLED,
   payload: data,
 })
 
-export const signInError = (error: any): ISignInRejectedAction => ({
+export const signInError = (error: string[]): ISignInRejectedAction => ({
   type: AuthActionTypeKeys.SIGN_IN_REJECTED,
   payload: error,
 })
@@ -60,7 +60,7 @@ export const createUserSuccess = (data: any): ICreateUserFulfilledAction => ({
   payload: data,
 })
 
-export const createUserError = (error: any): ICreateUserRejectedAction => ({
+export const createUserError = (error: string[]): ICreateUserRejectedAction => ({
   type: AuthActionTypeKeys.CREATE_USER_REJECTED,
   payload: error,
 })

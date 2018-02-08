@@ -1,3 +1,4 @@
+jest.mock('../../api/AuthApi')
 import authenticationReducer, {
   authInitialState,
   AuthStateI,
@@ -11,14 +12,12 @@ import {
 } from '../../actions/authentication/AuthActions'
 import { AuthApi } from '../../api/AuthApi'
 
-jest.mock('../../api/AuthApi')
-
-describe('todos reducer', () => {
+describe('Auth reducer', () => {
   it('Should return the initial state', () => {
     const expectedState: AuthStateI = {
       isLoading: false,
       token: undefined,
-      error: undefined,
+      errors: undefined,
       user: undefined,
     }
     expect(authenticationReducer(undefined, OtherAction)).toEqual(expectedState)
@@ -28,7 +27,7 @@ describe('todos reducer', () => {
     const expectedState: AuthStateI = {
       isLoading: true,
       token: undefined,
-      error: undefined,
+      errors: undefined,
       user: undefined,
     }
 
@@ -43,8 +42,7 @@ describe('todos reducer', () => {
     const expectedState: AuthStateI = {
       isLoading: false,
       token: mockResponse.token,
-      user: mockResponse.data,
-      error: undefined,
+      user: mockResponse.user,
     }
 
     const state = authenticationReducer(expectedState, signInSuccess(mockResponse))
@@ -52,13 +50,11 @@ describe('todos reducer', () => {
     expect(state).toEqual(expectedState)
   })
   it('Should handle when sign in is rejected', async () => {
-    const mockResponse = await AuthApi.authenticateUser('fake', 'fake')
-
     const expectedState: AuthStateI = {
       isLoading: false,
       token: undefined,
       user: undefined,
-      error: mockResponse.errors,
+      errors: ['this is a fake error message'],
     }
 
     const state = authenticationReducer(
@@ -73,7 +69,7 @@ describe('todos reducer', () => {
       isLoading: false,
       token: undefined,
       user: undefined,
-      error: undefined,
+      errors: undefined,
     }
 
     const state = authenticationReducer(expectedState, signOut())

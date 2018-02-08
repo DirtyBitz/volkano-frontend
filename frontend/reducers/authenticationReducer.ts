@@ -1,12 +1,12 @@
 import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
 import AuthActionTypes from '../actions/authentication/AuthActionTypes'
-import { IUserJson } from 'models/User'
+import { User } from 'models/User'
 
 export interface AuthStateI {
   isLoading: boolean
-  user?: IUserJson
+  user?: User
   token?: string
-  error?: string[]
+  errors?: string[]
 }
 
 export const authInitialState: AuthStateI = {
@@ -22,12 +22,13 @@ export default function authenticationReducer(
       return {
         ...state,
         isLoading: true,
+        errors: undefined,
       }
     case AuthActionTypeKeys.SIGN_IN_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        user: action.payload.data,
+        user: action.payload.user,
         token: action.payload.token,
       }
     case AuthActionTypeKeys.SIGN_OUT:
@@ -35,12 +36,13 @@ export default function authenticationReducer(
         ...state,
         user: undefined,
         token: undefined,
+        errors: undefined,
         isLoading: false,
       }
     case AuthActionTypeKeys.SIGN_IN_REJECTED:
       return {
         ...state,
-        error: action.payload,
+        errors: action.payload,
         isLoading: false,
       }
     default:
