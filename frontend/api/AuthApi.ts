@@ -59,4 +59,5 @@ const fakeResponse: IUserAuthResponse = {
     nickname: null,
   },
   token: 'fake-token',
+  errors: ['this is a fake error message'],
 }

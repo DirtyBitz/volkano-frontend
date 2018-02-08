@@ -14,6 +14,7 @@ export class AuthApi {
         nickname: null,
       },
       token: 'fake-token',
+      errors: ['this is a fake error message'],
     }
 
     return Promise.resolve(fakeResponse)

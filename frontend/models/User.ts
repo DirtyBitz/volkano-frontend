@@ -6,8 +6,6 @@ export interface IUserJson {
   nickname: string | null
   image: string | null
   email: string
-  created_at: string
-  updated_at: string
 }
 
 export class User {
