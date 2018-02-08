@@ -34,7 +34,7 @@ class SigninForm extends React.Component<IProps> {
     return (
       <div>
         <div className="errors" style={{ color: 'red', marginBottom: 15, fontSize: 10 }}>
-          {errors && errors.map(error => <div className="error">{error}</div>)}
+          {errors && errors.map((error, i) => <div key={i} className="error">{error}</div>)}
         </div>
 
         <form onSubmit={handleSubmit}>
