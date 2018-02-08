@@ -22,11 +22,13 @@ class SigninPage extends React.Component<IProps> {
     this.props.signIn(username, password)
   }
 
-  render() {
+  componentDidUpdate() {
     if (this.props.authentication.user) {
-      Router.push('/')
+      Router.push('/profile')
     }
+  }
 
+  render() {
     return (
       <Layout userData={this.props.authentication.user}>
         <Form onSubmit={this.handleSumbit} />
