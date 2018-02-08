@@ -47,6 +47,7 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.14",
     "@types/redux-form": "^7.0.13",
+    "@types/redux-mock-store": "^0.0.13",
     "@types/styled-jsx": "^2.2.1",
     "@zeit/next-typescript": "^0.0.8",
     "cypress": "^1.4.1",
@@ -56,6 +57,7 @@
     "prettier": "^1.10.2",
     "react-addons-test-utils": "^15.6.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-mock-store": "^1.4.0",
     "redux-thunk": "^2.2.0",
     "typescript": "^2.7.1"
   }
