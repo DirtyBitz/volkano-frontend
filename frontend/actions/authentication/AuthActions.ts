@@ -11,7 +11,6 @@ import {
   ICreateUserFulfilledAction,
   ICreateUserRejectedAction,
 } from './AuthActionTypes'
-import authenticationReducer from 'reducers/authenticationReducer'
 
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
