@@ -1,7 +1,12 @@
 import { IAuthData, IUserRegisterDetails } from '../AuthApi'
+import { IUserJson } from 'models/User'
 
 export class AuthApi {
   public static async authenticateUser(username: string, password: string) {
+    if (username === 'throw' || password === 'throw') {
+      throw ['Did throw']
+    }
+
     const fakeData: IAuthData = {
       user: {
         id: 1,
@@ -13,7 +18,19 @@ export class AuthApi {
   }
 
   public static async registerNewUser(user: IUserRegisterDetails) {
-    console.warn('registerNewUser not implemented', user)
-    throw 'Not implemented'
+    if (user.email === 'throw' || user.password === 'throw') {
+      throw ['Did throw']
+    }
+
+    const fakeData: IUserJson = {
+      id: 1,
+      uid: user.email,
+      provider: 'email',
+      email: user.email,
+      name: null,
+      nickname: null,
+      image: null,
+    }
+    return fakeData
   }
 }

@@ -10,7 +10,9 @@ import {
   ICreateUserPendingAction,
   ICreateUserFulfilledAction,
   ICreateUserRejectedAction,
+  IClearAuthErrors,
 } from './AuthActionTypes'
+import { User } from 'models/User'
 
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
@@ -26,10 +28,13 @@ export const signIn = (username: string, password: string) => {
 
 export const createUser = (userData: IUserRegisterDetails) => {
   return async (dispatch: Dispatch<IStoreState>) => {
-    /* dispatch createUserInProgress (for loading indicator)
-     * use auth api to async create user
-     * => dispatch signInSuccess if ok
-     * => dispatch signInError if failed */
+    dispatch(createUserPending())
+    try {
+      const response = await AuthApi.registerNewUser(userData)
+      dispatch(createUserSuccess(response))
+    } catch (error) {
+      dispatch(createUserError(error))
+    }
   }
 }
 
@@ -55,7 +60,7 @@ export const createUserPending = (): ICreateUserPendingAction => ({
   type: AuthActionTypeKeys.CREATE_USER_PENDING,
 })
 
-export const createUserSuccess = (data: any): ICreateUserFulfilledAction => ({
+export const createUserSuccess = (data: User): ICreateUserFulfilledAction => ({
   type: AuthActionTypeKeys.CREATE_USER_FULFILLED,
   payload: data,
 })
@@ -63,4 +68,8 @@ export const createUserSuccess = (data: any): ICreateUserFulfilledAction => ({
 export const createUserError = (error: string[]): ICreateUserRejectedAction => ({
   type: AuthActionTypeKeys.CREATE_USER_REJECTED,
   payload: error,
+})
+
+export const clearAuthErrors = (): IClearAuthErrors => ({
+  type: AuthActionTypeKeys.CLEAR_AUTH_ERRORS,
 })
