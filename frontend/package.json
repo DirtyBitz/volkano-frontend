@@ -9,11 +9,12 @@
     "build": "next build",
     "start": "next start",
     "test": "jest --watch",
-    "quicktest": "jest --no-cache"
+    "quicktest": "jest --no-cache",
+    "coverage": "jest --coverage --no-cache"
   },
   "jest": {
     "setupFiles": [
-      "<rootDir>/jestconfig/jestSetup.js"
+      "<rootDir>/jestconfig/jestSetup.ts"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -21,11 +22,9 @@
       "js"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/jestconfig/preprocessor.js"
+      "^.+\\.tsx?$": "ts-jest"
     },
-    "testMatch": [
-      "**/__tests__/*.(ts|tsx)"
-    ]
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?)$"
   },
   "dependencies": {
     "axios": "^0.17.1",
