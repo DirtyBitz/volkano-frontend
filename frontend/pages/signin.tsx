@@ -25,10 +25,6 @@ class SigninPage extends React.Component<IProps> {
     this.props.authentication.user && Router.push('/profile')
   }
 
-  componentDidMount() {
-    this.props.clearAuthErrors()
-  }
-
   render() {
     const { authentication } = this.props
 
@@ -37,6 +33,10 @@ class SigninPage extends React.Component<IProps> {
         <SigninForm onSubmit={this.handleSumbit} errors={authentication.errors} />
       </Layout>
     )
+  }
+
+  componentWillUnmount() {
+    this.props.clearAuthErrors()
   }
 }
 

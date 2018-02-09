@@ -34,7 +34,12 @@ class SigninForm extends React.Component<IProps> {
     return (
       <div>
         <div className="errors" style={{ color: 'red', marginBottom: 15, fontSize: 10 }}>
-          {errors && errors.map((error, i) => <div key={i} className="error">{error}</div>)}
+          {errors &&
+            errors.map((error, i) => (
+              <div key={i} className="error">
+                {error}
+              </div>
+            ))}
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -44,6 +49,7 @@ class SigninForm extends React.Component<IProps> {
             type="text"
             component={this.renderField}
             label="Username"
+            input={{ autoComplete: 'username' }}
           />
 
           <Field
@@ -52,6 +58,7 @@ class SigninForm extends React.Component<IProps> {
             type="password"
             component={this.renderField}
             label="Password"
+            input={{ autoComplete: 'password' }}
           />
 
           <div>

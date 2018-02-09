@@ -46,9 +46,11 @@ export class AuthApi {
   }
 
   private static handleError = async (error: AxiosError) => {
-    const { status, data } = error.response
+    if (error.message === 'Network Error') {
+      return Promise.reject(['Server down!'])
+    }
 
-    console.error(error.response)
+    const { status, data } = error.response
 
     switch (status) {
       case 401:
