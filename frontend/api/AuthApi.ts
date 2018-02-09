@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { convertUserJson, User } from '../models/User'
+import { convertUserJson, User, IUserJson } from '../models/User'
 
 export interface IUserRegisterDetails {
   email: string
@@ -20,8 +20,10 @@ export class AuthApi {
         password,
       })
 
+      const userJson: IUserJson = response.data.data
+
       const authResponse: IAuthData = {
-        user: convertUserJson(response.data.data),
+        user: convertUserJson(userJson),
         token: response.headers['access-token'],
       }
 
