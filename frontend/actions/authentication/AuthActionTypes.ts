@@ -34,6 +34,10 @@ export interface ICreateUserRejectedAction {
   readonly payload: string[]
 }
 
+export interface IClearAuthErrors {
+  readonly type: AuthActionTypeKeys.CLEAR_AUTH_ERRORS
+}
+
 type AuthActionTypes =
   | ISignInPendingAction
   | ISignInFulfilledAction
@@ -43,5 +47,6 @@ type AuthActionTypes =
   | ICreateUserFulfilledAction
   | ICreateUserRejectedAction
   | IOtherAction
+  | IClearAuthErrors
 
 export default AuthActionTypes

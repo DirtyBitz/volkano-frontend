@@ -7,12 +7,13 @@ import Layout from '../components/Layout'
 import { IStoreState } from 'store/StoreState'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { signIn } from '../actions/authentication/AuthActions'
-import { ISignOutAction } from 'actions/authentication/AuthActionTypes'
+import { signIn, clearAuthErrors } from '../actions/authentication/AuthActions'
+import { ISignOutAction, IClearAuthErrors } from 'actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
   signIn: (username: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
+  clearAuthErrors: () => IClearAuthErrors
 }
 
 class SigninPage extends React.Component<IProps> {
@@ -22,6 +23,10 @@ class SigninPage extends React.Component<IProps> {
 
   componentDidUpdate() {
     this.props.authentication.user && Router.push('/profile')
+  }
+
+  componentDidMount() {
+    this.props.clearAuthErrors()
   }
 
   render() {
@@ -44,6 +49,7 @@ const mapStateToProps = (state: IStoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     signIn: bindActionCreators(signIn, dispatch),
+    clearAuthErrors: bindActionCreators(clearAuthErrors, dispatch),
   }
 }
 

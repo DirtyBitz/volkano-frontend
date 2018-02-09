@@ -45,6 +45,11 @@ export default function authenticationReducer(
         errors: action.payload,
         isLoading: false,
       }
+    case AuthActionTypeKeys.CLEAR_AUTH_ERRORS:
+      return {
+        ...state,
+        errors: undefined,
+      }
     default:
       return state
   }
