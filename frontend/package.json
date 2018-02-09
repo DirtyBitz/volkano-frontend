@@ -8,6 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "cypen": "cypress open",
+    "cyprun": "cypress run",
     "test": "jest --watch",
     "quicktest": "jest --no-cache",
     "coverage": "jest --coverage --no-cache"
