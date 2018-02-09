@@ -29,6 +29,7 @@ export class AuthApi {
       const { status, data } = error.response
       switch (status) {
         case 401:
+        case 422:
           return Promise.reject(data.errors)
         case 500:
           return Promise.reject(['Server down!'])
