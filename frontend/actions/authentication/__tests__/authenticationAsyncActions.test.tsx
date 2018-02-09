@@ -1,14 +1,13 @@
 jest.mock('../../../api/AuthApi')
 import thunk from 'redux-thunk'
 import * as actions from '../AuthActions'
-import * as createMockStore from 'redux-mock-store'
+import createMockStore from 'redux-mock-store'
 import { AuthApi } from '../../../api/AuthApi'
 
 describe('Authentication thunk actions', () => {
   let store
 
   beforeEach(() => {
-    //@ts-ignore
     store = createMockStore([thunk])({})
   })
 

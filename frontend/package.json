@@ -15,16 +15,14 @@
     "setupFiles": [
       "<rootDir>/jestconfig/jestSetup.js"
     ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/jestconfig/preprocessor.js"
-    },
-    "testMatch": [
-      "**/__tests__/*.(ts|tsx)"
     ]
   },
   "dependencies": {
@@ -60,6 +58,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-mock-store": "^1.5.1",
     "redux-thunk": "^2.2.0",
+    "ts-jest": "^22.0.3",
     "typescript": "^2.7.1"
   }
 }
