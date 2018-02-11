@@ -1,9 +1,26 @@
 #!/bin/sh
 
 INPUT_FILE=$1
-START_LINE=`head -n1 $INPUT_FILE`
-PATTERN="^:[[:alpha:]]+: .+"
-if ! [[ "$START_LINE" =~ $PATTERN ]]; then
-  echo "Commit message missing emoji tag: https://inf2900v18.cs.uit.no/team4/volkano/wikis/Git-Commit-Message-StyleGuide"
-  exit 1
-fi
+
+# Helper functions
+allow() {
+    echo -n "[$1] -> "
+    ${@: -1}
+    echo "✓"
+}
+
+flunk() {
+    printf "$*"
+    exit 1
+}
+
+contain_emoji() {
+    local start_line=`head -n1 $INPUT_FILE`
+    local emoji_pattern="^:[[:alpha:]]+: .+"
+
+    if ! [[ "$start_line" =~ $emoji_pattern ]]; then
+        flunk "missing emoji tag: https://inf2900v18.cs.uit.no/team4/volkano/wikis/Git-Commit-Message-StyleGuide"
+    fi
+}
+
+allow "commit msg" to contain_emoji
