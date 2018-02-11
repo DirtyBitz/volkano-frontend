@@ -2,6 +2,7 @@ variables:
   POSTGRES_DB: test
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: super_secret_password__DO_NOT_STEAL
+  CI_DATABASE: postgres
 
 cache:
   key: "$CI_COMMIT_REF_NAME"
@@ -41,8 +42,6 @@ rspec:
     - ci-alpine-latest
   services:
     - postgres:alpine
-  variables:
-    CI_DATABASE: postgres
   script:
     - cd backend
     - bundle install --jobs $(nproc) --path=gems
@@ -59,8 +58,6 @@ cypress:
   # We need the database
   services:
     - postgres:alpine
-  variables:
-    CI_DATABASE: postgres
   script:
     - cd backend
     - bundle install --jobs $(nproc) --path=gems
@@ -68,5 +65,5 @@ cypress:
     - bundle exec rails s & > /dev/null
     - cd ../frontend
     - yarn install
-    - yarn dev & > /dev/null
-    - yarn run cypress run
+    - yarn start & > /dev/null
+    - yarn cyprun
