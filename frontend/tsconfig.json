@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "allowJs": true,
+    "checkJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
@@ -10,12 +11,10 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "lib": ["dom", "es2015", "es6", "es2016", "es2017", "esnext"],
-    "jsx": "react"
-  },
-  "exclude": ["node_modules"]
+    "lib": ["dom", "es5", "es6", "es2016", "es2017", "esnext"],
+    "jsx": "preserve"
+  }
 }
