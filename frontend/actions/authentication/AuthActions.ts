@@ -12,7 +12,7 @@ import {
   ICreateUserRejectedAction,
   IClearAuthErrors,
 } from './AuthActionTypes'
-import { User } from 'models/User'
+import { User } from '../../models/User'
 
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {

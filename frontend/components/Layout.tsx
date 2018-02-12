@@ -2,7 +2,7 @@ import * as React from 'react'
 import Head from 'next/head'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import { User } from 'models/User'
+import { User } from '../models/User'
 
 interface Props {
   userData?: User
@@ -44,12 +44,14 @@ class Layout extends React.Component<Props, any> {
           }
         `}</style>
 
-        <style global>{`
-            body, html, #__next {
-                margin:0;
-                height: 100%;
-                font-family: Menlo, Helvetica, sans-serif;
-            }
+        <style jsx global>{`
+          body,
+          html,
+          #__next {
+            margin: 0;
+            height: 100%;
+            font-family: Menlo, Helvetica, sans-serif;
+          }
         `}</style>
       </div>
     )

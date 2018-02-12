@@ -1,13 +1,13 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
-import { store } from '../store'
-import Layout from '../components/Layout'
-import { IStoreState } from 'store/StoreState'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { store } from '../store'
+import Layout from '../components/Layout'
+import { IStoreState } from '../store/StoreState'
 import { signOut } from '../actions/authentication/AuthActions'
-import { ISignOutAction } from 'actions/authentication/AuthActionTypes'
+import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
   signOut: () => ISignOutAction

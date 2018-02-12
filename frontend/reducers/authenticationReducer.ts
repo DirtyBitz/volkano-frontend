@@ -1,6 +1,6 @@
 import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
 import AuthActionTypes from '../actions/authentication/AuthActionTypes'
-import { User } from 'models/User'
+import { User } from '../models/User'
 
 export interface AuthStateI {
   isLoading: boolean

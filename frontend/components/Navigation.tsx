@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { User } from 'models/User'
-
+import { User } from '../models/User'
 interface Props {
   userData?: User
 }
