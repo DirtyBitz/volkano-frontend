@@ -1,78 +1,36 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-interface IProps {
-  handleSubmit: (event) => void
-  pristine: boolean
-  reset: (event) => void
-  submitting: boolean
-  errors: string[]
-}
-
-class SigninForm extends React.Component<IProps> {
-  private renderField = ({
-    input,
-    label,
-    type,
-    meta: { asyncValidating, touched, error },
-  }) => (
+const renderField = field => {
+  const { meta, type, label, asyncValidating, input } = field
+  return (
     <div>
       <label>{label}</label>
       <div className={asyncValidating ? 'async-validating' : ''}>
         <input {...input} type={type} placeholder={label} />
-        {touched &&
-          error && (
-            <span style={{ marginLeft: 10, color: 'red', fontSize: 9 }}>{error}</span>
-          )}
+        {meta.touched &&
+          meta.error && <span style={{ color: 'red', fontSize: 10 }}>{meta.error}</span>}
       </div>
     </div>
   )
+}
 
-  render() {
-    const { handleSubmit, pristine, reset, submitting, errors } = this.props
-
-    return (
+const SignInForm = props => {
+  const { handleSubmit, pristine, reset, submitting } = props
+  return (
+    <form onSubmit={handleSubmit}>
+      <Field name="username" type="text" component={renderField} label="Username" />
+      <Field name="password" type="password" component={renderField} label="Password" />
       <div>
-        <div className="errors" style={{ color: 'red', marginBottom: 15, fontSize: 10 }}>
-          {errors &&
-            errors.map((error, i) => (
-              <div key={i} className="error">
-                {error}
-              </div>
-            ))}
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <Field
-            //@ts-ignore
-            name="username"
-            type="text"
-            component={this.renderField}
-            label="Username"
-            input={{ autoComplete: 'username' }}
-          />
-
-          <Field
-            //@ts-ignore
-            name="password"
-            type="password"
-            component={this.renderField}
-            label="Password"
-            input={{ autoComplete: 'password' }}
-          />
-
-          <div>
-            <button type="submit" disabled={submitting}>
-              Signin
-            </button>
-            <button type="button" disabled={pristine || submitting} onClick={reset}>
-              Clear Values
-            </button>
-          </div>
-        </form>
+        <button type="submit" disabled={submitting}>
+          Sign Up
+        </button>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
       </div>
-    )
-  }
+    </form>
+  )
 }
 
 const validate = values => {
@@ -93,5 +51,4 @@ export default reduxForm({
   form: 'signin',
   validate,
   asyncBlurFields: ['username'],
-  //@ts-ignore
-})(SigninForm)
+})(SignInForm)

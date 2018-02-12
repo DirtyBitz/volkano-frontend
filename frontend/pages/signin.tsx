@@ -30,7 +30,13 @@ class SigninPage extends React.Component<IProps> {
 
     return (
       <Layout userData={authentication.user}>
-        <SigninForm onSubmit={this.handleSumbit} errors={authentication.errors} />
+        {authentication.errors &&
+          authentication.errors.map((error, i) => (
+            <div key={i} style={{ color: 'red' }}>
+              {error}
+            </div>
+          ))}
+        <SigninForm onSubmit={this.handleSumbit} />
       </Layout>
     )
   }
