@@ -17,6 +17,7 @@ export const initialState: IStoreState = {
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['form'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
