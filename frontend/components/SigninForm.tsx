@@ -19,7 +19,7 @@ const SignInForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="username" type="text" component={renderField} label="Username" />
+      <Field name="email" type="text" component={renderField} label="E-Mail" />
       <Field name="password" type="password" component={renderField} label="Password" />
       <div>
         <button type="submit" disabled={submitting}>

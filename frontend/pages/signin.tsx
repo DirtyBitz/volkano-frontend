@@ -14,14 +14,14 @@ import {
 } from '../actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
-  signIn: (username: string, password: string) => Promise<void>
+  signIn: (email: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
   clearAuthErrors: () => IClearAuthErrors
 }
 
 class SigninPage extends React.Component<IProps> {
-  private handleSumbit = ({ username, password }) => {
-    this.props.signIn(username, password)
+  private handleSumbit = ({ email, password }) => {
+    this.props.signIn(email, password)
   }
 
   componentDidUpdate() {
