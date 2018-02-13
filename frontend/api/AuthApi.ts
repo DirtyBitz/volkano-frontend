@@ -35,8 +35,12 @@ export class AuthApi {
 
   public static async registerNewUser(userFormFields: IUserRegisterDetails) {
     try {
-      console.log(userFormFields)
-      const response = await axios.post('http://localhost:5000/auth/', userFormFields)
+      const params = {
+        ...userFormFields,
+        confirm_success_url: 'http://localhost:3000/accountcreated',
+      }
+      console.log(params)
+      const response = await axios.post('http://localhost:5000/auth/', params)
       return convertUserJson(response.data.data)
     } catch (error) {
       return await this.handleError(error)
