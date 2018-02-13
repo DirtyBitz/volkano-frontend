@@ -10,7 +10,7 @@ describe('Authentication', function() {
       cy.get('input[name=email]').type('new-user@example.com')
       cy.get('input[name=password]').type('password123')
       cy.get('input[name=password-confirmation]').type('password123{enter}')
-      // Confirmation email?
+      cy.contains('confirmation email has been sent')
     })
   })
 
