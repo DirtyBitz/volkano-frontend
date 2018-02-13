@@ -1,5 +1,5 @@
 //@ts-nocheck
-describe.skip('Authentication', function() {
+describe('Authentication', function() {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
   })
@@ -7,9 +7,9 @@ describe.skip('Authentication', function() {
   context('a first time visitor', () => {
     it('can sign up for an account', () => {
       cy.contains('Sign up').click()
-      cy.get('input[name=username]').type('new-user@example.com')
+      cy.get('input[name=email]').type('new-user@example.com')
       cy.get('input[name=password]').type('password123')
-      cy.get('input[name=password-confirmation').type('password123{enter}')
+      cy.get('input[name=password-confirmation]').type('password123{enter}')
       // Confirmation email?
     })
   })
@@ -17,7 +17,7 @@ describe.skip('Authentication', function() {
   context('a user who is signed in', function() {
     beforeEach(() => {
       cy.visit('http://localhost:3000/signin')
-      cy.get('input[name=username]').type('test@example.com')
+      cy.get('input[name=email]').type('test@example.com')
       cy.get('input[name=password]').type('password{enter}')
     })
 
@@ -28,25 +28,34 @@ describe.skip('Authentication', function() {
   })
 })
 
-describe.skip('Front page', () => {
+describe('Front page', () => {
+  const baseURL = 'http://localhost:3000'
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.visit(baseURL)
   })
 
-  it.skip('has Brand Name in page title', () => {
+  it('has Brand Name in page title', () => {
     cy.title().should('include', 'Volkano')
   })
 
   // The nav bar is unit tested, should we just check that it
   // is rendered here and trust the unit tests have done their job?
-  describe.skip('the nav bar', () => {
+  describe('the nav bar', () => {
     it('has link to home page', () => {
       cy.get('#home-link').should('contain', 'Home')
     })
 
     // TODO: should verify that clicking link leads to /signin
-    it('has link to sign in', () => {
+    it.skip('has link to sign in', () => {
       cy.get('#signin-link').should('contain', 'Sign in')
+      cy.get('#signin-link').click()
+      cy.url().should('contain', '/signin')
+    })
+
+    it.skip('has link to sign up', () => {
+      cy.get('#signup-link').should('contain', 'Sign up')
+      cy.contains('Sign up').click()
+      cy.url().should('contain', '/signup')
     })
   })
 })
@@ -54,7 +63,7 @@ describe.skip('Front page', () => {
 describe.skip('Collections', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/signin')
-    cy.get('input[name=username]').type('test@example.com')
+    cy.get('input[name=email]').type('test@example.com')
     cy.get('input[name=password]').type('password{enter}')
     cy.url().should.be('/')
   })
