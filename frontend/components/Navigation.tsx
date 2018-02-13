@@ -12,24 +12,24 @@ export default class Navigation extends React.Component<Props> {
       <nav>
         <div className="main-nav">
           <Link href="/">
-            <a>Home</a>
+            <a id="home-link">Home</a>
           </Link>
         </div>
         <div className="user-nav">
           {!userData && (
             <div>
               <Link href="/signin">
-                <a>Sign in</a>
+                <a id="signin-link">Sign in</a>
               </Link>
 
               <Link href="/signup">
-                <a>Sign up</a>
+                <a id="signup-link">Sign up</a>
               </Link>
             </div>
           )}
           {userData && (
             <Link href="/profile">
-              <a>{this.props.userData.email}</a>
+              <a id="profile-link">{this.props.userData.email}</a>
             </Link>
           )}
         </div>

@@ -15,7 +15,7 @@ export class App extends React.Component<AppProps, {}> {
     const { authentication } = this.props
 
     return (
-      <Layout title="Homepage" userData={authentication.user}>
+      <Layout title="Volkano" userData={authentication.user}>
         <div>Welcome to Volka.no</div>
       </Layout>
     )
