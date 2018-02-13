@@ -10,9 +10,12 @@ RSpec.describe 'User authentication', type: :request do
     }
   end
   let(:valid_params) do
-    valid_user.merge(password_confirmation: valid_user[:password])
+    valid_user.merge(
+      password_confirmation: valid_user[:password],
+      confirm_success_url: 'http://dummy'
+    )
   end
-  let(:user) { User.create! valid_params }
+  let(:user) { User.create! valid_user }
 
   context 'with valid credentials' do
     it 'can create a new user' do
