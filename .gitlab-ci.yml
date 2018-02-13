@@ -65,5 +65,5 @@ cypress:
     - bundle exec rails s & > /dev/null
     - cd ../frontend
     - yarn install
-    - yarn start & > /dev/null
+    - yarn dev & > /dev/null
     - yarn cyprun
