@@ -23,7 +23,7 @@ const SignInForm = props => {
       <Field name="password" type="password" component={renderField} label="Password" />
       <div>
         <button type="submit" disabled={submitting}>
-          Sign Up
+          Sign In
         </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
