@@ -50,6 +50,12 @@ export default function authenticationReducer(
         ...state,
         errors: undefined,
       }
+    case AuthActionTypeKeys.CREATE_USER_PENDING:
+      return { ...state, isLoading: true }
+    case AuthActionTypeKeys.CREATE_USER_REJECTED:
+      return { ...state, errors: action.payload }
+    case AuthActionTypeKeys.CREATE_USER_FULFILLED:
+      return { ...state, isLoading: false, user: action.payload, errors: undefined }
     default:
       return state
   }

@@ -35,10 +35,8 @@ export class AuthApi {
 
   public static async registerNewUser(userFormFields: IUserRegisterDetails) {
     try {
-      const response = await axios.post(
-        'http://localhost:5000/auth/sign_in',
-        userFormFields
-      )
+      console.log(userFormFields)
+      const response = await axios.post('http://localhost:5000/auth/', userFormFields)
       return convertUserJson(response.data.data)
     } catch (error) {
       return await this.handleError(error)
@@ -52,10 +50,17 @@ export class AuthApi {
 
     const { status, data } = error.response
 
+    let errors = []
+    if (typeof data.errors === 'object') {
+      errors = data.errors.full_messages
+    } else {
+      errors = data.errors
+    }
+
     switch (status) {
       case 401:
       case 422:
-        return Promise.reject(data.errors)
+        return Promise.reject(errors)
       case 500:
         return Promise.reject(['Server down!'])
       default:

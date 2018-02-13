@@ -28,23 +28,11 @@ const SignUpForm = props => {
           ))}
       </div>
       <form onSubmit={handleSubmit}>
+        <Field name="email" type="text" component={renderField} label="E-mail" />
+        <Field name="nickname" type="text" component={renderField} label="Nickname" />
+        <Field name="password" type="password" component={renderField} label="Password" />
         <Field
-          //@ts-ignore
-          name="username"
-          type="text"
-          component={renderField}
-          label="E-mail"
-        />
-        <Field
-          //@ts-ignore
-          name="password"
-          type="password"
-          component={renderField}
-          label="Password"
-        />
-        <Field
-          //@ts-ignore
-          name="passwordConfirmation"
+          name="password-confirmation"
           type="password"
           component={renderField}
           label="Password confirmation"
@@ -64,13 +52,13 @@ const SignUpForm = props => {
 
 const validate = values => {
   const errors = {
-    username: undefined,
+    email: undefined,
     password: undefined,
     passwordConfirmation: undefined,
   }
 
-  if (!values.username) {
-    errors.username = 'This field is required'
+  if (!values.email) {
+    errors.email = 'This field is required'
   }
   if (!values.password) {
     errors.password = 'This field is required'
@@ -85,11 +73,11 @@ const validate = values => {
   if (values.password != values.passwordConfirmation) {
     errors.passwordConfirmation = "Passwords don't match"
   }
-  if (values.username) {
+  if (values.email) {
     const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
-    if (!re.test(values.username)) {
-      errors.username = 'Invalid e-mail'
+    if (!re.test(values.email)) {
+      errors.email = 'Invalid e-mail'
     }
   }
   return errors
@@ -98,5 +86,5 @@ const validate = values => {
 export default reduxForm({
   form: 'signup',
   validate,
-  asyncBlurFields: ['username'],
+  asyncBlurFields: ['email'],
 })(SignUpForm)

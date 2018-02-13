@@ -1,11 +1,6 @@
 import { bindActionCreators } from 'redux'
-import { createUser, clearAuthErrors } from '../actions/authentication/AuthActions'
-import {
-  ICreateUserPendingAction,
-  ICreateUserFulfilledAction,
-  ICreateUserRejectedAction,
-  IClearAuthErrors,
-} from '../actions/authentication/AuthActionTypes'
+import { createUser } from '../actions/authentication/AuthActions'
+import { IUserRegisterDetails } from '../api/AuthApi'
 import * as React from 'react'
 import { IStoreState } from '../store/StoreState'
 import { store } from '../store'
@@ -15,12 +10,12 @@ import * as withRedux from 'next-redux-wrapper'
 import { Dispatch } from 'react-redux'
 
 interface IProps extends IStoreState {
-  createUser: (username: string, password: string) => Promise<void>
+  createUser: (userDetails: IUserRegisterDetails) => Promise<void>
 }
 
 class SignUpPage extends React.Component<IProps> {
-  private handleSubmit = ({ username, password }) => {
-    this.props.createUser(username, password)
+  private handleSubmit = ({ email, password, nickname }) => {
+    this.props.createUser({ email, password, nickname })
   }
 
   render() {
