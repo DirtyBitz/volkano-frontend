@@ -55,7 +55,11 @@ cypress:
       - frontend/node_modules
   tags:
     - ci-alpine-latest
-  # We need the database
+  artifacts:
+    when: on_failure
+    paths:
+      - frontend/cypress/screenshots/
+      - frontend/cypress/videos/
   services:
     - postgres:alpine
   script:

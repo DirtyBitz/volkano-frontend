@@ -8,6 +8,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "precyprun": "wait-on http://localhost:3000",
     "cypen": "cypress open",
     "cyprun": "cypress run",
     "test": "jest --watch",
@@ -35,6 +36,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "global": "^4.3.2",
     "next": "^5.0.0",
     "next-redux-wrapper": "^1.3.5",
     "react": "^16.2.0",
@@ -42,7 +44,8 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-form": "^7.2.3",
-    "redux-persist": "^5.7.2"
+    "redux-persist": "^5.7.2",
+    "wait-on": "^2.1.0"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.9",
