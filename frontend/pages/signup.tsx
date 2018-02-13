@@ -8,6 +8,7 @@ import Layout from '../components/Layout'
 import SignUpForm from '../components/SignUpForm'
 import * as withRedux from 'next-redux-wrapper'
 import { Dispatch } from 'react-redux'
+import Router from 'next/router'
 
 interface IProps extends IStoreState {
   createUser: (userDetails: IUserRegisterDetails) => Promise<void>
@@ -16,6 +17,12 @@ interface IProps extends IStoreState {
 class SignUpPage extends React.Component<IProps> {
   private handleSubmit = ({ email, password, nickname }) => {
     this.props.createUser({ email, password, nickname })
+  }
+
+  componentDidUpdate() {
+    if (this.props.authentication.user) {
+      Router.push('/emailconfirmation')
+    }
   }
 
   render() {
