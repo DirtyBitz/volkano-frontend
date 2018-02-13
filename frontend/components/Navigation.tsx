@@ -17,9 +17,15 @@ export default class Navigation extends React.Component<Props> {
         </div>
         <div className="user-nav">
           {!userData && (
-            <Link href="/signin">
-              <a>Sign in</a>
-            </Link>
+            <div>
+              <Link href="/signin">
+                <a>Sign in</a>
+              </Link>
+
+              <Link href="/signup">
+                <a>Sign up</a>
+              </Link>
+            </div>
           )}
           {userData && (
             <Link href="/profile">
