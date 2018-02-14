@@ -10,12 +10,14 @@ export default class Navigation extends React.Component<Props> {
     const { userData } = this.props
     return (
       <nav>
-        <div className="main-nav">
+        <div id="main-nav">
           <Link href="/">
-            <a id="home-link">Home</a>
+            <a id="home-link">
+              Vol<span>kano</span>
+            </a>
           </Link>
         </div>
-        <div className="user-nav">
+        <div id="user-nav">
           {!userData && (
             <div>
               <Link href="/signin">
@@ -36,18 +38,35 @@ export default class Navigation extends React.Component<Props> {
 
         <style jsx>{`
           nav {
-            padding: 15px;
             display: flex;
             justify-content: space-between;
+            background: #1c222a;
+            padding: 15px;
+            align-items: center;
+
+            #main-nav,
+            #user-nav {
+              a {
+                color: #fff;
+                text-decoration: none;
+              }
+            }
           }
 
-          nav a {
-            color: #fff;
-            text-decoration: none;
+          #home-link {
+            font-size: 1.2em;
+            span {
+              color: #ce1a1a;
+            }
           }
 
-          nav a:hover {
-            color: pink;
+          #signin-link,
+          #signup-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #54b45f;
+            margin-left: 15px;
+            border-radius: 25px;
           }
         `}</style>
       </nav>

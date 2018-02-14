@@ -45,12 +45,21 @@ class Layout extends React.Component<Props, any> {
         `}</style>
 
         <style jsx global>{`
+          @import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+          /* Mini css reset */
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+
           body,
           html,
           #__next {
             margin: 0;
             height: 100%;
-            font-family: Menlo, Helvetica, sans-serif;
+            font-family: 'Montserrat', sans-serif;
           }
         `}</style>
       </div>
