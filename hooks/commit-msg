@@ -16,7 +16,7 @@ flunk() {
 
 contain_emoji() {
     local start_line=`head -n1 $INPUT_FILE`
-    local emoji_pattern="^:[[:alpha:]]+: .+"
+    local emoji_pattern="^:(sparkles|ambulance|umbrella|racehorse|lock|lipstick|books|elephant|snowflake|art|fire|tractor|hammer|pencil|arrow_up|arrow_down|speaker|mute|green_heart|whale|rocket|globe_with_meridians|wheelchair): .+"
 
     if ! [[ "$start_line" =~ $emoji_pattern ]]; then
         flunk "missing emoji tag: https://inf2900v18.cs.uit.no/team4/volkano/wikis/Git-Commit-Message-StyleGuide"
