@@ -1,4 +1,6 @@
 //@ts-nocheck
+const timestamp = Cypress.moment().format('x')
+
 describe('Authentication', function() {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
@@ -7,7 +9,7 @@ describe('Authentication', function() {
   context('a first time visitor', () => {
     it('can sign up for an account', () => {
       cy.contains('Sign up').click()
-      cy.get('input[name=email]').type('new-user@example.com')
+      cy.get('input[name=email]').type(`test${timestamp}@example.com`)
       cy.get('input[name=password]').type('password123')
       cy.get('input[name=password-confirmation]').type('password123{enter}')
       cy.contains('confirmation email has been sent')

@@ -65,7 +65,7 @@ cypress:
   script:
     - cd backend
     - bundle install --jobs $(nproc) --path=gems
-    - bundle exec rails db:create db:migrate db:seed
+    - bundle exec rails db:setup
     - bundle exec rails s & > /dev/null
     - cd ../frontend
     - yarn install
