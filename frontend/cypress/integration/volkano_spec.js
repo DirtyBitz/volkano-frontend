@@ -44,10 +44,6 @@ describe('Front page', () => {
   // The nav bar is unit tested, should we just check that it
   // is rendered here and trust the unit tests have done their job?
   describe('the nav bar', () => {
-    it('has link to home page', () => {
-      cy.get('#home-link').should('contain', 'Home')
-    })
-
     // TODO: should verify that clicking link leads to /signin
     it.skip('has link to sign in', () => {
       cy.get('#signin-link').should('contain', 'Sign in')
