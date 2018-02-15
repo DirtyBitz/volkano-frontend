@@ -60,6 +60,14 @@ export default class Navigation extends React.Component<Props> {
             }
           }
 
+          a {
+            opacity: 1;
+          }
+
+          a:hover {
+            opacity: 0.75;
+          }
+
           #signin-link,
           #signup-link {
             display: inline-block;
@@ -67,6 +75,11 @@ export default class Navigation extends React.Component<Props> {
             background: #54b45f;
             margin-left: 15px;
             border-radius: 25px;
+          }
+
+          #signin-link:active,
+          #signup-link:active {
+            background: #32973e;
           }
         `}</style>
       </nav>
