@@ -35,7 +35,14 @@ class SigninPage extends React.Component<IProps> {
       <Layout userData={authentication.user}>
         {authentication.errors &&
           authentication.errors.map((error, i) => (
-            <div key={i} style={{ color: 'red' }}>
+            <div
+              key={i}
+              style={{
+                color: 'red',
+                'text-align': 'center',
+                height: '30px',
+                'white-space': 'nowrap',
+              }}>
               {error}
             </div>
           ))}

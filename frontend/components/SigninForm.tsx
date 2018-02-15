@@ -9,27 +9,64 @@ const renderField = field => {
       <div className={asyncValidating ? 'async-validating' : ''}>
         <input {...input} type={type} />
         {meta.touched &&
-          meta.error && <span style={{ color: 'red', fontSize: 10 }}>{meta.error}</span>}
+          meta.error && (
+            <span
+              style={{ color: 'red', fontSize: 10, display: 'block', padding: '3px' }}>
+              {meta.error}
+            </span>
+          )}
       </div>
     </div>
   )
 }
 
 const SignInForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { handleSubmit, submitting } = props
   return (
-    <form onSubmit={handleSubmit}>
-      <Field name="email" type="text" component={renderField} label="E-Mail" />
-      <Field name="password" type="password" component={renderField} label="Password" />
-      <div>
-        <button type="submit" disabled={submitting}>
-          Sign In
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
-      </div>
-    </form>
+    <div className="page">
+      <form onSubmit={handleSubmit}>
+        <Field name="email" type="text" component={renderField} label="E-Mail" />
+        <Field name="password" type="password" component={renderField} label="Password" />
+        <div className="buttons">
+          <button type="submit" disabled={submitting}>
+            Sign In
+          </button>
+        </div>
+      </form>
+
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css?family=Montserrat');
+        form {
+          text-align: center;
+          padding: 20px;
+          display: table;
+          margin: 0 auto;
+        }
+        button {
+          margin: 10px;
+          padding: 2px;
+          background-color: #ce1a1a;
+          color: white;
+          font-family: 'Montserrat', sans-serif;
+          width: 50px;
+          height: 25px;
+          border-radius: 10px;
+        }
+        button:hover {
+          background-color: #a02424;
+        }
+        .page {
+          border: 2px solid #bcbcbc;
+          background-color: #e9ebed;
+          border-radius: 25px;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 20px;
+        }
+      `}</style>
+    </div>
   )
 }
 
