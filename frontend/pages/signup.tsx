@@ -28,7 +28,7 @@ class SignUpPage extends React.Component<IProps> {
   render() {
     const { authentication } = this.props
     return (
-      <Layout userData={authentication.user}>
+      <Layout title="Sign Up">
         {authentication.errors &&
           authentication.errors.map((error, i) => (
             <div key={i} style={{ color: 'red' }}>

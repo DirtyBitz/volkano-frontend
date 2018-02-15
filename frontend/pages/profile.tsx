@@ -14,8 +14,8 @@ interface IProps extends IStoreState {
 }
 
 class ProfilePage extends React.Component<IProps> {
-  componentDidUpdate() {
-    if (!this.props.authentication.user) {
+  componentWillReceiveProps(props) {
+    if (!props.authentication.token) {
       Router.push('/')
     }
   }
@@ -24,7 +24,7 @@ class ProfilePage extends React.Component<IProps> {
     const { user } = this.props.authentication
 
     return (
-      <Layout userData={this.props.authentication.user}>
+      <Layout title="Profile">
         {user && (
           <div style={{ marginBottom: 15 }}>
             <p>Email: {user.email ? user.email : ''}</p>

@@ -24,15 +24,17 @@ class SigninPage extends React.Component<IProps> {
     this.props.signIn(email, password)
   }
 
-  componentDidUpdate() {
-    this.props.authentication.user && Router.push('/profile')
+  componentWillReceiveProps(props) {
+    if (props.authentication.user) {
+      Router.push('/profile')
+    }
   }
 
   render() {
     const { authentication } = this.props
 
     return (
-      <Layout userData={authentication.user}>
+      <Layout title="Sign In">
         {authentication.errors &&
           authentication.errors.map((error, i) => (
             <div
