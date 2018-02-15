@@ -2,12 +2,13 @@ import * as React from 'react'
 import Link from 'next/link'
 import { User } from '../models/User'
 interface Props {
-  userData?: User
+  isSignedIn: boolean
+  user?: User
 }
 
 export default class Navigation extends React.Component<Props> {
   render() {
-    const { userData } = this.props
+    const { isSignedIn, user } = this.props
     return (
       <nav>
         <div id="main-nav">
@@ -18,7 +19,7 @@ export default class Navigation extends React.Component<Props> {
           </Link>
         </div>
         <div id="user-nav">
-          {!userData && (
+          {!isSignedIn && (
             <div>
               <Link href="/signin">
                 <a id="signin-link">Sign in</a>
@@ -29,11 +30,12 @@ export default class Navigation extends React.Component<Props> {
               </Link>
             </div>
           )}
-          {userData && (
-            <Link href="/profile">
-              <a id="profile-link">{this.props.userData.email}</a>
-            </Link>
-          )}
+          {isSignedIn &&
+            user && (
+              <Link href="/profile">
+                <a id="profile-link">{user.email}</a>
+              </Link>
+            )}
         </div>
 
         <style jsx>{`

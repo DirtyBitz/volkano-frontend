@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
-import Layout from '../Layout'
-import Navigation from '../Navigation'
+import { Layout } from '../Layout'
 import Footer from '../Footer'
 
 const props = {
-  userData: undefined,
+  authentication: undefined,
 }
 
 describe('Layout component', () => {
@@ -21,12 +20,12 @@ describe('Layout component', () => {
 
   it('Contains a header element', () => {
     const headers = layout.find('header')
-
     expect(headers.length).toBe(1)
   })
 
   it('Contains navigation component', () => {
-    expect(layout.contains(<Navigation />)).toBe(true)
+    const nav = layout.find('Navigation')
+    expect(nav.length).toBe(1)
   })
 
   it('Contains footer component', () => {

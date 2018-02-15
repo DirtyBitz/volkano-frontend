@@ -3,7 +3,8 @@ import { shallow, ShallowWrapper } from 'enzyme'
 import Navigation from '../Navigation'
 
 const props = {
-  userData: undefined,
+  isSignedIn: undefined,
+  user: undefined,
 }
 
 describe('Layout component', () => {
@@ -22,12 +23,15 @@ describe('Layout component', () => {
   })
 
   describe('when signed in', () => {
-    let fakeUserData: any
+    let fakeProps: any
     beforeEach(() => {
-      fakeUserData = {
-        email: 'testuser',
+      fakeProps = {
+        isSignedIn: true,
+        user: {
+          email: 'testuser',
+        },
       }
-      navigation = shallow(<Navigation userData={fakeUserData} />)
+      navigation = shallow(<Navigation {...fakeProps} />)
     })
 
     it('does not have a link to sign in page', () => {
@@ -46,7 +50,7 @@ describe('Layout component', () => {
           link
             .find('a')
             .first()
-            .text() === fakeUserData.email
+            .text() === fakeProps.user.email
         const linkurl = link.prop('href') === '/profile'
         return linktext && linkurl
       })

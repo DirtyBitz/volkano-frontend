@@ -2,16 +2,18 @@ import * as React from 'react'
 import Head from 'next/head'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import { User } from '../models/User'
+import { connect } from 'react-redux'
+import { IStoreState } from '../store/StoreState'
+import { AuthStateI } from '../reducers/authenticationReducer'
 
 interface Props {
-  userData?: User
   title?: string
+  authentication?: AuthStateI
 }
 
-class Layout extends React.Component<Props, any> {
+export class Layout extends React.Component<Props, any> {
   render() {
-    const { userData, title, children } = this.props
+    const { authentication, title, children } = this.props
 
     return (
       <div className="page">
@@ -22,7 +24,10 @@ class Layout extends React.Component<Props, any> {
           <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
         </Head>
         <header>
-          <Navigation userData={userData} />
+          <Navigation
+            isSignedIn={authentication && authentication.token ? true : false}
+            user={authentication && authentication.user}
+          />
         </header>
         <div className="main">{children}</div>
         <Footer />
@@ -67,4 +72,11 @@ class Layout extends React.Component<Props, any> {
     )
   }
 }
-export default Layout
+
+const mapStateToProps = (state: IStoreState) => {
+  return {
+    authentication: state.authentication,
+  }
+}
+
+export default connect(mapStateToProps, undefined)(Layout)
