@@ -32,7 +32,7 @@ const SignUpForm = props => {
         <Field name="nickname" type="text" component={renderField} label="Nickname" />
         <Field name="password" type="password" component={renderField} label="Password" />
         <Field
-          name="password-confirmation"
+          name="passwordConfirmation"
           type="password"
           component={renderField}
           label="Password confirmation"
