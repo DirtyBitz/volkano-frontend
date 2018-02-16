@@ -35,6 +35,13 @@ class SigninPage extends React.Component<IProps> {
 
     return (
       <Layout title="Sign In">
+        <h1
+          style={{
+            'text-align': 'center',
+            padding: '10px',
+          }}>
+          Sign in
+        </h1>
         {authentication.errors &&
           authentication.errors.map((error, i) => (
             <div

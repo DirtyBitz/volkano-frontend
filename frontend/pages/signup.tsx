@@ -29,13 +29,26 @@ class SignUpPage extends React.Component<IProps> {
     const { authentication } = this.props
     return (
       <Layout title="Sign Up">
+        <h1
+          style={{
+            'text-align': 'center',
+            padding: '10px',
+          }}>
+          Create a user to start collecting!
+        </h1>
         {authentication.errors &&
           authentication.errors.map((error, i) => (
-            <div key={i} style={{ color: 'red' }}>
+            <div
+              key={i}
+              style={{
+                color: 'red',
+                'text-align': 'center',
+                height: '30px',
+                'white-space': 'nowrap',
+              }}>
               {error}
             </div>
           ))}
-        <h1>Create a user to start collecting!</h1>
         <SignUpForm onSubmit={this.handleSubmit} />
       </Layout>
     )
