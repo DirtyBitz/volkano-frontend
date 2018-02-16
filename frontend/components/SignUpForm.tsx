@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faUser, faLock, faIdBadge } from '@fortawesome/fontawesome-free-solid'
 
 const renderField = field => {
   const { meta, type, asyncValidating, input, iconName, placeholder } = field
@@ -85,7 +86,7 @@ const SignUpForm = props => {
             type="text"
             component={renderField}
             id="email-field"
-            iconName="user"
+            iconName={faUser}
             placeholder="E-Mail"
           />
           <Field
@@ -93,7 +94,7 @@ const SignUpForm = props => {
             type="text"
             component={renderField}
             id="nickname-field"
-            iconName="id-badge"
+            iconName={faIdBadge}
             placeholder="Nickname"
           />
           <Field
@@ -101,7 +102,7 @@ const SignUpForm = props => {
             type="password"
             component={renderField}
             id="pw-field"
-            iconName="lock"
+            iconName={faLock}
             placeholder="Password"
           />
           <Field
@@ -109,7 +110,7 @@ const SignUpForm = props => {
             type="password"
             component={renderField}
             id="pw-confirm-field"
-            iconName="lock"
+            iconName={faLock}
             placeholder="Confirm password"
           />
           <div className="buttons">

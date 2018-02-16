@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
 
 const renderField = field => {
   const { meta, type, label, asyncValidating, input, iconName } = field
@@ -85,7 +86,7 @@ const SignInForm = props => {
           component={renderField}
           label="E-Mail"
           id="email-field"
-          iconName="user"
+          iconName={faUser}
         />
         <Field
           name="password"
@@ -93,7 +94,7 @@ const SignInForm = props => {
           component={renderField}
           label="Password"
           id="pw-field"
-          iconName="lock"
+          iconName={faLock}
         />
         <div className="buttons">
           <button type="submit" disabled={submitting}>

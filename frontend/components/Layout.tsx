@@ -21,7 +21,6 @@ export class Layout extends React.Component<Props, any> {
           <title>{title || 'Volkano'}</title>
           <meta charSet="utf-8" />
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
         </Head>
         <header>
           <Navigation
