@@ -37,7 +37,7 @@ class SigninPage extends React.Component<IProps> {
       <Layout title="Sign In">
         <h1
           style={{
-            'text-align': 'center',
+            textAlign: 'center',
             padding: '10px',
           }}>
           Sign in
@@ -48,9 +48,9 @@ class SigninPage extends React.Component<IProps> {
               key={i}
               style={{
                 color: 'red',
-                'text-align': 'center',
+                textAlign: 'center',
                 height: '30px',
-                'white-space': 'nowrap',
+                whiteSpace: 'nowrap',
               }}>
               {error}
             </div>
