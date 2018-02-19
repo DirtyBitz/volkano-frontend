@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
+import { BeatLoader } from 'react-spinners'
 
 const renderField = field => {
   const { meta, type, label, asyncValidating, input, iconName } = field
@@ -97,9 +98,16 @@ const SignInForm = props => {
           iconName={faLock}
         />
         <div className="buttons">
-          <button type="submit" disabled={submitting}>
-            Sign In
-          </button>
+          {submitting && (
+            <button type="submit" style={{ width: 100, height: 40 }}>
+              <BeatLoader color="#fff" size={15} />
+            </button>
+          )}
+          {!submitting && (
+            <button type="submit" style={{ width: 100, height: 40 }}>
+              Sign In
+            </button>
+          )}
         </div>
       </form>
 
