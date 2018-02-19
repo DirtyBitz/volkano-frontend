@@ -3,6 +3,7 @@ import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import sleep from 'sleep-promise'
 import { store } from '../store'
 import SigninForm from '../components/SigninForm'
 import Layout from '../components/Layout'
@@ -20,8 +21,9 @@ interface IProps extends IStoreState {
 }
 
 class SigninPage extends React.Component<IProps> {
-  private handleSumbit = ({ email, password }) => {
-    this.props.signIn(email, password)
+  private handleSumbit = async ({ email, password }) => {
+    await sleep(500) // Fake delay just so we can see loading indicator :)
+    await this.props.signIn(email, password)
   }
 
   componentWillReceiveProps(props) {
