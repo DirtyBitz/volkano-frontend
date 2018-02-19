@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  let(:valid_params) {{ title: 'Valid item', url: 'http://example.com/image.jpg', tag: 'exampletag' }}
+  let(:valid_params) do
+    { title: 'Valid item', url: 'http://img.com/image.jpg', tag: 'exampletag' }
+  end
 
   it 'should be valid' do
     valid_item = Item.new(valid_params)
@@ -14,9 +18,8 @@ RSpec.describe Item, type: :model do
   end
 
   it 'should have unique url' do
-    valid_item = Item.create(valid_params)
+    Item.create(valid_params)
     unvalid_item = Item.new(valid_params)
     expect(unvalid_item).not_to be_valid
   end
-  
 end
