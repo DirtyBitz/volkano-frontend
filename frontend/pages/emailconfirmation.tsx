@@ -1,5 +1,7 @@
 import * as React from 'react'
+import * as withRedux from 'next-redux-wrapper'
 import Layout from '../components/Layout'
+import { store } from '../store'
 
 const redirect = props => {
   return (
@@ -11,4 +13,4 @@ const redirect = props => {
   )
 }
 
-export default redirect
+export default withRedux(store)(redirect)
