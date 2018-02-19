@@ -12,5 +12,11 @@ RSpec.describe Item, type: :model do
     unvalid_item = Item.new(title: '')
     expect(unvalid_item).not_to be_valid
   end
+
+  it 'should have unique url' do
+    valid_item = Item.create(valid_params)
+    unvalid_item = Item.new(valid_params)
+    expect(unvalid_item).not_to be_valid
+  end
   
 end
