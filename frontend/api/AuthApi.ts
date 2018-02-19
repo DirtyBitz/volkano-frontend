@@ -55,10 +55,10 @@ export class AuthApi {
     const { status, data } = error.response
 
     let errors = []
-    if (typeof data.errors === 'object') {
-      errors = data.errors.full_messages
-    } else {
+    if (Array.isArray(data.errors)) {
       errors = data.errors
+    } else {
+      errors = data.errors.full_messages
     }
 
     switch (status) {
