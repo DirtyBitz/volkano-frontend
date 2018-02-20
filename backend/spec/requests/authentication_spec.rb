@@ -25,8 +25,7 @@ RSpec.describe 'User authentication', type: :request do
     end
 
     it 'returns an auth token' do
-      user.skip_confirmation!
-      user.save!
+      user.confirm
       post '/auth/sign_in', params: valid_user
       expect(response).to be_success
       expect(response.headers).to include('client')
@@ -34,8 +33,7 @@ RSpec.describe 'User authentication', type: :request do
     end
 
     it 'returns valid tokens' do
-      user.skip_confirmation!
-      user.save!
+      user.confirm
       post '/auth/sign_in', params: valid_user
       params = {
         uid: response.headers['uid'],
