@@ -12,10 +12,18 @@ RSpec.describe ItemsController, type: :controller do
 
   let(:valid_session) { {} }
 
+  let(:user) {
+    User.create(email: 'test@example.com', password: 'password', confirmed_at: Time.now)
+  }
+
+  before(:each) do
+    request.headers.merge! user.create_new_auth_token
+  end
+
   describe 'GET #index' do
     it 'returns a success response' do
       Item.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       expect(response).to be_success
     end
   end
