@@ -31,7 +31,7 @@ RSpec.describe ItemsController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       item = Item.create! valid_attributes
-      get :show, params: { id: item.to_param }, session: valid_session
+      get :show, params: { id: item.to_param }
       expect(response).to be_success
     end
   end
@@ -40,16 +40,12 @@ RSpec.describe ItemsController, type: :controller do
     context 'with valid params' do
       it 'creates a new Item' do
         expect do
-          post :create,
-               params: { item: valid_attributes },
-               session: valid_session
+          post :create, params: { item: valid_attributes }
         end.to change(Item, :count).by(1)
       end
 
       it 'renders a JSON response with the new item' do
-        post :create,
-             params: { item: valid_attributes },
-             session: valid_session
+        post :create, params: { item: valid_attributes }
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
         expect(response.location).to eq(item_url(Item.last))
@@ -58,9 +54,7 @@ RSpec.describe ItemsController, type: :controller do
 
     context 'with invalid params' do
       it 'renders a JSON response with errors for the new item' do
-        post :create,
-             params: { item: invalid_attributes },
-             session: valid_session
+        post :create, params: { item: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
@@ -76,8 +70,7 @@ RSpec.describe ItemsController, type: :controller do
       it 'updates the requested item' do
         item = Item.create! valid_attributes
         put :update,
-            params: { id: item.to_param, item: new_attributes },
-            session: valid_session
+            params: { id: item.to_param, item: new_attributes }
         item.reload
         expect(item.title).to eq('Updated')
       end
@@ -86,8 +79,7 @@ RSpec.describe ItemsController, type: :controller do
         item = Item.create! valid_attributes
 
         put :update,
-            params: { id: item.to_param, item: valid_attributes },
-            session: valid_session
+            params: { id: item.to_param, item: valid_attributes }
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
       end
@@ -98,8 +90,7 @@ RSpec.describe ItemsController, type: :controller do
         item = Item.create! valid_attributes
 
         put :update,
-            params: { id: item.to_param, item: invalid_attributes },
-            session: valid_session
+            params: { id: item.to_param, item: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
@@ -110,7 +101,7 @@ RSpec.describe ItemsController, type: :controller do
     it 'destroys the requested item' do
       item = Item.create! valid_attributes
       expect do
-        delete :destroy, params: { id: item.to_param }, session: valid_session
+        delete :destroy, params: { id: item.to_param }
       end.to change(Item, :count).by(-1)
     end
   end
