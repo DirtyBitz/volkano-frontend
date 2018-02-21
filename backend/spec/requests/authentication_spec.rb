@@ -21,13 +21,13 @@ RSpec.describe 'User authentication', type: :request do
     it 'can create a new user' do
       expect { post '/auth', params: valid_params }
         .to change { User.count }.by(1)
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns an auth token' do
       user.confirm
       post '/auth/sign_in', params: valid_user
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
       expect(response.headers).to include('client')
       expect(response.headers).to include('access-token')
     end
@@ -41,18 +41,18 @@ RSpec.describe 'User authentication', type: :request do
         client: response.headers['client']
       }
       get '/auth/validate_token', params: params
-      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
     end
   end
 
   it 'does not create a new user when password is too short' do
     post '/auth', params: { email: 'goofus@example.com', password: 'short' }
-    expect(response).to be_unprocessable
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 
   it 'does not grant authorization without registered account' do
     bad_params = { email: 'goofus@example.com', password: 'password' }
     post '/auth/sign_in', params: bad_params
-    expect(response).to be_unauthorized
+    expect(response).to have_http_status(:unauthorized)
   end
 end
