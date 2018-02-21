@@ -28,6 +28,16 @@ RSpec.describe 'User authentication', type: :request do
       expect(response.headers).to include('token')
     end
 
+    it 'can log in with nickname' do
+      user.skip_confirmation!
+      user.save!
+      valid_params.delete(:email)
+      expect(valid_params).not_to include(:email)   
+
+      post '/auth/sign_in', params: valid_params
+      expect(response).to have_http_status(:ok)
+    end
+
     it 'returns valid tokens' do
       post '/auth/sign_in', params: valid_params
       auth_params = {

@@ -1101,7 +1101,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1, babel-runtime@^6.9.2:
+babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -5358,12 +5358,6 @@ react-hot-loader@4.0.0-beta.18:
     global "^4.3.0"
     hoist-non-react-statics "^2.3.1"
     react-stand-in "^4.0.0-beta.18"
-
-react-loader-spinner@^1.4.7:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-1.4.7.tgz#9a914dbb54341bfab0be293365756fecf67dcf75"
-  dependencies:
-    babel-runtime "^6.6.1"
 
 react-reconciler@^0.7.0:
   version "0.7.0"
