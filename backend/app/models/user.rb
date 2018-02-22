@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # Include default devise modules.
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :omniauthable
+  # This concern includes the Devise modules
+  # :database_authenticatable, :registerable,
+  # :recoverable, :trackable, :validatable and :confirmable
   include DeviseTokenAuth::Concerns::User
 end
