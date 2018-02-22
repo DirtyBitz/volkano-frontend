@@ -3,23 +3,33 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  let(:valid_params) do
-    { title: 'Valid item', url: 'http://img.com/image.jpg', tag: 'exampletag' }
-  end
-
-  it 'should be valid' do
-    valid_item = Item.new(valid_params)
+  it 'should have a valid factory' do
+    valid_item = build(:item)
     expect(valid_item).to be_valid
   end
 
-  it 'should not be valid with short title' do
-    unvalid_item = Item.new(title: '')
-    expect(unvalid_item).not_to be_valid
+  it 'should not be valid without a title' do
+    invalid_item = build(:item, title: '')
+    expect(invalid_item).not_to be_valid
   end
 
-  it 'should have unique url' do
-    Item.create(valid_params)
-    unvalid_item = Item.new(valid_params)
-    expect(unvalid_item).not_to be_valid
+  it 'should have unique url/user combination' do
+    existing_item = create(:item)
+    invalid = build(:item, url: existing_item.url, user: existing_item.user)
+    expect(invalid).not_to be_valid
+  end
+
+  it 'should allow two different users to collect same url' do
+    shared_url = 'http://example.com/image.jpg'
+    first_user = create(:user)
+    second_user = create(:user)
+    create(:item, user: first_user, url: shared_url)
+    second_item = build(:item, user: second_user, url: shared_url)
+    expect(second_item).to be_valid
+  end
+
+  it 'should not be valid without a user' do
+    unowned_item = build(:item, user: nil)
+    expect(unowned_item).not_to be_valid
   end
 end

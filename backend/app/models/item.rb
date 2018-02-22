@@ -3,7 +3,7 @@
 class Item < ApplicationRecord
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 1 }
-  validates :url, presence: true, uniqueness: true
+  validates :title, presence: true
+  validates :url, presence: true, uniqueness: { scope: %i[user url] }
   validates :tag, presence: true
 end

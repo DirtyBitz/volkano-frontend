@@ -3,38 +3,32 @@
 require 'rails_helper'
 
 RSpec.describe 'User authentication', type: :request do
-  let(:valid_user) do
+  let(:valid_params) do
     {
-      email: 'gallant@example.com',
+      email: create(:user, :confirmed, password: 'password').email,
       password: 'password'
     }
   end
-  let(:valid_params) do
-    valid_user.merge(
-      password_confirmation: valid_user[:password],
-      confirm_success_url: 'http://dummy'
-    )
-  end
-  let(:user) { User.create! valid_user }
 
   context 'with valid credentials' do
     it 'can create a new user' do
-      expect { post '/auth', params: valid_params }
+      sign_up = attributes_for(:user)
+                .merge(confirm_success_url: 'http://dummy.com')
+
+      expect { post '/auth', params: sign_up }
         .to change { User.count }.by(1)
       expect(response).to have_http_status(:ok)
     end
 
     it 'returns an auth token' do
-      user.confirm
-      post '/auth/sign_in', params: valid_user
+      post '/auth/sign_in', params: valid_params
       expect(response).to have_http_status(:ok)
       expect(response.headers).to include('client')
       expect(response.headers).to include('token')
     end
 
     it 'returns valid tokens' do
-      user.confirm
-      post '/auth/sign_in', params: valid_user
+      post '/auth/sign_in', params: valid_params
       params = {
         uid: response.headers['uid'],
         token: response.headers['token'],
