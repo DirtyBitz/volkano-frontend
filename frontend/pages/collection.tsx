@@ -6,23 +6,25 @@ import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { Layout } from '../components/Layout'
 import { allItems } from '../actions/item/ItemActions'
+import { ItemStateI } from '../reducers/itemReducer'
 
 interface IProps extends IStoreState {
   allItems: () => Promise<void>
+  item: ItemStateI
 }
 class CollectionPage extends React.Component<IProps> {
-  private test = async () => {
-    console.log('test')
+  async componentWillMount() {
     await this.props.allItems()
   }
 
   render() {
-    {
-      this.test()
-    }
-    const { item } = this.props
+    const { item } = this.props.item
 
-    return <Layout title="Collection">{item && <div>boii</div>}</Layout>
+    return (
+      <Layout title="Collection">
+        {item && item.map(it => <div key={it.id}>{it.title}</div>)}
+      </Layout>
+    )
   }
 }
 const mapStateToProps = (state: IStoreState) => {
