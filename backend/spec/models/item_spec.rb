@@ -15,8 +15,10 @@ RSpec.describe Item, type: :model do
 
   it 'should have unique url/user combination' do
     existing_item = create(:item)
-    invalid = build(:item, url: existing_item.url, user: existing_item.user)
-    expect(invalid).not_to be_valid
+    duplicate_item = build(:item,
+                           url: existing_item.url,
+                           user: existing_item.user)
+    expect(duplicate_item).not_to be_valid
   end
 
   it 'should allow two different users to collect same url' do
