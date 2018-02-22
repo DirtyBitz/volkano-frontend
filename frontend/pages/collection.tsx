@@ -7,6 +7,7 @@ import { IStoreState } from '../store/StoreState'
 import { Layout } from '../components/Layout'
 import { allItems } from '../actions/item/ItemActions'
 import { CollectionStateI } from '../reducers/collectionReducer'
+import Item from '../components/Item'
 
 interface IProps extends IStoreState {
   allItems: () => Promise<void>
@@ -22,7 +23,21 @@ class CollectionPage extends React.Component<IProps> {
 
     return (
       <Layout title="Collection">
-        {items && items.map(it => <div key={it.id}>{it.title}</div>)}
+        <div id="collage">
+          {items &&
+            items.map(item => (
+              <div key={item.id}>
+                <Item url={item.url} title={item.title} />
+              </div>
+            ))}
+          <style jsx>{`
+            div {
+              display: inline-block;
+              text-align: center;
+              padding: 5px;
+            }
+          `}</style>
+        </div>
       </Layout>
     )
   }
