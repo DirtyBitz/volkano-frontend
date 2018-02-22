@@ -32,7 +32,7 @@ const mapStateToProps = (state: IStoreState) => {
 }
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
-    getAllItems: bindActionCreators(allItems, dispatch),
+    allItems: bindActionCreators(allItems, dispatch),
   }
 }
 export default withRedux(store, mapStateToProps, mapDispatchToProps)(CollectionPage)
