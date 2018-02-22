@@ -24,7 +24,7 @@ export class AuthApi {
 
       const authResponse: IAuthData = {
         user: convertUserJson(userJson),
-        token: response.headers['access-token'],
+        token: response.headers['token'],
       }
 
       return authResponse

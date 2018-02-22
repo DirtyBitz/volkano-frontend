@@ -29,7 +29,7 @@ RSpec.describe 'User authentication', type: :request do
       post '/auth/sign_in', params: valid_user
       expect(response).to have_http_status(:ok)
       expect(response.headers).to include('client')
-      expect(response.headers).to include('access-token')
+      expect(response.headers).to include('token')
     end
 
     it 'returns valid tokens' do
@@ -37,7 +37,7 @@ RSpec.describe 'User authentication', type: :request do
       post '/auth/sign_in', params: valid_user
       params = {
         uid: response.headers['uid'],
-        'access-token': response.headers['access-token'],
+        token: response.headers['token'],
         client: response.headers['client']
       }
       get '/auth/validate_token', params: params
