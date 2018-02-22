@@ -1,6 +1,6 @@
 import ItemActionTypeKeys from './ItemActionTypeKeys'
 import { IOtherAction } from '../IOtherAction'
-import { IItemData } from '../../api/ItemApi'
+import { ICollectionData } from '../../api/ItemApi'
 
 export interface IItemPendingAction {
   readonly type: ItemActionTypeKeys.ITEM_PENDING
@@ -8,7 +8,7 @@ export interface IItemPendingAction {
 
 export interface IItemFulfilledAction {
   readonly type: ItemActionTypeKeys.ITEM_FULFILLED
-  readonly payload: IItemData
+  readonly payload: ICollectionData
 }
 
 export interface IItemRejectedAction {

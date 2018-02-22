@@ -6,11 +6,11 @@ import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { Layout } from '../components/Layout'
 import { allItems } from '../actions/item/ItemActions'
-import { ItemStateI } from '../reducers/itemReducer'
+import { CollectionStateI } from '../reducers/collectionReducer'
 
 interface IProps extends IStoreState {
   allItems: () => Promise<void>
-  item: ItemStateI
+  collection: CollectionStateI
 }
 class CollectionPage extends React.Component<IProps> {
   async componentWillMount() {
@@ -18,18 +18,18 @@ class CollectionPage extends React.Component<IProps> {
   }
 
   render() {
-    const { item } = this.props.item
+    const { items } = this.props.collection
 
     return (
       <Layout title="Collection">
-        {item && item.map(it => <div key={it.id}>{it.title}</div>)}
+        {items && items.map(it => <div key={it.id}>{it.title}</div>)}
       </Layout>
     )
   }
 }
 const mapStateToProps = (state: IStoreState) => {
   return {
-    item: state.item,
+    collection: state.collection,
   }
 }
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {

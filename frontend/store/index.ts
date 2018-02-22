@@ -6,11 +6,11 @@ import storage from 'redux-persist/lib/storage'
 import reducers from '../reducers'
 import { IStoreState } from './StoreState'
 import { authInitialState } from '../reducers/authenticationReducer'
-import { itemInitialState } from '../reducers/itemReducer'
+import { collectionInitialState } from '../reducers/collectionReducer'
 
 export const initialState: IStoreState = {
   authentication: authInitialState,
-  item: itemInitialState,
+  collection: collectionInitialState,
 }
 
 /**

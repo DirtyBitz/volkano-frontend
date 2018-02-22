@@ -1,6 +1,6 @@
 import { Dispatch } from 'react-redux'
 import { IStoreState } from '../../store/StoreState'
-import { ItemApi, IItemData } from '../../api/ItemApi'
+import { ItemApi, ICollectionData } from '../../api/ItemApi'
 import ItemActionTypeKeys from './ItemActionTypeKeys'
 import {
   IItemPendingAction,
@@ -23,7 +23,7 @@ export const itemPending = (): IItemPendingAction => ({
   type: ItemActionTypeKeys.ITEM_PENDING,
 })
 
-export const itemSuccess = (data: IItemData): IItemFulfilledAction => ({
+export const itemSuccess = (data: ICollectionData): IItemFulfilledAction => ({
   type: ItemActionTypeKeys.ITEM_FULFILLED,
   payload: data,
 })

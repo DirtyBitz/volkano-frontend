@@ -2,20 +2,20 @@ import ItemActionTypeKeys from '../actions/item/ItemActionTypeKeys'
 import ItemActionTypes from '../actions/item/ItemActionTypes'
 import { Item } from '../models/Item'
 
-export interface ItemStateI {
+export interface CollectionStateI {
   isLoading: boolean
-  item?: Item[]
+  items?: Item[]
   errors?: string[]
 }
 
-export const itemInitialState: ItemStateI = {
+export const collectionInitialState: CollectionStateI = {
   isLoading: false,
 }
 
-export default function itemReducer(
-  state = itemInitialState,
+export default function collectionReducer(
+  state = collectionInitialState,
   action: ItemActionTypes
-): ItemStateI {
+): CollectionStateI {
   switch (action.type) {
     case ItemActionTypeKeys.ITEM_PENDING:
       return {
@@ -27,7 +27,7 @@ export default function itemReducer(
       return {
         ...state,
         isLoading: false,
-        item: action.payload.item,
+        items: action.payload.items,
       }
     case ItemActionTypeKeys.ITEM_REJECTED:
       return {

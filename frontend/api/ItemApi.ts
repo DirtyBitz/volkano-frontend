@@ -1,13 +1,13 @@
 import { Item } from '../models/Item'
 
-export interface IItemData {
-  item: Item[]
+export interface ICollectionData {
+  items: Item[]
 }
 
 export class ItemApi {
   public static getAllItems() {
-    const fakeData: IItemData = {
-      item: [
+    const fakeData: ICollectionData = {
+      items: [
         {
           id: 0,
           title: 'Cute Kitty',
