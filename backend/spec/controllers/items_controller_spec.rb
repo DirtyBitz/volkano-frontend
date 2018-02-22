@@ -20,7 +20,7 @@ RSpec.describe ItemsController, type: :controller do
 
   describe 'GET #show' do
     it 'returns a success response' do
-      item = create(:item)
+      item = create(:item, user: user)
       get :show, params: { id: item.to_param }
       expect(response).to have_http_status(:ok)
     end
@@ -54,7 +54,7 @@ RSpec.describe ItemsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       it 'updates the requested item' do
-        item = create(:item)
+        item = create(:item, user: user)
         new_attribs = attributes_for(:item)
         new_title = new_attribs[:title]
         put :update,
@@ -64,7 +64,7 @@ RSpec.describe ItemsController, type: :controller do
       end
 
       it 'renders a JSON response with the item' do
-        item = create(:item)
+        item = create(:item, user: user)
         new_attribs = attributes_for(:item)
 
         put :update,
@@ -76,7 +76,7 @@ RSpec.describe ItemsController, type: :controller do
 
     context 'with invalid params' do
       it 'renders a JSON response with errors for the item' do
-        item = create(:item)
+        item = create(:item, user: user)
         invalid_attributes = { title: '' }
         put :update,
             params: { id: item.to_param, item: invalid_attributes }
@@ -88,7 +88,7 @@ RSpec.describe ItemsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the requested item' do
-      item = create(:item)
+      item = create(:item, user: user)
       expect do
         delete :destroy, params: { id: item.to_param }
       end.to change(Item, :count).by(-1)
