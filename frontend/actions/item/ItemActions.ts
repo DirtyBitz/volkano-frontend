@@ -23,11 +23,7 @@ export const itemPending = (): IItemPendingAction => ({
   type: ItemActionTypeKeys.ITEM_PENDING,
 })
 
-<<<<<<< HEAD
 export const itemSuccess = (data: ICollectionData): IItemFulfilledAction => ({
-=======
-export const itemSuccess = (data: IItemData): IItemFulfilledAction => ({
->>>>>>> :sparkles: Add actions to item
   type: ItemActionTypeKeys.ITEM_FULFILLED,
   payload: data,
 })
