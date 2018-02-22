@@ -1,5 +1,5 @@
 import { IAuthData, IUserRegisterDetails } from '../AuthApi'
-import { IUserJson } from 'models/User'
+import { IUserJson } from '../../models/User'
 
 export class AuthApi {
   public static async authenticateUser(username: string, password: string) {
