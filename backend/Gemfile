@@ -27,6 +27,9 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
 
+  # Use FactoryBot to generate test data
+  gem 'factory_bot_rails'
+
   # Use RSpec for our tests
   gem 'rspec-rails'
   # Rubocop for linting
