@@ -12,9 +12,9 @@ RSpec.describe ItemsController, type: :controller do
 
   let(:valid_session) { {} }
 
-  let(:user) {
+  let(:user) do
     User.create(email: 'test@example.com', password: 'password', confirmed_at: Time.now)
-  }
+  end
 
   before(:each) do
     request.headers.merge! user.create_new_auth_token
