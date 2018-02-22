@@ -11,6 +11,7 @@ Metrics/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'Guardfile'
 
 Style/Documentation:
   Exclude:
