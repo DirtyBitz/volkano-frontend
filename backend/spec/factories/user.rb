@@ -8,19 +8,19 @@ FactoryBot.define do
   factory :user do
     email
     password 'password'
+
+    factory :user_with_items do
+      transient do
+        num_items 5
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:item, evaluator.num_items, user: user)
+      end
+    end
   end
 
   trait :confirmed do
     confirmed_at { Time.now.utc }
-  end
-
-  factory :user_with_items do
-    transient do
-      num_items 5
-    end
-
-    after(:create) do |user, evaluator|
-      create_list(:item, evaluator.num_items, user: user)
-    end
   end
 end
