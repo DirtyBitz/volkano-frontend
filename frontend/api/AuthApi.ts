@@ -13,10 +13,10 @@ export interface IAuthData {
 }
 
 export class AuthApi {
-  public static async authenticateUser(email: string, password: string) {
+  public static async authenticateUser(login: string, password: string) {
     try {
       const response = await axios.post('http://localhost:5000/auth/sign_in', {
-        email,
+        login,
         password,
       })
 

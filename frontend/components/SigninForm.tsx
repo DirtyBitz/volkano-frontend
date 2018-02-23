@@ -82,11 +82,11 @@ const SignInForm = props => {
     <div className="page">
       <form onSubmit={handleSubmit}>
         <Field
-          name="email"
+          name="login"
           type="text"
           component={renderField}
-          label="E-Mail"
-          id="email-field"
+          label="E-Mail / Nickname"
+          id="login-field"
           iconName={faUser}
         />
         <Field
@@ -141,11 +141,11 @@ const SignInForm = props => {
 
 const validate = values => {
   const errors = {
-    email: undefined,
+    login: undefined,
     password: undefined,
   }
-  if (!values.email) {
-    errors.email = "E-mail can't be blank"
+  if (!values.login) {
+    errors.login = "E-mail / nickname can't be blank"
   }
   if (!values.password) {
     errors.password = "Password can't be blank"
