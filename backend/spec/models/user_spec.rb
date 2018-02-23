@@ -26,7 +26,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'should have unique nickname' do
-    existing_user = create(:user)
+    existing_user = create(:user, :with_nick)
     duplicate_user = build(:user,
                            nickname: existing_user.nickname)
     expect(duplicate_user).not_to be_valid
