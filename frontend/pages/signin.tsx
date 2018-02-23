@@ -15,15 +15,15 @@ import {
 } from '../actions/authentication/AuthActionTypes'
 
 interface IProps extends IStoreState {
-  signIn: (email: string, password: string) => Promise<void>
+  signIn: (login: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
   clearAuthErrors: () => IClearAuthErrors
 }
 
 class SigninPage extends React.Component<IProps> {
-  private handleSumbit = async ({ email, password }) => {
+  private handleSumbit = async ({ login, password }) => {
     await sleep(500) // Fake delay just so we can see loading indicator :)
-    await this.props.signIn(email, password)
+    await this.props.signIn(login, password)
   }
 
   componentWillReceiveProps(props) {
