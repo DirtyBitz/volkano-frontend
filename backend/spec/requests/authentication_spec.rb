@@ -41,15 +41,29 @@ RSpec.describe 'User authentication', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'can log in with nickname' do
+    context 'using the login field' do
+      it 'can sign in with nickname' do
+        valid_params.delete(:email)
+        valid_params[:login] = 'sirrobin'
+        post '/auth/sign_in', params: valid_params
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'can sign in with email' do
+        valid_params[:login] = valid_params.delete(:email)
+        post '/auth/sign_in', params: valid_params
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    it 'can sign in with nickname' do
       valid_params.delete(:email)
       valid_params[:nickname] = 'sirrobin'
-      expect(valid_params).not_to include(:email)
       post '/auth/sign_in', params: valid_params
       expect(response).to have_http_status(:ok)
     end
 
-    it 'can log in with mismatched email and nickname' do
+    it 'can sign in with mismatched email and nickname' do
       User.create(email: 'tester@example.com',
                   nickname: 'sirlancelot',
                   password: 'yellooow')
@@ -58,7 +72,7 @@ RSpec.describe 'User authentication', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'cannot log in with wrong email but correct nickname and password' do
+    it 'cannot sign in with wrong email but correct nickname and password' do
       User.create(email: 'african_swallow@example.com',
                   nickname: 'sirlancelot',
                   password: 'coconuts')
