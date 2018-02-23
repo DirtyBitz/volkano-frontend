@@ -52,6 +52,26 @@ proper_whitespace() {
     fi
 }
 
+backend_has_changed() {
+    if [[ ! -z $(echo -e "$STAGED_FILES" | grep backend/) ]]; then
+        echo "true"
+    fi
+}
+
+reject_all_violations() {
+    # Run rubocop with autocorrect and re-stage anything it fixes
+    RUBOCOP_COMMAND="rubocop -Ra --no-color"
+    cd `git rev-parse --show-toplevel`/backend && $RUBOCOP_COMMAND >/dev/null && git update-index --again
+    # Any remaining violations will abort the commit
+    local violations=$($RUBOCOP_COMMAND | grep -oE '([[:digit:]]+) offense(s?) detected')
+    if [[ ! -z $violations ]]; then
+        flunk "Error: Attempt to commit with $violations.\n\nRun '$RUBOCOP_COMMAND' in backend and fix the violations before you commit your changes."
+    fi
+}
+
 # Is this DSL shit just being too clever?
 allow "file names" that contain only_ascii_chars
 allow "files" that contain proper_whitespace
+if [[ $(backend_has_changed) == "true" ]]; then
+    allow "rubocop" to enjoy no conflicts but if there are any to reject_all_violations
+fi
