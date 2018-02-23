@@ -7,5 +7,5 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :items, dependent: :destroy
-  validates :nickname, uniqueness: true
+  validates :nickname, uniqueness: true, allow_blank: true
 end
