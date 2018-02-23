@@ -1,11 +1,11 @@
-import { Item } from '../models/Item'
+import { ICollectionData } from '../ItemApi'
 
-export interface ICollectionData {
-  items: Item[]
-}
-
-export class ItemApi {
+export class AuthApi {
   public static async getAllItems(token: string) {
+    if (token === 'throw') {
+      throw ['Did throw']
+    }
+
     const fakeData: ICollectionData = {
       items: [
         {
