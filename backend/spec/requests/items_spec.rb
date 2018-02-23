@@ -23,8 +23,25 @@ RSpec.describe 'Items endpoint', type: :request do
       expect(response.body).to eq(items)
     end
 
-    it 'can not delete others items'
-    it 'can not view others items'
+    it 'can not get others items' do
+      secret_item = create(:item)
+      get '/items', headers: user.create_new_auth_token
+      expect(response.body).not_to include(secret_item.title)
+    end
+
+    it 'can not view others items' do
+      secret_item = create(:item)
+      get "/items/#{secret_item.id}", headers: user.create_new_auth_token
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include(secret_item.title)
+    end
+
+    it 'can not delete others items' do
+      secret_item = create(:item)
+      delete "/items/#{secret_item.id}", headers: user.create_new_auth_token
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include(secret_item.title)
+    end
   end
 
   context 'with invalid credentials' do
