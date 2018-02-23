@@ -5,6 +5,10 @@ FactoryBot.define do
     confirmed_at { Time.now.utc }
   end
 
+  trait :with_nick do
+    nickname
+  end
+
   sequence :email do |n|
     "user-#{n}@example.com"
   end
@@ -13,12 +17,17 @@ FactoryBot.define do
     SecureRandom.alphanumeric(10)
   end
 
+  sequence :nickname do |n|
+    "nickname#{n}"
+  end
+
   factory :user do
     email
     password
 
     factory :user_with_items do
       confirmed
+      with_nick
 
       transient do
         num_items 5
