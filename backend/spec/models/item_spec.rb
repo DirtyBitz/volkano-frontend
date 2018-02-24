@@ -34,4 +34,9 @@ RSpec.describe Item, type: :model do
     unowned_item = build(:item, user: nil)
     expect(unowned_item).not_to be_valid
   end
+
+  it 'should be taggable' do
+    kitty_image = create(:item, tags: 'cute, cat, image')
+    expect(kitty_image.tag_list).to contain_exactly('cute', 'cat', 'image')
+  end
 end

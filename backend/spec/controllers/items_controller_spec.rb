@@ -47,6 +47,7 @@ RSpec.describe ItemsController, type: :controller do
         post :create, params: { item: { title: '' } }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
+        expect(response.body).to include("can't be blank")
       end
     end
   end

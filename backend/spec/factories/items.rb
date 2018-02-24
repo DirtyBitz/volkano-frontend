@@ -10,9 +10,17 @@ FactoryBot.define do
   end
 
   factory :item do
+    transient do
+      tags 'image'
+    end
     url { generate(:image_url) }
     title
-    tag 'image'
     user
+
+    after(:create) do |item, evaluator|
+      item.tag_list.add(evaluator.tags, parse: true)
+      item.save
+      item.reload
+    end
   end
 end
