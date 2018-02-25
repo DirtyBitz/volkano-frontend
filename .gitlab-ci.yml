@@ -39,7 +39,7 @@ rspec:
     - postgres:alpine
   script:
     - cd backend
-    - bundle install --jobs $(nproc) --path=gems
+    - bundle install --jobs $(nproc) --path=../gems
     - bundle exec rspec
 
 # cypress:

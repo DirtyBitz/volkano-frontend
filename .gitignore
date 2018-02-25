@@ -1,6 +1,9 @@
 # Ignore bundler config.
 .bundle
 
+# Ignore coverage reports
+backend/coverage
+
 # Ignore all logfiles and tempfiles.
 backend/log/*
 backend/tmp/*

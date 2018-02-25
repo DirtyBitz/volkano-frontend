@@ -38,6 +38,8 @@ group :development, :test do
   gem 'rspec-rails'
   # Rubocop for linting
   gem 'rubocop'
+  # Test coverage
+  gem 'simplecov'
 end
 
 group :development do
