@@ -23,9 +23,6 @@ rubocop:
 
 jest:
   stage: Unit tests
-  cache:
-    paths:
-      - frontend/node_modules
   tags:
     - ci-alpine-latest
   script:
@@ -35,9 +32,6 @@ jest:
 
 rspec:
   stage: Unit tests
-  cache:
-    paths:
-      - backend/gems
   tags:
     - ci-alpine-latest
   services:
@@ -47,27 +41,27 @@ rspec:
     - bundle install --jobs $(nproc) --path=gems
     - bundle exec rspec
 
-cypress:
-  stage: End to end tests
-  cache:
-    paths:
-      - backend/gems
-      - frontend/node_modules
-  tags:
-    - ci-alpine-latest
-  artifacts:
-    when: on_failure
-    paths:
-      - frontend/cypress/screenshots/
-      - frontend/cypress/videos/
-  services:
-    - postgres:alpine
-  script:
-    - cd backend
-    - bundle install --jobs $(nproc) --path=gems
-    - bundle exec rails db:setup
-    - bundle exec rails s & > /dev/null
-    - cd ../frontend
-    - yarn install
-    - yarn dev & > /dev/null
-    - yarn cyprun
+# cypress:
+#   stage: End to end tests
+#   cache:
+#     paths:
+#       - backend/gems
+#       - frontend/node_modules
+#   tags:
+#     - ci-alpine-latest
+#   artifacts:
+#     when: on_failure
+#     paths:
+#       - frontend/cypress/screenshots/
+#       - frontend/cypress/videos/
+#   services:
+#     - postgres:alpine
+#   script:
+#     - cd backend
+#     - bundle install --jobs $(nproc) --path=gems
+#     - bundle exec rails db:setup
+#     - bundle exec rails s & > /dev/null
+#     - cd ../frontend
+#     - yarn install
+#     - yarn dev & > /dev/null
+#     - yarn cyprun
