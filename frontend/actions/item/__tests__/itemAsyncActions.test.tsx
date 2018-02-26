@@ -11,7 +11,7 @@ describe('Item thunk actions', () => {
     store = createMockStore([thunk])({})
   })
 
-  it('Get all items action is a thunk', () => {
+  it('Get all items action returns a thunk', () => {
     const thunk = actions.allItems('fake-token')
     expect(typeof thunk).toBe('function')
   })

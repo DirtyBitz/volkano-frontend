@@ -12,7 +12,7 @@ describe('Item actions', () => {
 
       expect(actions.itemPending()).toEqual(expected)
     })
-    it('Creates a item success action', async () => {
+    it('Creates an item success action', async () => {
       const data = await ItemApi.getAllItems('fake-token')
 
       const expected = {
@@ -22,7 +22,7 @@ describe('Item actions', () => {
 
       expect(actions.itemSuccess(data)).toEqual(expected)
     })
-    it('Creates a item error action', () => {
+    it('Creates an item error action', () => {
       const expected = {
         type: ItemActionTypeKeys.ITEM_REJECTED,
         payload: ['Error'],
