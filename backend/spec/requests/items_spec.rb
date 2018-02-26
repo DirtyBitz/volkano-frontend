@@ -17,14 +17,17 @@ RSpec.describe 'Items endpoint', type: :request do
     let(:user) { create(:user_with_items) }
 
     it 'can get items' do
-      items = user.items.to_json
+      item_hashes = user.items.map do |item|
+        ItemSerializer.new(item).serializable_hash
+      end.to_json
       get '/items', headers: user.create_new_auth_token
       expect(response).to have_http_status(:ok)
-      expect(response.body).to eq(items)
+      expect(response.body).to eq(item_hashes)
     end
 
     it 'can get items by tag' do
-      expected = [create(:item, user: user, tags: 'hilarious')].to_json
+      item = ItemSerializer.new(create(:item, user: user, tags: 'hilarious'))
+      expected = [item.serializable_hash].to_json
       get '/items',
           params: { tags: 'hilarious' },
           headers: user.create_new_auth_token
