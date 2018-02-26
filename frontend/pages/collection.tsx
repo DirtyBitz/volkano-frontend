@@ -7,7 +7,7 @@ import { IStoreState } from '../store/StoreState'
 import { Layout } from '../components/Layout'
 import { allItems } from '../actions/item/ItemActions'
 import { CollectionStateI } from '../reducers/collectionReducer'
-import Item from '../components/Item'
+import ItemCard from '../components/ItemCard'
 
 interface IProps extends IStoreState {
   allItems: (token: string) => Promise<void>
@@ -28,7 +28,7 @@ class CollectionPage extends React.Component<IProps> {
           {items &&
             items.map(item => (
               <div key={item.id}>
-                <Item url={item.url} title={item.title} />
+                <ItemCard item={item} />
               </div>
             ))}
           <style jsx>{`

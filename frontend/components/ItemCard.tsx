@@ -1,18 +1,26 @@
 import * as React from 'react'
+import { Item } from '../models/Item'
 
 interface Props {
-  title: string
-  url: string
+  item: Item
 }
-export default class Item extends React.Component<Props> {
+export default class ItemCard extends React.Component<Props> {
   render() {
-    const { title, url } = this.props
+    const { url, title, tags, id } = this.props.item
     return (
-      <div id="picture">
+      <div key={id} id="picture">
         <figure>
           <img src={url} width="250" height="175" />
           <figcaption>{title}</figcaption>
         </figure>
+        <ul>
+          {tags &&
+            tags.map((tag: string) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+        </ul>
 
         <style jsx>{`
           #picture {
@@ -26,6 +34,9 @@ export default class Item extends React.Component<Props> {
           img {
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
+          }
+          .tag {
+            background-color: gray;
           }
         `}</style>
       </div>
