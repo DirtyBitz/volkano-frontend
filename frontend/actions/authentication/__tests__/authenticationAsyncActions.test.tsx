@@ -49,5 +49,16 @@ describe('Authentication thunk actions', () => {
     expect(store.getActions()).toEqual(expectedActions)
   })
 
-  it('Create user sad path')
+  it('create user sad path', async () => {
+    const newUser = {
+      email: 'throw',
+      password: 'test123',
+    }
+    const expectedActions = [
+      actions.createUserPending(),
+      actions.createUserError(['Did throw']),
+    ]
+    await store.dispatch(actions.createUser(newUser))
+    expect(store.getActions()).toEqual(expectedActions)
+  })
 })
