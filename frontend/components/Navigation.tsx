@@ -17,6 +17,11 @@ export default class Navigation extends React.Component<Props> {
               Vol<span>kano</span>
             </a>
           </Link>
+          {isSignedIn && (
+            <Link href="/collection">
+              <a id="collection-link">Collection</a>
+            </Link>
+          )}
         </div>
         <div id="user-nav">
           {!isSignedIn && (
