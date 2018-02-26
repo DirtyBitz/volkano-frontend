@@ -8,6 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # To tag collected items
+gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts-as-taggable-on'
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
 gem 'omniauth'
