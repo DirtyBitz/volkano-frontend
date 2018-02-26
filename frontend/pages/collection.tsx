@@ -25,17 +25,13 @@ class CollectionPage extends React.Component<IProps> {
     return (
       <Layout title="Collection" authentication={authentication}>
         <div id="collage">
-          {items &&
-            items.map(item => (
-              <div key={item.id}>
-                <ItemCard item={item} />
-              </div>
-            ))}
+          {items && items.map(item => <ItemCard key={item.id} item={item} />)}
           <style jsx>{`
-            div {
-              display: inline-block;
-              text-align: center;
-              padding: 5px;
+            #collage {
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              margin-right: -15px;
             }
           `}</style>
         </div>
