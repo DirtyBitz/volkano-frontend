@@ -58,6 +58,11 @@ export default class Navigation extends React.Component<Props> {
                 text-decoration: none;
               }
             }
+            #main-nav {
+              a {
+                padding-right: 15px;
+              }
+            }
           }
 
           #home-link {
@@ -68,11 +73,11 @@ export default class Navigation extends React.Component<Props> {
           }
 
           a {
-            opacity: 1;
+            opacity: 0.9;
           }
 
           a:hover {
-            opacity: 0.75;
+            opacity: 1;
           }
 
           #signin-link,
