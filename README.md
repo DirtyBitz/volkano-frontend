@@ -36,6 +36,10 @@ Emails can be sent to `smtp://localhost:1025` and read at [`http://localhost:108
 4. Run `rails db:setup` to create the database and set up tables
 5. Run `rails s` to start the development server
 
+## Initialize git hooks
+
+* Run `./init_hooks` in the root folder to set up pre-commit and commit-message hooks
+
 ## "Oh shit!" commands
 
 * To nuke all docker containers: `docker rmi $(docker images -q) --force`
