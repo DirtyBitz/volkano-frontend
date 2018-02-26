@@ -42,7 +42,7 @@ describe('Collection reducer', () => {
 
     expect(state).toEqual(expectedState)
   })
-  it('Should handle when collect items is successfull', async () => {
+  it('Should handle when collect items is successful', async () => {
     const mockResponse = await ItemApi.getAllItems('fake-token')
 
     const expectedState: CollectionStateI = {
