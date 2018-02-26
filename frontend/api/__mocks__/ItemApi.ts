@@ -109,10 +109,18 @@ export const fakeData: ICollectionData = {
     {
       id: 13,
       title: 'Sweet svg stuffy stuff',
-      url: 'https://upload.wikimedia.org/wikipedia/commons/3/30/Vector-based_example.svg',
+      url: 'https://www.svgrepo.com/show/155019/dog-poo.svg',
       uid: 3,
-      tags: ['graphy'],
+      tags: ['doggo'],
       categories: ['image/svg+xml', 'svg'],
+    },
+    {
+      id: 14,
+      title: 'Video doggo',
+      url: 'https://www.youtube.com/watch?v=D-UmfqFjpl0',
+      uid: 3,
+      tags: ['doggo', 'plane', 'hot', 'airplane', 'wisdom', 'doggos'],
+      categories: ['video/webm', 'webm'],
     },
   ],
 }
