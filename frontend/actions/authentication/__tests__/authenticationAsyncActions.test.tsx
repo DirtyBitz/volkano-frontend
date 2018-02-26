@@ -11,29 +11,29 @@ describe('Authentication thunk actions', () => {
     store = createMockStore([thunk])({})
   })
 
-  it('Sign in action is a thunk', () => {
+  it('signin is a thunk', () => {
     const thunk = actions.signIn('username', 'password')
     expect(typeof thunk).toBe('function')
   })
 
-  it('Sign in action happy path', async () => {
+  it('signin happy path', async () => {
     const expectedActions = [
       actions.signInPending(),
-      actions.signInSuccess(await AuthApi.authenticateUser('username', 'passworrd')),
+      actions.signInSuccess(await AuthApi.authenticateUser('username', 'password')),
     ]
 
-    await store.dispatch(actions.signIn('username', 'passworrd'))
+    await store.dispatch(actions.signIn('username', 'password'))
 
     expect(store.getActions()).toEqual(expectedActions)
   })
 
-  it('Sign in action sad path', async () => {
+  it('signin sad path', async () => {
     const expectedActions = [actions.signInPending(), actions.signInError(['Did throw'])]
     await store.dispatch(actions.signIn('throw', 'throw'))
     expect(store.getActions()).toEqual(expectedActions)
   })
 
-  it('Create user happy path', async () => {
+  it('create user happy path', async () => {
     const newUser = {
       email: 'test@user.com',
       password: 'test123',

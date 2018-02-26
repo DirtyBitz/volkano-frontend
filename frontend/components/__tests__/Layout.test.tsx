@@ -14,25 +14,25 @@ describe('Layout component', () => {
     layout = shallow(<Layout {...props} />)
   })
 
-  it('Should wrap everything in a div', () => {
+  it('should wrap everything in a div', () => {
     expect(layout.type()).toBe('div')
   })
 
-  it('Contains a header element', () => {
+  it('contains a header element', () => {
     const headers = layout.find('header')
     expect(headers.length).toBe(1)
   })
 
-  it('Contains navigation component', () => {
+  it('contains navigation component', () => {
     const nav = layout.find('Navigation')
     expect(nav.length).toBe(1)
   })
 
-  it('Contains footer component', () => {
+  it('contains footer component', () => {
     expect(layout.contains(<Footer />)).toBe(true)
   })
 
-  it('Has default title if none is set', () => {
+  it('has default title if none is set', () => {
     const titleText = layout
       .find('title')
       .first()
@@ -41,7 +41,7 @@ describe('Layout component', () => {
     expect(titleText).toBe('Volkano')
   })
 
-  it('Changes title when title prop is set', () => {
+  it('changes title when title prop is set', () => {
     const fakeProps = { ...props, title: 'Testpage' }
     layout = shallow(<Layout {...fakeProps} />)
     const titleText = layout

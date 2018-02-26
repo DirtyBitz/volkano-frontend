@@ -11,12 +11,12 @@ describe('Item thunk actions', () => {
     store = createMockStore([thunk])({})
   })
 
-  it('Get all items action returns a thunk', () => {
+  it('allItems returns a thunk', () => {
     const thunk = actions.allItems('fake-token')
     expect(typeof thunk).toBe('function')
   })
 
-  it('Get all items action happy path', async () => {
+  it('allItems with valid path', async () => {
     const expectedActions = [
       actions.itemPending(),
       actions.itemSuccess(await ItemApi.getAllItems('fake-token')),
@@ -27,7 +27,7 @@ describe('Item thunk actions', () => {
     expect(store.getActions()).toEqual(expectedActions)
   })
 
-  it('Get all items action sad path', async () => {
+  it('allItems with invalid path', async () => {
     const expectedActions = [actions.itemPending(), actions.itemError(['Did throw'])]
     await store.dispatch(actions.allItems('throw'))
     expect(store.getActions()).toEqual(expectedActions)

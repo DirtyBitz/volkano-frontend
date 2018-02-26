@@ -4,15 +4,15 @@ import ItemActionTypeKeys from '../ItemActionTypeKeys'
 import { ItemApi } from '../../../api/ItemApi'
 
 describe('Item actions', () => {
-  describe('Entering "localhost:3000/collection"', () => {
-    it('loading items from backend', () => {
+  describe('visiting "localhost:3000/collection"', () => {
+    it('starts loading items from backend', () => {
       const expected = {
         type: ItemActionTypeKeys.ITEM_PENDING,
       }
 
       expect(actions.itemPending()).toEqual(expected)
     })
-    it('Creates an item success action', async () => {
+    it('creates an item success action', async () => {
       const data = await ItemApi.getAllItems('fake-token')
 
       const expected = {
@@ -22,7 +22,7 @@ describe('Item actions', () => {
 
       expect(actions.itemSuccess(data)).toEqual(expected)
     })
-    it('Creates an item error action', () => {
+    it('creates an item error action', () => {
       const expected = {
         type: ItemActionTypeKeys.ITEM_REJECTED,
         payload: ['Error'],

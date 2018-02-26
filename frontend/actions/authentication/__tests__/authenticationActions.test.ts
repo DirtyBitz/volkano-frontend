@@ -4,8 +4,8 @@ import AuthActionTypeKeys from '../AuthActionTypeKeys'
 import { AuthApi } from '../../../api/AuthApi'
 
 describe('Authentication actions', () => {
-  describe('User authenticate actions', () => {
-    it('Creates a signin pending action', () => {
+  describe('for signin', () => {
+    it('creates a signin pending action', () => {
       const expected = {
         type: AuthActionTypeKeys.SIGN_IN_PENDING,
       }
@@ -13,7 +13,7 @@ describe('Authentication actions', () => {
       expect(actions.signInPending()).toEqual(expected)
     })
 
-    it('Creates a signin success action', async () => {
+    it('creates a signin success action', async () => {
       const userData = await AuthApi.authenticateUser('username', 'password')
 
       const expected = {
@@ -24,7 +24,7 @@ describe('Authentication actions', () => {
       expect(actions.signInSuccess(userData)).toEqual(expected)
     })
 
-    it('Creates a signout action', () => {
+    it('creates a signout action', () => {
       const expected = {
         type: AuthActionTypeKeys.SIGN_OUT,
       }
@@ -33,8 +33,8 @@ describe('Authentication actions', () => {
     })
   })
 
-  describe('User create actions', () => {
-    it('Creates a user pending action', () => {
+  describe('for signup', () => {
+    it('creates a user pending action', () => {
       const expected = {
         type: AuthActionTypeKeys.CREATE_USER_PENDING,
       }
@@ -42,7 +42,7 @@ describe('Authentication actions', () => {
       expect(actions.createUserPending()).toEqual(expected)
     })
 
-    it('Creates a user success action', async () => {
+    it('creates a user success action', async () => {
       const data = await AuthApi.registerNewUser({
         email: 'test@user.com',
         password: 'pw',
@@ -56,7 +56,7 @@ describe('Authentication actions', () => {
       expect(actions.createUserSuccess(data)).toEqual(expected)
     })
 
-    it('Creates a user error action', () => {
+    it('creates a user error action', () => {
       const expected = {
         type: AuthActionTypeKeys.CREATE_USER_REJECTED,
         payload: ['Error omg'],
