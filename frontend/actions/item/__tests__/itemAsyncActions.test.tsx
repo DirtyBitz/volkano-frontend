@@ -1,4 +1,4 @@
-//jest.mock('../../../api/ItemApi')
+jest.mock('../../../api/ItemApi')
 import thunk from 'redux-thunk'
 import * as actions from '../ItemActions'
 import createMockStore, { MockStore } from 'redux-mock-store'
@@ -27,9 +27,9 @@ describe('Item thunk actions', () => {
     expect(store.getActions()).toEqual(expectedActions)
   })
 
-  /*it('Get all items action sad path', async () => {
+  it('Get all items action sad path', async () => {
     const expectedActions = [actions.itemPending(), actions.itemError(['Did throw'])]
     await store.dispatch(actions.allItems('throw'))
     expect(store.getActions()).toEqual(expectedActions)
-  })*/
+  })
 })

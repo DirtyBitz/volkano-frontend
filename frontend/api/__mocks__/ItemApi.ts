@@ -1,6 +1,6 @@
 import { ICollectionData } from '../ItemApi'
 
-export class AuthApi {
+export class ItemApi {
   public static async getAllItems(token: string) {
     if (token === 'throw') {
       throw ['Did throw']

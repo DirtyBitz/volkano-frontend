@@ -1,4 +1,4 @@
-//jest.mock('../../../api/ItemApi')
+jest.mock('../../../api/ItemApi')
 import * as actions from '../ItemActions'
 import ItemActionTypeKeys from '../ItemActionTypeKeys'
 import { ItemApi } from '../../../api/ItemApi'
