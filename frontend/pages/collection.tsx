@@ -20,9 +20,10 @@ class CollectionPage extends React.Component<IProps> {
 
   render() {
     const { items } = this.props.collection
+    const { authentication } = this.props
 
     return (
-      <Layout title="Collection">
+      <Layout title="Collection" authentication={authentication}>
         <div id="collage">
           {items &&
             items.map(item => (
@@ -45,6 +46,7 @@ class CollectionPage extends React.Component<IProps> {
 const mapStateToProps = (state: IStoreState) => {
   return {
     collection: state.collection,
+    authentication: state.authentication,
   }
 }
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
