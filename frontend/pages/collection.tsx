@@ -10,16 +10,17 @@ import { CollectionStateI } from '../reducers/collectionReducer'
 import ItemCard from '../components/ItemCard'
 
 interface IProps extends IStoreState {
-  allItems: (token: string) => Promise<void>
+  allItems: (token: string, client: string, uid: string) => Promise<void>
   collection: CollectionStateI
 }
 class CollectionPage extends React.Component<IProps> {
   async componentWillMount() {
-    await this.props.allItems('fake-token')
+    const { token, client, uid } = this.props.authentication
+    await this.props.allItems(token, client, uid)
   }
 
   render() {
-    const { items } = this.props.collection
+    const items = this.props.collection.items
     const { authentication } = this.props
 
     return (

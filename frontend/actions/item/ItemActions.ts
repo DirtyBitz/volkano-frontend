@@ -8,11 +8,11 @@ import {
   IItemRejectedAction,
 } from './ItemActionTypes'
 
-export const allItems = (token: string) => {
+export const allItems = (token: string, client: string, uid: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(itemPending())
     try {
-      const response = await ItemApi.getAllItems(token)
+      const response = await ItemApi.getAllItems(token, client, uid)
       dispatch(itemSuccess(response))
     } catch (error) {
       dispatch(itemError(error))

@@ -7,6 +7,8 @@ export interface AuthStateI {
   user?: User
   token?: string
   errors?: string[]
+  uid?: string
+  client?: string
 }
 
 export const authInitialState: AuthStateI = {
@@ -30,6 +32,8 @@ export default function authenticationReducer(
         isLoading: false,
         user: action.payload.user,
         token: action.payload.token,
+        client: action.payload.client,
+        uid: action.payload.uid,
       }
     case AuthActionTypeKeys.SIGN_OUT:
       return {

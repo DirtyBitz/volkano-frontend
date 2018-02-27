@@ -1,4 +1,4 @@
-//jest.mock('../../api/ItemApi')
+jest.mock('../../api/ItemApi')
 import collectionReducer, {
   collectionInitialState,
   CollectionStateI,
