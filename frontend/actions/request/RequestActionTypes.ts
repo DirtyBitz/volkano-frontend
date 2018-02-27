@@ -1,15 +1,29 @@
 import RequestActionTypeKeys from './RequestActionTypeKeys'
+import { IOtherAction } from '../IOtherAction'
 
-export interface IRequestSucceededAction {
-  readonly type: RequestActionTypeKeys.REQUEST_SUCCEEDED
+export interface IRequestOKAction {
+  readonly type: RequestActionTypeKeys.REQUEST_OK
   readonly token: string
 }
 
-export interface IRequestFailedAction {
-  readonly type: RequestActionTypeKeys.REQUEST_FAILED
-  readonly status: number
+export interface IRequestUnauthorizedAction {
+  readonly type: RequestActionTypeKeys.REQUEST_UNAUTHORIZED
 }
 
-type RequestActionTypes = IRequestSucceededAction | IRequestFailedAction
+export interface IRequestUnprocessableAction {
+  readonly type: RequestActionTypeKeys.REQUEST_UNPROCESSABLE
+  readonly token: string
+}
+
+export interface IRequestServerErrorAction {
+  readonly type: RequestActionTypeKeys.REQUEST_SERVER_ERROR
+}
+
+type RequestActionTypes =
+  | IRequestOKAction
+  | IRequestUnauthorizedAction
+  | IRequestUnprocessableAction
+  | IRequestServerErrorAction
+  | IOtherAction
 
 export default RequestActionTypes
