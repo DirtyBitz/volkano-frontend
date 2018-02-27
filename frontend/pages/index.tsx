@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
-import { store } from '../store'
+import store from '../store'
 import { IStoreState } from '../store/StoreState'
 import Layout from '../components/Layout'
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import Layout from '../components/Layout'
 import Link from 'next/link'
-import { store } from '../store'
+import store from '../store'
 
 const welcome = props => {
   return (
