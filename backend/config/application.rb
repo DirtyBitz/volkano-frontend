@@ -29,7 +29,7 @@ module Api
         origins '*'
         resource '*', headers: :any,
                       methods: %i[get post options],
-                      expose: ['token']
+                      expose: %w[token client uid]
       end
     end
 
