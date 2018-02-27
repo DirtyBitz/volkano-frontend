@@ -12,10 +12,8 @@ export const _initialState: IStoreState = {
 
 export default (initialState = _initialState, props) => {
   if (props.isServer) {
-    console.log('Server store')
     return createStoreFromServer(initialState, props)
   } else {
-    console.log('Client store')
     return createStoreFromClient(initialState)
   }
 }

@@ -14,24 +14,16 @@ interface IProps extends IStoreState {
   collection: CollectionStateI
 }
 class CollectionPage extends React.Component<IProps> {
-<<<<<<< HEAD
-  async componentWillMount() {
-    const { token, client, uid } = this.props.authentication
-    await this.props.allItems(token, client, uid)
-=======
   componentDidMount() {
-    setTimeout(() => {
-      this.props.allItems('fake-token')
-    }, 1000)
->>>>>>> :pencil: Fix store import
+    const { token, client, uid } = this.props.authentication
+    this.props.allItems(token, client, uid)
   }
 
   render() {
     const items = this.props.collection.items
-    const { authentication } = this.props
 
     return (
-      <Layout title="Collection" authentication={authentication}>
+      <Layout title="Collection">
         <div id="collage">
           {items && items.map(item => <ItemCard key={item.id} item={item} />)}
           <style jsx>{`
