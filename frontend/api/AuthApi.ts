@@ -10,6 +10,8 @@ export interface IUserRegisterDetails {
 export interface IAuthData {
   user: User
   token: string
+  client: string
+  uid: string
 }
 
 export class AuthApi {
@@ -25,8 +27,9 @@ export class AuthApi {
       const authResponse: IAuthData = {
         user: convertUserJson(userJson),
         token: response.headers['token'],
+        uid: response.headers['uid'],
+        client: response.headers['client'],
       }
-
       return authResponse
     } catch (error) {
       return await this.handleError(error)
@@ -39,7 +42,6 @@ export class AuthApi {
         ...userFormFields,
         confirm_success_url: 'http://localhost:3000/accountcreated',
       }
-      console.log(params)
       const response = await axios.post('http://localhost:5000/auth/', params)
       return convertUserJson(response.data.data)
     } catch (error) {
