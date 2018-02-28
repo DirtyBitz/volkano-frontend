@@ -5,17 +5,18 @@ INPUT_FILE=$1
 # Helper functions
 allow() {
     echo -n "[$1] -> "
-    ${@: -1}
+    "${@: -1}"
     echo "✓"
 }
 
 flunk() {
-    printf "$*"
+    echo "$*"
     exit 1
 }
 
 contain_emoji() {
-    local start_line=`head -n1 $INPUT_FILE`
+    local start_line
+    start_line=$(head -n1 "$INPUT_FILE")
     local emoji_pattern="^:(sparkles|ambulance|umbrella|racehorse|lock|lipstick|books|elephant|snowflake|art|fire|tractor|hammer|pencil|arrow_up|arrow_down|speaker|mute|green_heart|whale|rocket|globe_with_meridians|wheelchair): .+"
 
     if ! [[ "$start_line" =~ $emoji_pattern ]]; then

@@ -11,12 +11,12 @@ exec 1>&2
 # Helper functions
 allow() {
     echo -n "[$1] -> "
-    ${@: -1}
+    "${@: -1}"
     echo "✓"
 }
 
 flunk() {
-    printf "$*"
+    echo "$*"
     exit 1
 }
 
@@ -39,6 +39,7 @@ only_ascii_chars() {
 }
 
 proper_whitespace() {
+    local whitespace_errors
     if git rev-parse --verify HEAD >/dev/null 2>&1
     then
         against=HEAD
@@ -46,26 +47,28 @@ proper_whitespace() {
         # Initial commit: diff against an empty tree object
         against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
     fi
-    local whitespace_errors=$(git diff-index --check --cached $against --)
+    whitespace_errors=$(git diff-index --check --cached $against --)
     if [[ ! -z $whitespace_errors ]]; then
         flunk "$whitespace_errors"
     fi
 }
 
 backend_has_changed() {
-    if [[ ! -z $(echo -e "$STAGED_FILES" | grep backend/) ]]; then
+    if echo -e "$STAGED_FILES" | grep -q backend/
+    then
         echo "true"
     fi
 }
 
 reject_all_violations() {
+    local violations
     # Run rubocop with autocorrect and re-stage anything it fixes
     RUBOCOP_COMMAND="rubocop -Ra --no-color"
-    cd `git rev-parse --show-toplevel`/backend && $RUBOCOP_COMMAND >/dev/null && git update-index --again
+    cd "$(git rev-parse --show-toplevel)/backend" && $RUBOCOP_COMMAND >/dev/null && git update-index --again
     # Any remaining violations will abort the commit
-    local violations=$($RUBOCOP_COMMAND | grep -oE '([[:digit:]]+) offense(s?) detected')
+    violations=$($RUBOCOP_COMMAND | grep -oE '([[:digit:]]+) offense(s?) detected')
     if [[ ! -z $violations ]]; then
-        flunk "Error: Attempt to commit with $violations.\n\nRun '$RUBOCOP_COMMAND' in backend and fix the violations before you commit your changes."
+        flunk "Error: Attempt to commit with $violations.\\n\\nRun '$RUBOCOP_COMMAND' in backend and fix the violations before you commit your changes."
     fi
 }
 
