@@ -153,7 +153,7 @@ export default class ItemCard extends React.Component<Props, MyState> {
         <figcaption>{title}</figcaption>
         <div>
           {tags.map((tag: string) => (
-            <span className="tag" key={tag}>
+            <span className="modalTag" key={tag}>
               {tag}
             </span>
           ))}
@@ -172,7 +172,7 @@ export default class ItemCard extends React.Component<Props, MyState> {
             color: #fff;
             padding: 5px 10px;
           }
-          .tag {
+          .modalTag {
             background-color: gray;
             display: inline-block;
             padding: 2px;
