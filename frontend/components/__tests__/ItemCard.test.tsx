@@ -13,9 +13,14 @@ describe('ItemCard component', () => {
     categories: ['png', 'image/png'],
   }
 
-  it('should show tags', () => {
+  it('should show tags for item', () => {
     const itemCard = shallow(<ItemCard item={item} />)
     const tags = itemCard.find('.tag')
+    expect(tags.length).toBe(2)
+  })
+  it('should show tags for modal', () => {
+    const itemCard = shallow(<ItemCard item={item} />)
+    const tags = itemCard.find('.modalTag')
     expect(tags.length).toBe(2)
   })
 
