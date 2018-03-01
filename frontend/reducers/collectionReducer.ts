@@ -45,30 +45,14 @@ export default function collectionReducer(
       return {
         ...state,
         tags: [...state.tags, action.payload],
-        filteredItems: state.items.filter(item => {
-          let foundTagInItem = false
-          searchTags.forEach(tag => {
-            const found = item.tags.find(t => {
-              return t.toLowerCase() === tag.label.toLowerCase()
-            })
-            if (found) {
-              foundTagInItem = true
-            }
-          })
-          return foundTagInItem
-        }),
+        filteredItems: itemsWithTags(state.items, searchTags),
       }
     case ItemActionTypeKeys.REMOVE_TAG:
+      const newTags = state.tags.filter(tag => tag.label !== action.payload.label)
       return {
         ...state,
-        tags: state.tags.filter(tag => tag.label !== action.payload.label),
-        filteredItems: state.items.filter(item => {
-          state.tags.forEach(tag => {
-            const found = item.tags.find(t => t === tag.label)
-            if (found) return true
-          })
-          return false
-        }),
+        tags: newTags || [],
+        filteredItems: itemsWithTags(state.items, newTags),
       }
     case ItemActionTypeKeys.CLEAR_TAGS:
       return {
@@ -79,4 +63,14 @@ export default function collectionReducer(
     default:
       return state
   }
+}
+
+function itemsWithTags(items: Item[], tags: ITag[]) {
+  const filtered = items.filter(item => {
+    const matchingTags = item.tags.filter(tag => {
+      return tags.find(t => t.label === tag)
+    })
+    return matchingTags.length === tags.length
+  })
+  return filtered || []
 }
