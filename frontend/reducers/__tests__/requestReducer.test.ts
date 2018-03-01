@@ -42,7 +42,7 @@ describe('Request reducer', () => {
 
     const successResponse: RequestActionTypes = {
       type: RequestActionTypeKeys.REQUEST_OK,
-      token: 'new-token',
+      payload: 'new-token',
     }
 
     const state = requestReducer(loggedIn, successResponse)
@@ -58,7 +58,7 @@ describe('Request reducer', () => {
 
     const unprocessableResponse: RequestActionTypes = {
       type: RequestActionTypeKeys.REQUEST_UNPROCESSABLE,
-      token: 'new-token',
+      payload: 'new-token',
     }
 
     const state = requestReducer(loggedIn, unprocessableResponse)
