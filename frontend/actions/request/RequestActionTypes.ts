@@ -3,20 +3,24 @@ import { IOtherAction } from '../IOtherAction'
 
 export interface IRequestOKAction {
   readonly type: RequestActionTypeKeys.REQUEST_OK
-  readonly token: string
+  readonly payload: string
+}
+
+export interface IRequestUnprocessableAction {
+  readonly type: RequestActionTypeKeys.REQUEST_UNPROCESSABLE
+  readonly payload: string
 }
 
 export interface IRequestUnauthorizedAction {
   readonly type: RequestActionTypeKeys.REQUEST_UNAUTHORIZED
 }
 
-export interface IRequestUnprocessableAction {
-  readonly type: RequestActionTypeKeys.REQUEST_UNPROCESSABLE
-  readonly token: string
-}
-
 export interface IRequestServerErrorAction {
   readonly type: RequestActionTypeKeys.REQUEST_SERVER_ERROR
+}
+
+export interface IRequestUnknownErrorAction {
+  readonly type: RequestActionTypeKeys.REQUEST_UNKNOWN_ERROR
 }
 
 type RequestActionTypes =
@@ -24,6 +28,7 @@ type RequestActionTypes =
   | IRequestUnauthorizedAction
   | IRequestUnprocessableAction
   | IRequestServerErrorAction
+  | IRequestUnknownErrorAction
   | IOtherAction
 
 export default RequestActionTypes
