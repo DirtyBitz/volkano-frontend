@@ -141,7 +141,14 @@ export default class ItemCard extends React.Component<Props, State> {
             border-radius: 5px;
             overflow: hidden;
             cursor: pointer;
+            transition: transform 1s ease, opacity 1s ease;
           }
+
+          .item:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+          }
+
           span {
             padding-left: 5px;
             padding-right: 5px;
