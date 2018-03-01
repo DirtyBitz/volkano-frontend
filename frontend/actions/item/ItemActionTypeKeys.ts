@@ -2,6 +2,9 @@ enum ItemActionTypeKeys {
   ITEM_PENDING = 'ITEM_PENDING',
   ITEM_FULFILLED = 'ITEM_FULFILLED',
   ITEM_REJECTED = 'ITEM_REJECTED',
+  ADD_TAG = 'ADD_TAG',
+  REMOVE_TAG = 'REMOVE_TAG',
+  CLEAR_TAGS = 'CLEAR_TAGS',
 }
 
 export default ItemActionTypeKeys

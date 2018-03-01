@@ -6,7 +6,11 @@ import {
   IItemPendingAction,
   IItemFulfilledAction,
   IItemRejectedAction,
+  IAddTagAction,
+  IRemoveTagAction,
+  IClearTagsAction,
 } from './ItemActionTypes'
+import { ITag } from '../../components/SearchBar'
 
 export const allItems = (token: string, client: string, uid: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
@@ -31,4 +35,18 @@ export const itemSuccess = (data: ICollectionData): IItemFulfilledAction => ({
 export const itemError = (error: string[]): IItemRejectedAction => ({
   type: ItemActionTypeKeys.ITEM_REJECTED,
   payload: error,
+})
+
+export const addTag = (tag: ITag): IAddTagAction => ({
+  type: ItemActionTypeKeys.ADD_TAG,
+  payload: tag,
+})
+
+export const removeTag = (tag: Itag): IRemoveTagAction => ({
+  type: ItemActionTypeKeys.REMOVE_TAG,
+  payload: tag,
+})
+
+export const clearTags = (): IClearTagsAction => ({
+  type: ItemActionTypeKeys.CLEAR_TAGS,
 })

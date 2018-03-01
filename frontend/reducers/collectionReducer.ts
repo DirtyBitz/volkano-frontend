@@ -1,11 +1,14 @@
 import ItemActionTypeKeys from '../actions/item/ItemActionTypeKeys'
 import ItemActionTypes from '../actions/item/ItemActionTypes'
 import { Item } from '../models/Item'
+import { ITag } from '../components/SearchBar'
 
 export interface CollectionStateI {
   isLoading: boolean
   items?: Item[]
   errors?: string[]
+  tags?: ITag[]
+  filteredItems?: Item[]
 }
 
 export const collectionInitialState: CollectionStateI = {
@@ -34,6 +37,36 @@ export default function collectionReducer(
         ...state,
         errors: action.payload,
         isLoading: false,
+      }
+    case ItemActionTypeKeys.ADD_TAG:
+      return {
+        ...state,
+        tags: [...state.tags, action.payload],
+        filteredItems: state.items.filter(item => {
+          state.tags.forEach(tag => {
+            const found = item.tags.find(t => t === tag.label)
+            if (found) return true
+          })
+          return false
+        }),
+      }
+    case ItemActionTypeKeys.REMOVE_TAG:
+      return {
+        ...state,
+        tags: state.tags.filter(tag => tag.label !== action.payload.label),
+        filteredItems: state.items.filter(item => {
+          state.tags.forEach(tag => {
+            const found = item.tags.find(t => t === tag.label)
+            if (found) return true
+          })
+          return false
+        }),
+      }
+    case ItemActionTypeKeys.CLEAR_TAGS:
+      return {
+        ...state,
+        tags: [],
+        filteredItems: [],
       }
     default:
       return state
