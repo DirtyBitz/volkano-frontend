@@ -24,7 +24,8 @@ class CollectionPage extends React.Component<IProps> {
 
   render() {
     const { addTag, removeTag, clearTags, collection } = this.props
-    const hasFilteredItems = collection.filteredItems.length > 0
+
+    const showFiltered = collection.tags.length > 0
 
     return (
       <Layout title="Collection">
@@ -37,10 +38,10 @@ class CollectionPage extends React.Component<IProps> {
           />
         </div>
         <div id="collage">
-          {hasFilteredItems &&
+          {showFiltered &&
             collection.filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
 
-          {!hasFilteredItems &&
+          {!showFiltered &&
             collection.items &&
             collection.items.map(item => <ItemCard key={item.id} item={item} />)}
           <style jsx>{`
