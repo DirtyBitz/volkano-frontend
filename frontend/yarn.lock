@@ -1558,6 +1558,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 cli-boxes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/cli-boxes/-/cli-boxes-1.0.0.tgz#4fa917c3e59c94a004cd61f8ee509da651687143"
@@ -2220,7 +2224,7 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
-enzyme-adapter-react-16@^1.1.1:
+enzyme-adapter-react-16@^1.1.0, enzyme-adapter-react-16@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.1.1.tgz#a8f4278b47e082fbca14f5bfb1ee50ee650717b4"
   dependencies:
@@ -5426,6 +5430,14 @@ react-stand-in@^4.0.0-beta.18:
   resolved "https://registry.yarnpkg.com/react-stand-in/-/react-stand-in-4.0.0-beta.21.tgz#fb694e465cb20fab7f36d3284f82b68bbd7a657e"
   dependencies:
     shallowequal "^1.0.2"
+
+react-tag-box@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-tag-box/-/react-tag-box-1.6.0.tgz#7edeeccdaae8a315b49b6319b0cf6e2a16a3b6ec"
+  dependencies:
+    classnames "^2.2.5"
+    enzyme-adapter-react-16 "^1.1.0"
+    prop-types "^15.6.0"
 
 react-test-renderer@^16.0.0-0:
   version "16.2.0"

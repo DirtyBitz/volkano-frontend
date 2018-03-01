@@ -8,7 +8,7 @@ import Layout from '../components/Layout'
 import { allItems } from '../actions/item/ItemActions'
 import { CollectionStateI } from '../reducers/collectionReducer'
 import ItemCard from '../components/ItemCard'
-
+import { SearchBar } from '../components/SearchBar'
 interface IProps extends IStoreState {
   allItems: (token: string, client: string, uid: string) => Promise<void>
   collection: CollectionStateI
@@ -24,6 +24,9 @@ class CollectionPage extends React.Component<IProps> {
 
     return (
       <Layout title="Collection">
+        <div id="search-bar">
+          <SearchBar />
+        </div>
         <div id="collage">
           {items && items.map(item => <ItemCard key={item.id} item={item} />)}
           <style jsx>{`

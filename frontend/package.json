@@ -48,6 +48,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-spinners": "^0.2.6",
+    "react-tag-box": "^1.6.0",
     "react-youtube": "^7.5.0",
     "redux": "^3.7.2",
     "redux-form": "^7.2.3",
