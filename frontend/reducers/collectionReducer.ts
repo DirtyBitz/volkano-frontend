@@ -7,12 +7,14 @@ export interface CollectionStateI {
   isLoading: boolean
   items?: Item[]
   errors?: string[]
-  tags?: ITag[]
-  filteredItems?: Item[]
+  tags: ITag[]
+  filteredItems: Item[]
 }
 
 export const collectionInitialState: CollectionStateI = {
   isLoading: false,
+  tags: [],
+  filteredItems: [],
 }
 
 export default function collectionReducer(
@@ -39,15 +41,21 @@ export default function collectionReducer(
         isLoading: false,
       }
     case ItemActionTypeKeys.ADD_TAG:
+      const searchTags = [...state.tags, action.payload]
       return {
         ...state,
         tags: [...state.tags, action.payload],
         filteredItems: state.items.filter(item => {
-          state.tags.forEach(tag => {
-            const found = item.tags.find(t => t === tag.label)
-            if (found) return true
+          let foundTagInItem = false
+          searchTags.forEach(tag => {
+            const found = item.tags.find(t => {
+              return t.toLowerCase() === tag.label.toLowerCase()
+            })
+            if (found) {
+              foundTagInItem = true
+            }
           })
-          return false
+          return foundTagInItem
         }),
       }
     case ItemActionTypeKeys.REMOVE_TAG:
