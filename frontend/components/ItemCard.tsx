@@ -160,38 +160,57 @@ export default class ItemCard extends React.Component<Props, State> {
   private renderModalItem = () => {
     const { title, tags } = this.props.item
     return (
-      <figure>
-        <div className="imageModal-container">{this.renderFileType()}</div>
-        <figcaption>{title}</figcaption>
-        <div>
-          {tags.map((tag: string) => (
-            <span className="modalTag" key={tag}>
-              {tag}
-            </span>
-          ))}
-        </div>
-
+      <div className="modal-div">
+        <figure>
+          <figcaption>{title}</figcaption>
+          <div className="imageModal-container">{this.renderFileType()}</div>
+          <div className="tagdiv">
+            {tags.map((tag: string) => (
+              <span className="modalTag" key={tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </figure>
         <style jsx>{`
-          .imageModal-container {
-            display: flex;
-            align-items: center;
-            overflow: hidden;
+          .modal-div {
+            height: 100%;
           }
-
+          .imageModal-container {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+          }
+          figure {
+            max-width: 100%;
+          }
           figcaption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
             background: #ce1a1a;
             text-align: center;
             color: #fff;
             padding: 5px 10px;
           }
+          .tagdiv {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+          }
           .modalTag {
             background-color: gray;
             display: inline-block;
-            padding: 2px;
+            padding: 3px;
             border: 2px solid white;
+            border-radius: 20px;
           }
         `}</style>
-      </figure>
+      </div>
     )
   }
   private renderItem = () => {
