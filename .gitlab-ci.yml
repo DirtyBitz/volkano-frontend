@@ -13,6 +13,7 @@ stages:
   - Code climate
   - Unit tests
   - End to end tests
+  - Coverage
 
 rubocop:
   stage: Code climate
