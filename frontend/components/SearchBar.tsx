@@ -1,6 +1,32 @@
 import * as React from 'react'
 import { TagBoxAsync } from 'react-tag-box'
 
+const allColors = [
+  'orange',
+  'red',
+  'aqua',
+  'teal',
+  'purple',
+  'gray',
+  'olive',
+  'green',
+  'lime',
+  'yellow',
+  'salmon',
+  'rebeccapurple',
+  'lightcoral',
+  'deeppink',
+  'burlywood',
+  'cornflowerblue',
+  'darkcyan',
+  'greenyellow',
+  'orchid',
+  'violet',
+  'tan',
+  'slategray',
+  'sienna',
+  'royalblue',
+]
 export interface ITag {
   label: string
   value: any
@@ -13,7 +39,7 @@ interface IProps {
   tags: ITag[]
 }
 
-export class SearchBar extends React.Component<IProps, IState> {
+export class SearchBar extends React.Component<IProps, ITag> {
   private search = (input: string) => {
     return new Promise(resolve => {
       resolve([{ label: 'test', value: 'test' }, { label: 'test2', value: 'test2' }])
@@ -29,10 +55,30 @@ export class SearchBar extends React.Component<IProps, IState> {
   }
 
   private renderTag = (tag: any, remove: any) => {
-    const button = <button onClick={remove}>X</button>
+    const hash = (s: string): number => {
+      /* Simple hash function. */
+      var a = 1,
+        c = 0,
+        h,
+        o
+      if (s) {
+        a = 0
+        /*jshint plusplus:false bitwise:false*/
+        for (h = s.length - 1; h >= 0; h--) {
+          o = s.charCodeAt(h)
+          a = ((a << 6) & 268435455) + o + (o << 14)
+          c = a & 266338304
+          a = c !== 0 ? a ^ (c >> 21) : a
+        }
+      }
+      return a
+    }
+    const color = allColors[hash(tag.label) % allColors.length]
+    const tagColor = { background: `${color}` }
+    const button = <button onClick={remove}>×</button>
 
     return (
-      <li key={tag.value}>
+      <li style={tagColor} key={tag.value}>
         {tag.label}
         {button}
       </li>
@@ -40,7 +86,7 @@ export class SearchBar extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { addTag, clearTags, removeTag, tags } = this.props
+    const { removeTag, tags } = this.props
     return (
       <div>
         <TagBoxAsync
@@ -56,7 +102,7 @@ export class SearchBar extends React.Component<IProps, IState> {
             border: 1px solid #bbb;
             display: flex;
             padding: 5px;
-            border-radius: 3px;
+            border-radius: 10px;
             position: relative;
 
             input {
@@ -86,11 +132,22 @@ export class SearchBar extends React.Component<IProps, IState> {
 
             li {
               margin-right: 5px;
-              background: #e2e2e2;
+              color: black;
               padding: 3px 5px;
               font-size: 0.85em;
-              border-radius: 3px;
-              border: 1px solid #bababa;
+              border-radius: 15px;
+              border: 1px solid darkgray;
+              font-weight: 600;
+              font-family: tahoma, sans-serif;
+
+              button {
+                box-shadow: none;
+                margin-left: 5px;
+                font-size: 15px;
+                border-style: none;
+                border-radius: 50%;
+                width: 15px;
+              }
             }
           }
         `}</style>
