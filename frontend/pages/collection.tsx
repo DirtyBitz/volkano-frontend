@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import store from '../store'
+import Router from 'next/router'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
@@ -20,6 +21,11 @@ interface IProps extends IStoreState {
 class CollectionPage extends React.Component<IProps> {
   componentDidMount() {
     this.props.allItems()
+  }
+  componentWillReceiveProps(props) {
+    if (!props.authentication.user) {
+      Router.push('/signin')
+    }
   }
 
   render() {
@@ -48,47 +54,48 @@ class CollectionPage extends React.Component<IProps> {
         <div id="add-item">
           <button>+</button>
         </div>
-        <style jsx>
-          {`
-            #add-item {
-              position: fixed;
-              right: 15px;
-              bottom: 15px;
-              padding: 10px;
+        <style jsx>{`
+          #search-bar {
+            margin-bottom: 10px;
+          }
+          #add-item {
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            padding: 10px;
 
-              button {
-                width: 75px;
-                height: 75px;
-                font-family: 'Roboto', sans-serif;
-                font-size: 4em;
-                text-transform: uppercase;
-                letter-spacing: 2.5px;
-                font-weight: 500;
-                color: #000;
-                background-color: #ffffff;
-                border: none;
-                border-radius: 45px;
-                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease 0s;
-                cursor: pointer;
-                outline: none;
-              }
+            button {
+              width: 75px;
+              height: 75px;
+              font-family: 'Roboto', sans-serif;
+              font-size: 4em;
+              text-transform: uppercase;
+              letter-spacing: 2.5px;
+              font-weight: 500;
+              color: #000;
+              background-color: #ffffff;
+              border: none;
+              border-radius: 45px;
+              box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+              transition: all 0.3s ease 0s;
+              cursor: pointer;
+              outline: none;
+            }
 
-              button:hover {
-                background-color: #2ee59d;
-                box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-                color: #fff;
-                transform: translateY(-7px);
-              }
+            button:hover {
+              background-color: #2ee59d;
+              box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+              color: #fff;
+              transform: translateY(-7px);
             }
-            #collage {
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              margin-right: -15px;
-            }
-          `}
-        </style>
+          }
+          #collage {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-right: -15px;
+          }
+        `}</style>
       </Layout>
     )
   }
