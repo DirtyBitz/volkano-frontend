@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Item } from '../models/Item'
 import YouTube from 'react-youtube'
 import Modal from 'react-modal'
+import { tagColors, hashTag } from '../utils/TagColors'
 
 interface Props {
   item: Item
@@ -9,53 +10,9 @@ interface Props {
 interface State {
   showModal: boolean
 }
-const allColors = [
-  'orange',
-  'red',
-  'aqua',
-  'teal',
-  'purple',
-  'gray',
-  'olive',
-  'green',
-  'lime',
-  'yellow',
-  'salmon',
-  'rebeccapurple',
-  'lightcoral',
-  'deeppink',
-  'burlywood',
-  'cornflowerblue',
-  'darkcyan',
-  'greenyellow',
-  'orchid',
-  'violet',
-  'tan',
-  'slategray',
-  'sienna',
-  'royalblue',
-]
 export default class ItemCard extends React.Component<Props, State> {
   componentWillMount() {
     Modal.setAppElement('body')
-  }
-  private hashTag = (tag: string): number => {
-    /* Simple hash function. */
-    var a = 1,
-      c = 0,
-      h,
-      o
-    if (tag) {
-      a = 0
-      /*jshint plusplus:false bitwise:false*/
-      for (h = tag.length - 1; h >= 0; h--) {
-        o = tag.charCodeAt(h)
-        a = ((a << 6) & 268435455) + o + (o << 14)
-        c = a & 266338304
-        a = c !== 0 ? a ^ (c >> 21) : a
-      }
-    }
-    return a
   }
   constructor(Props, State) {
     super(Props, State)
@@ -83,7 +40,7 @@ export default class ItemCard extends React.Component<Props, State> {
           {this.renderItem()}
           {item.tags.map((tag: string) => (
             <span
-              style={{ background: `${allColors[this.hashTag(tag) % allColors.length]}` }}
+              style={{ background: `${tagColors[hashTag(tag) % tagColors.length]}` }}
               className="tag"
               key={tag}>
               {tag}
@@ -102,7 +59,6 @@ export default class ItemCard extends React.Component<Props, State> {
         <style jsx>{`
           .tag {
             margin-right: 3px;
-            background: red;
             color: black;
             padding: 0px 5px;
             font-size: 0.85em;
@@ -166,7 +122,12 @@ export default class ItemCard extends React.Component<Props, State> {
           <div className="imageModal-container">{this.renderFileType()}</div>
           <div className="tagdiv">
             {tags.map((tag: string) => (
-              <span className="modalTag" key={tag}>
+              <span
+                style={{
+                  background: `${tagColors[hashTag(tag) % tagColors.length]}`,
+                }}
+                className="modalTag"
+                key={tag}>
                 {tag}
               </span>
             ))}
@@ -178,6 +139,7 @@ export default class ItemCard extends React.Component<Props, State> {
           }
           .imageModal-container {
             margin: auto;
+            margin-bottom: 5px;
             display: block;
             width: 80%;
             max-width: 700px;
@@ -203,11 +165,14 @@ export default class ItemCard extends React.Component<Props, State> {
             text-align: center;
           }
           .modalTag {
-            background-color: gray;
-            display: inline-block;
-            padding: 3px;
-            border: 2px solid white;
-            border-radius: 20px;
+            margin-right: 3px;
+            color: black;
+            padding: 0px 5px 5px 5px;
+            font-size: 1.5em;
+            border-radius: 10vw;
+            border: 1px solid #bababa;
+            font-family: tahoma, sans-serif;
+            position: relative;
           }
         `}</style>
       </div>

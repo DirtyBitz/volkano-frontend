@@ -1,32 +1,7 @@
 import * as React from 'react'
 import { TagBoxAsync } from 'react-tag-box'
+import { tagColors, hashTag } from '../utils/TagColors'
 
-const allColors = [
-  'orange',
-  'red',
-  'aqua',
-  'teal',
-  'purple',
-  'gray',
-  'olive',
-  'green',
-  'lime',
-  'yellow',
-  'salmon',
-  'rebeccapurple',
-  'lightcoral',
-  'deeppink',
-  'burlywood',
-  'cornflowerblue',
-  'darkcyan',
-  'greenyellow',
-  'orchid',
-  'violet',
-  'tan',
-  'slategray',
-  'sienna',
-  'royalblue',
-]
 export interface ITag {
   label: string
   value: any
@@ -55,25 +30,7 @@ export class SearchBar extends React.Component<IProps, ITag> {
   }
 
   private renderTag = (tag: any, remove: any) => {
-    const hash = (s: string): number => {
-      /* Simple hash function. */
-      var a = 1,
-        c = 0,
-        h,
-        o
-      if (s) {
-        a = 0
-        /*jshint plusplus:false bitwise:false*/
-        for (h = s.length - 1; h >= 0; h--) {
-          o = s.charCodeAt(h)
-          a = ((a << 6) & 268435455) + o + (o << 14)
-          c = a & 266338304
-          a = c !== 0 ? a ^ (c >> 21) : a
-        }
-      }
-      return a
-    }
-    const color = allColors[hash(tag.label) % allColors.length]
+    const color = tagColors[hashTag(tag.label) % tagColors.length]
     const tagColor = { background: `${color}` }
     const button = <button onClick={remove}>×</button>
 
@@ -97,7 +54,7 @@ export class SearchBar extends React.Component<IProps, ITag> {
           backspaceDelete={true}
           renderTag={this.renderTag}
         />
-        <style global jsx>{`
+        <style jsx global>{`
           .tag-box {
             border: 1px solid #bbb;
             display: flex;
@@ -142,11 +99,18 @@ export class SearchBar extends React.Component<IProps, ITag> {
 
               button {
                 box-shadow: none;
+                text-align: center;
                 margin-left: 5px;
                 font-size: 15px;
                 border-style: none;
                 border-radius: 50%;
+                background: rgba(0, 0, 0, 0.3);
                 width: 15px;
+                font-family: 'Roboto', sans-serif;
+                transition: background 0.5s ease;
+              }
+              button:hover {
+                background: rgba(0, 0, 0, 0.5);
               }
             }
           }
