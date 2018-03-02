@@ -41,6 +41,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.6",
     "@fortawesome/react-fontawesome": "^0.0.17",
     "axios": "^0.18.0",
+    "axios-mock-adapter": "^1.14.1",
     "global": "^4.3.2",
     "localforage": "^1.5.7",
     "next": "^5.0.0",
