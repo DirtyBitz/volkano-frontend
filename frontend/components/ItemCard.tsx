@@ -6,7 +6,7 @@ import Modal from 'react-modal'
 interface Props {
   item: Item
 }
-interface MyState {
+interface State {
   showModal: boolean
 }
 const allColors = [
@@ -35,7 +35,7 @@ const allColors = [
   'sienna',
   'royalblue',
 ]
-export default class ItemCard extends React.Component<Props, MyState> {
+export default class ItemCard extends React.Component<Props, State> {
   componentWillMount() {
     Modal.setAppElement('body')
   }
@@ -57,8 +57,9 @@ export default class ItemCard extends React.Component<Props, MyState> {
     }
     return a
   }
-  constructor(Props, MyState) {
-    super(Props, MyState)
+  constructor(Props, State) {
+    super(Props, State)
+
     this.state = {
       showModal: false,
     }
@@ -140,6 +141,10 @@ export default class ItemCard extends React.Component<Props, MyState> {
             border-radius: 5px;
             overflow: hidden;
             cursor: pointer;
+          }
+          span {
+            padding-left: 5px;
+            padding-right: 5px;
           }
         `}</style>
       </div>

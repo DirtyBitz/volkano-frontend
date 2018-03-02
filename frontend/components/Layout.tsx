@@ -82,6 +82,7 @@ export class Layout extends React.Component<IProps, IState> {
             margin: 0;
             height: 100%;
             font-family: 'Montserrat', sans-serif;
+            background: #FFFEFE;
           }
         `}</style>
       </div>

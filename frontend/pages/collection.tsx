@@ -44,15 +44,51 @@ class CollectionPage extends React.Component<IProps> {
           {!showFiltered &&
             collection.items &&
             collection.items.map(item => <ItemCard key={item.id} item={item} />)}
-          <style jsx>{`
+        </div>
+        <div id="add-item">
+          <button>+</button>
+        </div>
+        <style jsx>
+          {`
+            #add-item {
+              position: fixed;
+              right: 15px;
+              bottom: 15px;
+              padding: 10px;
+
+              button {
+                width: 75px;
+                height: 75px;
+                font-family: 'Roboto', sans-serif;
+                font-size: 4em;
+                text-transform: uppercase;
+                letter-spacing: 2.5px;
+                font-weight: 500;
+                color: #000;
+                background-color: #ffffff;
+                border: none;
+                border-radius: 45px;
+                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease 0s;
+                cursor: pointer;
+                outline: none;
+              }
+
+              button:hover {
+                background-color: #2ee59d;
+                box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+                color: #fff;
+                transform: translateY(-7px);
+              }
+            }
             #collage {
               display: flex;
               flex-direction: row;
               flex-wrap: wrap;
               margin-right: -15px;
             }
-          `}</style>
-        </div>
+          `}
+        </style>
       </Layout>
     )
   }
