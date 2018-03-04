@@ -56,8 +56,7 @@ coverage:
     - rspec
     - jest
   script:
-    - cat backend/coverage/index.html | grep -oP '(\d+\.\d+)%\</span\>' | head -n 1 | cut -d% -f1
-    - cat frontend/coverage/lcov-report/index.html | grep -B 1 'Lines' | grep -oP '(\d+\.\d+)% \</span\>' | cut -d% -f1
+    - ./report_coverage.sh
 
 # cypress:
 #   stage: End to end tests

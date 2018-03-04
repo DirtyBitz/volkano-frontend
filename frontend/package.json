@@ -17,7 +17,7 @@
     "ci": "jest --no-cache --coverage --ci"
   },
   "jest": {
-    "coverageReporters": ["lcov"],
+    "coverageReporters": ["html"],
     "setupFiles": [
       "<rootDir>/jestconfig/jestSetup.ts"
     ],
