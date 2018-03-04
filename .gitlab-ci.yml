@@ -13,7 +13,7 @@ stages:
   - Code climate
   - Unit tests
   - End to end tests
-  - Coverage
+  - Reporting
 
 rubocop:
   stage: Code climate
@@ -29,7 +29,10 @@ jest:
   script:
     - cd frontend
     - yarn install
-    - yarn quicktest
+    - yarn ci
+  artifacts:
+    paths:
+      - frontend/coverage/
 
 rspec:
   stage: Unit tests
@@ -41,6 +44,20 @@ rspec:
     - cd backend
     - bundle install --jobs $(nproc) --path=../gems
     - bundle exec rspec
+  artifacts:
+    paths:
+      - backend/coverage/
+
+coverage:
+  stage: Reporting
+  tags:
+    - ci-alpine-latest
+  dependencies:
+    - rspec
+    - jest
+  script:
+    - cat backend/coverage/index.html | grep -oP '(\d+\.\d+)%\</span\>' | head -n 1 | cut -d% -f1
+    - cat frontend/coverage/lcov-report/index.html | grep -B 1 'Lines' | grep -oP '(\d+\.\d+)% \</span\>' | cut -d% -f1
 
 # cypress:
 #   stage: End to end tests
