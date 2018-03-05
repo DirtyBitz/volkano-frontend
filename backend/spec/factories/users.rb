@@ -13,17 +13,13 @@ FactoryBot.define do
     "user-#{n}@example.com"
   end
 
-  sequence :password do
-    SecureRandom.alphanumeric(10)
-  end
-
   sequence :nickname do |n|
     "nickname#{n}"
   end
 
   factory :user do
     email
-    password
+    password 'password'
 
     factory :user_with_items do
       confirmed
