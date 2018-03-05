@@ -23,6 +23,18 @@ export const allItems = () => {
     }
   }
 }
+
+export const createItem = (token, client, uid, item) => {
+  return async (dispatch: Dispatch<IStoreState>) => {
+    const { title, url, tags } = item
+    try {
+      await ItemApi.createItem(token, client, uid, title, url, tags)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const itemPending = (): IItemPendingAction => ({
   type: ItemActionTypeKeys.ITEM_PENDING,
 })

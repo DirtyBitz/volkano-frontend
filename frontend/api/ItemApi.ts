@@ -21,4 +21,20 @@ export class ItemApi {
       console.error('ItemApiError', error)
     }
   }
+
+  public static async createItem(
+    token: string,
+    client: string,
+    uid: string,
+    title: string,
+    url: string,
+    tags: string
+  ) {
+    const config = { headers: { client, token, uid } }
+    const params = { item: { title, url, tags } }
+
+    const response = await axios.post('http://localhost:5000/items', params, config)
+
+    return response.data
+  }
 }
