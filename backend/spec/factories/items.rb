@@ -73,9 +73,9 @@ FactoryBot.define do
     title
     user
 
-    after(:create) do |item, _|
-      random_tags = TAGS.sample([*1..TAGS.length].sample).join(', ')
-      item.tag_list.add(random_tags, parse: true)
+    after(:create) do |item, evaluator|
+      evaluator.tags ||= TAGS.sample([*1..TAGS.length].sample).join(', ')
+      item.tag_list = evaluator.tags
       item.save
       item.reload
     end

@@ -36,7 +36,7 @@ RSpec.describe Item, type: :model do
   end
 
   it 'should be taggable' do
-    kitty_image = create(:item, tags: 'cute, cat, image')
+    kitty_image = create(:item, tag_list: 'cute, cat, image')
     expect(kitty_image.tag_list).to contain_exactly('cute', 'cat', 'image')
   end
 end

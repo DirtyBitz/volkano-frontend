@@ -26,8 +26,9 @@ RSpec.describe 'Items endpoint', type: :request do
     end
 
     it 'can get items by tag' do
-      item = ItemSerializer.new(create(:item, user: user, tags: 'hilarious'))
-      expected = [item.serializable_hash].to_json
+      item = create(:item, user: user, tag_list: 'hilarious')
+      serializer = ItemSerializer.new(item)
+      expected = [serializer.serializable_hash].to_json
       get '/items',
           params: { tags: 'hilarious' },
           headers: user.create_new_auth_token
@@ -36,10 +37,10 @@ RSpec.describe 'Items endpoint', type: :request do
     end
 
     it 'can get items by multiple tags' do
-      funny_cat = create(:item, user: user, tags: 'funny, cats')
-      grumpy_cat = create(:item, user: user, tags: 'grumpy, cats')
+      funny_cat = create(:item, user: user, tag_list: 'funny, cats')
+      grumpy_cat = create(:item, user: user, tag_list: 'grumpy, cats')
       cat_titles = [funny_cat, grumpy_cat].map(&:title)
-      create(:item, user: user, tags: 'funny, dogs')
+      create(:item, user: user, tag_list: 'funny, dogs')
 
       get '/items',
           params: { tags: 'cats' },
