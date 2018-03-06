@@ -9,6 +9,7 @@ const rootReducer = combineReducers<IStoreState>({
   authentication: isAuthenticated,
   collection: collectionReducer,
   form: reducer,
+  requestReducer,
 })
 
 export default rootReducer

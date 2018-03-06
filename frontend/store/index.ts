@@ -1,19 +1,20 @@
 import { IStoreState } from './StoreState'
 import { authInitialState } from '../reducers/authenticationReducer'
 import { collectionInitialState } from '../reducers/collectionReducer'
+import reducers from '../reducers/index'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
 
-import createStoreFromServer from './ServerStore'
-import createStoreFromClient from './ClientStore'
-
-export const _initialState: IStoreState = {
+export const initialStore: IStoreState = {
   authentication: authInitialState,
   collection: collectionInitialState,
 }
 
-export default (initialState = _initialState, props) => {
-  if (props.isServer) {
-    return createStoreFromServer(initialState, props)
-  } else {
-    return createStoreFromClient(initialState)
-  }
+export default (initialState = initialStore) => {
+  return createStore(
+    reducers,
+    initialState,
+    composeWithDevTools(applyMiddleware(thunkMiddleware))
+  )
 }
