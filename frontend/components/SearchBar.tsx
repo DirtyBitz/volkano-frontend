@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { TagBoxAsync } from 'react-tag-box'
-import { tagColors, hashTag } from '../utils/TagColors'
+import { hashTagToColor } from '../utils/TagColors'
 
 export interface ITag {
   label: string
@@ -30,7 +30,7 @@ export class SearchBar extends React.Component<IProps, ITag> {
   }
 
   private renderTag = (tag: any, remove: any) => {
-    const color = tagColors[hashTag(tag.label) % tagColors.length]
+    const color = hashTagToColor(tag.label)
     const tagColor = { background: `${color}` }
     const button = <button onClick={remove}>×</button>
 

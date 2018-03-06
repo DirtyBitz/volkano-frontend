@@ -1,4 +1,4 @@
-export const tagColors = [
+const tagColors = [
   'orange',
   'red',
   'aqua',
@@ -25,7 +25,7 @@ export const tagColors = [
   'royalblue',
 ]
 
-export function hashTag(tag: string) {
+export function hashTagToColor(tag: string) {
   /* Simple hash function. */
   var a = 1,
     c = 0,
@@ -41,5 +41,5 @@ export function hashTag(tag: string) {
       a = c !== 0 ? a ^ (c >> 21) : a
     }
   }
-  return a
+  return tagColors[a % tagColors.length]
 }
