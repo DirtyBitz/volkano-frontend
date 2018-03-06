@@ -34,3 +34,7 @@ export function setSession(session: ISession) {
     user: session.user || JSON.parse(jsCookie.get('session')).user,
   })
 }
+
+export function clearSession() {
+  jsCookie.remove('session')
+}

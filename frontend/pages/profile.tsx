@@ -7,17 +7,17 @@ import store from '../store'
 import Layout from '../components/Layout'
 import { IStoreState } from '../store/StoreState'
 import { signOut } from '../actions/authentication/AuthActions'
-import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
-import { ISession, getSession, hasSession } from '../utils/Session'
+import { getSession, hasSession, clearSession } from '../utils/Session'
 
-interface IProps {
-  signOut: () => ISignOutAction
-}
-
-class ProfilePage extends React.Component<IProps> {
+class ProfilePage extends React.Component {
   componentDidMount() {
     const isSignedIn = hasSession()
     if (!isSignedIn) Router.push('/')
+  }
+
+  private signOut = () => {
+    clearSession()
+    Router.push('/')
   }
 
   render() {
@@ -36,7 +36,7 @@ class ProfilePage extends React.Component<IProps> {
             </div>
           )}
 
-        <button onClick={this.props.signOut}>Sign out</button>
+        <button onClick={this.signOut}>Sign out</button>
         <style jsx>{`
           button {
             background: #b70000;
