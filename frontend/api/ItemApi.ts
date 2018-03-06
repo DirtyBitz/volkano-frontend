@@ -10,7 +10,10 @@ export class ItemApi {
     try {
       const response = await VolkanoRequest.get('http://localhost:5000/items')
       const items = {
-        items: response.data,
+        items: response.data.map(item => {
+          const tags = item.tags.map(tag => tag.name)
+          return { ...item, tags }
+        }),
       }
       return items
     } catch (error) {
