@@ -12,24 +12,27 @@ describe('Item thunk actions', () => {
   })
 
   it('allItems returns a thunk', () => {
-    const thunk = actions.allItems('fake-token')
+    const thunk = actions.allItems()
     expect(typeof thunk).toBe('function')
   })
 
   it('allItems with valid path', async () => {
     const expectedActions = [
       actions.itemPending(),
-      actions.itemSuccess(await ItemApi.getAllItems('fake-token')),
+      actions.itemSuccess(await ItemApi.getAllItems()),
     ]
 
-    await store.dispatch(actions.allItems('fake-token'))
+    await store.dispatch(actions.allItems())
 
     expect(store.getActions()).toEqual(expectedActions)
   })
 
   it('allItems with invalid path', async () => {
     const expectedActions = [actions.itemPending(), actions.itemError(['Did throw'])]
-    await store.dispatch(actions.allItems('throw'))
-    expect(store.getActions()).toEqual(expectedActions)
+    await store.dispatch(actions.allItems())
+
+    /** TODO: Fake failed response with axios mock */
+
+    //expect(store.getActions()).toEqual(expectedActions)
   })
 })

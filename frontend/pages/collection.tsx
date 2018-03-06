@@ -9,8 +9,9 @@ import { allItems, addTag, removeTag, clearTags } from '../actions/item/ItemActi
 import { CollectionStateI } from '../reducers/collectionReducer'
 import ItemCard from '../components/ItemCard'
 import { SearchBar, ITag } from '../components/SearchBar'
+
 interface IProps extends IStoreState {
-  allItems: (token: string, client: string, uid: string) => Promise<void>
+  allItems: Function
   addTag: (tag: ITag) => void
   removeTag: (tag: ITag) => void
   clearTags: () => void
@@ -18,8 +19,7 @@ interface IProps extends IStoreState {
 }
 class CollectionPage extends React.Component<IProps> {
   componentDidMount() {
-    const { token, client, uid } = this.props.authentication
-    this.props.allItems(token, client, uid)
+    this.props.allItems()
   }
 
   render() {

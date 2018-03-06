@@ -32,7 +32,7 @@ export class AuthApi {
       }
       return authResponse
     } catch (error) {
-      return await this.handleError(error)
+      console.error('SignInError', error)
     }
   }
 

@@ -8,29 +8,33 @@ import Layout from '../components/Layout'
 import { IStoreState } from '../store/StoreState'
 import { signOut } from '../actions/authentication/AuthActions'
 import { ISignOutAction } from '../actions/authentication/AuthActionTypes'
+import { ISession, getSession, hasSession } from '../utils/Session'
 
-interface IProps extends IStoreState {
+interface IProps {
   signOut: () => ISignOutAction
 }
 
 class ProfilePage extends React.Component<IProps> {
-  componentWillReceiveProps(props) {
-    if (!props.authentication.token) {
-      Router.push('/')
-    }
+  componentDidMount() {
+    const isSignedIn = hasSession()
+    if (!isSignedIn) Router.push('/')
   }
 
   render() {
-    const { user } = this.props.authentication
+    const session = getSession()
 
     return (
       <Layout title="Profile">
-        {user && (
-          <div style={{ marginBottom: 15 }}>
-            <p>Email: {user.email ? user.email : ''}</p>
-            <p>Nickname: {user.nickname ? user.nickname : 'No nickname :('}</p>
-          </div>
-        )}
+        {session &&
+          session.user && (
+            <div style={{ marginBottom: 15 }}>
+              <p>Email: {session.user.email ? session.user.email : ''}</p>
+              <p>
+                Nickname:{' '}
+                {session.user.nickname ? session.user.nickname : 'No nickname :('}
+              </p>
+            </div>
+          )}
 
         <button onClick={this.props.signOut}>Sign out</button>
         <style jsx>{`

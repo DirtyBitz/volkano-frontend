@@ -2,18 +2,35 @@ import * as React from 'react'
 import Head from 'next/head'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import { connect } from 'react-redux'
-import { IStoreState } from '../store/StoreState'
-import { AuthStateI } from '../reducers/authenticationReducer'
+import { getSession, ISession } from '../utils/Session'
 
-interface Props {
+interface IProps {
   title?: string
-  authentication?: AuthStateI
 }
 
-export class Layout extends React.Component<Props, any> {
+interface IState {
+  session: ISession
+}
+
+export class Layout extends React.Component<IProps, IState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      session: null,
+    }
+  }
+
+  componentDidMount() {
+    const session = getSession()
+    if (session) {
+      this.setState({
+        session,
+      })
+    }
+  }
+
   render() {
-    const { authentication, title, children } = this.props
+    const { title, children } = this.props
 
     return (
       <div className="page">
@@ -24,8 +41,8 @@ export class Layout extends React.Component<Props, any> {
         </Head>
         <header>
           <Navigation
-            isSignedIn={authentication && authentication.token ? true : false}
-            user={authentication && authentication.user}
+            isSignedIn={this.state.session ? true : false}
+            user={this.state.session && this.state.session.user}
           />
         </header>
         <div className="main">{children}</div>
@@ -72,10 +89,4 @@ export class Layout extends React.Component<Props, any> {
   }
 }
 
-const mapStateToProps = (state: IStoreState) => {
-  return {
-    authentication: state.authentication,
-  }
-}
-
-export default connect(mapStateToProps, undefined)(Layout)
+export default Layout

@@ -13,7 +13,7 @@ describe('Item actions', () => {
       expect(actions.itemPending()).toEqual(expected)
     })
     it('creates an item success action', async () => {
-      const data = await ItemApi.getAllItems('fake-token')
+      const data = await ItemApi.getAllItems()
 
       const expected = {
         type: ItemActionTypeKeys.ITEM_FULFILLED,

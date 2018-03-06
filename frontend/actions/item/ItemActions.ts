@@ -12,11 +12,11 @@ import {
 } from './ItemActionTypes'
 import { ITag } from '../../components/SearchBar'
 
-export const allItems = (token: string, client: string, uid: string) => {
+export const allItems = () => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(itemPending())
     try {
-      const response = await ItemApi.getAllItems(token, client, uid)
+      const response = await ItemApi.getAllItems()
       dispatch(itemSuccess(response))
     } catch (error) {
       dispatch(itemError(error))
@@ -42,7 +42,7 @@ export const addTag = (tag: ITag): IAddTagAction => ({
   payload: tag,
 })
 
-export const removeTag = (tag: Itag): IRemoveTagAction => ({
+export const removeTag = (tag: ITag): IRemoveTagAction => ({
   type: ItemActionTypeKeys.REMOVE_TAG,
   payload: tag,
 })

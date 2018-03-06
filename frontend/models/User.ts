@@ -1,6 +1,6 @@
 export interface IUserJson {
   id: number
-  provider: string
+  provider: string | null
   uid: string
   name: string | null
   nickname: string | null

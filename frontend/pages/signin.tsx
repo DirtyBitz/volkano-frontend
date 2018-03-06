@@ -13,27 +13,32 @@ import {
   ISignOutAction,
   IClearAuthErrors,
 } from '../actions/authentication/AuthActionTypes'
+import { ISession, hasSession } from '../utils/Session'
 
 interface IProps extends IStoreState {
   signIn: (login: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
   clearAuthErrors: () => IClearAuthErrors
+  session?: ISession
 }
 
 class SigninPage extends React.Component<IProps> {
   private handleSumbit = async ({ login, password }) => {
     await sleep(500) // Fake delay just so we can see loading indicator :)
     await this.props.signIn(login, password)
-  }
 
-  componentWillReceiveProps(props) {
-    if (props.authentication.user) {
+    const isSignedIn = hasSession()
+    if (isSignedIn) {
       Router.push('/profile')
     }
   }
 
   render() {
     const { authentication } = this.props
+
+    /*if (session) {
+      Router.push('/profile')
+    }*/
 
     return (
       <Layout title="Sign In">
@@ -44,7 +49,8 @@ class SigninPage extends React.Component<IProps> {
           }}>
           Sign in
         </h1>
-        {authentication.errors &&
+        {authentication &&
+          authentication.errors &&
           authentication.errors.map((error, i) => (
             <div
               key={i}
