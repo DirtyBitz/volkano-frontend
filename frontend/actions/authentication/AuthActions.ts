@@ -1,34 +1,33 @@
+import AuthActionTypeKeys from './AuthActionTypeKeys'
 import { Dispatch } from 'react-redux'
 import { IStoreState } from '../../store/StoreState'
-import { IUserRegisterDetails, AuthApi, IAuthData } from '../../api/AuthApi'
-import AuthActionTypeKeys from './AuthActionTypeKeys'
+import { IUserRegisterDetails, AuthenticationApi } from '../../api/AuthenticationApi'
+import { setSession } from '../../utils/Session'
 import {
   ISignOutAction,
   ISignInPendingAction,
-  ISignInFulfilledAction,
+  ISignInAcceptedAction,
   ISignInRejectedAction,
   ICreateUserPendingAction,
-  ICreateUserFulfilledAction,
+  ICreateUserAcceptedAction,
   ICreateUserRejectedAction,
   IClearAuthErrors,
 } from './AuthActionTypes'
-import { User } from '../../models/User'
-import { setSession } from '../../utils/Session'
 
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(signInPending())
     try {
-      const response = await AuthApi.authenticateUser(username, password)
+      const response = await AuthenticationApi.authenticateUser(username, password)
       setSession({
         token: response.token,
         client: response.client,
         uid: response.uid,
         user: response.user,
       })
-      dispatch(signInSuccess(response))
+      dispatch(signInAccepted())
     } catch (error) {
-      dispatch(signInError(error))
+      dispatch(signInRejected(error))
     }
   }
 }
@@ -37,10 +36,10 @@ export const createUser = (userData: IUserRegisterDetails) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(createUserPending())
     try {
-      const response = await AuthApi.registerNewUser(userData)
-      dispatch(createUserSuccess(response))
+      await AuthApi.registerNewUser(userData)
+      dispatch(createUserAccepted())
     } catch (error) {
-      dispatch(createUserError(error))
+      dispatch(createUserRejected(error))
     }
   }
 }
@@ -50,30 +49,28 @@ export const signOut = (): ISignOutAction => ({
 })
 
 export const signInPending = (): ISignInPendingAction => ({
-  type: AuthActionTypeKeys.SIGN_IN_PENDING,
+  type: AuthActionTypeKeys.AUTH_PENDING,
 })
 
-export const signInSuccess = (data: IAuthData): ISignInFulfilledAction => ({
-  type: AuthActionTypeKeys.SIGN_IN_FULFILLED,
-  payload: data,
+export const signInAccepted = (): ISignInAcceptedAction => ({
+  type: AuthActionTypeKeys.AUTH_ACCEPTED,
 })
 
-export const signInError = (error: string[]): ISignInRejectedAction => ({
-  type: AuthActionTypeKeys.SIGN_IN_REJECTED,
+export const signInRejected = (error: string[]): ISignInRejectedAction => ({
+  type: AuthActionTypeKeys.AUTH_REJECTED,
   payload: error,
 })
 
 export const createUserPending = (): ICreateUserPendingAction => ({
-  type: AuthActionTypeKeys.CREATE_USER_PENDING,
+  type: AuthActionTypeKeys.AUTH_PENDING,
 })
 
-export const createUserSuccess = (data: User): ICreateUserFulfilledAction => ({
-  type: AuthActionTypeKeys.CREATE_USER_FULFILLED,
-  payload: data,
+export const createUserAccepted = (): ICreateUserAcceptedAction => ({
+  type: AuthActionTypeKeys.AUTH_ACCEPTED,
 })
 
-export const createUserError = (error: string[]): ICreateUserRejectedAction => ({
-  type: AuthActionTypeKeys.CREATE_USER_REJECTED,
+export const createUserRejected = (error: string[]): ICreateUserRejectedAction => ({
+  type: AuthActionTypeKeys.AUTH_REJECTED,
   payload: error,
 })
 

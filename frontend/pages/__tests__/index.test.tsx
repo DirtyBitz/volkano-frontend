@@ -2,12 +2,12 @@ import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { App } from '../index'
 import { ISignOutAction } from '../../actions/authentication/AuthActionTypes'
-import { AuthStateI } from '../../reducers/authenticationReducer'
+import { IAuthState } from '../../reducers/authentication'
 
 interface MockProps {
   signIn: (username: string, password: string) => Promise<void>
   signOut: () => ISignOutAction
-  authentication: AuthStateI
+  authentication: IAuthState
 }
 
 describe('App home page', () => {

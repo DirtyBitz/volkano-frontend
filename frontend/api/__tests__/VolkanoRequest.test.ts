@@ -1,7 +1,7 @@
 jest.mock('../../utils/Session')
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { VolkanoRequest } from '../VolkanoRequest'
+import VolkanoRequest from '../VolkanoRequest'
 import { getSession, setSession, ISession } from '../../utils/Session'
 
 describe('Volkano request adapter', () => {

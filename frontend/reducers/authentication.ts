@@ -1,49 +1,38 @@
 import AuthActionTypeKeys from '../actions/authentication/AuthActionTypeKeys'
 import AuthActionTypes from '../actions/authentication/AuthActionTypes'
-import { User } from '../models/User'
 
-export interface AuthStateI {
+export interface IAuthState {
   isLoading: boolean
-  user?: User
-  token?: string
   errors?: string[]
-  uid?: string
-  client?: string
 }
 
-export const authInitialState: AuthStateI = {
+export const authInitialState: IAuthState = {
   isLoading: false,
 }
 
-export default function authenticationReducer(
+export default function authentication(
   state = authInitialState,
   action: AuthActionTypes
-): AuthStateI {
+): IAuthState {
   switch (action.type) {
-    case AuthActionTypeKeys.SIGN_IN_PENDING:
+    case AuthActionTypeKeys.AUTH_PENDING:
       return {
         ...state,
         isLoading: true,
         errors: undefined,
       }
-    case AuthActionTypeKeys.SIGN_IN_FULFILLED:
+    case AuthActionTypeKeys.AUTH_ACCEPTED:
       return {
         ...state,
         isLoading: false,
-        user: action.payload.user,
-        token: action.payload.token,
-        client: action.payload.client,
-        uid: action.payload.uid,
       }
     case AuthActionTypeKeys.SIGN_OUT:
       return {
         ...state,
-        user: undefined,
-        token: undefined,
-        errors: undefined,
         isLoading: false,
+        errors: undefined,
       }
-    case AuthActionTypeKeys.SIGN_IN_REJECTED:
+    case AuthActionTypeKeys.AUTH_REJECTED:
       return {
         ...state,
         errors: action.payload,
@@ -54,12 +43,12 @@ export default function authenticationReducer(
         ...state,
         errors: undefined,
       }
-    case AuthActionTypeKeys.CREATE_USER_PENDING:
+    case AuthActionTypeKeys.AUTH_PENDING:
       return { ...state, isLoading: true }
-    case AuthActionTypeKeys.CREATE_USER_REJECTED:
+    case AuthActionTypeKeys.AUTH_REJECTED:
       return { ...state, errors: action.payload }
-    case AuthActionTypeKeys.CREATE_USER_FULFILLED:
-      return { ...state, isLoading: false, user: action.payload, errors: undefined }
+    case AuthActionTypeKeys.AUTH_ACCEPTED:
+      return { ...state, isLoading: false, errors: undefined }
     default:
       return state
   }

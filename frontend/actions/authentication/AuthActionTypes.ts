@@ -1,18 +1,16 @@
 import AuthActionTypeKeys from './AuthActionTypeKeys'
 import { IOtherAction } from '../IOtherAction'
-import { IAuthData } from '../../api/AuthApi'
 
 export interface ISignInPendingAction {
-  readonly type: AuthActionTypeKeys.SIGN_IN_PENDING
+  readonly type: AuthActionTypeKeys.AUTH_PENDING
 }
 
-export interface ISignInFulfilledAction {
-  readonly type: AuthActionTypeKeys.SIGN_IN_FULFILLED
-  readonly payload: IAuthData
+export interface ISignInAcceptedAction {
+  readonly type: AuthActionTypeKeys.AUTH_ACCEPTED
 }
 
 export interface ISignInRejectedAction {
-  readonly type: AuthActionTypeKeys.SIGN_IN_REJECTED
+  readonly type: AuthActionTypeKeys.AUTH_REJECTED
   readonly payload: string[]
 }
 
@@ -21,16 +19,15 @@ export interface ISignOutAction {
 }
 
 export interface ICreateUserPendingAction {
-  readonly type: AuthActionTypeKeys.CREATE_USER_PENDING
+  readonly type: AuthActionTypeKeys.AUTH_PENDING
 }
 
-export interface ICreateUserFulfilledAction {
-  readonly type: AuthActionTypeKeys.CREATE_USER_FULFILLED
-  readonly payload: any
+export interface ICreateUserAcceptedAction {
+  readonly type: AuthActionTypeKeys.AUTH_ACCEPTED
 }
 
 export interface ICreateUserRejectedAction {
-  readonly type: AuthActionTypeKeys.CREATE_USER_REJECTED
+  readonly type: AuthActionTypeKeys.AUTH_REJECTED
   readonly payload: string[]
 }
 
@@ -40,11 +37,11 @@ export interface IClearAuthErrors {
 
 type AuthActionTypes =
   | ISignInPendingAction
-  | ISignInFulfilledAction
+  | ISignInAcceptedAction
   | ISignInRejectedAction
   | ISignOutAction
   | ICreateUserPendingAction
-  | ICreateUserFulfilledAction
+  | ICreateUserAcceptedAction
   | ICreateUserRejectedAction
   | IClearAuthErrors
   | IOtherAction

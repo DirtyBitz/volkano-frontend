@@ -1,22 +1,22 @@
 export interface IUserJson {
   id: number
-  provider: string | null
   uid: string
+  email: string
+  provider: string | null
   name: string | null
   nickname: string | null
   image: string | null
-  email: string
 }
 
-export interface User {
+export interface IUser {
   id: number
+  email: string
   name?: string
   nickname?: string
   image?: string
-  email: string
 }
 
-export const convertUserJson = (userJson: IUserJson): User => ({
+export const convertUserJson = (userJson: IUserJson): IUser => ({
   id: userJson.id,
   email: userJson.email,
   name: userJson.name,

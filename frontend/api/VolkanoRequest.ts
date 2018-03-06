@@ -1,7 +1,17 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ISession, setSession, getSession } from '../utils/Session'
 
-export class VolkanoRequest {
+export interface VolkanoHTTPError {
+  status: number
+  message: string
+  data?: any
+}
+
+export interface VolkanoHTTPResponse {
+  data: any
+}
+
+export default class VolkanoRequest {
   public static async get(url: string, options = {}) {
     const session = getSession()
     Object.assign(options, { method: 'get', url, headers: session })
@@ -14,8 +24,7 @@ export class VolkanoRequest {
     return await this.request(options)
   }
 
-
-  private static async request(options: AxiosRequestConfig) {
+  private static async request(options: AxiosRequestConfig): Promise<VolkanoHTTPResponse> {
     try {
       const result: AxiosResponse = await axios(options)
       const headers = result.headers
@@ -29,9 +38,9 @@ export class VolkanoRequest {
         setSession(newSession)
       }
 
-      return result
+      return Promise.resolve({ data: result.data })
     } catch (error) {
-      return Promise.reject(error)
+      return Promise.reject({ status: error.status, message: error.message })
     }
   }
 }
