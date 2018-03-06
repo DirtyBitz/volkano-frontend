@@ -8,11 +8,27 @@ import Layout from '../components/Layout'
 import { IStoreState } from '../store/StoreState'
 import { signOut } from '../actions/authentication/AuthActions'
 import { getSession, hasSession, clearSession } from '../utils/Session'
+import { VolkaButton } from '../components/VolkaButton'
+import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
 
-class ProfilePage extends React.Component {
+interface IState {
+  loading: boolean
+}
+class ProfilePage extends React.Component<any, IState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+    }
+  }
+
   componentDidMount() {
     const isSignedIn = hasSession()
     if (!isSignedIn) Router.push('/')
+
+    setTimeout(() => {
+      this.setState({ loading: true })
+    }, 2000)
   }
 
   private signOut = () => {
@@ -36,22 +52,12 @@ class ProfilePage extends React.Component {
             </div>
           )}
 
-        <button onClick={this.signOut}>Sign out</button>
-        <style jsx>{`
-          button {
-            background: #b70000;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 1em;
-            display: inline-block;
-            border: none;
-          }
-
-          button:hover {
-            background: #7a0101;
-            cursor: pointer;
-          }
-        `}</style>
+        <VolkaButton
+          isLoading={this.state.loading}
+          icon={faUser}
+          title="Sign out"
+          onClick={this.signOut}
+        />
       </Layout>
     )
   }
