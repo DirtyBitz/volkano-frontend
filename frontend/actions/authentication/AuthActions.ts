@@ -13,12 +13,19 @@ import {
   IClearAuthErrors,
 } from './AuthActionTypes'
 import { User } from '../../models/User'
+import { setSession } from '../../utils/Session'
 
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(signInPending())
     try {
       const response = await AuthApi.authenticateUser(username, password)
+      setSession({
+        token: response.token,
+        client: response.client,
+        uid: response.uid,
+        user: response.user,
+      })
       dispatch(signInSuccess(response))
     } catch (error) {
       dispatch(signInError(error))

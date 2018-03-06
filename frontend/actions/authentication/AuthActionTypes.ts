@@ -46,7 +46,7 @@ type AuthActionTypes =
   | ICreateUserPendingAction
   | ICreateUserFulfilledAction
   | ICreateUserRejectedAction
-  | IOtherAction
   | IClearAuthErrors
+  | IOtherAction
 
 export default AuthActionTypes
