@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class ItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url, :tags,
-             :categories, :created_at, :updated_at
+  attributes :id, :title, :url, :created_at, :updated_at, :categories
+  has_many :tags, include: true
+  has_many :categories, include: true
+end
 
-  def tags
-    object.tag_list
-  end
-
-  def categories
-    object.category_list
+module ActsAsTaggableOn
+  class TagSerializer < ActiveModel::Serializer
+    attributes :name, :taggings_count
   end
 end

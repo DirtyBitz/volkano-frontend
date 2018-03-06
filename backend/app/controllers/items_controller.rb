@@ -6,9 +6,9 @@ class ItemsController < ApplicationController
   # GET /items
   def index
     @items = if (tags = params.delete(:tags))
-               current_user.items.tagged_with(tags)
+               current_user.items.tagged_with(tags).includes(:tags, :categories)
              else
-               current_user.items
+               current_user.items.includes(:tags, :categories)
              end
 
     render json: @items
