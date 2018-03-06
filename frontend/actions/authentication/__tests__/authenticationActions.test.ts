@@ -1,4 +1,3 @@
-jest.mock('../../../api/AuthApi')
 import * as actions from '../AuthActions'
 import AuthActionTypeKeys from '../AuthActionTypeKeys'
 
@@ -43,17 +42,17 @@ describe('Authentication actions', () => {
         type: AuthActionTypeKeys.AUTH_ACCEPTED,
       }
 
-      expect(actions.createUserSuccess()).toEqual(expected)
+      expect(actions.createUserAccepted()).toEqual(expected)
     })
 
     it('creates rejected action', () => {
-      const errors = ["Error omg"]
+      const errors = ['Error omg']
       const expected = {
         type: AuthActionTypeKeys.AUTH_REJECTED,
         payload: errors,
       }
 
-      expect(actions.createUserError(expected.payload)).toEqual(expected)
+      expect(actions.createUserRejected(expected.payload)).toEqual(expected)
     })
   })
 })

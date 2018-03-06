@@ -36,7 +36,7 @@ export const createUser = (userData: IUserRegisterDetails) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(createUserPending())
     try {
-      await AuthApi.registerNewUser(userData)
+      await AuthenticationApi.registerNewUser(userData)
       dispatch(createUserAccepted())
     } catch (error) {
       dispatch(createUserRejected(error))
