@@ -5,8 +5,6 @@ import { VolkanoRequest } from '../VolkanoRequest'
 import { getSession, setSession, ISession } from '../../utils/Session'
 
 describe('Volkano request adapter', () => {
-  // Can I mock the store so that the CUT gets the mock
-  // instead of the real store when it tries to reach for it?
   let mock
   let session: ISession
 
@@ -43,11 +41,11 @@ describe('Volkano request adapter', () => {
   })
 
   it('should not change token on server error response', async () => {
-    mock.onGet('/').reply(500, {})
+    mock.onPost('/').reply(500, {})
     const wrapped = VolkanoRequest
 
     try {
-      const response = await wrapped.get('/')
+      const response = await wrapped.post('/', { params: { item: 'hello' } })
       console.error('Did get response', response)
     } catch (error) {
       //Ignore

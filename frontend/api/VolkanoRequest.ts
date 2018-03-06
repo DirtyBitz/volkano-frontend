@@ -8,6 +8,13 @@ export class VolkanoRequest {
     return await this.request(options)
   }
 
+  public static async post(url: string, options = {}) {
+    const session = getSession()
+    Object.assign(options, { method: 'post', url, headers: session })
+    return await this.request(options)
+  }
+
+
   private static async request(options: AxiosRequestConfig) {
     try {
       const result: AxiosResponse = await axios(options)
