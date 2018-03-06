@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { User } from '../models/User'
+import { VolkaButton } from './VolkaButton'
 interface Props {
   isSignedIn: boolean
   user?: User
@@ -27,11 +28,15 @@ export default class Navigation extends React.Component<Props> {
           {!isSignedIn && (
             <div>
               <Link href="/signin">
-                <a id="signin-link">Sign in</a>
+                <a id="signin-link">
+                  <VolkaButton primary title="Sign in" />
+                </a>
               </Link>
 
               <Link href="/signup">
-                <a id="signup-link">Sign up</a>
+                <a id="signup-link">
+                  <VolkaButton primary title="Sign up" />
+                </a>
               </Link>
             </div>
           )}
@@ -63,6 +68,12 @@ export default class Navigation extends React.Component<Props> {
                 padding-right: 15px;
               }
             }
+
+            #user-nav {
+              div {
+                display: flex;
+              }
+            }
           }
 
           #home-link {
@@ -82,16 +93,7 @@ export default class Navigation extends React.Component<Props> {
 
           #signin-link,
           #signup-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #54b45f;
             margin-left: 15px;
-            border-radius: 25px;
-          }
-
-          #signin-link:active,
-          #signup-link:active {
-            background: #32973e;
           }
         `}</style>
       </nav>

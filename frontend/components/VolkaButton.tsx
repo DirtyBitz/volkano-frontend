@@ -9,7 +9,7 @@ interface IProps {
   disabled?: boolean
   icon?: any
   isLoading?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 interface IState {
@@ -43,12 +43,17 @@ export class VolkaButton extends React.Component<IProps, IState> {
     }
   }
 
+  private getOnClickFunction = () => {
+    const { disabled, isLoading } = this.props
+    let onClick = this.props.onClick || function() {}
+    if (disabled || isLoading) return () => {}
+    return onClick
+  }
+
   render() {
     const { title, disabled, icon, isLoading } = this.props
-    const onClick = disabled || isLoading ? () => {} : this.props.onClick
+    const onClick = this.getOnClickFunction()
     const className = this.selectClassName()
-
-    console.log(this.state.buttonWidth)
 
     return (
       <div>
