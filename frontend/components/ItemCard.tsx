@@ -1,62 +1,43 @@
 import * as React from 'react'
 import { Item } from '../models/Item'
 import YouTube from 'react-youtube'
+import { hashTagToColor } from '../utils/TagColors'
 import Modal from 'react-modal'
-import { tagColors, hashTag } from '../utils/TagColors'
 
-interface Props {
+interface IProps {
   item: Item
+  onSelect: (item: Item) => void
 }
-interface State {
-  showModal: boolean
-}
-export default class ItemCard extends React.Component<Props, State> {
+export default class ItemCard extends React.Component<IProps> {
   componentWillMount() {
     Modal.setAppElement('body')
   }
-  constructor(Props, State) {
-    super(Props, State)
-
-    this.state = {
-      showModal: false,
-    }
-
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-  }
-
-  openModal() {
-    this.setState({ showModal: true })
-  }
-  closeModal() {
-    this.setState({ showModal: false })
+  onClick = () => {
+    this.props.onSelect(this.props.item)
   }
   render() {
     const { item } = this.props
 
     return (
       <div className="item-wrap">
-        <div className="item" onClick={this.openModal}>
+        <div className="item" onClick={this.onClick}>
           {this.renderItem()}
-          {item.tags.map((tag: string) => (
-            <span
-              style={{ background: `${tagColors[hashTag(tag) % tagColors.length]}` }}
-              className="tag"
-              key={tag}>
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className="modal-div">
-          <Modal
-            isOpen={this.state.showModal}
-            onRequestClose={this.closeModal}
-            contentLabel="Media Modal">
-            <a href="#" className="boxclose" onClick={this.closeModal} />
-            {this.renderModalItem()}
-          </Modal>
+          <div className="taglist">
+            {item.tags.map((tag: string) => (
+              <span
+                style={{ background: `${hashTagToColor(tag)}` }}
+                className="tag"
+                key={tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
         <style jsx>{`
+          .taglist {
+            overflow-x: auto;
+            white-space: nowrap;
+          }
           .tag {
             margin-right: 3px;
             color: black;
@@ -64,26 +45,7 @@ export default class ItemCard extends React.Component<Props, State> {
             font-size: 0.85em;
             border-radius: 15px;
             border: 1px solid #bababa;
-            font-family: tahoma, sans-serif;
             position: relative;
-          }
-          .boxclose {
-            position: absolute;
-            right: 10px;
-            top: 15px;
-            cursor: pointer;
-            color: #fff;
-            box-shadow: 0px 0px 5px #000000;
-            border-radius: 30px;
-            background: #696969;
-            font-size: 35px;
-            line-height: 0px;
-            padding: 11px 3px;
-            text-decoration: none;
-          }
-
-          .boxclose:before {
-            content: '×';
           }
 
           .item-wrap {
@@ -108,71 +70,6 @@ export default class ItemCard extends React.Component<Props, State> {
           span {
             padding-left: 5px;
             padding-right: 5px;
-          }
-        `}</style>
-      </div>
-    )
-  }
-  private renderModalItem = () => {
-    const { title, tags } = this.props.item
-    return (
-      <div className="modal-div">
-        <figure>
-          <figcaption>{title}</figcaption>
-          <div className="imageModal-container">{this.renderFileType()}</div>
-          <div className="tagdiv">
-            {tags.map((tag: string) => (
-              <span
-                style={{
-                  background: `${tagColors[hashTag(tag) % tagColors.length]}`,
-                }}
-                className="modalTag"
-                key={tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </figure>
-        <style jsx>{`
-          .modal-div {
-            height: 100%;
-          }
-          .imageModal-container {
-            margin: auto;
-            margin-bottom: 5px;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-          }
-          figure {
-            max-width: 100%;
-          }
-          figcaption {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            background: #ce1a1a;
-            text-align: center;
-            color: #fff;
-            padding: 5px 10px;
-          }
-          .tagdiv {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
-          }
-          .modalTag {
-            margin-right: 3px;
-            color: black;
-            padding: 0px 5px 5px 5px;
-            font-size: 1.5em;
-            border-radius: 10vw;
-            border: 1px solid #bababa;
-            font-family: tahoma, sans-serif;
-            position: relative;
           }
         `}</style>
       </div>

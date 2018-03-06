@@ -10,6 +10,9 @@ import { allItems, addTag, removeTag, clearTags } from '../actions/item/ItemActi
 import { CollectionStateI } from '../reducers/collectionReducer'
 import ItemCard from '../components/ItemCard'
 import { SearchBar, ITag } from '../components/SearchBar'
+import { Item } from '../models/Item'
+import Modal from 'react-modal'
+import { ItemModal } from '../components/ItemModal'
 
 interface IProps extends IStoreState {
   allItems: Function
@@ -18,21 +21,36 @@ interface IProps extends IStoreState {
   clearTags: () => void
   collection: CollectionStateI
 }
-class CollectionPage extends React.Component<IProps> {
+
+interface IState {
+  selectedItem?: Item
+}
+class CollectionPage extends React.Component<IProps, IState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedItem: undefined,
+    }
+  }
   componentDidMount() {
     this.props.allItems()
   }
-  componentWillReceiveProps(props) {
-    if (!props.authentication.user) {
-      Router.push('/signin')
-    }
+
+  private onItemSelect = (item: Item) => {
+    this.setState({
+      selectedItem: item,
+    })
+  }
+
+  private unselectItem = () => {
+    this.setState({
+      selectedItem: undefined,
+    })
   }
 
   render() {
     const { addTag, removeTag, clearTags, collection } = this.props
-
     const showFiltered = collection.tags.length > 0
-
     return (
       <Layout title="Collection">
         <div id="search-bar">
@@ -45,15 +63,51 @@ class CollectionPage extends React.Component<IProps> {
         </div>
         <div id="collage">
           {showFiltered &&
-            collection.filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
+            collection.filteredItems.map(item => (
+              <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
+            ))}
 
           {!showFiltered &&
             collection.items &&
-            collection.items.map(item => <ItemCard key={item.id} item={item} />)}
+            collection.items.map(item => (
+              <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
+            ))}
         </div>
         <div id="add-item">
           <button>+</button>
         </div>
+
+        <Modal
+          isOpen={this.state.selectedItem ? true : false}
+          onRequestClose={this.unselectItem}
+          className="modal"
+          overlayClassName="modal-overlay">
+          <ItemModal item={this.state.selectedItem} onClose={this.unselectItem} />
+        </Modal>
+
+        <style jsx global>{`
+          .modal {
+            display: block;
+            background: white;
+            border-radius: 10px;
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+          }
+          .modal-overlay {
+            position: fixed;
+            top: 0px;
+            left: 0;
+            right: 0;
+            bottom: 0px;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+          }
+        `}</style>
+
         <style jsx>{`
           #search-bar {
             margin-bottom: 10px;
