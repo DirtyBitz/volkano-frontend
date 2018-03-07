@@ -11,6 +11,7 @@ import { getSession, clearSession } from '../utils/Session'
 import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
+import EditProfileForm from '../components/EditProfileForm'
 
 class ProfilePage extends React.Component {
   private signOut = () => {
@@ -23,6 +24,7 @@ class ProfilePage extends React.Component {
 
     return (
       <Layout title="Profile">
+        <EditProfileForm />
         {session &&
           session.user && (
             <div style={{ marginBottom: 15 }}>
@@ -33,7 +35,6 @@ class ProfilePage extends React.Component {
               </p>
             </div>
           )}
-
         <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.signOut} />
       </Layout>
     )
