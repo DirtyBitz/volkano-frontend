@@ -1,5 +1,5 @@
 import { IStoreState } from './StoreState'
-import { authInitialState } from '../reducers/authenticationReducer'
+import { authInitialState } from '../reducers/authentication'
 import { collectionInitialState } from '../reducers/collectionReducer'
 import reducers from '../reducers/index'
 import { composeWithDevTools } from 'redux-devtools-extension'

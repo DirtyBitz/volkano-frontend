@@ -12,23 +12,26 @@ export interface VolkanoHTTPResponse {
 }
 
 export default class VolkanoRequest {
-  public static async get(url: string, options = {}) {
-    const session = getSession()
-    Object.assign(options, { method: 'get', url, headers: session })
-    return await this.request(options)
+  public static async get(path: string, options = {}) {
+    Object.assign(options, { method: 'get' })
+    return await this.request(path, options)
   }
 
-  public static async post(url: string, options = {}) {
-    const session = getSession()
-    Object.assign(options, { method: 'post', url, headers: session })
-    return await this.request(options)
+  public static async post(path: string, options = {}) {
+    Object.assign(options, { method: 'post' })
+    return await this.request(path, options)
   }
 
-  private static async request(options: AxiosRequestConfig): Promise<VolkanoHTTPResponse> {
+  private static async request(
+    path: string,
+    options: AxiosRequestConfig
+  ): Promise<VolkanoHTTPResponse> {
+    const session = getSession()
+    const url = `http://localhost:5000${path}`
+    Object.assign(options, { url, headers: session })
     try {
       const result: AxiosResponse = await axios(options)
       const headers = result.headers
-
       if (headers.token) {
         const newSession: ISession = {
           uid: headers.uid,

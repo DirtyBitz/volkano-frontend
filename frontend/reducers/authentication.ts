@@ -16,39 +16,15 @@ export default function authentication(
 ): IAuthState {
   switch (action.type) {
     case AuthActionTypeKeys.AUTH_PENDING:
-      return {
-        ...state,
-        isLoading: true,
-        errors: undefined,
-      }
-    case AuthActionTypeKeys.AUTH_ACCEPTED:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case AuthActionTypeKeys.SIGN_OUT:
-      return {
-        ...state,
-        isLoading: false,
-        errors: undefined,
-      }
-    case AuthActionTypeKeys.AUTH_REJECTED:
-      return {
-        ...state,
-        errors: action.payload,
-        isLoading: false,
-      }
-    case AuthActionTypeKeys.CLEAR_AUTH_ERRORS:
-      return {
-        ...state,
-        errors: undefined,
-      }
-    case AuthActionTypeKeys.AUTH_PENDING:
       return { ...state, isLoading: true }
     case AuthActionTypeKeys.AUTH_REJECTED:
-      return { ...state, errors: action.payload }
+      return { ...state, isLoading: false, errors: action.payload }
     case AuthActionTypeKeys.AUTH_ACCEPTED:
       return { ...state, isLoading: false, errors: undefined }
+    case AuthActionTypeKeys.SIGN_OUT:
+      return { ...state, isLoading: false, errors: undefined }
+    case AuthActionTypeKeys.CLEAR_AUTH_ERRORS:
+      return { ...state, errors: undefined }
     default:
       return state
   }

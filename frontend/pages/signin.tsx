@@ -23,7 +23,7 @@ interface IProps extends IStoreState {
 }
 
 class SigninPage extends React.Component<IProps> {
-  private handleSumbit = async ({ login, password }) => {
+  private handleSubmit = async ({ login, password }) => {
     await sleep(500) // Fake delay just so we can see loading indicator :)
     await this.props.signIn(login, password)
 
@@ -34,12 +34,6 @@ class SigninPage extends React.Component<IProps> {
   }
 
   render() {
-    const { authentication } = this.props
-
-    /*if (session) {
-      Router.push('/profile')
-    }*/
-
     return (
       <Layout title="Sign In">
         <h1
@@ -49,21 +43,7 @@ class SigninPage extends React.Component<IProps> {
           }}>
           Sign in
         </h1>
-        {authentication &&
-          authentication.errors &&
-          authentication.errors.map((error, i) => (
-            <div
-              key={i}
-              style={{
-                color: 'red',
-                textAlign: 'center',
-                height: '30px',
-                whiteSpace: 'nowrap',
-              }}>
-              {error}
-            </div>
-          ))}
-        <SigninForm onSubmit={this.handleSumbit} />
+        <SigninForm onSubmit={this.handleSubmit} />
       </Layout>
     )
   }

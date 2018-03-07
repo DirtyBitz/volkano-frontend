@@ -1,5 +1,5 @@
 import { Item } from '../models/Item'
-import { VolkanoRequest } from './VolkanoRequest'
+import VolkanoRequest from './VolkanoRequest'
 
 export interface ICollectionData {
   items: Item[]
@@ -8,7 +8,7 @@ export interface ICollectionData {
 export class ItemApi {
   public static async getAllItems() {
     try {
-      const response = await VolkanoRequest.get('http://localhost:5000/items')
+      const response = await VolkanoRequest.get('/items')
       const items = {
         items: response.data.map(item => {
           const tags = item.tags.map(tag => tag.name)

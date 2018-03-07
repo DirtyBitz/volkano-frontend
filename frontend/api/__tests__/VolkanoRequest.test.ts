@@ -20,7 +20,7 @@ describe('Volkano request adapter', () => {
 
   it('makes requests using authentication from store', async () => {
     let token
-    mock.onGet('/').reply(config => {
+    mock.onGet().reply(config => {
       token = config.headers.token
       return [200, {}, { token: 'new-token' }]
     })
@@ -32,7 +32,7 @@ describe('Volkano request adapter', () => {
 
   it('should update token on successful request', async () => {
     const newToken = 'new-token'
-    mock.onGet('/').reply(200, { data: 'hello' }, { token: newToken })
+    mock.onGet().reply(200, { data: 'hello' }, { token: newToken })
     const wrapped = VolkanoRequest
 
     await wrapped.get('/')
@@ -41,7 +41,7 @@ describe('Volkano request adapter', () => {
   })
 
   it('should not change token on server error response', async () => {
-    mock.onPost('/').reply(500, {})
+    mock.onPost().reply(500, {})
     const wrapped = VolkanoRequest
 
     try {

@@ -18,13 +18,7 @@ export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(signInPending())
     try {
-      const response = await AuthenticationApi.authenticateUser(username, password)
-      setSession({
-        token: response.token,
-        client: response.client,
-        uid: response.uid,
-        user: response.user,
-      })
+      await AuthenticationApi.authenticateUser(username, password)
       dispatch(signInAccepted())
     } catch (error) {
       dispatch(signInRejected(error))

@@ -1,7 +1,6 @@
 import { AuthenticationApi, IUserRegisterDetails } from '../AuthenticationApi'
-import { IUser } from '../../models/User';
 import { mockUser } from '../__mocks__/VolkanoRequest'
-import { VolkanoHTTPResponse } from '../VolkanoRequest';
+import { VolkanoHTTPResponse } from '../VolkanoRequest'
 
 class MockRequest {
   public static async post(path: string, options: any): Promise<VolkanoHTTPResponse> {
@@ -25,15 +24,17 @@ describe('Authentication API', () => {
 
   describe('authenticating am existing user', () => {
     it('with valid credentials', async () => {
-      const user = await AuthenticationApi.authenticateUser('test@example.com', 'password')
+      const user = await AuthenticationApi.authenticateUser(
+        'test@example.com',
+        'password'
+      )
       expect(user).toEqual(mockUser)
     })
 
     it('with invalid credentials', async () => {
       try {
         await AuthenticationApi.authenticateUser('throwboi', 'wrong password')
-      }
-      catch (error) {
+      } catch (error) {
         expect(error).toEqual(['No such user'])
       }
     })
@@ -42,7 +43,7 @@ describe('Authentication API', () => {
   describe('registering a new user', () => {
     const newUserDetails: IUserRegisterDetails = {
       email: 'test@example.com',
-      password: 'password'
+      password: 'password',
     }
 
     it('with valid credentials', async () => {
@@ -69,5 +70,4 @@ describe('Authentication API', () => {
     it('500: returns server error status message')
     it('418: returns unknown error status message')
   })
-
 })

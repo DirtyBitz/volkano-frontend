@@ -27,16 +27,7 @@ export function getSession(): ISession | undefined {
 }
 
 export function setSession(session: ISession) {
-  jsCookie.set(
-    'session',
-    {
-      client: session.client,
-      uid: session.uid,
-      token: session.token,
-      user: session.user || JSON.parse(jsCookie.get('session')).user,
-    },
-    { expires: 7 }
-  )
+  jsCookie.set('session', session, { expires: 7 })
 }
 
 export function clearSession() {
