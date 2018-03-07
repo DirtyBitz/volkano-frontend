@@ -1,7 +1,7 @@
 import { convertUserJson, IUser } from '../models/User'
 import VolkanoRequest, { VolkanoHTTPError, VolkanoHTTPResponse } from './VolkanoRequest';
 
-enum ErrorState {
+export enum ErrorState {
   SERVER_ERROR = 'Server is down',
   NETWORK_ERROR = 'Network error',
   UNKNOWN_ERROR = 'Unknown error'
@@ -44,7 +44,7 @@ export class AuthenticationApi {
     }
   }
 
-  // Stub for testing
+  /* istanbul ignore next: Stub for testing (inject mock requester here) */
   private static get requester() {
     return VolkanoRequest
   }

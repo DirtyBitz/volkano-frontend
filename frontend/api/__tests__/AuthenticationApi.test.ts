@@ -1,4 +1,4 @@
-import { AuthenticationApi, IUserRegisterDetails } from '../AuthenticationApi'
+import { AuthenticationApi, IUserRegisterDetails, ErrorState } from '../AuthenticationApi'
 import { mockUser } from '../__mocks__/VolkanoRequest'
 import { VolkanoHTTPResponse } from '../VolkanoRequest'
 
@@ -8,11 +8,22 @@ class MockRequest {
     if (path === '/auth/sign_in') {
       if (login === 'throwboi')
         return Promise.reject({ status: 401, data: { errors: ['No such user'] } })
+
+      if (login === '500boi')
+        return Promise.reject({ status: 500, data: { errors: ['Internal server error'] } })
+
+      if (login === 'teapot')
+        return Promise.reject({ status: 418, data: { errors: ["Here's my handle", "here's my spout"] } })
+
+      if (login === 'networky')
+        return Promise.reject({ status: 1337, message: 'Network Error' })
+
       return Promise.resolve({ data: mockUser })
     }
 
-    if (login === 'wrongboi')
-      return Promise.reject({ status: 422, data: { errors: ['Invalid email'] } })
+    if (login === 'unprocessableboi')
+      return Promise.reject({ status: 422, data: { errors: { full_messages: ['Invalid email'] } } })
+
     return Promise.resolve({ data: '' })
   }
 }
@@ -34,6 +45,7 @@ describe('Authentication API', () => {
     it('with invalid credentials', async () => {
       try {
         await AuthenticationApi.authenticateUser('throwboi', 'wrong password')
+        expect("This should not happen").toBe(true)
       } catch (error) {
         expect(error).toEqual(['No such user'])
       }
@@ -57,9 +69,10 @@ describe('Authentication API', () => {
     })
 
     it('with invalid credentials', async () => {
-      const badUserDetails = { ...newUserDetails, email: 'wrongboi' }
+      const badUserDetails = { ...newUserDetails, login: 'unprocessableboi' }
       try {
         await AuthenticationApi.registerNewUser(badUserDetails)
+        expect("This should not happen").toBe(true)
       } catch (error) {
         expect(error).toEqual(['Invalid email'])
       }
@@ -67,7 +80,31 @@ describe('Authentication API', () => {
   })
 
   describe('with error', () => {
-    it('500: returns server error status message')
-    it('418: returns unknown error status message')
+    it('500: returns server error status message', async () => {
+      try {
+        await AuthenticationApi.authenticateUser('500boi', 'passwordboi')
+        expect("This should not happen").toBe(true)
+      } catch (boi) {
+        expect(boi).toEqual([ErrorState.SERVER_ERROR])
+      }
+    })
+
+    it('418: returns unknown error status message', async () => {
+      try {
+        await AuthenticationApi.authenticateUser('teapot', 'IAm')
+        expect("This should not happen").toBe(true)
+      } catch (error) {
+        expect(error).toEqual([ErrorState.UNKNOWN_ERROR])
+      }
+    })
+
+    it('returns "Network error" when server is unreachable', async () => {
+      try {
+        await AuthenticationApi.authenticateUser('networky', 'boi')
+        expect("This should not happen").toBe(true)
+      } catch (error) {
+        expect(error).toEqual([ErrorState.NETWORK_ERROR])
+      }
+    })
   })
 })
