@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
 import { BeatLoader } from 'react-spinners'
-import renderField from './RenderField'
+import renderField from './InputField'
 
 const SignInForm = props => {
   const { handleSubmit, submitting } = props
@@ -13,7 +13,7 @@ const SignInForm = props => {
           name="login"
           type="text"
           component={renderField}
-          label="E-Mail / Nickname"
+          placeholder="E-Mail / Nickname"
           id="login-field"
           iconName={faUser}
         />
@@ -21,7 +21,7 @@ const SignInForm = props => {
           name="password"
           type="password"
           component={renderField}
-          label="Password"
+          placeholder="Password"
           id="pw-field"
           iconName={faLock}
         />
