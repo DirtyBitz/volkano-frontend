@@ -40,6 +40,17 @@ describe('Volkano request adapter', () => {
     expect(getSession().token).toEqual(newToken)
   })
 
+  it('should not update token on successful request if no token is returned', async () => {
+    const originalToken = getSession().token
+
+    mock.onGet().reply(200, { data: 'hello' }, { token: undefined })
+    const wrapped = VolkanoRequest
+
+    await wrapped.get('/')
+
+    expect(getSession().token).toEqual(originalToken)
+  })
+
   it('should not change token on server error response', async () => {
     mock.onPost().reply(500, {})
     const wrapped = VolkanoRequest

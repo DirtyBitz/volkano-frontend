@@ -17,7 +17,7 @@ export default class VolkanoRequest {
     return await this.request(path, options)
   }
 
-  public static async post(path: string, options = {}) {
+  public static async post(path: string, options: any) {
     Object.assign(options, { method: 'post' })
     return await this.request(path, options)
   }
