@@ -15,11 +15,10 @@ export function withAuth(WrappedComponent) {
     static async getInitialProps({ req }) {
       if (req) {
         const cookies = req.headers.cookie
-        if (!cookies) return { isSignedIn: false }
-        return { isSignedIn: true }
+        return { isSignedIn: !!cookies }
       } else {
         const session = getSession()
-        if (session) return { isSignedIn: session ? true : false }
+        return { isSignedIn: !!session }
       }
     }
     componentDidMount() {
