@@ -20,7 +20,6 @@ interface IProps extends IStoreState {
   removeTag: (tag: ITag) => void
   clearTags: () => void
   collection: CollectionStateI
-  isSignedIn: boolean
 }
 
 interface IState {
@@ -50,19 +49,17 @@ class CollectionPage extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { addTag, removeTag, clearTags, collection, isSignedIn } = this.props
+    const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     return (
       <Layout title="Collection">
         <div id="search-bar">
-          {isSignedIn && (
-            <SearchBar
-              addTag={addTag}
-              removeTag={removeTag}
-              clearTags={clearTags}
-              tags={collection.tags}
-            />
-          )}
+          <SearchBar
+            addTag={addTag}
+            removeTag={removeTag}
+            clearTags={clearTags}
+            tags={collection.tags}
+          />
         </div>
         <div id="collage">
           {showFiltered &&
