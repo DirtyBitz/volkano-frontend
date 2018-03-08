@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shallow, ShallowWrapper } from 'enzyme'
+import { shallow, ShallowWrapper, mount } from 'enzyme'
 import { VolkaButton } from '../VolkaButton'
 import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
 
@@ -32,7 +32,7 @@ describe('VolkaButton component', () => {
     expect(button.props().className).toEqual('primary')
   })
 
-  it('Should call onClick when clicke', () => {
+  it('Should call onClick when clicked', () => {
     const button = buttonWrap.find('button').first()
     button.simulate('click')
     expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
@@ -57,14 +57,22 @@ describe('VolkaButton component', () => {
   it('Should render button with icon', () => {
     defaultProps.icon = { faUser }
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
-    expect(defaultProps.icon).toEqual(defaultProps.icon)
+    const fontawesome = buttonWrap.find('.fa-icon').first()
+    const icon = fontawesome.props()
+    expect(icon.icon.faUser.iconName).toBe(faUser.iconName)
   })
 
   it('Should have loading animation while isLoading', () => {
     defaultProps.isLoading = true
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
     const button = buttonWrap.find('BeatLoader').first()
-    //const animatedLoader = button.find('BeatLoader')
     expect(button.length).toBe(1)
+  })
+
+  it('Should have a type', () => {
+    defaultProps.type = 'submit'
+    buttonWrap = shallow(<VolkaButton {...defaultProps} />)
+    const button = buttonWrap.find('button').first()
+    expect(button.props().type).toBe(defaultProps.type)
   })
 })
