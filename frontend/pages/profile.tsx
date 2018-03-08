@@ -7,16 +7,12 @@ import store from '../store'
 import Layout from '../components/Layout'
 import { IStoreState } from '../store/StoreState'
 import { signOut } from '../actions/authentication/AuthActions'
-import { getSession, hasSession, clearSession } from '../utils/Session'
+import { getSession, clearSession } from '../utils/Session'
 import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
+import { withAuth } from '../utils/withAuth'
 
 class ProfilePage extends React.Component {
-  componentDidMount() {
-    const isSignedIn = hasSession()
-    if (!isSignedIn) Router.push('/')
-  }
-
   private signOut = () => {
     clearSession()
     Router.push('/')
@@ -56,4 +52,6 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(ProfilePage)
+const AuthProfilePage = withAuth(ProfilePage)
+
+export default withRedux(store, mapStateToProps, mapDispatchToProps)(AuthProfilePage)

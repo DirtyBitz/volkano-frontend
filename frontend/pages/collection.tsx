@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import store from '../store'
-import Router from 'next/router'
 import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
@@ -13,6 +12,7 @@ import { SearchBar, ITag } from '../components/SearchBar'
 import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from '../components/ItemModal'
+import { withAuth } from '../utils/withAuth'
 
 interface IProps extends IStoreState {
   allItems: Function
@@ -20,6 +20,7 @@ interface IProps extends IStoreState {
   removeTag: (tag: ITag) => void
   clearTags: () => void
   collection: CollectionStateI
+  isSignedIn: boolean
 }
 
 interface IState {
@@ -49,17 +50,19 @@ class CollectionPage extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { addTag, removeTag, clearTags, collection } = this.props
+    const { addTag, removeTag, clearTags, collection, isSignedIn } = this.props
     const showFiltered = collection.tags.length > 0
     return (
       <Layout title="Collection">
         <div id="search-bar">
-          <SearchBar
-            addTag={addTag}
-            removeTag={removeTag}
-            clearTags={clearTags}
-            tags={collection.tags}
-          />
+          {isSignedIn && (
+            <SearchBar
+              addTag={addTag}
+              removeTag={removeTag}
+              clearTags={clearTags}
+              tags={collection.tags}
+            />
+          )}
         </div>
         <div id="collage">
           {showFiltered &&
@@ -169,4 +172,6 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(CollectionPage)
+const AuthCollectionPage = withAuth(CollectionPage)
+
+export default withRedux(store, mapStateToProps, mapDispatchToProps)(AuthCollectionPage)
