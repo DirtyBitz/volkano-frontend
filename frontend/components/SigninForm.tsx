@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
 import { BeatLoader } from 'react-spinners'
+import { VolkaButton } from './VolkaButton'
 
 const renderField = field => {
   const { meta, type, label, asyncValidating, input, iconName } = field
@@ -98,16 +99,7 @@ const SignInForm = props => {
           iconName={faLock}
         />
         <div className="buttons">
-          {submitting && (
-            <button type="submit" style={{ width: 100, height: 40 }}>
-              <BeatLoader color="#fff" size={15} />
-            </button>
-          )}
-          {!submitting && (
-            <button type="submit" style={{ width: 100, height: 40 }}>
-              Sign In
-            </button>
-          )}
+          <VolkaButton primary title="Sign in" type="submit" isLoading={submitting} />
         </div>
       </form>
 

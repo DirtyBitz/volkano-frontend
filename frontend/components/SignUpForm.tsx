@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faUser, faLock, faIdBadge } from '@fortawesome/fontawesome-free-solid'
+import { VolkaButton } from './VolkaButton'
 
 const renderField = field => {
   const { meta, type, asyncValidating, input, iconName, placeholder } = field
@@ -114,9 +115,7 @@ const SignUpForm = props => {
             placeholder="Confirm password"
           />
           <div className="buttons">
-            <button type="submit" disabled={submitting}>
-              Sign up!
-            </button>
+            <VolkaButton primary title="Sign up" type="submit" />
           </div>
         </form>
 
