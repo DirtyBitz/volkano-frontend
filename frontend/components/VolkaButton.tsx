@@ -10,6 +10,7 @@ interface IProps {
   icon?: any
   isLoading?: boolean
   onClick?: () => void
+  type?: 'submit'
 }
 
 interface IState {
@@ -51,7 +52,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { title, disabled, icon, isLoading } = this.props
+    const { title, disabled, icon, isLoading, type } = this.props
     const onClick = this.getOnClickFunction()
     const className = this.selectClassName()
 
@@ -60,11 +61,13 @@ export class VolkaButton extends React.Component<IProps, IState> {
         <button
           className={className.join(' ')}
           onClick={onClick}
-          ref={ref => (this.button = ref)}>
+          ref={ref => (this.button = ref)}
+          type={type}
+          disabled={disabled}>
           {icon &&
             !isLoading && (
               <span className="button-icon">
-                <FontAwesomeIcon icon={icon} color="#fff" />
+                <FontAwesomeIcon className="fa-icon" icon={icon} color="#fff" />
               </span>
             )}
           {isLoading && <BeatLoader color="#fff" size={5} />}
@@ -80,7 +83,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
             transition: background 0.3s;
             outline: none;
             width: ${this.state.buttonWidth ? this.state.buttonWidth : 'auto'};
-
+            white-space: nowrap;
             &:hover {
               cursor: pointer;
               background: #6d9eff;
