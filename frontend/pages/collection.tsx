@@ -13,6 +13,7 @@ import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from '../components/ItemModal'
 import { withAuth } from '../utils/withAuth'
+import ArrowKeysReact from 'arrow-keys-react'
 
 interface IProps extends IStoreState {
   allItems: Function
@@ -31,6 +32,20 @@ class CollectionPage extends React.Component<IProps, IState> {
     this.state = {
       selectedItem: undefined,
     }
+    ArrowKeysReact.config({
+      left: () => {
+        const index = this.props.collection.items.findIndex(item => {
+          return this.state.selectedItem === item
+        })
+        this.setState({ selectedItem: this.props.collection.items[index - 1] })
+      },
+      right: () => {
+        const index = this.props.collection.items.findIndex(item => {
+          return this.state.selectedItem === item
+        })
+        this.setState({ selectedItem: this.props.collection.items[index + 1] })
+      },
+    })
   }
   componentDidMount() {
     this.props.allItems()
@@ -61,6 +76,7 @@ class CollectionPage extends React.Component<IProps, IState> {
             tags={collection.tags}
           />
         </div>
+
         <div id="collage">
           {showFiltered &&
             collection.filteredItems.map(item => (
@@ -73,17 +89,19 @@ class CollectionPage extends React.Component<IProps, IState> {
               <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
             ))}
         </div>
+
         <div id="add-item">
           <button>+</button>
         </div>
-
-        <Modal
-          isOpen={this.state.selectedItem ? true : false}
-          onRequestClose={this.unselectItem}
-          className="modal"
-          overlayClassName="modal-overlay">
-          <ItemModal item={this.state.selectedItem} onClose={this.unselectItem} />
-        </Modal>
+        <div {...ArrowKeysReact.events} tabIndex="1">
+          <Modal
+            isOpen={this.state.selectedItem ? true : false}
+            onRequestClose={this.unselectItem}
+            className="modal"
+            overlayClassName="modal-overlay">
+            <ItemModal item={this.state.selectedItem} onClose={this.unselectItem} />
+          </Modal>
+        </div>
 
         <style jsx global>{`
           .modal {
