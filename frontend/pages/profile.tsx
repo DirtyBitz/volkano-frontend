@@ -12,6 +12,7 @@ import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
 import EditProfileForm from '../components/EditProfileForm'
+import EditableField from '../components/EditableField'
 
 class ProfilePage extends React.Component {
   private signOut = () => {
@@ -24,7 +25,11 @@ class ProfilePage extends React.Component {
 
     return (
       <Layout title="Profile">
-        <EditProfileForm />
+        <EditableField
+          label="Nickname"
+          value="test"
+          onSave={newValue => console.log(newValue)}
+        />
         {session &&
           session.user && (
             <div style={{ marginBottom: 15 }}>
