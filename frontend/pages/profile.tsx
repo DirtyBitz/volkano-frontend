@@ -26,7 +26,7 @@ class ProfilePage extends React.Component {
     return (
       <Layout title="Profile">
         <EditableField
-          label="Nickname"
+          label="Nickname: "
           value="test"
           onSave={newValue => console.log(newValue)}
         />

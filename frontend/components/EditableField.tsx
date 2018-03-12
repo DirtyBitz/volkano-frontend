@@ -54,7 +54,7 @@ class EditableField extends React.Component<IProps, IState> {
             />
             <FontAwesomeIcon
               icon={faCheckSquare}
-              size="xs"
+              size="l"
               className="confirm-button"
               onClick={this.endEdit}
             />
@@ -65,12 +65,43 @@ class EditableField extends React.Component<IProps, IState> {
             <span className="value">{inputValue}</span>
             <FontAwesomeIcon
               icon={faEdit}
-              size="xs"
+              size="sm"
               className="edit-button"
               onClick={this.startEdit}
             />
           </div>
         )}
+        <style jsx global>{`
+          label {
+            display: flex;
+          }
+          input {
+            border-style: solid;
+            border-width: 1px;
+            box-shadow: none;
+            border-radius: 6px;
+            padding: 4px 4px;
+            background: #efeeee;
+
+            &:hover {
+              cursor: text;
+            }
+          }
+          .edit-button {
+            margin-left: 5px;
+            margin-bottom: 2px;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          .confirm-button {
+            margin-left: 5px;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        `}</style>
       </div>
     )
   }
