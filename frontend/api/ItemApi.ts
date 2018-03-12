@@ -29,4 +29,8 @@ export class ItemApi {
 
     return response.data
   }
+
+  public static async deleteItem(id: number) {
+    await VolkanoRequest.delete(`/items/${id}`)
+  }
 }

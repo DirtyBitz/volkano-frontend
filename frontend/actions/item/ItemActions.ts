@@ -35,6 +35,17 @@ export const createItem = item => {
   }
 }
 
+export const deleteItem = item => {
+  return async (dispatch: Dispatch<IStoreState>) => {
+    const { id } = item
+    try {
+      await ItemApi.deleteItem(id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const itemPending = (): IItemPendingAction => ({
   type: ItemActionTypeKeys.ITEM_PENDING,
 })

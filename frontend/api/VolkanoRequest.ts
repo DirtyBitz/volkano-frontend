@@ -23,6 +23,11 @@ export default class VolkanoRequest {
     return await this.request(path, options)
   }
 
+  public static async delete(path: string, options = {}) {
+    Object.assign(options, { method: 'delete' })
+    return await this.request(path, options)
+  }
+
   private static async request(
     path: string,
     options: AxiosRequestConfig

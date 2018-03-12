@@ -5,7 +5,13 @@ import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import Layout from '../components/Layout'
-import { allItems, addTag, removeTag, clearTags } from '../actions/item/ItemActions'
+import {
+  allItems,
+  addTag,
+  removeTag,
+  clearTags,
+  deleteItem,
+} from '../actions/item/ItemActions'
 import { CollectionStateI } from '../reducers/collectionReducer'
 import ItemCard from '../components/ItemCard'
 import { SearchBar, ITag } from '../components/SearchBar'
@@ -20,6 +26,7 @@ interface IProps extends IStoreState {
   addTag: (tag: ITag) => void
   removeTag: (tag: ITag) => void
   clearTags: () => void
+  deleteItem: (item) => void
   collection: CollectionStateI
 }
 
@@ -73,6 +80,11 @@ class CollectionPage extends React.Component<IProps, IState> {
     Router.push('/additem')
   }
 
+  private deleteItem = (item: Item) => {
+    this.props.deleteItem(item)
+    this.unselectItem()
+  }
+
   render() {
     const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
@@ -100,11 +112,13 @@ class CollectionPage extends React.Component<IProps, IState> {
             ))}
         </div>
 
-        {this.state.selectedItem ? false : true &&
-          <div id="add-item" onClick={this.addItemPage}>
-            <span>+</span>
-          </div>
-        }
+        {this.state.selectedItem
+          ? false
+          : true && (
+              <div id="add-item" onClick={this.addItemPage}>
+                <span>+</span>
+              </div>
+            )}
 
         <div onKeyDown={this.keyHandler}>
           <Modal
@@ -117,6 +131,7 @@ class CollectionPage extends React.Component<IProps, IState> {
               onClose={this.unselectItem}
               onNext={() => this.onKeyEvent('ArrowRight')}
               onPrev={() => this.onKeyEvent('ArrowLeft')}
+              onDelete={this.deleteItem}
             />
           </Modal>
         </div>
@@ -195,6 +210,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
     addTag: bindActionCreators(addTag, dispatch),
     removeTag: bindActionCreators(removeTag, dispatch),
     clearTag: bindActionCreators(clearTags, dispatch),
+    deleteItem: bindActionCreators(deleteItem, dispatch),
   }
 }
 

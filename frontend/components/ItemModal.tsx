@@ -7,6 +7,7 @@ import {
   faTimesCircle,
   faArrowCircleRight,
   faArrowCircleLeft,
+  faTrash,
 } from '@fortawesome/fontawesome-free-solid'
 
 interface IProps {
@@ -14,6 +15,7 @@ interface IProps {
   onClose: () => void
   onNext: () => void
   onPrev: () => void
+  onDelete: (item) => void
 }
 
 export class ItemModal extends React.Component<IProps> {
@@ -21,6 +23,11 @@ export class ItemModal extends React.Component<IProps> {
     const { url } = this.props.item
     if (url.includes('youtube')) return this.renderYouTube()
     else return this.renderImage()
+  }
+
+  private deleteItem = () => {
+    const { onDelete, item } = this.props
+    onDelete(item)
   }
 
   private renderYouTube() {
@@ -87,6 +94,11 @@ export class ItemModal extends React.Component<IProps> {
         <figure>
           <figcaption>
             {title}
+            <FontAwesomeIcon
+              className="itemDelete"
+              icon={faTrash}
+              onClick={this.deleteItem}
+            />
             <FontAwesomeIcon
               className="modalClose"
               icon={faTimesCircle}
