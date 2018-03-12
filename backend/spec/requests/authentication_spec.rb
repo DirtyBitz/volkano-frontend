@@ -56,13 +56,6 @@ RSpec.describe 'User authentication', type: :request do
       end
     end
 
-    it 'can sign in with nickname' do
-      valid_params.delete(:email)
-      valid_params[:nickname] = 'sirrobin'
-      post '/auth/sign_in', params: valid_params
-      expect(response).to have_http_status(:ok)
-    end
-
     it 'can sign in with mismatched email and nickname' do
       User.create(email: 'tester@example.com',
                   nickname: 'sirlancelot',
