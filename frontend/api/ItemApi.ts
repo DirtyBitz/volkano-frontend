@@ -23,7 +23,7 @@ export class ItemApi {
   }
 
   public static async createItem(title: string, url: string, tags: string) {
-    const params = { data: { item: { title, url, tags } } }
+    const params = { data: { item: { title, url, tag_list: tags } } }
 
     const response = await VolkanoRequest.post('/items', params)
 
