@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { shallow, ShallowWrapper } from 'enzyme'
+import { shallow } from 'enzyme'
 import { ItemModal } from '../ItemModal'
 
 describe('ItemModal component', () => {
   let itemModal
   let item
-  let callback
+  let closeCallback
+  let deleteCallback
+  let prevCallback
+  let nextCallback
+
   beforeEach(() => {
     item = {
       id: 1,
@@ -15,11 +19,21 @@ describe('ItemModal component', () => {
       tags: ['example', 'boy'],
       categories: ['png', 'image/png'],
     }
-    callback = jest.fn()
+    closeCallback = jest.fn()
+    deleteCallback = jest.fn()
+    prevCallback = jest.fn()
+    nextCallback = jest.fn()
     itemModal = shallow(
-      <ItemModal item={item} onClose={callback} onNext={callback} onPrev={callback} />
+      <ItemModal
+        item={item}
+        onPrev={prevCallback}
+        onNext={nextCallback}
+        onClose={closeCallback}
+        onDelete={deleteCallback}
+      />
     )
   })
+
   it('should show tags for itemModal', () => {
     const tags = itemModal.find('.modalTag')
     expect(tags.length).toBe(2)
@@ -34,30 +48,43 @@ describe('ItemModal component', () => {
     const imgtag = itemModal.find('img').prop('src')
     expect(imgtag).toBe(item.url)
   })
+
   it('should show video if modal includes video', () => {
     item.url = 'https://www.youtube.com/watch?v=qbA42wQoWAs'
     itemModal = shallow(
-      <ItemModal item={item} onClose={callback} onNext={callback} onPrev={callback} />
+      <ItemModal
+        item={item}
+        onPrev={prevCallback}
+        onNext={nextCallback}
+        onClose={closeCallback}
+        onDelete={deleteCallback}
+      />
     )
 
     const youtubeVideo = itemModal.find('YouTube').first()
     expect(youtubeVideo.props().videoId).toBe(item.url.split('v=')[1])
   })
 
+  it('should call onDelete function when "trashcan icon" clicked', () => {
+    const trashcan = itemModal.find('.itemDelete').first()
+    trashcan.simulate('click')
+    expect(deleteCallback).toHaveBeenCalledTimes(1)
+  })
+
   it('should call onClose function when "close icon" clicked', () => {
     const clickableButton = itemModal.find('.modalClose').first()
     clickableButton.simulate('click')
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(closeCallback).toHaveBeenCalledTimes(1)
   })
 
   it('should call onNext function when "next icon" clicked', () => {
     const clickableButton = itemModal.find('.modalNext').first()
     clickableButton.simulate('click')
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(nextCallback).toHaveBeenCalledTimes(1)
   })
   it('should call onPrev function when "prev icon" clicked', () => {
     const clickableButton = itemModal.find('.modalPrev').first()
     clickableButton.simulate('click')
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(prevCallback).toHaveBeenCalledTimes(1)
   })
 })

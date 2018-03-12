@@ -2,6 +2,7 @@ jest.mock('../../../api/ItemApi')
 import * as actions from '../ItemActions'
 import ItemActionTypeKeys from '../ItemActionTypeKeys'
 import { ItemApi } from '../../../api/ItemApi'
+import { Item } from '../../../models/Item'
 
 describe('Item actions', () => {
   describe('visiting "localhost:3000/collection"', () => {
@@ -12,6 +13,7 @@ describe('Item actions', () => {
 
       expect(actions.itemPending()).toEqual(expected)
     })
+
     it('creates an item success action', async () => {
       const data = await ItemApi.getAllItems()
 
@@ -22,6 +24,7 @@ describe('Item actions', () => {
 
       expect(actions.itemSuccess(data)).toEqual(expected)
     })
+
     it('creates an item error action', () => {
       const expected = {
         type: ItemActionTypeKeys.ITEM_REJECTED,
@@ -29,6 +32,23 @@ describe('Item actions', () => {
       }
 
       expect(actions.itemError(expected.payload)).toEqual(expected)
+    })
+
+    it('creates an item deleted action', () => {
+      const toBeDeleted: Item = {
+        id: 0,
+        title: 'Dummy',
+        url: 'dummy',
+        uid: 0,
+        categories: [],
+        tags: [],
+      }
+      const expected = {
+        type: ItemActionTypeKeys.ITEM_DELETED,
+        payload: toBeDeleted,
+      }
+
+      expect(actions.itemDelete(toBeDeleted)).toEqual(expected)
     })
   })
 })
