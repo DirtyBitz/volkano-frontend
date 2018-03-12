@@ -21,7 +21,6 @@ class ProfilePage extends React.Component {
 
   render() {
     const session = getSession()
-    console.log(session)
     return (
       <Layout title="Profile">
         <EditableField

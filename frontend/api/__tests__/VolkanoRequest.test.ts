@@ -22,7 +22,7 @@ describe('Volkano request adapter', () => {
     let token
     mock.onGet().reply(config => {
       token = config.headers.token
-      return [200, {}, { token: 'new-token' }]
+      return [200, { data: { id: 0, email: 'test@example.com' } }, { token: 'new-token', uid: 'test@example.com', client: 'client' }]
     })
 
     const wrapped = VolkanoRequest

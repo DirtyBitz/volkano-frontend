@@ -35,7 +35,7 @@ export default class VolkanoRequest {
       const headers = result.headers
       if (headers.token) {
         let user
-        if (result.data.data.email) {
+        if (result.data.data) {
           user = convertUserJson(result.data.data)
         }
 
