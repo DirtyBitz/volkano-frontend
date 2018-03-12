@@ -24,11 +24,11 @@ export const allItems = () => {
   }
 }
 
-export const createItem = (token, client, uid, item) => {
+export const createItem = item => {
   return async (dispatch: Dispatch<IStoreState>) => {
     const { title, url, tags } = item
     try {
-      await ItemApi.createItem(token, client, uid, title, url, tags)
+      await ItemApi.createItem(title, url, tags)
     } catch (error) {
       console.log(error)
     }

@@ -22,18 +22,10 @@ export class ItemApi {
     }
   }
 
-  public static async createItem(
-    token: string,
-    client: string,
-    uid: string,
-    title: string,
-    url: string,
-    tags: string
-  ) {
-    const config = { headers: { client, token, uid } }
-    const params = { item: { title, url, tags } }
+  public static async createItem(title: string, url: string, tags: string) {
+    const params = { data: { item: { title, url, tags } } }
 
-    const response = await axios.post('http://localhost:5000/items', params, config)
+    const response = await VolkanoRequest.post('/items', params)
 
     return response.data
   }

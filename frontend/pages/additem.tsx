@@ -17,23 +17,17 @@ interface INewItem {
 }
 
 interface IProps extends IStoreState {
-  createItem: (
-    token: string,
-    client: string,
-    uid: string,
-    item: INewItem
-  ) => Promise<void>
+  createItem: (item: INewItem) => Promise<void>
 }
 
 class CreateItemPage extends React.Component<IProps> {
   private handleSubmit = async (item: INewItem) => {
-    const { token, client, uid } = this.props.authentication
-    await this.props.createItem(token, client, uid, item)
-  }
-
-  componentWillReceiveProps(props) {
-    if (!props.authentication.user) {
-      Router.push('/signin')
+    try {
+      await this.props.createItem(item)
+      Router.push('/collection')
+    } catch (error) {
+      // We should probably handle this
+      console.error(error)
     }
   }
 
