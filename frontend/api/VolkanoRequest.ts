@@ -27,7 +27,7 @@ export default class VolkanoRequest {
     options: AxiosRequestConfig
   ): Promise<VolkanoHTTPResponse> {
     const session = getSession()
-    const url = `http://localhost:5000${path}`
+    const url = `http://localhost:5000${path}.json`
     Object.assign(options, { url, headers: session })
     try {
       const result: AxiosResponse = await axios(options)
