@@ -2,6 +2,7 @@ import ItemActionTypeKeys from './ItemActionTypeKeys'
 import { IOtherAction } from '../IOtherAction'
 import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/SearchBar'
+import { Item } from '../../models/Item'
 
 export interface IItemPendingAction {
   readonly type: ItemActionTypeKeys.ITEM_PENDING
@@ -15,6 +16,11 @@ export interface IItemFulfilledAction {
 export interface IItemRejectedAction {
   readonly type: ItemActionTypeKeys.ITEM_REJECTED
   readonly payload: string[]
+}
+
+export interface IItemDeletedAction {
+  readonly type: ItemActionTypeKeys.ITEM_DELETED
+  readonly payload: Item
 }
 
 export interface IAddTagAction {
@@ -35,6 +41,7 @@ type ItemActionTypes =
   | IItemPendingAction
   | IItemFulfilledAction
   | IItemRejectedAction
+  | IItemDeletedAction
   | IAddTagAction
   | IRemoveTagAction
   | IClearTagsAction

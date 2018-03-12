@@ -40,6 +40,12 @@ export default function collectionReducer(
         errors: action.payload,
         isLoading: false,
       }
+    case ItemActionTypeKeys.ITEM_DELETED:
+      const remainingItems = state.items.filter(item => item.id != action.payload.id)
+      return {
+        ...state,
+        items: remainingItems,
+      }
     case ItemActionTypeKeys.ADD_TAG:
       const searchTags = [...state.tags, action.payload]
       return {
