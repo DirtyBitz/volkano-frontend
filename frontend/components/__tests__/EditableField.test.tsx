@@ -71,32 +71,42 @@ describe('Editable field', () => {
     })
 
     it('Should change state when input changes', () => {
-      wrapper.find('input').simulate('change': {target:{value: 'New value'}})
+      wrapper.find('input').simulate('change', { target: { value: 'New value' } })
       const state = wrapper.state()
       expect(state.inputValue).toBe('New value')
     })
     it('Should save new value', () => {
-      wrapper.find('input').simulate('change', {target:{value: 'New value'}})
+      wrapper.find('input').simulate('change', { target: { value: 'New value' } })
 
       wrapper
-      .update()
-      .find('.confirm-button')
-      .first()
-      .simulate('click')
+        .update()
+        .find('.confirm-button')
+        .first()
+        .simulate('click')
 
-      expect(wrapper.update().find('.value').text()).toEqual('New value')
+      expect(
+        wrapper
+          .update()
+          .find('.value')
+          .text()
+      ).toEqual('New value')
     })
 
     it('Should call onSave when saveing', () => {
-      wrapper.find('input').simulate('change', {target:{value: 'New value'}})
+      wrapper.find('input').simulate('change', { target: { value: 'New value' } })
 
       wrapper
-      .update()
-      .find('.confirm-button')
-      .first()
-      .simulate('click')
+        .update()
+        .find('.confirm-button')
+        .first()
+        .simulate('click')
 
       expect(defaultProps.onSave).toBeCalledWith('New value')
+    })
+
+    it('Should have className is-editing when editing', () => {
+      const div = wrapper.find('.editable-field')
+      expect(div.hasClass('is-editing')).toBe(true)
     })
   })
 })
