@@ -1,6 +1,7 @@
 import * as React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faEdit, faCheckSquare } from '@fortawesome/fontawesome-free-solid'
+import { Colors } from '../constants/Colors'
 
 interface IProps {
   label: string
@@ -14,91 +15,141 @@ interface IState {
 }
 
 class EditableField extends React.Component<IProps, IState> {
+  valueInput: any
+
   constructor(props) {
     super(props)
     this.state = { isEditing: false, inputValue: props.value }
   }
 
-  startEdit = e => {
+  private startEdit = e => {
     this.setState({ isEditing: true })
   }
 
-  endEdit = e => {
+  private endEdit = e => {
     this.setState({ isEditing: false })
     this.props.onSave(this.state.inputValue)
   }
 
-  updateInputValue = e => {
+  private updateInputValue = e => {
     this.setState({ inputValue: e.target.value })
   }
-  handleKeyPress = e => {
+
+  private handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.setState({ isEditing: false })
     }
   }
 
+  private moveCaretAtEndOfInput = e => {
+    let temp_value = e.target.value
+    e.target.value = ''
+    e.target.value = temp_value
+  }
+
   render() {
-    const { label, value } = this.props
+    const { label } = this.props
     const { isEditing, inputValue } = this.state
 
     return (
-      <div>
-        {' '}
+      <div className={isEditing ? 'editable-field is-editing' : 'editable-field'}>
         <label>{label}</label>
         {isEditing && (
-          <div>
+          <div className="content">
             <input
-              value={inputValue}
+              autoFocus
+              onFocus={this.moveCaretAtEndOfInput}
+              value={inputValue ? inputValue : ''}
               onChange={this.updateInputValue}
               onKeyPress={this.handleKeyPress}
             />
-            <FontAwesomeIcon
-              icon={faCheckSquare}
-              size="l"
-              className="confirm-button"
-              onClick={this.endEdit}
-            />
+            <span className="icon confirm-icon">
+              <FontAwesomeIcon
+                icon={faCheckSquare}
+                size="1x"
+                className="confirm-button"
+                onClick={this.endEdit}
+              />
+            </span>
           </div>
         )}
         {!isEditing && (
-          <div>
+          <div className="content">
             <span className="value">{inputValue}</span>
-            <FontAwesomeIcon
-              icon={faEdit}
-              size="sm"
-              className="edit-button"
-              onClick={this.startEdit}
-            />
+            <span className="icon">
+              <FontAwesomeIcon
+                icon={faEdit}
+                size="sm"
+                className="edit-button"
+                onClick={this.startEdit}
+              />
+            </span>
           </div>
         )}
-        <style jsx global>{`
-          label {
+        <style jsx>{`
+          .editable-field {
+            border: 1px solid #bbb;
             display: flex;
-          }
-          input {
-            border-style: solid;
-            border-width: 1px;
-            box-shadow: none;
-            border-radius: 6px;
-            padding: 4px 4px;
-            background: #efeeee;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
 
-            &:hover {
-              cursor: text;
+            &:hover .icon {
+              opacity: 1;
+            }
+
+            .content {
+              width: 100%;
+              display: flex;
+            }
+
+            label {
+              font-weight: bold;
+              margin-right: 10px;
+              padding: 5px 10px 5px 10px;
+              white-space: nowrap;
+              border-right: 1px solid #bbb;
+              min-width: 100px;
+            }
+
+            .value,
+            input {
+              border: 1px solid red;
+              margin-right: 10px;
+              flex: 1;
+              border: none;
+              padding: 5px 10px 5px 0;
+            }
+
+            input {
+              background: transparent;
+            }
+
+            .icon {
+              opacity: 0;
+              transition: 0.3s opacity;
+              align-self: center;
+              margin-bottom: 3px;
+              margin-right: 10px;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+
+            .confirm-icon {
+              opacity: 1;
+              margin-bottom: 0;
             }
           }
-          .edit-button {
-            margin-left: 5px;
-            margin-bottom: 2px;
 
-            &:hover {
-              cursor: pointer;
-            }
-          }
-          .confirm-button {
-            margin-left: 5px;
-            &:hover {
-              cursor: pointer;
+          .is-editing {
+            background: ${Colors.primary};
+            border: 1px solid #222;
+
+            label {
+              border-right: 1px solid #222;
             }
           }
         `}</style>

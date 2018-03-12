@@ -26,20 +26,17 @@ class ProfilePage extends React.Component {
     return (
       <Layout title="Profile">
         <EditableField
-          label="Nickname: "
-          value="test"
+          label="E-mail"
+          value={session ? session.user.email : ''}
           onSave={newValue => console.log(newValue)}
         />
-        {session &&
-          session.user && (
-            <div style={{ marginBottom: 15 }}>
-              <p>Email: {session.user.email ? session.user.email : ''}</p>
-              <p>
-                Nickname:{' '}
-                {session.user.nickname ? session.user.nickname : 'No nickname :('}
-              </p>
-            </div>
-          )}
+
+        <EditableField
+          label="Nickname"
+          value={session ? session.user.nickname : ''}
+          onSave={newValue => console.log(newValue)}
+        />
+
         <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.signOut} />
       </Layout>
     )
