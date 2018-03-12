@@ -11,7 +11,6 @@ import { getSession, clearSession } from '../utils/Session'
 import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
-import EditProfileForm from '../components/EditProfileForm'
 import EditableField from '../components/EditableField'
 
 class ProfilePage extends React.Component {
@@ -22,7 +21,7 @@ class ProfilePage extends React.Component {
 
   render() {
     const session = getSession()
-
+    console.log(session)
     return (
       <Layout title="Profile">
         <EditableField

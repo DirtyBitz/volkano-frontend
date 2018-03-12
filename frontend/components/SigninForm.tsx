@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { faUser, faLock } from '@fortawesome/fontawesome-free-solid'
-import { BeatLoader } from 'react-spinners'
 import renderField from './InputField'
+import { VolkaButton } from './VolkaButton';
 
 const SignInForm = props => {
   const { handleSubmit, submitting } = props
