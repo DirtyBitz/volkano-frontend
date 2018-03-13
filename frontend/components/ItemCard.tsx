@@ -35,9 +35,15 @@ export default class ItemCard extends React.Component<IProps> {
         </div>
         <style jsx>{`
           .taglist {
-            overflow-x: auto;
             white-space: nowrap;
+            overflow-x: auto;
           }
+
+          .taglist::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
+          }
+
           .tag {
             margin-right: 3px;
             color: black;
