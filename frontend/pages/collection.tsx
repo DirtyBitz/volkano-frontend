@@ -34,20 +34,37 @@ class CollectionPage extends React.Component<IProps, IState> {
     }
     ArrowKeysReact.config({
       left: () => {
-        const index = this.props.collection.items.findIndex(item => {
-          return this.state.selectedItem === item
-        })
-        this.setState({ selectedItem: this.props.collection.items[index - 1] })
+        if (this.props.collection.filteredItems.length) {
+          const index = this.props.collection.filteredItems.findIndex(item => {
+            return this.state.selectedItem === item
+          })
+          this.setState({ selectedItem: this.props.collection.filteredItems[index - 1] })
+        } else {
+          const index = this.props.collection.items.findIndex(item => {
+            return this.state.selectedItem === item
+          })
+          this.setState({ selectedItem: this.props.collection.items[index - 1] })
+        }
       },
       right: () => {
-        const index = this.props.collection.items.findIndex(item => {
-          return this.state.selectedItem === item
-        })
-        this.setState({ selectedItem: this.props.collection.items[index + 1] })
+        if (this.props.collection.filteredItems.length) {
+          const index = this.props.collection.filteredItems.findIndex(item => {
+            return this.state.selectedItem === item
+          })
+          this.setState({ selectedItem: this.props.collection.filteredItems[index + 1] })
+        } else {
+          const index = this.props.collection.items.findIndex(item => {
+            return this.state.selectedItem === item
+          })
+          this.setState({ selectedItem: this.props.collection.items[index + 1] })
+        }
       },
     })
   }
   componentDidMount() {
+    this.state = {
+      selectedItem: undefined,
+    }
     this.props.allItems()
   }
 
