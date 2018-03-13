@@ -13,7 +13,6 @@ import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from '../components/ItemModal'
 import { withAuth } from '../utils/withAuth'
-import ArrowKeysReact from 'arrow-keys-react'
 
 interface IProps extends IStoreState {
   allItems: Function
@@ -32,39 +31,8 @@ class CollectionPage extends React.Component<IProps, IState> {
     this.state = {
       selectedItem: undefined,
     }
-    ArrowKeysReact.config({
-      left: () => {
-        if (this.props.collection.filteredItems.length) {
-          const index = this.props.collection.filteredItems.findIndex(item => {
-            return this.state.selectedItem === item
-          })
-          this.setState({ selectedItem: this.props.collection.filteredItems[index - 1] })
-        } else {
-          const index = this.props.collection.items.findIndex(item => {
-            return this.state.selectedItem === item
-          })
-          this.setState({ selectedItem: this.props.collection.items[index - 1] })
-        }
-      },
-      right: () => {
-        if (this.props.collection.filteredItems.length) {
-          const index = this.props.collection.filteredItems.findIndex(item => {
-            return this.state.selectedItem === item
-          })
-          this.setState({ selectedItem: this.props.collection.filteredItems[index + 1] })
-        } else {
-          const index = this.props.collection.items.findIndex(item => {
-            return this.state.selectedItem === item
-          })
-          this.setState({ selectedItem: this.props.collection.items[index + 1] })
-        }
-      },
-    })
   }
   componentDidMount() {
-    this.state = {
-      selectedItem: undefined,
-    }
     this.props.allItems()
   }
 
@@ -78,6 +46,39 @@ class CollectionPage extends React.Component<IProps, IState> {
     this.setState({
       selectedItem: undefined,
     })
+  }
+  private onNext = () => {
+    if (this.props.collection.filteredItems.length) {
+      const index = this.props.collection.filteredItems.findIndex(item => {
+        return this.state.selectedItem === item
+      })
+      this.setState({ selectedItem: this.props.collection.filteredItems[index + 1] })
+    } else {
+      const index = this.props.collection.items.findIndex(item => {
+        return this.state.selectedItem === item
+      })
+      this.setState({ selectedItem: this.props.collection.items[index + 1] })
+    }
+  }
+  private onPrev = () => {
+    if (this.props.collection.filteredItems.length) {
+      const index = this.props.collection.filteredItems.findIndex(item => {
+        return this.state.selectedItem === item
+      })
+      this.setState({ selectedItem: this.props.collection.filteredItems[index - 1] })
+    } else {
+      const index = this.props.collection.items.findIndex(item => {
+        return this.state.selectedItem === item
+      })
+      this.setState({ selectedItem: this.props.collection.items[index - 1] })
+    }
+  }
+  private functiontest = e => {
+    if (e.key === 'ArrowRight') {
+      this.onNext()
+    } else if (e.key === 'ArrowLeft') {
+      this.onPrev()
+    }
   }
 
   render() {
@@ -108,15 +109,21 @@ class CollectionPage extends React.Component<IProps, IState> {
         </div>
 
         <div id="add-item">
-          <button>+</button>
+          {this.state.selectedItem ? false : true && <button>+</button>}
         </div>
-        <div {...ArrowKeysReact.events} tabIndex="1">
+
+        <div onKeyDown={this.functiontest}>
           <Modal
             isOpen={this.state.selectedItem ? true : false}
             onRequestClose={this.unselectItem}
             className="modal"
             overlayClassName="modal-overlay">
-            <ItemModal item={this.state.selectedItem} onClose={this.unselectItem} />
+            <ItemModal
+              item={this.state.selectedItem}
+              onClose={this.unselectItem}
+              onNext={this.onNext}
+              onPrev={this.onPrev}
+            />
           </Modal>
         </div>
 

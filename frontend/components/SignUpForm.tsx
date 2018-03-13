@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { faUser, faLock, faIdBadge } from '@fortawesome/fontawesome-free-solid'
 import renderField from './InputField'
+import { VolkaButton } from './VolkaButton'
 
 const SignUpForm = props => {
   const { handleSubmit, submitting } = props
