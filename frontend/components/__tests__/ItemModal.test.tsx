@@ -16,7 +16,9 @@ describe('ItemModal component', () => {
       categories: ['png', 'image/png'],
     }
     callback = jest.fn()
-    itemModal = shallow(<ItemModal item={item} onClose={callback} />)
+    itemModal = shallow(
+      <ItemModal item={item} onClose={callback} onNext={callback} onPrev={callback} />
+    )
   })
   it('should show tags for itemModal', () => {
     const tags = itemModal.find('.modalTag')
@@ -34,7 +36,9 @@ describe('ItemModal component', () => {
   })
   it('should show video if modal includes video', () => {
     item.url = 'https://www.youtube.com/watch?v=qbA42wQoWAs'
-    itemModal = shallow(<ItemModal item={item} onClose={callback} />)
+    itemModal = shallow(
+      <ItemModal item={item} onClose={callback} onNext={callback} onPrev={callback} />
+    )
 
     const youtubeVideo = itemModal.find('YouTube').first()
     expect(youtubeVideo.props().videoId).toBe(item.url.split('v=')[1])
@@ -42,6 +46,17 @@ describe('ItemModal component', () => {
 
   it('should call onClose function when "close icon" clicked', () => {
     const clickableButton = itemModal.find('.modalClose').first()
+    clickableButton.simulate('click')
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call onNext function when "next icon" clicked', () => {
+    const clickableButton = itemModal.find('.modalNext').first()
+    clickableButton.simulate('click')
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+  it('should call onPrev function when "prev icon" clicked', () => {
+    const clickableButton = itemModal.find('.modalPrev').first()
     clickableButton.simulate('click')
     expect(callback).toHaveBeenCalledTimes(1)
   })
