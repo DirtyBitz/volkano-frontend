@@ -47,37 +47,24 @@ class CollectionPage extends React.Component<IProps, IState> {
       selectedItem: undefined,
     })
   }
-  private onNext = () => {
-    if (this.props.collection.filteredItems.length) {
-      const index = this.props.collection.filteredItems.findIndex(item => {
-        return this.state.selectedItem === item
-      })
-      this.setState({ selectedItem: this.props.collection.filteredItems[index + 1] })
-    } else {
-      const index = this.props.collection.items.findIndex(item => {
-        return this.state.selectedItem === item
-      })
-      this.setState({ selectedItem: this.props.collection.items[index + 1] })
-    }
+
+  private onKeyEvent = keyevent => {
+    const { items, filteredItems } = this.props.collection
+    const collection = filteredItems.length ? filteredItems : items
+
+    const index = collection.findIndex(item => {
+      return this.state.selectedItem === item
+    })
+    keyevent === 'ArrowRight'
+      ? this.setState({ selectedItem: collection[index + 1] })
+      : this.setState({ selectedItem: collection[index - 1] })
   }
-  private onPrev = () => {
-    if (this.props.collection.filteredItems.length) {
-      const index = this.props.collection.filteredItems.findIndex(item => {
-        return this.state.selectedItem === item
-      })
-      this.setState({ selectedItem: this.props.collection.filteredItems[index - 1] })
-    } else {
-      const index = this.props.collection.items.findIndex(item => {
-        return this.state.selectedItem === item
-      })
-      this.setState({ selectedItem: this.props.collection.items[index - 1] })
-    }
-  }
-  private functiontest = e => {
+
+  private keyHandler = e => {
     if (e.key === 'ArrowRight') {
-      this.onNext()
+      this.onKeyEvent('ArrowRight')
     } else if (e.key === 'ArrowLeft') {
-      this.onPrev()
+      this.onKeyEvent('ArrowLeft')
     }
   }
 
@@ -112,7 +99,7 @@ class CollectionPage extends React.Component<IProps, IState> {
           {this.state.selectedItem ? false : true && <button>+</button>}
         </div>
 
-        <div onKeyDown={this.functiontest}>
+        <div onKeyDown={this.keyHandler}>
           <Modal
             isOpen={this.state.selectedItem ? true : false}
             onRequestClose={this.unselectItem}
@@ -121,8 +108,8 @@ class CollectionPage extends React.Component<IProps, IState> {
             <ItemModal
               item={this.state.selectedItem}
               onClose={this.unselectItem}
-              onNext={this.onNext}
-              onPrev={this.onPrev}
+              onNext={() => this.onKeyEvent('ArrowRight')}
+              onPrev={() => this.onKeyEvent('ArrowLeft')}
             />
           </Modal>
         </div>
