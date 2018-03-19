@@ -13,6 +13,7 @@ import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from '../components/ItemModal'
 import { withAuth } from '../utils/withAuth'
+import Router from 'next/router'
 
 interface IProps extends IStoreState {
   allItems: Function
@@ -68,6 +69,10 @@ class CollectionPage extends React.Component<IProps, IState> {
     }
   }
 
+  private addItemPage = () => {
+    Router.push('/additem')
+  }
+
   render() {
     const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
@@ -95,9 +100,11 @@ class CollectionPage extends React.Component<IProps, IState> {
             ))}
         </div>
 
-        <div id="add-item" onClick={() => console.log('Should open modal to add item')}>
-          <span>+</span>
-        </div>
+        {this.state.selectedItem ? false : true &&
+          <div id="add-item" onClick={this.addItemPage}>
+            <span>+</span>
+          </div>
+        }
 
         <div onKeyDown={this.keyHandler}>
           <Modal
