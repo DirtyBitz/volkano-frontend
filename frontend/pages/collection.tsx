@@ -95,8 +95,8 @@ class CollectionPage extends React.Component<IProps, IState> {
             ))}
         </div>
 
-        <div id="add-item">
-          {this.state.selectedItem ? false : true && <button>+</button>}
+        <div id="add-item" onClick={() => console.log('Should open modal to add item')}>
+          <span>+</span>
         </div>
 
         <div onKeyDown={this.keyHandler}>
@@ -143,35 +143,28 @@ class CollectionPage extends React.Component<IProps, IState> {
           }
           #add-item {
             position: fixed;
-            right: 15px;
-            bottom: 15px;
-            padding: 10px;
-
-            button {
-              width: 75px;
-              height: 75px;
-              font-family: 'Roboto', sans-serif;
-              font-size: 4em;
-              text-transform: uppercase;
-              letter-spacing: 2.5px;
-              font-weight: 500;
-              color: #000;
-              background-color: #ffffff;
-              border: none;
-              border-radius: 45px;
-              box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-              transition: all 0.3s ease 0s;
-              cursor: pointer;
-              outline: none;
-            }
-
-            button:hover {
-              background-color: #2ee59d;
-              box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-              color: #fff;
-              transform: translateY(-7px);
-            }
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            right: 30px;
+            bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            width: 60px;
+            height: 60px;
+            font-size: 4em;
+            border-radius: 30px;
+            transition: all 0.2s;
           }
+
+          #add-item:hover {
+            background-color: #2ee59d;
+            box-shadow: 0px 10px 10px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-2px);
+            cursor: pointer;
+          }
+
           #collage {
             display: flex;
             flex-direction: row;
