@@ -29,17 +29,15 @@ describe('Volkano request adapter', () => {
       ]
     })
 
-    const wrapped = VolkanoRequest
-    await wrapped.get('/')
+    await VolkanoRequest.get('/')
     expect(token).toBe(session.token)
   })
 
   it('should update token on successful request', async () => {
     const newToken = 'new-token'
     mock.onGet().reply(200, { data: 'hello' }, { token: newToken })
-    const wrapped = VolkanoRequest
 
-    await wrapped.get('/')
+    await VolkanoRequest.get('/')
 
     expect(getSession().token).toEqual(newToken)
   })
@@ -48,19 +46,17 @@ describe('Volkano request adapter', () => {
     const originalToken = getSession().token
 
     mock.onGet().reply(200, { data: 'hello' }, { token: undefined })
-    const wrapped = VolkanoRequest
 
-    await wrapped.get('/')
+    await VolkanoRequest.get('/')
 
     expect(getSession().token).toEqual(originalToken)
   })
 
   it('should not change token on server error response', async () => {
     mock.onPost().reply(500, {})
-    const wrapped = VolkanoRequest
 
     try {
-      const response = await wrapped.post('/', { item: 'hello' })
+      const response = await VolkanoRequest.post('/', { item: 'hello' })
       console.error('Did get response', response)
     } catch (error) {
       expect(error.status).toEqual(500)
@@ -74,9 +70,8 @@ describe('Volkano request adapter', () => {
       const params = config.params
       return [200, params, { token: undefined }]
     })
-    const wrapped = VolkanoRequest
 
-    const response = await wrapped.put('/', { nickname: 'joe' })
+    const response = await VolkanoRequest.put('/', { nickname: 'joe' })
 
     expect(response.data.nickname).toEqual('joe')
   })
