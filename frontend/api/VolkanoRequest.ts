@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { ISession, setSession, getSession } from '../utils/Session'
 import { convertUserJson } from '../models/User'
 import getConfig from 'next/config'
@@ -18,15 +18,15 @@ export default class VolkanoRequest {
     return await this.request(path, 'get', params)
   }
 
-  public static async post(path: string, params = {}) {
+  public static async post(path: string, params: any) {
     return await this.request(path, 'post', params)
   }
 
-  public static async delete(path: string, params = {}) {
+  public static async delete(path: string, params: any) {
     return await this.request(path, 'delete', params)
   }
 
-  public static async put(path: string, params = {}) {
+  public static async put(path: string, params: any) {
     return await this.request(path, 'put', params)
   }
 
