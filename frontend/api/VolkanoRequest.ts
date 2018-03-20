@@ -53,7 +53,6 @@ export default class VolkanoRequest {
         } else {
           user = session.user
         }
-
         const newSession: ISession = {
           uid: headers.uid,
           client: headers.client,
@@ -66,7 +65,10 @@ export default class VolkanoRequest {
 
       return Promise.resolve({ data: result.data })
     } catch (error) {
-      return Promise.reject({ status: error.status, message: error.message })
+      return Promise.reject({
+        status: error.response.status,
+        message: error.message,
+      })
     }
   }
 }

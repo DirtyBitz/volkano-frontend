@@ -60,12 +60,24 @@ describe('Volkano request adapter', () => {
     const wrapped = VolkanoRequest
 
     try {
-      const response = await wrapped.post('/', { params: { item: 'hello' } })
+      const response = await wrapped.post('/', { item: 'hello' })
       console.error('Did get response', response)
     } catch (error) {
-      //Ignore
+      expect(error.status).toEqual(500)
     }
 
     expect(getSession().token).toEqual(session.token)
+  })
+
+  it('should send PUT requests with provided parameters', async () => {
+    mock.onPut().reply(config => {
+      const params = config.params
+      return [200, params, { token: undefined }]
+    })
+    const wrapped = VolkanoRequest
+
+    const response = await wrapped.put('/', { nickname: 'joe' })
+
+    expect(response.data.nickname).toEqual('joe')
   })
 })
