@@ -75,4 +75,15 @@ describe('Volkano request adapter', () => {
 
     expect(response.data.nickname).toEqual('joe')
   })
+
+  it('should send DELETE requests with provided parameters', async () => {
+    mock.onDelete().reply(config => {
+      const params = config.params
+      return [204, params, { token: undefined }]
+    })
+
+    const response = await VolkanoRequest.delete('/', { id: 1 })
+
+    expect(response.data.id).toEqual(1)
+  })
 })
