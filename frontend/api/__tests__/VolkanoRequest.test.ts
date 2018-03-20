@@ -3,6 +3,7 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VolkanoRequest from '../VolkanoRequest'
 import { getSession, setSession, ISession } from '../../utils/Session'
+import { IUser, IUserJson } from '../../models/User'
 
 describe('Volkano request adapter', () => {
   let mock
@@ -85,5 +86,25 @@ describe('Volkano request adapter', () => {
     const response = await VolkanoRequest.delete('/', { id: 1 })
 
     expect(response.data.id).toEqual(1)
+  })
+
+  it('should update user on successful request', async () => {
+    const newToken = 'new-token'
+    const userJson: IUserJson = {
+      id: 0,
+      uid: 'test@example.com',
+      email: 'test@example.com',
+      nickname: null,
+      name: null,
+      image: null,
+      provider: null,
+    }
+    const user: IUser = { email: 'test@example.com', id: 0, name: null, nickname: null }
+
+    mock.onPost().reply(200, { data: userJson }, { token: newToken })
+
+    await VolkanoRequest.post('/auth/sign_in', {})
+
+    expect(getSession().user).toEqual(user)
   })
 })
