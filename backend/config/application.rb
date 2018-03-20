@@ -28,7 +28,7 @@ module Api
       allow do
         origins '*'
         resource '*', headers: :any,
-                      methods: %i[get post options delete],
+                      methods: %i[get post put delete],
                       expose: %w[token client uid]
       end
     end
