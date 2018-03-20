@@ -14,24 +14,26 @@ export interface VolkanoHTTPResponse {
 }
 
 export default class VolkanoRequest {
-  public static async get(path: string, options = {}) {
-    Object.assign(options, { method: 'get' })
-    return await this.request(path, options)
+  public static async get(path: string, params = {}) {
+    return await this.request(path, 'get', params)
   }
 
-  public static async post(path: string, options: any) {
-    Object.assign(options, { method: 'post' })
-    return await this.request(path, options)
+  public static async post(path: string, params = {}) {
+    return await this.request(path, 'post', params)
   }
 
-  public static async delete(path: string, options = {}) {
-    Object.assign(options, { method: 'delete' })
-    return await this.request(path, options)
+  public static async delete(path: string, params = {}) {
+    return await this.request(path, 'delete', params)
+  }
+
+  public static async put(path: string, params = {}) {
+    return await this.request(path, 'put', params)
   }
 
   private static async request(
     path: string,
-    options: AxiosRequestConfig
+    method: string,
+    params
   ): Promise<VolkanoHTTPResponse> {
     const session = getSession()
     const config = getConfig()
@@ -39,13 +41,14 @@ export default class VolkanoRequest {
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.BACKEND_URL) ||
       'this value only used in tests'
     const url = `${host + path}.json`
-    Object.assign(options, { url, headers: session })
+    const options = { url, method, params, headers: session }
     try {
       const result: AxiosResponse = await axios(options)
       const headers = result.headers
+
       if (headers.token) {
         let user
-        if (result.data.data) {
+        if (path.match('/auth') && result.data.data) {
           user = convertUserJson(result.data.data)
         } else {
           user = session.user

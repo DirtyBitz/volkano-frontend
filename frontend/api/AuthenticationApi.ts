@@ -21,10 +21,8 @@ export class AuthenticationApi {
   ): Promise<IUser | string[]> {
     try {
       const response: VolkanoHTTPResponse = await this.requester.post('/auth/sign_in', {
-        params: {
-          login,
-          password,
-        },
+        login,
+        password,
       })
 
       const user: IUser = convertUserJson(response.data)
@@ -48,7 +46,7 @@ export class AuthenticationApi {
     }
 
     try {
-      await this.requester.post('/auth', { params: userParams })
+      await this.requester.post('/auth', userParams)
     } catch (error) {
       return await this.handleError(error)
     }
