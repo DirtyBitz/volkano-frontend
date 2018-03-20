@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { shallow, ShallowWrapper } from 'enzyme'
+import { shallow } from 'enzyme'
 import ItemCard from '../ItemCard'
 import { Item } from '../../models/Item'
 
 describe('ItemCard component', () => {
   let itemCard
   let callback
-  let item
+  let item: Item
 
   beforeEach(() => {
     item = {
@@ -35,6 +35,7 @@ describe('ItemCard component', () => {
     const imgtag = itemCard.find('img').prop('src')
     expect(imgtag).toBe(item.url)
   })
+
   it('should show video if videoItem', () => {
     item.url = 'https://www.youtube.com/watch?v=qbA42wQoWAs'
     itemCard = shallow(<ItemCard item={item} onSelect={callback} />)
@@ -49,5 +50,5 @@ describe('ItemCard component', () => {
     expect(callback).toHaveBeenCalledTimes(1)
   })
 
-  it('should contain a conditional image based on image type ')
+  it('should contain a conditional image based on image type')
 })

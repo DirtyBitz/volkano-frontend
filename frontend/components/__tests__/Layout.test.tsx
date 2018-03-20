@@ -3,15 +3,11 @@ import { shallow, ShallowWrapper } from 'enzyme'
 import { Layout } from '../Layout'
 import Footer from '../Footer'
 
-const props = {
-  authentication: undefined,
-}
-
 describe('Layout component', () => {
   let layout: ShallowWrapper<any>
 
   beforeEach(() => {
-    layout = shallow(<Layout {...props} />)
+    layout = shallow(<Layout />)
   })
 
   it('should wrap everything in a div', () => {
@@ -42,7 +38,7 @@ describe('Layout component', () => {
   })
 
   it('changes title when title prop is set', () => {
-    const fakeProps = { ...props, title: 'Testpage' }
+    const fakeProps = { title: 'Testpage' }
     layout = shallow(<Layout {...fakeProps} />)
     const titleText = layout
       .find('title')
