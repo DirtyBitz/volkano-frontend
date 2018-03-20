@@ -16,6 +16,7 @@ import VolkanoRequest from '../api/VolkanoRequest'
 
 class ProfilePage extends React.Component {
   private signOut = () => {
+    VolkanoRequest.delete('/auth/sign_out')
     clearSession()
     Router.push('/')
   }
