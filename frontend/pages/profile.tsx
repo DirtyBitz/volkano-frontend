@@ -12,11 +12,16 @@ import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
+import VolkanoRequest from '../api/VolkanoRequest'
 
 class ProfilePage extends React.Component {
   private signOut = () => {
     clearSession()
     Router.push('/')
+  }
+
+  private updateUser = params => {
+    VolkanoRequest.put('/auth', params)
   }
 
   render() {
@@ -26,13 +31,13 @@ class ProfilePage extends React.Component {
         <EditableField
           label="E-mail"
           value={session ? session.user.email : ''}
-          onSave={newValue => console.log(newValue)}
+          onSave={newValue => this.updateUser({ email: newValue })}
         />
 
         <EditableField
           label="Nickname"
           value={session ? session.user.nickname : ''}
-          onSave={newValue => console.log(newValue)}
+          onSave={newValue => this.updateUser({ nickname: newValue })}
         />
 
         <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.signOut} />

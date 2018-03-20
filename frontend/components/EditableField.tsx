@@ -37,7 +37,7 @@ class EditableField extends React.Component<IProps, IState> {
 
   private handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.setState({ isEditing: false })
+      this.endEdit(e)
     }
   }
 
