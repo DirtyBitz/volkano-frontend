@@ -41,6 +41,19 @@ RSpec.describe 'User authentication', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
+    it 'can change password' do
+      user = create(:user, :confirmed)
+      password_change = {
+        current_password: valid_params[:password],
+        password: 'newpassword',
+        password_confirmation: 'newpassword'
+      }
+      put '/auth/password',
+        params: password_change,
+        headers: user.create_new_auth_token
+      expect(response).to have_http_status(:ok)
+    end
+
     context 'using the login field' do
       it 'can sign in with nickname' do
         valid_params.delete(:email)
