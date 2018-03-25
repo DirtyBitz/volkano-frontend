@@ -22,7 +22,7 @@ export default class VolkanoRequest {
     return await this.request(path, 'post', params)
   }
 
-  public static async delete(path: string, params: any) {
+  public static async delete(path: string, params = {}) {
     return await this.request(path, 'delete', params)
   }
 

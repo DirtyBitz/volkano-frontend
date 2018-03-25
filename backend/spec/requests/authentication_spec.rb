@@ -49,8 +49,8 @@ RSpec.describe 'User authentication', type: :request do
         password_confirmation: 'newpassword'
       }
       put '/auth/password',
-        params: password_change,
-        headers: user.create_new_auth_token
+          params: password_change,
+          headers: user.create_new_auth_token
       expect(response).to have_http_status(:ok)
     end
 
