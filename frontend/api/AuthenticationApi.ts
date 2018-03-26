@@ -37,9 +37,11 @@ export class AuthenticationApi {
   public static async registerNewUser(
     userFormFields: IUserRegisterDetails
   ): Promise<void | string[]> {
+    // TODO: Get the frontend hostname ('volka.no') from env
+    // need to handle clientside rendering with this as well!
     const host =
       process.env.NODE_ENV === 'production'
-        ? `https://${process.env.FRONTEND_HOSTNAME}`
+        ? `https://volka.no`
         : 'http://localhost:3000'
 
     const userParams = {

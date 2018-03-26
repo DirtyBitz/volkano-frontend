@@ -33,9 +33,12 @@ export default class VolkanoRequest {
     options: AxiosRequestConfig
   ): Promise<VolkanoHTTPResponse> {
     const session = getSession()
+    // TODO: Get the backend hostname ('api.volka.no') from env
+    // need to handle clientside rendering with this as well!
+
     const host =
       process.env.NODE_ENV === 'production'
-        ? `https://${process.env.BACKEND_HOSTNAME}`
+        ? `https://api.volka.no`
         : 'http://localhost:5000'
     const url = `${host + path}.json`
     Object.assign(options, { url, headers: session })
