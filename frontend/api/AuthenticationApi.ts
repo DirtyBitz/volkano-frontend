@@ -1,10 +1,10 @@
 import { convertUserJson, IUser } from '../models/User'
-import VolkanoRequest, { VolkanoHTTPError, VolkanoHTTPResponse } from './VolkanoRequest';
+import VolkanoRequest, { VolkanoHTTPError, VolkanoHTTPResponse } from './VolkanoRequest'
 
 export enum ErrorState {
   SERVER_ERROR = 'Server is down',
   NETWORK_ERROR = 'Network error',
-  UNKNOWN_ERROR = 'Unknown error'
+  UNKNOWN_ERROR = 'Unknown error',
 }
 
 export interface IUserRegisterDetails {
@@ -14,13 +14,16 @@ export interface IUserRegisterDetails {
 }
 
 export class AuthenticationApi {
-  public static async authenticateUser(login: string, password: string): Promise<IUser | string[]> {
+  public static async authenticateUser(
+    login: string,
+    password: string
+  ): Promise<IUser | string[]> {
     try {
       const response: VolkanoHTTPResponse = await this.requester.post('/auth/sign_in', {
         params: {
           login,
           password,
-        }
+        },
       })
 
       const user: IUser = convertUserJson(response.data)
@@ -31,10 +34,17 @@ export class AuthenticationApi {
     }
   }
 
-  public static async registerNewUser(userFormFields: IUserRegisterDetails): Promise<void | string[]> {
+  public static async registerNewUser(
+    userFormFields: IUserRegisterDetails
+  ): Promise<void | string[]> {
+    const host =
+      process.env.NODE_ENV === 'production'
+        ? `https://${process.env.FRONTEND_HOSTNAME}`
+        : 'http://localhost:3000'
+
     const userParams = {
       ...userFormFields,
-      confirm_success_url: 'http://localhost:3000/accountcreated',
+      confirm_success_url: `${host}/accountcreated`,
     }
 
     try {

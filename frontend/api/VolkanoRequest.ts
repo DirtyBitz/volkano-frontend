@@ -33,7 +33,11 @@ export default class VolkanoRequest {
     options: AxiosRequestConfig
   ): Promise<VolkanoHTTPResponse> {
     const session = getSession()
-    const url = `http://localhost:5000${path}.json`
+    const host =
+      process.env.NODE_ENV === 'production'
+        ? `https://${process.env.BACKEND_HOSTNAME}`
+        : 'http://localhost:5000'
+    const url = `${host + path}.json`
     Object.assign(options, { url, headers: session })
     try {
       const result: AxiosResponse = await axios(options)
