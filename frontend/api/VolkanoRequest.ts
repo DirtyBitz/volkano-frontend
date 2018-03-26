@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ISession, setSession, getSession } from '../utils/Session'
-import { convertUserJson } from '../models/User';
+import { convertUserJson } from '../models/User'
 
 export interface VolkanoHTTPError {
   status: number
@@ -42,13 +42,15 @@ export default class VolkanoRequest {
         let user
         if (result.data.data) {
           user = convertUserJson(result.data.data)
+        } else {
+          user = session.user
         }
 
         const newSession: ISession = {
           uid: headers.uid,
           client: headers.client,
           token: headers.token,
-          user
+          user,
         }
 
         setSession(newSession)
