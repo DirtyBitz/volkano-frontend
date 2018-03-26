@@ -16,7 +16,4 @@ test:
   database: test
 
 production:
-  <<: *default
-  database: production
-  url: <%= ENV['DATABASE_URL']
-  password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

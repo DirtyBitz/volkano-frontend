@@ -55,8 +55,17 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "api_#{Rails.env}"
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('HOSTNAME', 'example.com'),
-    port: 5000
+    host: ENV.fetch('VOLKANO_HOSTNAME', 'volka.no')
+  }
+
+  ActionMailer::Base.smtp_settings = {
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'volka.no',
+    address: 'smtp.sendgrid.net',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
