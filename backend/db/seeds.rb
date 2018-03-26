@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'factory_bot'
-
-u = FactoryBot.create(:user, :confirmed, email: 'test@example.com', password: 'password')
-
+u = User.create(email: 'test@example.com', password: 'password', confirmed_at: Time.now.utc)
 
 URLS = ['https://i.imgur.com/Hb6S4V5.jpg',
   'https://i.imgur.com/1dOwTta.jpg',
@@ -49,7 +46,7 @@ URLS = ['https://i.imgur.com/Hb6S4V5.jpg',
 
 TAGS = %w[cat cute doggo funny isak_cosplay meme sexy].freeze
 
-URLS.each do |url|
+URLS.each_with_index do |url, i|
   random_tags = TAGS.sample([*1..TAGS.length].sample).join(', ')
-  u.items << FactoryBot.create(:item, url: url, tags: random_tags)
+  u.items << Item.create(url: url, title: "Seed ##{i+1}", tag_list: random_tags)
 end
