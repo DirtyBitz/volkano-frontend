@@ -84,6 +84,17 @@ coverage:
 #     - yarn dev & > /dev/null
 #     - yarn cyprun
 
+staging:
+  type: Deploy
+  tags:
+    - ci-alpine-latest
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=volkano-staging --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=volkano-staging-api --api-key=$HEROKU_API_KEY
+  only:
+    - development
+
 production:
   type: Deploy
   tags:
