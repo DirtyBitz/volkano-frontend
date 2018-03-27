@@ -14,6 +14,7 @@ stages:
   - Unit tests
   - End to end tests
   - Reporting
+  - Deploy
 
 rubocop:
   stage: Code climate
@@ -82,3 +83,14 @@ coverage:
 #     - yarn install
 #     - yarn dev & > /dev/null
 #     - yarn cyprun
+
+production:
+  type: Deploy
+  tags:
+    - ci-alpine-latest
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=volkano --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=volkano-api --api-key=$HEROKU_API_KEY
+  only:
+    - master
