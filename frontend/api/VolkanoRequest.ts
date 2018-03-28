@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ISession, setSession, getSession } from '../utils/Session'
 import { convertUserJson } from '../models/User'
+import getConfig from 'next/config'
 
 export interface VolkanoHTTPError {
   status: number
@@ -36,10 +37,7 @@ export default class VolkanoRequest {
     // TODO: Get the backend hostname ('api.volka.no') from env
     // need to handle clientside rendering with this as well!
 
-    const host =
-      process.env.NODE_ENV === 'production'
-        ? `https://api.volka.no`
-        : 'http://localhost:5000'
+    const { publicRuntimeConfig: { BACKEND_URL: host } } = getConfig()
     const url = `${host + path}.json`
     Object.assign(options, { url, headers: session })
     try {

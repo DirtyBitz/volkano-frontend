@@ -1,5 +1,6 @@
 import { convertUserJson, IUser } from '../models/User'
 import VolkanoRequest, { VolkanoHTTPError, VolkanoHTTPResponse } from './VolkanoRequest'
+import getConfig from 'next/config'
 
 export enum ErrorState {
   SERVER_ERROR = 'Server is down',
@@ -37,13 +38,7 @@ export class AuthenticationApi {
   public static async registerNewUser(
     userFormFields: IUserRegisterDetails
   ): Promise<void | string[]> {
-    // TODO: Get the frontend hostname ('volka.no') from env
-    // need to handle clientside rendering with this as well!
-    const host =
-      process.env.NODE_ENV === 'production'
-        ? `https://volka.no`
-        : 'http://localhost:3000'
-
+    const { publicRuntimeConfig: { FRONTEND_URL: host } } = getConfig()
     const userParams = {
       ...userFormFields,
       confirm_success_url: `${host}/accountcreated`,
