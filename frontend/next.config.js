@@ -1,8 +1,19 @@
 const withTypescript = require('@zeit/next-typescript')
-const { PHASE_PRODUCTION_SERVER } = require('next/constants')
+const { PHASE_PRODUCTION_SERVER, PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
 module.exports = (phase, { defaultConfig }) => {
-  if (phase === PHASE_PRODUCTION_SERVER) {
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    return withTypescript({
+      webpack(config, options) {
+        return config
+      },
+      publicRuntimeConfig: {
+        ENV: 'development',
+        BACKEND_URL: 'http://localhost:5000',
+        FRONTEND_URL: 'http://localhost:3000',
+      },
+    })
+  } else if (phase === PHASE_PRODUCTION_SERVER) {
     return withTypescript({
       webpack(config, options) {
         return config
@@ -14,15 +25,15 @@ module.exports = (phase, { defaultConfig }) => {
       },
     })
   }
-
+  /* Staging */
   return withTypescript({
     webpack(config, options) {
       return config
     },
     publicRuntimeConfig: {
-      ENV: 'development',
-      BACKEND_URL: 'http://localhost:5000',
-      FRONTEND_URL: 'http://localhost:3000',
+      ENV: 'staging',
+      BACKEND_URL: 'https://beta.api.volka.no',
+      FRONTEND_URL: 'https://beta.volka.no',
     },
   })
 }
