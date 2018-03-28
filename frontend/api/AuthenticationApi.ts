@@ -38,7 +38,10 @@ export class AuthenticationApi {
   public static async registerNewUser(
     userFormFields: IUserRegisterDetails
   ): Promise<void | string[]> {
-    const { publicRuntimeConfig: { FRONTEND_URL: host } } = getConfig()
+    const config = getConfig()
+    const host =
+      (config && config.publicRuntimeConfig && config.publicRuntimeConfig.FRONTEND_URL) ||
+      'this value only used in tests'
     const userParams = {
       ...userFormFields,
       confirm_success_url: `${host}/accountcreated`,
