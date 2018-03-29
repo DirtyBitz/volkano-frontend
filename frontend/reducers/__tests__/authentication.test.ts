@@ -1,7 +1,4 @@
-import authentication, {
-  authInitialState,
-  IAuthState,
-} from '../authentication'
+import authentication, { authInitialState, IAuthState } from '../authentication'
 import {
   signInPending,
   signInAccepted,
@@ -9,7 +6,7 @@ import {
   signOut,
   createUserPending,
   createUserAccepted,
-  createUserRejected
+  createUserRejected,
 } from '../../actions/authentication/AuthActions'
 import { OtherAction } from '../../actions/IOtherAction'
 
@@ -46,7 +43,7 @@ describe('Authentication reducer', () => {
     })
 
     it('should handle rejected', () => {
-      const errors = ["this is a funny error message", "this is not so funny"]
+      const errors = ['this is a funny error message', 'this is not so funny']
       const expectedState: IAuthState = {
         isLoading: false,
         errors: errors,
@@ -81,7 +78,7 @@ describe('Authentication reducer', () => {
     })
 
     it('should handle rejected', () => {
-      const errors = ["this is a funny error message", "this is not so funny"]
+      const errors = ['this is a funny error message', 'this is not so funny']
       const expectedState: IAuthState = {
         isLoading: false,
         errors: errors,

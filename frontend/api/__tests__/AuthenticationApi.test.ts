@@ -1,6 +1,8 @@
 import { AuthenticationApi, IUserRegisterDetails, ErrorState } from '../AuthenticationApi'
-import { mockUser } from '../__mocks__/VolkanoRequest'
 import { VolkanoHTTPResponse } from '../VolkanoRequest'
+import { IUser } from '../../models/User'
+
+const mockUser: IUser = { email: 'test@example.com', id: 0 }
 
 class MockRequest {
   private static _response: Promise<any>
@@ -35,11 +37,14 @@ describe('Authentication API', () => {
     })
 
     it('with invalid credentials', async () => {
-      MockRequest.respondWith = Promise.reject({ status: 401, data: { errors: ['No such user'] } })
+      MockRequest.respondWith = Promise.reject({
+        status: 401,
+        data: { errors: ['No such user'] },
+      })
 
       try {
         await AuthenticationApi.authenticateUser('throwboi', 'wrong password')
-        expect("This should not happen").toBe(true)
+        expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual(['No such user'])
       }
@@ -65,13 +70,14 @@ describe('Authentication API', () => {
     })
 
     it('with invalid credentials', async () => {
-      MockRequest.respondWith = Promise.reject(
-        { status: 422, data: { errors: { full_messages: ['Invalid email'] } } }
-      )
+      MockRequest.respondWith = Promise.reject({
+        status: 422,
+        data: { errors: { full_messages: ['Invalid email'] } },
+      })
 
       try {
         await AuthenticationApi.registerNewUser(newUserDetails)
-        expect("This should not happen").toBe(true)
+        expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual(['Invalid email'])
       }
@@ -80,37 +86,39 @@ describe('Authentication API', () => {
 
   describe('with error', () => {
     it('500: returns server error status message', async () => {
-      MockRequest.respondWith = Promise.reject({ status: 500, data: { errors: ['Internal server error'] } })
+      MockRequest.respondWith = Promise.reject({
+        status: 500,
+        data: { errors: ['Internal server error'] },
+      })
 
       try {
         await AuthenticationApi.authenticateUser('500boi', 'passwordboi')
-        expect("This should not happen").toBe(true)
+        expect('This should not happen').toBe(true)
       } catch (boi) {
         expect(boi).toEqual([ErrorState.SERVER_ERROR])
       }
     })
 
     it('418: returns unknown error status message', async () => {
-      MockRequest.respondWith = Promise.reject(
-        { status: 418, data: { errors: ["Here's my handle", "here's my spout"] } }
-      )
+      MockRequest.respondWith = Promise.reject({
+        status: 418,
+        data: { errors: ["Here's my handle", "here's my spout"] },
+      })
 
       try {
         await AuthenticationApi.authenticateUser('teapot', 'IAm')
-        expect("This should not happen").toBe(true)
+        expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual([ErrorState.UNKNOWN_ERROR])
       }
     })
 
     it('returns "Network error" when server is unreachable', async () => {
-      MockRequest.respondWith = Promise.reject(
-        { status: 1337, message: 'Network Error' }
-      )
+      MockRequest.respondWith = Promise.reject({ status: 1337, message: 'Network Error' })
 
       try {
         await AuthenticationApi.authenticateUser('networky', 'boi')
-        expect("This should not happen").toBe(true)
+        expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual([ErrorState.NETWORK_ERROR])
       }

@@ -1,4 +1,3 @@
-jest.mock('../../api/ItemApi')
 import collectionReducer, {
   collectionInitialState,
   CollectionStateI,
@@ -12,13 +11,33 @@ import {
   removeTag,
   clearTags,
 } from '../../actions/item/ItemActions'
-import { ItemApi } from '../../api/ItemApi'
+import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/SearchBar'
-import collection from '../../pages/collection'
 import { Item } from '../../models/Item'
 
+const fakeData: ICollectionData = {
+  items: [
+    {
+      id: 0,
+      title: 'Cute Kitty',
+      url: 'https://i.imgur.com/gbwgfw6.jpg',
+      uid: 2,
+      tags: ['animal', 'kitty'],
+      categories: ['image/jpeg', 'jpg'],
+    },
+    {
+      id: 1,
+      title: 'Cold Kitty',
+      url: 'https://i.imgur.com/t6RdGpq.jpg',
+      uid: 2,
+      tags: ['animal'],
+      categories: ['image/jpeg', 'jpg'],
+    },
+  ],
+}
+
 describe('Collection reducer', () => {
-  it('Should return the initial state', () => {
+  it('should return the initial state', () => {
     const expectedState: CollectionStateI = {
       isLoading: false,
       items: undefined,
@@ -26,10 +45,11 @@ describe('Collection reducer', () => {
       tags: [],
       filteredItems: [],
     }
+
     expect(collectionReducer(undefined, OtherAction)).toEqual(expectedState)
   })
 
-  it('Should handle collect items pending', () => {
+  it('should handle collect items pending', () => {
     const expectedState: CollectionStateI = {
       isLoading: true,
       items: undefined,
@@ -42,7 +62,7 @@ describe('Collection reducer', () => {
 
     expect(newState).toEqual(expectedState)
   })
-  it('Should handle when collect items is rejected', async () => {
+  it('should handle when collect items is rejected', async () => {
     const expectedState: CollectionStateI = {
       isLoading: false,
       errors: ['this is a fake error message'],
@@ -51,49 +71,44 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const state = collectionReducer(
+    const newState = collectionReducer(
       expectedState,
       itemError(['this is a fake error message'])
     )
 
-    expect(state).toEqual(expectedState)
+    expect(newState).toEqual(expectedState)
   })
-  it('Should handle when collect items is successful', async () => {
-    const mockResponse = await ItemApi.getAllItems('fake-token', 'client', 'uid')
 
+  it('should handle when collect items is successful', async () => {
     const expectedState: CollectionStateI = {
       isLoading: false,
-      items: mockResponse.items,
+      items: fakeData.items,
       tags: [],
       filteredItems: [],
     }
 
-    const state = collectionReducer(expectedState, itemSuccess(mockResponse))
+    const state = collectionReducer(expectedState, itemSuccess(fakeData))
 
     expect(state).toEqual(expectedState)
   })
 
   describe('Tag filtering', () => {
-    let fakeItems
-    let testTags
+    const testTags = [
+      { label: 'test1', value: 'test1' },
+      { label: 'test2', value: 'test2' },
+    ]
 
-    beforeEach(async () => {
-      fakeItems = await ItemApi.getAllItems('fake-token', 'client', 'uid')
-
-      testTags = [{ label: 'test1', value: 'test1' }, { label: 'test2', value: 'test2' }]
-    })
-
-    it('Should add a tag', () => {
+    it('should add a tag', () => {
       const initState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
 
       const expectedState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [testTags[0]],
         filteredItems: [],
       }
@@ -103,17 +118,17 @@ describe('Collection reducer', () => {
       expect(newState.tags).toEqual(expectedState.tags)
     })
 
-    it('Shold remove a tag', () => {
+    it('should remove a tag', () => {
       const initState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [testTags[0]],
         filteredItems: [],
       }
 
       const expectedState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
@@ -123,17 +138,17 @@ describe('Collection reducer', () => {
       expect(newState.tags).toEqual(expectedState.tags)
     })
 
-    it('Should clear all tags', () => {
+    it('should clear all tags', () => {
       const initState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [...testTags],
         filteredItems: [],
       }
 
       const expectedState: CollectionStateI = {
         isLoading: false,
-        items: fakeItems.items,
+        items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
@@ -142,7 +157,7 @@ describe('Collection reducer', () => {
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
-    it('Should create a filtered list when adding single tag', () => {
+    it('should create a filtered list when adding single tag', () => {
       const originalItems: Item[] = [
         { uid: 1, title: 'dog', tags: ['dog'], id: 1, url: '', categories: [] },
         { uid: 2, title: 'cat', tags: ['cat'], id: 2, url: '', categories: [] },
@@ -171,7 +186,7 @@ describe('Collection reducer', () => {
 
       expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })
-    it('Should create filtered list when adding multiple tags', () => {
+    it('should create filtered list when adding multiple tags', () => {
       const originalItems: Item[] = [
         { uid: 1, title: 'dog', tags: ['dog', 'animal'], id: 1, url: '', categories: [] },
         { uid: 2, title: 'cat', tags: ['cat', 'animal'], id: 2, url: '', categories: [] },
@@ -206,7 +221,8 @@ describe('Collection reducer', () => {
 
       expect(finalState.filteredItems).toEqual(expectedState.filteredItems)
     })
-    it('Should filter correcly when removing a tag', () => {
+
+    it('should filter correcly when removing a tag', () => {
       const originalItems: Item[] = [
         { uid: 1, title: 'dog', tags: ['dog', 'animal'], id: 1, url: '', categories: [] },
         { uid: 2, title: 'cat', tags: ['cat', 'animal'], id: 2, url: '', categories: [] },
