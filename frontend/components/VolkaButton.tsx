@@ -14,8 +14,19 @@ interface IProps {
   type?: 'submit'
 }
 
-export class VolkaButton extends React.Component<IProps> {
+interface IState {
+  buttonWidth?: string
+}
+
+export class VolkaButton extends React.Component<IProps, IState> {
   button: any
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      buttonWidth: undefined,
+    }
+  }
 
   private selectClassName() {
     const classNames = []
@@ -25,6 +36,14 @@ export class VolkaButton extends React.Component<IProps> {
     if (this.props.isLoading) classNames.push('loading')
     if (this.props.ghost) classNames.push('ghost')
     return classNames
+  }
+
+  componentDidMount() {
+    if (this.button && this.button.clientWidth) {
+      this.setState({
+        buttonWidth: this.button.clientWidth + 1 + 'px',
+      })
+    }
   }
 
   private getOnClickFunction = () => {
@@ -45,6 +64,7 @@ export class VolkaButton extends React.Component<IProps> {
         <button
           className={className.join(' ')}
           onClick={onClick}
+          ref={ref => (this.button = ref)}
           type={type}
           disabled={disabled}>
           {icon &&
@@ -65,7 +85,7 @@ export class VolkaButton extends React.Component<IProps> {
             color: white;
             transition: background 0.3s;
             outline: none;
-            width: 'auto';
+            width: ${this.state.buttonWidth ? this.state.buttonWidth : 'auto'};
             white-space: nowrap;
             &:hover {
               cursor: pointer;

@@ -17,20 +17,26 @@ export class ItemApi {
       }
       return items
     } catch (error) {
-      // #TODO: Add error reducer that handles errors for us <3
-      console.error('ItemApiError', error)
+      console.error('Error fetching collection', error)
     }
   }
 
   public static async createItem(title: string, url: string, tags: string) {
     const params = { data: { item: { title, url, tag_list: tags } } }
 
-    const response = await VolkanoRequest.post('/items', params)
-
-    return response.data
+    try {
+      const response = await VolkanoRequest.post('/items', params)
+      return response.data
+    } catch (error) {
+      console.error('Error creating item', error)
+    }
   }
 
   public static async deleteItem(id: number) {
-    await VolkanoRequest.delete(`/items/${id}`)
+    try {
+      await VolkanoRequest.delete(`/items/${id}`)
+    } catch (error) {
+      console.error('Error deleting item', error)
+    }
   }
 }

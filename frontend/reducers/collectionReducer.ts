@@ -22,19 +22,19 @@ export default function collectionReducer(
   action: ItemActionTypes
 ): CollectionStateI {
   switch (action.type) {
-    case ItemActionTypeKeys.ITEM_PENDING:
+    case ItemActionTypeKeys.FETCHING_COLLECTION:
       return {
         ...state,
         isLoading: true,
         errors: undefined,
       }
-    case ItemActionTypeKeys.ITEM_FULFILLED:
+    case ItemActionTypeKeys.FETCH_COLLECTION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         items: action.payload.items,
       }
-    case ItemActionTypeKeys.ITEM_REJECTED:
+    case ItemActionTypeKeys.FETCH_COLLECTION_FAILURE:
       return {
         ...state,
         errors: action.payload,
@@ -42,26 +42,23 @@ export default function collectionReducer(
       }
     case ItemActionTypeKeys.ITEM_DELETED:
       const remainingItems = state.items.filter(item => item.id != action.payload.id)
-      const remainingFilteredItems = state.filteredItems.filter(
-        item => item.id != action.payload.id
-      )
       return {
         ...state,
         items: remainingItems,
-        filteredItems: remainingFilteredItems,
+        filteredItems: itemsWithTags(remainingItems, state.tags),
       }
     case ItemActionTypeKeys.ADD_TAG:
       const searchTags = [...state.tags, action.payload]
       return {
         ...state,
-        tags: [...state.tags, action.payload],
+        tags: searchTags,
         filteredItems: itemsWithTags(state.items, searchTags),
       }
     case ItemActionTypeKeys.REMOVE_TAG:
       const newTags = state.tags.filter(tag => tag.label !== action.payload.label)
       return {
         ...state,
-        tags: newTags || [],
+        tags: newTags,
         filteredItems: itemsWithTags(state.items, newTags),
       }
     case ItemActionTypeKeys.CLEAR_TAGS:

@@ -1,54 +1,55 @@
-jest.mock('../../../api/ItemApi')
 import * as actions from '../ItemActions'
 import ItemActionTypeKeys from '../ItemActionTypeKeys'
-import { ItemApi } from '../../../api/ItemApi'
 import { Item } from '../../../models/Item'
+import { ICollectionData } from '../../../api/ItemApi'
+
+const toBeDeleted: Item = {
+  id: 0,
+  title: 'Dummy',
+  url: 'dummy',
+  uid: 0,
+  categories: [],
+  tags: [],
+}
+
+const fakeItems: ICollectionData = { items: [toBeDeleted] }
 
 describe('Item actions', () => {
-  describe('visiting "localhost:3000/collection"', () => {
-    it('starts loading items from backend', () => {
+  describe('fetching collection', () => {
+    it('starts loading entire collection', () => {
       const expected = {
-        type: ItemActionTypeKeys.ITEM_PENDING,
+        type: ItemActionTypeKeys.FETCHING_COLLECTION,
       }
 
-      expect(actions.itemPending()).toEqual(expected)
+      expect(actions.collectionPending()).toEqual(expected)
     })
 
-    it('creates an item success action', async () => {
-      const data = await ItemApi.getAllItems()
-
+    it('creates a success action', async () => {
       const expected = {
-        type: ItemActionTypeKeys.ITEM_FULFILLED,
-        payload: data,
+        type: ItemActionTypeKeys.FETCH_COLLECTION_SUCCESS,
+        payload: fakeItems,
       }
 
-      expect(actions.itemSuccess(data)).toEqual(expected)
+      expect(actions.collectionSuccess(fakeItems)).toEqual(expected)
     })
 
-    it('creates an item error action', () => {
+    it('creates an error action', () => {
+      const error = ['Error']
       const expected = {
-        type: ItemActionTypeKeys.ITEM_REJECTED,
-        payload: ['Error'],
+        type: ItemActionTypeKeys.FETCH_COLLECTION_FAILURE,
+        payload: error,
       }
 
-      expect(actions.itemError(expected.payload)).toEqual(expected)
+      expect(actions.collectionFailure(error)).toEqual(expected)
     })
 
     it('creates an item deleted action', () => {
-      const toBeDeleted: Item = {
-        id: 0,
-        title: 'Dummy',
-        url: 'dummy',
-        uid: 0,
-        categories: [],
-        tags: [],
-      }
       const expected = {
-        type: ItemActionTypeKeys.ITEM_DELETED,
+        type: ItemActionTypeKeys.DELETE_ITEM,
         payload: toBeDeleted,
       }
 
-      expect(actions.itemDelete(toBeDeleted)).toEqual(expected)
+      expect(actions.deleteItem(toBeDeleted)).toEqual(expected)
     })
   })
 })

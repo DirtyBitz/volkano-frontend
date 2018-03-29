@@ -4,9 +4,9 @@ import collectionReducer, {
 } from '../collectionReducer'
 import { OtherAction } from '../../actions/IOtherAction'
 import {
-  itemPending,
-  itemSuccess,
-  itemError,
+  collectionPending,
+  collectionSuccess,
+  collectionFailure,
   addTag,
   removeTag,
   clearTags,
@@ -49,7 +49,7 @@ describe('Collection reducer', () => {
     expect(collectionReducer(undefined, OtherAction)).toEqual(expectedState)
   })
 
-  it('should handle collect items pending', () => {
+  it('should handle collection pending', () => {
     const expectedState: CollectionStateI = {
       isLoading: true,
       items: undefined,
@@ -58,7 +58,7 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const newState = collectionReducer(collectionInitialState, itemPending())
+    const newState = collectionReducer(collectionInitialState, collectionPending())
 
     expect(newState).toEqual(expectedState)
   })
@@ -73,7 +73,7 @@ describe('Collection reducer', () => {
 
     const newState = collectionReducer(
       expectedState,
-      itemError(['this is a fake error message'])
+      collectionFailure(['this is a fake error message'])
     )
 
     expect(newState).toEqual(expectedState)
@@ -87,7 +87,7 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const state = collectionReducer(expectedState, itemSuccess(fakeData))
+    const state = collectionReducer(expectedState, collectionSuccess(fakeData))
 
     expect(state).toEqual(expectedState)
   })

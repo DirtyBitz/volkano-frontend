@@ -3,10 +3,12 @@ import { IStoreState } from '../../store/StoreState'
 import { ItemApi, ICollectionData } from '../../api/ItemApi'
 import ItemActionTypeKeys from './ItemActionTypeKeys'
 import {
-  IItemPendingAction,
-  IItemFulfilledAction,
-  IItemRejectedAction,
+  IFetchCollectionPendingAction,
+  IFetchCollectionSuccessAction,
+  IFetchCollectionFailureAction,
+  IItemAddedAction,
   IItemDeletedAction,
+  IItemErrorAction,
   IAddTagAction,
   IRemoveTagAction,
   IClearTagsAction,
@@ -16,12 +18,12 @@ import { Item } from '../../models/Item'
 
 export const allItems = () => {
   return async (dispatch: Dispatch<IStoreState>) => {
-    dispatch(itemPending())
+    dispatch(collectionPending())
     try {
       const response = await ItemApi.getAllItems()
-      dispatch(itemSuccess(response))
+      dispatch(collectionSuccess(response))
     } catch (error) {
-      dispatch(itemError(error))
+      dispatch(collectionFailure(error))
     }
   }
 }
@@ -30,42 +32,55 @@ export const createItem = item => {
   return async (dispatch: Dispatch<IStoreState>) => {
     const { title, url, tags } = item
     try {
-      await ItemApi.createItem(title, url, tags)
+      const newItem = await ItemApi.createItem(title, url, tags)
+      dispatch(addItem(newItem))
     } catch (error) {
-      console.log(error)
+      dispatch(itemError(error))
     }
   }
 }
 
-export const deleteItem = item => {
+export const removeItem = item => {
   return async (dispatch: Dispatch<IStoreState>) => {
     const { id } = item
     try {
       await ItemApi.deleteItem(id)
-      dispatch(itemDelete(item))
+      dispatch(deleteItem(item))
     } catch (error) {
-      console.log(error)
+      dispatch(itemError(error))
     }
   }
 }
 
-export const itemPending = (): IItemPendingAction => ({
-  type: ItemActionTypeKeys.ITEM_PENDING,
+export const collectionPending = (): IFetchCollectionPendingAction => ({
+  type: ItemActionTypeKeys.FETCHING_COLLECTION,
 })
 
-export const itemSuccess = (data: ICollectionData): IItemFulfilledAction => ({
-  type: ItemActionTypeKeys.ITEM_FULFILLED,
+export const collectionSuccess = (
+  data: ICollectionData
+): IFetchCollectionSuccessAction => ({
+  type: ItemActionTypeKeys.FETCH_COLLECTION_SUCCESS,
   payload: data,
 })
 
-export const itemError = (error: string[]): IItemRejectedAction => ({
-  type: ItemActionTypeKeys.ITEM_REJECTED,
+export const collectionFailure = (error: string[]): IFetchCollectionFailureAction => ({
+  type: ItemActionTypeKeys.FETCH_COLLECTION_FAILURE,
   payload: error,
 })
 
-export const itemDelete = (item: Item): IItemDeletedAction => ({
-  type: ItemActionTypeKeys.ITEM_DELETED,
+export const addItem = (item: Item): IItemAddedAction => ({
+  type: ItemActionTypeKeys.ADD_ITEM,
   payload: item,
+})
+
+export const deleteItem = (item: Item): IItemDeletedAction => ({
+  type: ItemActionTypeKeys.DELETE_ITEM,
+  payload: item,
+})
+
+export const itemError = (error: string[]): IItemErrorAction => ({
+  type: ItemActionTypeKeys.ITEM_ERROR,
+  payload: error,
 })
 
 export const addTag = (tag: ITag): IAddTagAction => ({

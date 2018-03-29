@@ -4,23 +4,33 @@ import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/SearchBar'
 import { Item } from '../../models/Item'
 
-export interface IItemPendingAction {
-  readonly type: ItemActionTypeKeys.ITEM_PENDING
+export interface IFetchCollectionPendingAction {
+  readonly type: ItemActionTypeKeys.FETCHING_COLLECTION
 }
 
-export interface IItemFulfilledAction {
-  readonly type: ItemActionTypeKeys.ITEM_FULFILLED
+export interface IFetchCollectionSuccessAction {
+  readonly type: ItemActionTypeKeys.FETCH_COLLECTION_SUCCESS
   readonly payload: ICollectionData
 }
 
-export interface IItemRejectedAction {
-  readonly type: ItemActionTypeKeys.ITEM_REJECTED
+export interface IFetchCollectionFailureAction {
+  readonly type: ItemActionTypeKeys.FETCH_COLLECTION_FAILURE
   readonly payload: string[]
 }
 
 export interface IItemDeletedAction {
-  readonly type: ItemActionTypeKeys.ITEM_DELETED
+  readonly type: ItemActionTypeKeys.DELETE_ITEM
   readonly payload: Item
+}
+
+export interface IItemAddedAction {
+  readonly type: ItemActionTypeKeys.ADD_ITEM
+  readonly payload: Item
+}
+
+export interface IItemErrorAction {
+  readonly type: ItemActionTypeKeys.ITEM_ERROR
+  readonly payload: string[]
 }
 
 export interface IAddTagAction {
@@ -38,9 +48,10 @@ export interface IClearTagsAction {
 }
 
 type ItemActionTypes =
-  | IItemPendingAction
-  | IItemFulfilledAction
-  | IItemRejectedAction
+  | IFetchCollectionPendingAction
+  | IFetchCollectionSuccessAction
+  | IFetchCollectionFailureAction
+  | IItemAddedAction
   | IItemDeletedAction
   | IAddTagAction
   | IRemoveTagAction
