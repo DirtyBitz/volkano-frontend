@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import { VolkaButton } from '../VolkaButton'
 import { faUser } from '@fortawesome/fontawesome-free-solid'
 
@@ -38,7 +38,14 @@ describe('VolkaButton component', () => {
     expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('should be clickable when disabled', () => {
+  it('should not blow up if it does not have an onClick', () => {
+    defaultProps.onClick = undefined
+    buttonWrap = shallow(<VolkaButton {...defaultProps} />)
+    const button = buttonWrap.find('button').first()
+    button.simulate('click')
+  })
+
+  it('should be not clickable when disabled', () => {
     defaultProps.disabled = true
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
     const button = buttonWrap.find('button').first()
@@ -46,7 +53,7 @@ describe('VolkaButton component', () => {
     expect(defaultProps.onClick).toHaveBeenCalledTimes(0)
   })
 
-  it('Should not be clickable when loading', () => {
+  it('should not be clickable when loading', () => {
     defaultProps.isLoading = true
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
     const button = buttonWrap.find('button').first()

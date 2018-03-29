@@ -14,19 +14,8 @@ interface IProps {
   type?: 'submit'
 }
 
-interface IState {
-  buttonWidth?: string
-}
-
-export class VolkaButton extends React.Component<IProps, IState> {
+export class VolkaButton extends React.Component<IProps> {
   button: any
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      buttonWidth: undefined,
-    }
-  }
 
   private selectClassName() {
     const classNames = []
@@ -38,18 +27,11 @@ export class VolkaButton extends React.Component<IProps, IState> {
     return classNames
   }
 
-  componentDidMount() {
-    if (this.button && this.button.clientWidth) {
-      this.setState({
-        buttonWidth: this.button.clientWidth + 1 + 'px',
-      })
-    }
-  }
-
   private getOnClickFunction = () => {
     const { disabled, isLoading } = this.props
-    let onClick = this.props.onClick || function() {}
-    if (disabled || isLoading) return () => {}
+    const noOp = () => {}
+    if (disabled || isLoading) return noOp
+    const onClick = this.props.onClick || noOp
     return onClick
   }
 
@@ -63,7 +45,6 @@ export class VolkaButton extends React.Component<IProps, IState> {
         <button
           className={className.join(' ')}
           onClick={onClick}
-          ref={ref => (this.button = ref)}
           type={type}
           disabled={disabled}>
           {icon &&
@@ -84,7 +65,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
             color: white;
             transition: background 0.3s;
             outline: none;
-            width: ${this.state.buttonWidth ? this.state.buttonWidth : 'auto'};
+            width: 'auto';
             white-space: nowrap;
             &:hover {
               cursor: pointer;
