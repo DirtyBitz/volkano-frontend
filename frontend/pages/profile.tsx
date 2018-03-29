@@ -1,23 +1,19 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
-import Router from 'next/router'
-import { Dispatch } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import store from '../store'
 import Layout from '../components/Layout'
-import { IStoreState } from '../store/StoreState'
-import { signOut } from '../actions/authentication/AuthActions'
-import { getSession, clearSession } from '../utils/Session'
+import Router from 'next/router'
+import { getSession } from '../utils/Session'
 import { VolkaButton } from '../components/VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
 import VolkanoRequest from '../api/VolkanoRequest'
+import { signOut } from '../utils/Authentication'
 
 class ProfilePage extends React.Component {
-  private signOut = () => {
-    VolkanoRequest.delete('/auth/sign_out')
-    clearSession()
+  private handleSignOut = () => {
+    signOut()
     Router.push('/')
   }
 
@@ -41,24 +37,12 @@ class ProfilePage extends React.Component {
           onSave={newValue => this.updateUser({ nickname: newValue })}
         />
 
-        <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.signOut} />
+        <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.handleSignOut} />
       </Layout>
     )
   }
 }
 
-const mapStateToProps = (state: IStoreState) => {
-  return {
-    authentication: state.authentication,
-  }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
-  return {
-    signOut: bindActionCreators(signOut, dispatch),
-  }
-}
-
 const AuthProfilePage = withAuth(ProfilePage)
 
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(AuthProfilePage)
+export default withRedux(store)(AuthProfilePage)

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import store from '../store'
-import { IStoreState } from '../store/StoreState'
 import Layout from '../components/Layout'
 import { SiteLayout } from '../constants/SiteLayout'
 import { VolkaButton } from '../components/VolkaButton'
@@ -101,10 +100,4 @@ export class App extends React.Component<{}, {}> {
   }
 }
 
-const mapStateToProps = (state: IStoreState) => {
-  return {
-    authentication: state.authentication,
-  }
-}
-
-export default withRedux(store, mapStateToProps)(App)
+export default withRedux(store)(App)

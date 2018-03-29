@@ -50,7 +50,6 @@ class CreateItemPage extends React.Component<IProps> {
 const mapStateToProps = (state: IStoreState) => {
   return {
     collection: state.collection,
-    authentication: state.authentication,
   }
 }
 

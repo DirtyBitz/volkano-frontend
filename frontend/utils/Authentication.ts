@@ -24,7 +24,6 @@ const handleError = (error: VolkanoHTTPError): string[] => {
   }
 
   const { status, data } = error
-
   let errors = []
   if (Array.isArray(data.errors)) {
     errors = data.errors
@@ -52,11 +51,11 @@ export const registerNewUser = async (
     'this value only used in tests'
   const userParams = {
     ...userFormFields,
-    confirm_success_url: `${host}/accountcreated`,
+    confirm_success_url: `${host}/emailconfirmation`,
   }
 
   try {
-    await VolkanoRequest.post('/auth', { params: userParams })
+    await VolkanoRequest.post('/auth', userParams)
   } catch (error) {
     return Promise.reject(handleError(error))
   }
@@ -68,10 +67,8 @@ export const signIn = async (
 ): Promise<IUser | string[]> => {
   try {
     const response: VolkanoHTTPResponse = await VolkanoRequest.post('/auth/sign_in', {
-      params: {
-        login,
-        password,
-      },
+      login,
+      password,
     })
 
     const user: IUser = convertUserJson(response.data)
