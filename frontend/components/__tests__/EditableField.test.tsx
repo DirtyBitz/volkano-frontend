@@ -84,9 +84,13 @@ describe('Editable field', () => {
 
       wrapper
         .update()
-        .find('.confirm-button')
-        .first()
-        .simulate('click')
+        .find('input')
+        .simulate('keyPress', { key: 'Control' })
+
+      wrapper
+        .update()
+        .find('input')
+        .simulate('keyPress', { key: 'Enter' })
 
       expect(
         wrapper

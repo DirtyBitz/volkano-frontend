@@ -41,6 +41,7 @@ class EditableField extends React.Component<IProps, IState> {
     }
   }
 
+  /* istanbul ignore next */
   private moveCaretAtEndOfInput = e => {
     let temp_value = e.target.value
     e.target.value = ''
@@ -59,7 +60,7 @@ class EditableField extends React.Component<IProps, IState> {
             <input
               autoFocus
               onFocus={this.moveCaretAtEndOfInput}
-              value={inputValue ? inputValue : ''}
+              value={inputValue}
               onChange={this.updateInputValue}
               onKeyPress={this.handleKeyPress}
             />
