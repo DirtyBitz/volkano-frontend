@@ -13,8 +13,8 @@
     "cyprun": "cypress run",
     "test": "jest --watch",
     "quicktest": "jest --no-cache",
-    "coverage": "jest --coverage --no-cache",
-    "ci": "jest --no-cache --coverage --ci"
+    "ci": "jest --no-cache --coverage --ci",
+    "pretty": "prettier -l '**/*.ts{,x}'"
   },
   "jest": {
     "coverageReporters": [
