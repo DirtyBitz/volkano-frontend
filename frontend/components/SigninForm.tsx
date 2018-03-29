@@ -10,6 +10,7 @@ const SignInForm = props => {
     <div className="page">
       <form onSubmit={handleSubmit}>
         <Field
+          autoFocus
           name="login"
           type="text"
           component={renderField}

@@ -2,14 +2,20 @@ import * as React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 const renderField = field => {
-  const { meta, type, asyncValidating, input, iconName, placeholder } = field
+  const { meta, type, asyncValidating, input, iconName, placeholder, autoFocus } = field
   return (
     <div>
       <div id="field" className={asyncValidating ? 'async-validating' : ''}>
         <span className="icon">
           <FontAwesomeIcon icon={iconName} color="#bbb" />
         </span>
-        <input {...input} type={type} id={field.id} placeholder={placeholder} />
+        <input
+          {...input}
+          type={type}
+          id={field.id}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
+        />
         {meta.touched &&
           meta.error && (
             <div className="validation-error">

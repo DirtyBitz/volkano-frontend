@@ -5,12 +5,13 @@ import renderField from './InputField'
 import { VolkaButton } from './VolkaButton'
 
 const SignUpForm = props => {
-  const { handleSubmit, submitting } = props
+  const { handleSubmit } = props
   return (
     <div>
       <div className="page">
         <form onSubmit={handleSubmit}>
           <Field
+            autoFocus
             name="email"
             type="text"
             component={renderField}
