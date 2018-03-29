@@ -1,9 +1,0 @@
-enum AuthActionTypeKeys {
-  AUTH_PENDING = 'AUTH_PENDING',
-  AUTH_ACCEPTED = 'AUTH_ACCEPTED',
-  AUTH_REJECTED = 'AUTH_REJECTED',
-  SIGN_OUT = 'SIGN_OUT',
-  CLEAR_AUTH_ERRORS = 'CLEAR_AUTH_ERRORS',
-}
-
-export default AuthActionTypeKeys

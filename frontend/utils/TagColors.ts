@@ -27,7 +27,7 @@ const tagColors = [
 
 export function hashTagToColor(tag: string) {
   /* Simple hash function. */
-  var a = 1,
+  let a = 1,
     c = 0,
     h,
     o
