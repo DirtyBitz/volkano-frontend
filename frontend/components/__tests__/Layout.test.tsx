@@ -2,6 +2,8 @@ import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { Layout } from '../Layout'
 import Footer from '../Footer'
+import { setSession } from '../../utils/Session'
+jest.mock('../../utils/Session')
 
 describe('Layout component', () => {
   let layout: ShallowWrapper<any>
@@ -46,5 +48,15 @@ describe('Layout component', () => {
       .text()
 
     expect(titleText).toBe('Testpage')
+  })
+
+  it('knows about the session', () => {
+    expect(layout.state().session).toBeTruthy()
+  })
+
+  it('knows when there is no session', () => {
+    setSession(undefined)
+    layout = shallow(<Layout />)
+    expect(layout.state().session).toBeNull()
   })
 })
