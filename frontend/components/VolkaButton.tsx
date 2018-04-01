@@ -39,6 +39,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
+    /* istanbul ignore next */
     if (this.button && this.button.clientWidth) {
       this.setState({
         buttonWidth: this.button.clientWidth + 1 + 'px',
@@ -59,6 +60,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
     const onClick = this.getOnClickFunction()
     const className = this.selectClassName()
 
+    /* istanbul ignore next */
     return (
       <div>
         <button
@@ -85,7 +87,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
             color: white;
             transition: background 0.3s;
             outline: none;
-            width: ${this.state.buttonWidth ? this.state.buttonWidth : 'auto'};
+            width: ${this.state.buttonWidth || 'auto'};
             white-space: nowrap;
             &:hover {
               cursor: pointer;
