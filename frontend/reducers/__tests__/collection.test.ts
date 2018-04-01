@@ -10,6 +10,7 @@ import {
   addTag,
   removeTag,
   clearTags,
+  deleteItem,
 } from '../../actions/item/ItemActions'
 import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/SearchBar'
@@ -88,6 +89,44 @@ describe('Collection reducer', () => {
     }
 
     const state = collectionReducer(expectedState, collectionSuccess(fakeData))
+
+    expect(state).toEqual(expectedState)
+  })
+
+  it('should handle item deletion', async () => {
+    const initialState: CollectionStateI = {
+      isLoading: false,
+      items: [
+        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
+        { id: 1, uid: 1, title: 'Second', url: 'secondurl', tags: [], categories: [] },
+        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+      ],
+      tags: [],
+      filteredItems: [],
+    }
+
+    const expectedState: CollectionStateI = {
+      isLoading: false,
+      items: [
+        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
+        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+      ],
+      tags: [],
+      filteredItems: [
+        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
+        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+      ],
+    }
+    const action = deleteItem({
+      id: 1,
+      uid: 1,
+      title: 'Second',
+      url: 'secondurl',
+      tags: [],
+      categories: [],
+    })
+
+    const state = collectionReducer(initialState, action)
 
     expect(state).toEqual(expectedState)
   })
