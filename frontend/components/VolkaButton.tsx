@@ -7,6 +7,7 @@ interface IProps {
   title: string
   primary?: boolean
   disabled?: boolean
+  ghost?: boolean
   icon?: any
   isLoading?: boolean
   onClick?: () => void
@@ -33,6 +34,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
     if (this.props.disabled) classNames.push('disabled')
     if (this.props.icon) classNames.push('with-icon')
     if (this.props.isLoading) classNames.push('loading')
+    if (this.props.ghost) classNames.push('ghost')
     return classNames
   }
 
@@ -107,6 +109,15 @@ export class VolkaButton extends React.Component<IProps, IState> {
             &:hover {
               background: ${Colors.disabledButton};
               cursor: not-allowed;
+            }
+          }
+          .ghost {
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            color: #fff;
+            background: transparent;
+            &:hover {
+              background: rgba(255, 255, 255, 0.4);
+              color: #222;
             }
           }
         `}</style>
