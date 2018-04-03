@@ -1,8 +1,8 @@
-javascript: (function() {
+javascript: (function () {
   startup();
   function startup() {
     let initialized = document.getElementById("VolkaScript");
-    if (initialized){
+    if (initialized) {
       console.log("VolkaScript already initialized");
       return;
     }
@@ -15,41 +15,42 @@ javascript: (function() {
 
     let style = document.createElement("style");
     style.setAttribute("id", "VolkaStyle");
-    style.innerHTML = "img:hover { border: 2px solid #8db517 !important; cursor: crosshair !important}";
+    style.innerHTML = `
+    img {
+      transition: transform .5s;
+    }
+
+    img:hover {
+      border: 2px solid #8db517 !important;
+      cursor: crosshair !important;
+      transform: scale(1.05);
+    }`;
     head.appendChild(style);
 
     let images = document.getElementsByTagName("img");
     for (let img of images) {
-      img.addEventListener("mouseover", hoverin);
-      img.addEventListener("mouseleave", hoverin);
       img.addEventListener("click", clickfunc);
     }
   }
-  function hoverin(e) {
-    const img = e.target;
-    console.log("Hovering over ", img);
-  };
-
-  function hoverout(e) {
-    const img = e.target;
-  };
 
   function clickfunc(e) {
     e.preventDefault();
-
-    /* POST IMAGE TO SERVER HERE*/
-    /* Other possible things to do here may be to extract information of where it came from (i.e. page you're browsing on), and other possible fun information. */
-    console.log(e.target.src);
-
-    const img = e.target;
     cleanup();
+    const img = e.target;
+    let url = `https://volka.no/additem?url=${img.src}`;
+
+    if (img.title) {
+      url += `&title=${img.title}`
+    } else if (img.alt) {
+      url += `&title=${img.alt}`
+    }
+
+    window.open(url)
   };
 
   function cleanup() {
     let images = document.getElementsByTagName("img");
     for (let img of images) {
-      img.removeEventListener("mouseover", hoverin);
-      img.removeEventListener("mouseleave", hoverin);
       img.removeEventListener("click", clickfunc);
     }
 
