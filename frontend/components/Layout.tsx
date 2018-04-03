@@ -8,6 +8,7 @@ import ReactGA from 'react-ga'
 
 interface IProps {
   title?: string
+  fixedHeader?: boolean
 }
 
 interface IState {
@@ -46,7 +47,7 @@ export class Layout extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { title, children } = this.props
+    const { title, fixedHeader, children } = this.props
 
     return (
       <div className="page">
@@ -80,7 +81,7 @@ export class Layout extends React.Component<IProps, IState> {
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
         </Head>
-        <header>
+        <header className={fixedHeader ? 'fixed-header' : ''}>
           <Navigation
             isSignedIn={this.state.session ? true : false}
             user={this.state.session && this.state.session.user}
@@ -97,12 +98,19 @@ export class Layout extends React.Component<IProps, IState> {
           }
 
           header {
-            background: #222;
+            background: #1c222a;
             color: #fff;
           }
 
+          header.fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: transparent;
+          }
+
           .main {
-            padding: 15px;
             flex: 1;
           }
         `}</style>
@@ -123,7 +131,7 @@ export class Layout extends React.Component<IProps, IState> {
             margin: 0;
             height: 100%;
             font-family: 'Montserrat', sans-serif;
-            background: #fffefe;
+            background: #f9f9f9;
           }
 
           input {
