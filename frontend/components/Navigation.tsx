@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { User } from '../models/User'
+import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
 interface Props {
   isSignedIn: boolean
-  user?: User
+  user?: IUser
 }
 
 export default class Navigation extends React.Component<Props> {
@@ -52,7 +52,6 @@ export default class Navigation extends React.Component<Props> {
           nav {
             display: flex;
             justify-content: space-between;
-            background: #1c222a;
             padding: 15px;
             align-items: center;
 
