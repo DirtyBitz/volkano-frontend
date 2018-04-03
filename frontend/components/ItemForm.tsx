@@ -5,14 +5,14 @@ import { faCopy, faEdit, faTags } from '@fortawesome/fontawesome-free-solid'
 import { BeatLoader } from 'react-spinners'
 
 const renderField = field => {
-  const { meta, type, label, asyncValidating, input, iconName } = field
+  const { meta, type, label, asyncValidating, input, iconName, inputValue } = field
   return (
     <div>
       <div id="field" className={asyncValidating ? 'async-validating' : ''}>
         <span className="icon">
           <FontAwesomeIcon icon={iconName} color="#bbb" />
         </span>
-        <input {...input} type={type} id={field.id} placeholder={label} />
+        <input {...input} type={type} id={field.id} value={inputValue} placeholder={label} />
         {meta.touched &&
           meta.error && (
             <div className="validation-error">
@@ -77,7 +77,7 @@ const renderField = field => {
 }
 
 const ItemForm = props => {
-  const { handleSubmit, submitting } = props
+  const { handleSubmit, submitting, url, title, tags } = props
   return (
     <div className="page">
       <form onSubmit={handleSubmit}>
@@ -88,6 +88,7 @@ const ItemForm = props => {
           label="URL"
           id="url-field"
           iconName={faCopy}
+          inputValue={url}
         />
         <Field
           name="title"
@@ -96,6 +97,7 @@ const ItemForm = props => {
           label="Title"
           id="title-field"
           iconName={faEdit}
+          inputValue={title}
         />
         <Field
           name="tags"
@@ -104,6 +106,7 @@ const ItemForm = props => {
           label="Tags (comma-separated)"
           id="tags-field"
           iconName={faTags}
+          inputValue={tags}
         />
         <div className="buttons">
           {submitting && (

@@ -17,6 +17,7 @@ interface INewItem {
 }
 
 interface IProps extends IStoreState {
+  url: any
   createItem: (item: INewItem) => Promise<void>
 }
 
@@ -41,7 +42,7 @@ class CreateItemPage extends React.Component<IProps> {
           }}>
           Collect an image
         </h1>
-        <CreateItemForm onSubmit={this.handleSubmit} />
+        <CreateItemForm onSubmit={this.handleSubmit} {...this.props.url.query} />
       </Layout>
     )
   }
