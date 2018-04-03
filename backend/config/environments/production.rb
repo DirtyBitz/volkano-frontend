@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "api_#{Rails.env}"
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('FRONTEND_HOSTNAME', 'volka.no')
+    host: ENV.fetch('BACKEND_HOSTNAME', 'volka.no')
   }
 
   ActionMailer::Base.smtp_settings = {
