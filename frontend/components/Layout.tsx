@@ -40,7 +40,6 @@ export class Layout extends React.Component<IProps, IState> {
       config.publicRuntimeConfig &&
       config.publicRuntimeConfig.ENV === 'production'
     if (prod) {
-      console.log('Google analyticing!')
       ReactGA.initialize('UA-116834335-1')
       ReactGA.pageview(document.location.pathname)
     }
