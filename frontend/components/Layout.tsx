@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Navigation from './Navigation'
 import Footer from './Footer'
 import { getSession, ISession } from '../utils/Session'
+import getConfig from 'next/config'
+import ReactGA from 'react-ga'
 
 interface IProps {
   title?: string
@@ -21,11 +23,26 @@ export class Layout extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
+    this.googleAnalytics()
+
     const session = getSession()
     if (session) {
       this.setState({
         session,
       })
+    }
+  }
+
+  private googleAnalytics() {
+    const config = getConfig()
+    const prod =
+      config &&
+      config.publicRuntimeConfig &&
+      config.publicRuntimeConfig.ENV === 'production'
+    if (prod) {
+      console.log('Google analyticing!')
+      ReactGA.initialize('UA-116834335-1')
+      ReactGA.pageview(document.location.pathname)
     }
   }
 
