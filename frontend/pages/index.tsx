@@ -5,6 +5,7 @@ import { IStoreState } from '../store/StoreState'
 import Layout from '../components/Layout'
 import { SiteLayout } from '../constants/SiteLayout'
 import { VolkaButton } from '../components/VolkaButton'
+import Link from 'next/link'
 
 export class App extends React.Component<{}, {}> {
   render() {
@@ -17,7 +18,9 @@ export class App extends React.Component<{}, {}> {
               Start collecting today!
               <br />
               <br />
-              <VolkaButton ghost title="Create Account" />
+              <Link href="/signup">
+                <VolkaButton ghost title="Create Account" />
+              </Link>
             </p>
           </div>
 
