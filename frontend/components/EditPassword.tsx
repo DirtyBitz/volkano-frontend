@@ -45,7 +45,7 @@ class EditPassword extends React.Component<IProps, IState> {
       console.log('OK with msg:', response.data.message)
       this.setState({ successMessage: response.data.message, isEditing: false })
     } catch (error) {
-      console.error('Error with msg:', error.message)
+      console.log('Error object:', error)
       this.setState({ errorMessage: error.message, isEditing: false })
     }
   }
@@ -84,9 +84,6 @@ class EditPassword extends React.Component<IProps, IState> {
 
         {isEditing && (
           <div id="change-password-container">
-            <div className="button">
-              <VolkaButton title="Change password" onClick={this.onSubmit} />
-            </div>
             <div className="content">
               <label>Current password</label>
               <input
@@ -113,6 +110,9 @@ class EditPassword extends React.Component<IProps, IState> {
                 onChange={this.confirmPasswordChange}
                 value={confirmPassword}
               />
+            </div>
+            <div className="button">
+              <VolkaButton title="Change password" onClick={this.onSubmit} />
             </div>
           </div>
         )}

@@ -142,7 +142,9 @@ class EditableField extends React.Component<IProps, IState> {
 
             .confirm-icon {
               opacity: 1;
+              align-self: center;
               margin-bottom: 0;
+              margin-left: -20px;
             }
           }
 
