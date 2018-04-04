@@ -6,6 +6,7 @@ import { getSession } from '../utils/Session'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
 import AuthApi from '../api/AuthApi'
+import EditPassword from '../components/EditPassword'
 
 class ProfilePage extends React.Component {
   render() {
@@ -23,6 +24,8 @@ class ProfilePage extends React.Component {
           value={session ? session.user.nickname : ''}
           onSave={newValue => AuthApi.updateUser({ nickname: newValue })}
         />
+
+        <EditPassword onSave={newValue => console.log(newValue)} />
       </Layout>
     )
   }
