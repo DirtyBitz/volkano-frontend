@@ -73,15 +73,20 @@ class EditPassword extends React.Component<IProps, IState> {
           <div id="change-password-action">
             <span>{this.state.successMessage}</span>
             <span>{this.state.errorMessage}</span>
-            <VolkaButton
-              title="Change Password"
-              onClick={() => this.setState({ isEditing: true })}
-            />
+            <div className="button">
+              <VolkaButton
+                title="Change Password"
+                onClick={() => this.setState({ isEditing: true })}
+              />
+            </div>
           </div>
         )}
 
         {isEditing && (
           <div id="change-password-container">
+            <div className="button">
+              <VolkaButton title="Change password" onClick={this.onSubmit} />
+            </div>
             <div className="content">
               <label>Current password</label>
               <input
@@ -101,7 +106,7 @@ class EditPassword extends React.Component<IProps, IState> {
             </div>
             <div className="content">
               <label style={{ color: this.state.passwordsMatch ? 'black' : 'red' }}>
-                Confirm New Password
+                Confirm Password
               </label>
               <input
                 type="password"
@@ -109,9 +114,40 @@ class EditPassword extends React.Component<IProps, IState> {
                 value={confirmPassword}
               />
             </div>
-            <VolkaButton title="Change password" onClick={this.onSubmit} />
           </div>
         )}
+        <style jsx>{`
+          .button {
+            margin-bottom: 10px;
+          }
+
+          .content {
+            border: solid 1px #bbb;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            width: 400px;
+            display: flex;
+            background: #f9f9f9;
+            font-size: 0.9em;
+          }
+
+          label {
+            font-weight: bold;
+            margin-right: 10px;
+            padding: 5px 10px 5px 10px;
+            white-space: nowrap;
+            border-right: solid 1px #bbb;
+            min-width: 160px;
+          }
+
+          input {
+            border: none;
+            margin-right: 10px;
+            flex: 1;
+            padding: 5px 10px 5px 0;
+            background: transparent;
+          }
+        `}</style>
       </div>
     )
   }

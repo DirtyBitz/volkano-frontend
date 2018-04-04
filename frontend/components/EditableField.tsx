@@ -90,7 +90,7 @@ class EditableField extends React.Component<IProps, IState> {
         <style jsx>{`
           .editable-field {
             border: 1px solid #bbb;
-            width: 40%;
+            width: 400px;
             display: flex;
             background: #f9f9f9;
             border-radius: 5px;
@@ -112,7 +112,7 @@ class EditableField extends React.Component<IProps, IState> {
               padding: 5px 10px 5px 10px;
               white-space: nowrap;
               border-right: 1px solid #bbb;
-              min-width: 150px;
+              min-width: 160px;
             }
 
             .value,
