@@ -36,10 +36,12 @@ export class Layout extends React.Component<IProps, IState> {
 
   private googleAnalytics() {
     const config = getConfig()
+    /* istanbul ignore next */
     const prod =
       config &&
       config.publicRuntimeConfig &&
       config.publicRuntimeConfig.ENV === 'production'
+
     if (prod) {
       ReactGA.initialize('UA-116834335-1')
       ReactGA.pageview(document.location.pathname)
