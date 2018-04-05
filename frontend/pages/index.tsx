@@ -14,7 +14,11 @@ export class App extends React.Component<{}, {}> {
           <div id="welcome-msg">
             <h1>Welcome to Volka.no</h1>
             <div>
+<<<<<<< HEAD
               Start collecting today!
+=======
+              <p>Start collecting today!</p>
+>>>>>>> a132c2b... :ambulance: Fix an error message where a div was inside a paragraph
               <br />
               <br />
               <Link href="/signup">
