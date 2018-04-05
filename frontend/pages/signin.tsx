@@ -5,11 +5,11 @@ import store from '../store'
 import SigninForm from '../components/SigninForm'
 import Layout from '../components/Layout'
 import { hasSession } from '../utils/Session'
-import { signIn } from '../utils/Authentication'
+import AuthApi from '../api/AuthApi'
 
 class SigninPage extends React.Component {
   private handleSubmit = async ({ login, password }) => {
-    await signIn(login, password)
+    await AuthApi.signIn(login, password)
 
     const isSignedIn = hasSession()
     if (isSignedIn) {

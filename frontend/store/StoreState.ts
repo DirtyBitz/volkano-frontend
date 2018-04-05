@@ -1,4 +1,4 @@
-import { CollectionStateI } from '../reducers/collectionReducer'
+import { ICollectionState } from '../reducers/collection'
 export interface IStoreState {
-  readonly collection: CollectionStateI
+  readonly collection: ICollectionState
 }

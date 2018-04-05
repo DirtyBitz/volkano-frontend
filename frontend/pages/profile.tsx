@@ -9,11 +9,11 @@ import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
 import VolkanoRequest from '../api/VolkanoRequest'
-import { signOut } from '../utils/Authentication'
+import AuthApi from '../api/AuthApi'
 
 class ProfilePage extends React.Component {
   private handleSignOut = () => {
-    signOut()
+    AuthApi.signOut()
     Router.push('/')
   }
 

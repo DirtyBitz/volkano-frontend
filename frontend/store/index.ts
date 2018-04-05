@@ -1,5 +1,5 @@
 import { IStoreState } from './StoreState'
-import { collectionInitialState } from '../reducers/collectionReducer'
+import { collectionInitialState } from '../reducers/collection'
 import reducers from '../reducers/index'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'

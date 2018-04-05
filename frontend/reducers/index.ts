@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { reducer } from 'redux-form'
 import { IStoreState } from '../store/StoreState'
-import collectionReducer from './collectionReducer'
+import collection from './collection'
 
 const rootReducer = combineReducers<IStoreState>({
-  collection: collectionReducer,
+  collection,
   form: reducer,
 })
 

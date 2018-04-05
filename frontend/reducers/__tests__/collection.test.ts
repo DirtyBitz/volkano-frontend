@@ -1,7 +1,4 @@
-import collectionReducer, {
-  collectionInitialState,
-  CollectionStateI,
-} from '../collectionReducer'
+import collection, { collectionInitialState, ICollectionState } from '../collection'
 import { OtherAction } from '../../actions/IOtherAction'
 import {
   collectionPending,
@@ -39,7 +36,7 @@ const fakeData: ICollectionData = {
 
 describe('Collection reducer', () => {
   it('should return the initial state', () => {
-    const expectedState: CollectionStateI = {
+    const expectedState: ICollectionState = {
       isLoading: false,
       items: undefined,
       errors: undefined,
@@ -47,11 +44,11 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    expect(collectionReducer(undefined, OtherAction)).toEqual(expectedState)
+    expect(collection(undefined, OtherAction)).toEqual(expectedState)
   })
 
   it('should handle collection pending', () => {
-    const expectedState: CollectionStateI = {
+    const expectedState: ICollectionState = {
       isLoading: true,
       items: undefined,
       errors: undefined,
@@ -59,12 +56,12 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const newState = collectionReducer(collectionInitialState, collectionPending())
+    const newState = collection(collectionInitialState, collectionPending())
 
     expect(newState).toEqual(expectedState)
   })
   it('should handle when collect items is rejected', async () => {
-    const expectedState: CollectionStateI = {
+    const expectedState: ICollectionState = {
       isLoading: false,
       errors: ['this is a fake error message'],
       items: undefined,
@@ -72,7 +69,7 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const newState = collectionReducer(
+    const newState = collection(
       expectedState,
       collectionFailure(['this is a fake error message'])
     )
@@ -81,20 +78,20 @@ describe('Collection reducer', () => {
   })
 
   it('should handle when collect items is successful', async () => {
-    const expectedState: CollectionStateI = {
+    const expectedState: ICollectionState = {
       isLoading: false,
       items: fakeData.items,
       tags: [],
       filteredItems: [],
     }
 
-    const state = collectionReducer(expectedState, collectionSuccess(fakeData))
+    const state = collection(expectedState, collectionSuccess(fakeData))
 
     expect(state).toEqual(expectedState)
   })
 
   it('should handle item deletion', async () => {
-    const initialState: CollectionStateI = {
+    const initialState: ICollectionState = {
       isLoading: false,
       items: [
         { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
@@ -105,7 +102,7 @@ describe('Collection reducer', () => {
       filteredItems: [],
     }
 
-    const expectedState: CollectionStateI = {
+    const expectedState: ICollectionState = {
       isLoading: false,
       items: [
         { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
@@ -126,7 +123,7 @@ describe('Collection reducer', () => {
       categories: [],
     })
 
-    const state = collectionReducer(initialState, action)
+    const state = collection(initialState, action)
 
     expect(state).toEqual(expectedState)
   })
@@ -138,61 +135,61 @@ describe('Collection reducer', () => {
     ]
 
     it('should add a tag', () => {
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [testTags[0]],
         filteredItems: [],
       }
 
-      const newState = collectionReducer(initState, addTag(testTags[0]))
+      const newState = collection(initState, addTag(testTags[0]))
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
 
     it('should remove a tag', () => {
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [testTags[0]],
         filteredItems: [],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
 
-      const newState = collectionReducer(initState, removeTag(testTags[0]))
+      const newState = collection(initState, removeTag(testTags[0]))
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
 
     it('should clear all tags', () => {
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [...testTags],
         filteredItems: [],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: fakeData.items,
         tags: [],
         filteredItems: [],
       }
 
-      const newState = collectionReducer(initState, clearTags())
+      const newState = collection(initState, clearTags())
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
@@ -207,21 +204,21 @@ describe('Collection reducer', () => {
         value: 'dog',
       }
 
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [],
         filteredItems: [],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [tag],
         filteredItems: [originalItems[0]],
       }
 
-      const newState = collectionReducer(initState, addTag(tag))
+      const newState = collection(initState, addTag(tag))
 
       expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })
@@ -241,22 +238,22 @@ describe('Collection reducer', () => {
         value: 'animal',
       }
 
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [],
         filteredItems: [],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [tag, tag1],
         filteredItems: [originalItems[0]],
       }
 
-      const addFirstTag = collectionReducer(initState, addTag(tag))
-      const finalState = collectionReducer(addFirstTag, addTag(tag1))
+      const addFirstTag = collection(initState, addTag(tag))
+      const finalState = collection(addFirstTag, addTag(tag1))
 
       expect(finalState.filteredItems).toEqual(expectedState.filteredItems)
     })
@@ -277,20 +274,20 @@ describe('Collection reducer', () => {
         value: 'animal',
       }
 
-      const initState: CollectionStateI = {
+      const initState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [tag, tag1],
         filteredItems: [originalItems[0]],
       }
 
-      const expectedState: CollectionStateI = {
+      const expectedState: ICollectionState = {
         isLoading: false,
         items: originalItems,
         tags: [tag1],
         filteredItems: [...originalItems],
       }
-      const newState = collectionReducer(initState, removeTag(tag))
+      const newState = collection(initState, removeTag(tag))
 
       expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })

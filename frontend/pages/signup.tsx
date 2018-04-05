@@ -4,12 +4,12 @@ import Layout from '../components/Layout'
 import SignUpForm from '../components/SignUpForm'
 import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
-import { registerNewUser, IUserRegisterDetails } from '../utils/Authentication'
+import AuthApi, { IUserRegisterDetails } from '../api/AuthApi'
 
 class SignUpPage extends React.Component {
   private handleSubmit = async (params: IUserRegisterDetails) => {
-    await registerNewUser(params)
-    Router.push('/accountcreated')
+    await AuthApi.registerNewUser(params)
+    Router.push('/emailconfirmation')
   }
 
   render() {

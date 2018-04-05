@@ -7,12 +7,12 @@ import { IStoreState } from '../store/StoreState'
 import Layout from '../components/Layout'
 import {
   allItems,
+  removeItem,
   addTag,
   removeTag,
   clearTags,
-  deleteItem,
 } from '../actions/item/ItemActions'
-import { CollectionStateI } from '../reducers/collectionReducer'
+import { ICollectionState } from '../reducers/collection'
 import ItemCard from '../components/ItemCard'
 import { SearchBar, ITag } from '../components/SearchBar'
 import { Item } from '../models/Item'
@@ -27,7 +27,7 @@ interface IProps extends IStoreState {
   removeTag: (tag: ITag) => void
   clearTags: () => void
   deleteItem: (item) => void
-  collection: CollectionStateI
+  collection: ICollectionState
 }
 
 interface IState {
@@ -115,10 +115,10 @@ class CollectionPage extends React.Component<IProps, IState> {
         {this.state.selectedItem
           ? false
           : true && (
-            <div id="add-item" onClick={this.addItemPage}>
-              <span>+</span>
-            </div>
-          )}
+              <div id="add-item" onClick={this.addItemPage}>
+                <span>+</span>
+              </div>
+            )}
 
         <div onKeyDown={this.keyHandler}>
           <Modal
@@ -209,7 +209,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
     addTag: bindActionCreators(addTag, dispatch),
     removeTag: bindActionCreators(removeTag, dispatch),
     clearTag: bindActionCreators(clearTags, dispatch),
-    deleteItem: bindActionCreators(deleteItem, dispatch),
+    deleteItem: bindActionCreators(removeItem, dispatch),
   }
 }
 

@@ -3,7 +3,7 @@ import ItemActionTypes from '../actions/item/ItemActionTypes'
 import { Item } from '../models/Item'
 import { ITag } from '../components/SearchBar'
 
-export interface CollectionStateI {
+export interface ICollectionState {
   isLoading: boolean
   items?: Item[]
   errors?: string[]
@@ -11,16 +11,16 @@ export interface CollectionStateI {
   filteredItems: Item[]
 }
 
-export const collectionInitialState: CollectionStateI = {
+export const collectionInitialState: ICollectionState = {
   isLoading: false,
   tags: [],
   filteredItems: [],
 }
 
-export default function collectionReducer(
+export default function collection(
   state = collectionInitialState,
   action: ItemActionTypes
-): CollectionStateI {
+): ICollectionState {
   switch (action.type) {
     case ItemActionTypeKeys.FETCHING_COLLECTION:
       return {
