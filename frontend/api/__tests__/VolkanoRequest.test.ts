@@ -1,7 +1,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VolkanoRequest from '../VolkanoRequest'
-import { getSession, setSession, ISession } from '../../utils/Session'
+import { getSession, setSession, ISession, hasSession } from '../../utils/Session'
 import { IUser, IUserJson } from '../../models/User'
 
 describe('Volkano request adapter', () => {
@@ -33,12 +33,12 @@ describe('Volkano request adapter', () => {
     expect(token).toBe(session.token)
   })
 
-  it('should update user on successful request', async () => {
+  it('should update user on successful auth request', async () => {
     const newToken = 'new-token'
     const expectedUser = {
       email: 'test@example.com',
       id: 0,
-      name: null,
+      name: 'tester',
       nickname: null,
     }
     const userJson: IUserJson = {
@@ -54,6 +54,19 @@ describe('Volkano request adapter', () => {
     const { user, token } = getSession()
     expect(user).toEqual(expectedUser)
     expect(token).toEqual(newToken)
+  })
+
+  it('should not update user on unrelated successful request', async () => {
+    const newToken = 'new-token'
+    const oldUser: IUser = { email: 'tester', id: 0 }
+    const oldSession: ISession = { client: 'a', uid: 'b', token: 'b', user: oldUser }
+    mock.onPost().reply(200, { data: 'this is an unrelated item' }, { token: newToken })
+    setSession(oldSession)
+
+    await VolkanoRequest.post('/items', {})
+    const { user, token } = getSession()
+    expect(token).toEqual(newToken)
+    expect(user).toEqual(oldUser)
   })
 
   it('should update token on successful request', async () => {
@@ -89,6 +102,19 @@ describe('Volkano request adapter', () => {
     expect(getSession().token).toEqual(originalToken)
   })
 
+  it('should sign out user on unauthorized request', async () => {
+    mock.onPost().reply(401, { data: { errors: ['invalid token'] } })
+
+    try {
+      await VolkanoRequest.post('/', { item: 'yep' })
+      expect('this should never happen').toBe(true)
+    } catch (error) {
+      expect(error.status).toBe(401)
+    }
+
+    expect(hasSession()).toBe(false)
+  })
+
   it('should not change token on server error response', async () => {
     mock.onPost().reply(500, {})
 
@@ -119,5 +145,13 @@ describe('Volkano request adapter', () => {
     const response = await VolkanoRequest.delete('/', { id: 1 })
 
     expect(response.data.id).toEqual(1)
+  })
+
+  it('should send DELETE requests even without data', async () => {
+    mock.onDelete().reply(config => [200, { data: 'good job' }, { token: undefined }])
+
+    const response = await VolkanoRequest.delete('/')
+
+    expect(response.data).toEqual('good job')
   })
 })

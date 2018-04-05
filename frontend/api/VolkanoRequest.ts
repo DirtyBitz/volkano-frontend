@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { ISession, setSession, getSession, clearSession } from '../utils/Session'
-import { convertUserJson } from '../models/User'
+import { convertUserJson, isValidUserJson } from '../models/User'
 import getConfig from 'next/config'
 
 export interface IVolkanoHTTPError {
@@ -37,6 +37,7 @@ export default class VolkanoRequest {
   ): Promise<IVolkanoHTTPResponse> {
     const session = getSession()
     const config = getConfig()
+    /* istanbul ignore next */
     const host =
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.BACKEND_URL) ||
       'this value only used in tests'
@@ -81,13 +82,12 @@ export default class VolkanoRequest {
 
   private static newSession(oldSession, response) {
     if (!response.headers.token) return oldSession
-
     let headers = response.headers
     let user
-    try {
+    if (isValidUserJson(response.data.data)) {
       user = convertUserJson(response.data.data)
-    } catch {
-      user = headers.user
+    } else {
+      user = oldSession.user
     }
 
     const newSession: ISession = {
