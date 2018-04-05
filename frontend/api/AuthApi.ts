@@ -1,0 +1,75 @@
+import getConfig from 'next/config'
+import VolkanoRequest, { IVolkanoHTTPError } from '../api/VolkanoRequest'
+import { clearSession } from '../utils/Session'
+
+export interface IUserRegisterDetails {
+  email: string
+  password: string
+  nickname?: string
+}
+
+export enum ErrorState {
+  SERVER_ERROR = 'Server is down',
+  NETWORK_ERROR = 'Network error',
+  UNKNOWN_ERROR = 'Unknown error',
+}
+
+export default class AuthApi {
+  public static async registerNewUser(
+    userFormFields: IUserRegisterDetails
+  ): Promise<void | string[]> {
+    const config = getConfig()
+    const host =
+      (config && config.publicRuntimeConfig && config.publicRuntimeConfig.FRONTEND_URL) ||
+      'this value only used in tests'
+    const data = {
+      ...userFormFields,
+      confirm_success_url: `${host}/emailconfirmation`,
+    }
+
+    try {
+      await VolkanoRequest.post('/auth', data)
+    } catch (error) {
+      return Promise.reject(handleError(error))
+    }
+  }
+
+  public static async signIn(login: string, password: string) {
+    try {
+      const response = await VolkanoRequest.post('/auth/sign_in', {
+        login,
+        password,
+      })
+      return Promise.resolve(response.data)
+    } catch (error) {
+      return Promise.reject(handleError(error))
+    }
+  }
+
+  public static async signOut() {
+    try {
+      await VolkanoRequest.delete('/auth/sign_out')
+    } catch (error) {
+      return Promise.reject(handleError(error))
+    } finally {
+      clearSession()
+    }
+  }
+}
+
+const handleError = (error: IVolkanoHTTPError) => {
+  if (error.message === 'Network Error') {
+    return [ErrorState.NETWORK_ERROR]
+  }
+
+  const { status, data } = error
+  switch (status) {
+    case 401:
+    case 422:
+      return data
+    case 500:
+      return [ErrorState.SERVER_ERROR]
+    default:
+      return [ErrorState.UNKNOWN_ERROR]
+  }
+}

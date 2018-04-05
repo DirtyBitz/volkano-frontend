@@ -1,14 +1,8 @@
-import {
-  signIn,
-  signOut,
-  registerNewUser,
-  IUserRegisterDetails,
-  ErrorState,
-} from '../Authentication'
-import VolkanoRequest from '../../api/VolkanoRequest'
+import AuthApi, { IUserRegisterDetails, ErrorState } from '../AuthApi'
+import VolkanoRequest from '../VolkanoRequest'
 import { IUser } from '../../models/User'
 import { getSession, setSession, ISession } from '../../utils/Session'
-jest.mock('../../api/VolkanoRequest')
+jest.mock('../VolkanoRequest')
 
 const mockUser: IUser = { email: 'test@example.com', id: 0 }
 
@@ -17,7 +11,7 @@ describe('Authentication utils', () => {
     it('with valid credentials', async () => {
       VolkanoRequest.post.mockImplementation(() => Promise.resolve({ data: mockUser }))
 
-      const user = await signIn('test@example.com', 'password')
+      const user = await AuthApi.signIn('test@example.com', 'password')
       expect(user).toEqual(mockUser)
     })
 
@@ -30,10 +24,10 @@ describe('Authentication utils', () => {
       )
 
       try {
-        await signIn('throwboi', 'wrong password')
+        await AuthApi.signIn('throwboi', 'wrong password')
         expect('This should not happen').toBe(true)
       } catch (error) {
-        expect(error).toEqual(['No such user'])
+        expect(error.errors).toEqual(['No such user'])
       }
     })
   })
@@ -49,7 +43,7 @@ describe('Authentication utils', () => {
 
       let thrown = false
       try {
-        await registerNewUser(newUserDetails)
+        await AuthApi.registerNewUser(newUserDetails)
       } catch (error) {
         thrown = true
       }
@@ -60,17 +54,24 @@ describe('Authentication utils', () => {
       VolkanoRequest.post.mockImplementation(() =>
         Promise.reject({
           status: 422,
-          data: { errors: { full_messages: ['Invalid email'] } },
+          data: {
+            errors: {
+              email: 'already taken',
+              full_messages: 'Email has already been taken',
+            },
+          },
         })
       )
 
       try {
-        await registerNewUser(newUserDetails)
+        await AuthApi.registerNewUser(newUserDetails)
         expect('This should not happen').toBe(true)
       } catch (error) {
-        expect(error).toEqual(['Invalid email'])
+        const { email, full_messages } = error.errors
+        expect(email).toEqual('already taken')
+        expect(full_messages).toEqual('Email has already been taken')
       }
-      expect(VolkanoRequest.post).toBeCalled()
+      expect(VolkanoRequest.post).toHaveBeenCalled()
     })
   })
 
@@ -84,7 +85,7 @@ describe('Authentication utils', () => {
       )
 
       try {
-        await signIn('500boi', 'passwordboi')
+        await AuthApi.signIn('500boi', 'passwordboi')
         expect('This should not happen').toBe(true)
       } catch (boi) {
         expect(boi).toEqual([ErrorState.SERVER_ERROR])
@@ -100,7 +101,7 @@ describe('Authentication utils', () => {
       )
 
       try {
-        await signIn('teapot', 'IAm')
+        await AuthApi.signIn('teapot', 'IAm')
         expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual([ErrorState.UNKNOWN_ERROR])
@@ -113,7 +114,7 @@ describe('Authentication utils', () => {
       )
 
       try {
-        await signIn('networky', 'boi')
+        await AuthApi.signIn('networky', 'boi')
         expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual([ErrorState.NETWORK_ERROR])
@@ -129,7 +130,7 @@ describe('Authentication utils', () => {
 
     it('deletes session from browser', async () => {
       VolkanoRequest.delete.mockImplementation(() => Promise.resolve({ status: 200 }))
-      await signOut()
+      await AuthApi.signOut()
       expect(getSession).not.toEqual(session)
     })
 
@@ -138,7 +139,7 @@ describe('Authentication utils', () => {
         Promise.reject({ status: 500, message: 'Network Error' })
       )
       try {
-        await signOut()
+        await AuthApi.signOut()
         expect('This should not happen').toBe(true)
       } catch (error) {
         expect(error).toEqual([ErrorState.NETWORK_ERROR])
