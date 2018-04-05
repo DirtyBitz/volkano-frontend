@@ -24,7 +24,8 @@ export const convertUserJson = (userJson: IUserJson): IUser => ({
 })
 
 export const isValidUserJson = (userJson: IUserJson): boolean =>
-  userJson.hasOwnProperty('id') &&
+  userJson &&
+  userJson.hasOwnProperty('uid') &&
   userJson.hasOwnProperty('email') &&
   userJson.hasOwnProperty('name') &&
   true

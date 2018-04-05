@@ -20,8 +20,8 @@ export const allItems = () => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(collectionPending())
     try {
-      const response = await ItemApi.getAllItems()
-      dispatch(collectionSuccess(response))
+      const collection = await ItemApi.getAllItems()
+      dispatch(collectionSuccess(collection))
     } catch (error) {
       dispatch(collectionFailure(error))
     }
