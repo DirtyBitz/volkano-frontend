@@ -14,6 +14,7 @@ describe('VolkaButton component', () => {
       primary: false,
       disabled: false,
       isLoading: false,
+      ghost: false,
       icon: false,
     }
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
@@ -30,6 +31,13 @@ describe('VolkaButton component', () => {
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
     const button = buttonWrap.find('button').first()
     expect(button.props().className).toEqual('primary')
+  })
+
+  it('should render ghost button', () => {
+    defaultProps.ghost = true
+    buttonWrap = shallow(<VolkaButton {...defaultProps} />)
+    const button = buttonWrap.find('button').first()
+    expect(button.props().className).toEqual('ghost')
   })
 
   it('should call onClick when clicked', () => {
