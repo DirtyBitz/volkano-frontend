@@ -42,8 +42,9 @@ export default class VolkanoRequest {
       return this.handleError(session, error)
     }
 
-    if (session || path.match('/auth/sign_in'))
+    if (session || path.match('/auth/sign_in')) {
       setSession(this.newSession(session, response))
+    }
     return Promise.resolve(response.data)
   }
 
@@ -58,7 +59,7 @@ export default class VolkanoRequest {
         clearSession()
         break
       case 422:
-        setSession(this.newSession(oldSession, error.response))
+        if (oldSession) setSession(this.newSession(oldSession, error.response))
         break
       case 500:
       default:

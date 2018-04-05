@@ -6,5 +6,10 @@ class Item < ApplicationRecord
   acts_as_taggable_on :categories
 
   validates :title, presence: true
-  validates :url, presence: true, uniqueness: { scope: %i[user url] }
+  validates :url,
+            presence: true,
+            uniqueness: {
+              scope: %i[user url],
+              message: 'already exists in collection'
+            }
 end

@@ -8,6 +8,7 @@ import { Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { createItem } from '../actions/item/ItemActions'
+import { SubmissionError } from 'redux-form'
 
 // Move this interface and reuse it in actions
 interface INewItem {
@@ -27,8 +28,7 @@ class CreateItemPage extends React.Component<IProps> {
       await this.props.createItem(item)
       Router.push('/collection')
     } catch (error) {
-      // We should probably handle this
-      console.error(error)
+      throw new SubmissionError(error.errors)
     }
   }
 

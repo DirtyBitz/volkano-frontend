@@ -5,11 +5,18 @@ import SignUpForm from '../components/SignUpForm'
 import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
 import AuthApi, { IUserRegisterDetails } from '../api/AuthApi'
+import { SubmissionError } from 'redux-form'
 
 class SignUpPage extends React.Component {
   private handleSubmit = async (params: IUserRegisterDetails) => {
-    await AuthApi.registerNewUser(params)
-    Router.push('/emailconfirmation')
+    try {
+      await AuthApi.registerNewUser(params)
+      Router.push('/emailconfirmation')
+    } catch (error) {
+      if (error.errors) {
+        throw new SubmissionError({ ...error.errors, _error: error.errors.full_messages })
+      }
+    }
   }
 
   render() {
