@@ -31,6 +31,14 @@ javascript: (function () {
     for (let img of images) {
       img.addEventListener("click", clickfunc);
     }
+
+    document.addEventListener("contextmenu", abort, false);
+  }
+
+  function abort(e) {
+    e.preventDefault();
+    cleanup();
+    return false;
   }
 
   function clickfunc(e) {
