@@ -2,12 +2,20 @@ import * as React from 'react'
 import Link from 'next/link'
 import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
-interface IProps {
+import { faUser, faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
+import { clearSession } from '../utils/Session'
+import Router from 'next/router'
+interface Props {
   isSignedIn: boolean
   user?: IUser
 }
 
-export default class Navigation extends React.Component<IProps> {
+export default class Navigation extends React.Component<Props> {
+  private signOut = () => {
+    clearSession()
+    Router.push('/')
+  }
+
   render() {
     const { isSignedIn, user } = this.props
     return (
@@ -29,23 +37,37 @@ export default class Navigation extends React.Component<IProps> {
             <div>
               <Link href="/signin">
                 <a id="signin-link">
-                  <VolkaButton primary title="Sign in" />
+                  <VolkaButton title="Sign in" />
                 </a>
               </Link>
 
               <Link href="/signup">
                 <a id="signup-link">
-                  <VolkaButton primary title="Sign up" />
+                  <VolkaButton title="Sign up" />
                 </a>
               </Link>
             </div>
           )}
-          {isSignedIn &&
-            user && (
-              <Link href="/profile">
-                <a id="profile-link">{user.email}</a>
-              </Link>
-            )}
+          <div id="user-nav">
+            {isSignedIn &&
+              user && (
+                <Link href="/profile">
+                  <a id="profile-link">
+                    <VolkaButton icon={faUser} />
+                  </a>
+                </Link>
+              )}
+            {isSignedIn &&
+              user && (
+                <a id="signout">
+                  <VolkaButton
+                    icon={faSignOutAlt}
+                    onClick={this.signOut}
+                    className={'danger'}
+                  />
+                </a>
+              )}
+          </div>
         </div>
 
         <style jsx>{`
@@ -91,7 +113,9 @@ export default class Navigation extends React.Component<IProps> {
           }
 
           #signin-link,
-          #signup-link {
+          #signup-link,
+          #profile-link,
+          #signout {
             margin-left: 15px;
           }
         `}</style>

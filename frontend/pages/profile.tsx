@@ -2,21 +2,12 @@ import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import store from '../store'
 import Layout from '../components/Layout'
-import Router from 'next/router'
 import { getSession } from '../utils/Session'
-import { VolkaButton } from '../components/VolkaButton'
-import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
 import VolkanoRequest from '../api/VolkanoRequest'
-import AuthApi from '../api/AuthApi'
 
 class ProfilePage extends React.Component {
-  private handleSignOut = () => {
-    AuthApi.signOut()
-    Router.push('/')
-  }
-
   private updateUser = params => {
     VolkanoRequest.put('/auth', params)
   }
@@ -36,8 +27,6 @@ class ProfilePage extends React.Component {
           value={session ? session.user.nickname : ''}
           onSave={newValue => this.updateUser({ nickname: newValue })}
         />
-
-        <VolkaButton icon={faSignOutAlt} title="Sign out" onClick={this.handleSignOut} />
       </Layout>
     )
   }
