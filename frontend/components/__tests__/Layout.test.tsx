@@ -2,7 +2,7 @@ import * as React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { Layout } from '../Layout'
 import Footer from '../Footer'
-import { setSession } from '../../utils/Session'
+import { setSession, ISession } from '../../utils/Session'
 import ReactGA from 'react-ga'
 import getConfig from 'next/config'
 jest.mock('next/config')
@@ -10,7 +10,7 @@ jest.mock('react-ga')
 jest.mock('../../utils/Session')
 
 describe('Layout component', () => {
-  let layout: ShallowWrapper<any>
+  let layout: ShallowWrapper<{}, { session: ISession }>
 
   beforeEach(() => {
     layout = shallow(<Layout />)
@@ -55,13 +55,15 @@ describe('Layout component', () => {
   })
 
   it('knows about the session', () => {
-    expect(layout.state().session).toBeTruthy()
+    const { session } = layout.state()
+    expect(session).toBeTruthy()
   })
 
   it('knows when there is no session', () => {
     setSession(undefined)
     layout = shallow(<Layout />)
-    expect(layout.state().session).toBeNull()
+    const { session } = layout.state()
+    expect(session).toBeFalsy()
   })
 
   it('can render with a fixed header', () => {

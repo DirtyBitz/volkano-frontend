@@ -29,7 +29,7 @@ describe('Item thunk actions', () => {
     })
 
     it('with errors', async () => {
-      ItemApi.getAllItems.mockImplementation(() => {
+      ItemApi.getAllItems = jest.fn(() => {
         throw ['Did throw']
       })
       const expectedActions = [
@@ -52,7 +52,7 @@ describe('Item thunk actions', () => {
     it('with no errors', async () => {
       const fucknuts = { ...validItem, id: 0, uid: 0, categories: [], tags: [] }
       const expectedActions = [actions.addItem(fucknuts)]
-      ItemApi.createItem.mockImplementation(() => fucknuts)
+      ItemApi.createItem = jest.fn(() => fucknuts)
       await store.dispatch(actions.createItem(validItem))
 
       expect(store.getActions()).toEqual(expectedActions)
@@ -61,10 +61,15 @@ describe('Item thunk actions', () => {
     it('with errors', async () => {
       const errors = ['Errors', 'everywhere']
       const expectedActions = [actions.itemError(errors)]
-      ItemApi.createItem.mockImplementation(() => {
+      ItemApi.createItem = jest.fn(() => {
         throw errors
       })
-      await store.dispatch(actions.createItem(validItem))
+
+      try {
+        await store.dispatch(actions.createItem(validItem))
+      } catch {
+        /* don't care about handling error in test */
+      }
 
       expect(store.getActions()).toEqual(expectedActions)
     })
@@ -94,7 +99,7 @@ describe('Item thunk actions', () => {
     it('with errors', async () => {
       const errors = ['Errors', 'everywhere']
       const expectedActions = [actions.itemError(errors)]
-      ItemApi.deleteItem.mockImplementation(() => {
+      ItemApi.deleteItem = jest.fn(() => {
         throw errors
       })
       await store.dispatch(actions.removeItem(validItem))

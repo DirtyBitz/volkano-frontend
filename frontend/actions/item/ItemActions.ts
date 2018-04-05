@@ -36,6 +36,7 @@ export const createItem = item => {
       dispatch(addItem(newItem))
     } catch (error) {
       dispatch(itemError(error))
+      throw error
     }
   }
 }

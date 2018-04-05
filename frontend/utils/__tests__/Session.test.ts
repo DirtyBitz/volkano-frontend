@@ -6,7 +6,7 @@ describe('Session utils', () => {
   const validSession: ISession = { token: 'dummy', client: 'dummy', uid: 'dummy' }
   describe('getSession', () => {
     it('returns a valid session when one exists', () => {
-      jsCookie.get.mockImplementation(() => '{ "user": true }')
+      jsCookie.get = jest.fn(() => '{ "user": true }')
       const session = getSession()
 
       expect(session).toEqual({ user: true })
@@ -35,7 +35,7 @@ describe('Session utils', () => {
 
   describe('hasSession', () => {
     it('returns true when session exists', () => {
-      jsCookie.get.mockImplementation(() => validSession)
+      jsCookie.get = jest.fn(() => validSession)
       const isSignedIn = hasSession()
 
       expect(isSignedIn).toBe(true)

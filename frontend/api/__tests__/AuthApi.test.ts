@@ -9,14 +9,14 @@ const mockUser: IUser = { email: 'test@example.com', id: 0 }
 describe('Authentication utils', () => {
   describe('signIn', () => {
     it('with valid credentials', async () => {
-      VolkanoRequest.post.mockImplementation(() => Promise.resolve({ data: mockUser }))
+      VolkanoRequest.post = jest.fn(() => Promise.resolve({ data: mockUser }))
 
       const user = await AuthApi.signIn('test@example.com', 'password')
       expect(user).toEqual(mockUser)
     })
 
     it('with invalid credentials', async () => {
-      VolkanoRequest.post.mockImplementation(() =>
+      VolkanoRequest.post = jest.fn(() =>
         Promise.reject({
           status: 401,
           data: { errors: ['No such user'] },
@@ -39,7 +39,7 @@ describe('Authentication utils', () => {
     }
 
     it('with valid credentials', async () => {
-      VolkanoRequest.post.mockImplementation(() => Promise.resolve({ data: mockUser }))
+      VolkanoRequest.post = jest.fn(() => Promise.resolve({ data: mockUser }))
 
       let thrown = false
       try {
@@ -51,7 +51,7 @@ describe('Authentication utils', () => {
     })
 
     it('with invalid credentials', async () => {
-      VolkanoRequest.post.mockImplementation(() =>
+      VolkanoRequest.post = jest.fn(() =>
         Promise.reject({
           status: 422,
           data: {
@@ -77,7 +77,7 @@ describe('Authentication utils', () => {
 
   describe('with error', () => {
     it('500: returns server error status message', async () => {
-      VolkanoRequest.post.mockImplementation(() =>
+      VolkanoRequest.post = jest.fn(() =>
         Promise.reject({
           status: 500,
           data: { errors: ['Internal server error'] },
@@ -93,7 +93,7 @@ describe('Authentication utils', () => {
     })
 
     it('418: returns unknown error status message', async () => {
-      VolkanoRequest.post.mockImplementation(() =>
+      VolkanoRequest.post = jest.fn(() =>
         Promise.reject({
           status: 418,
           data: { errors: ["Here's my handle", "here's my spout"] },
@@ -109,7 +109,7 @@ describe('Authentication utils', () => {
     })
 
     it('returns "Network error" when server is unreachable', async () => {
-      VolkanoRequest.post.mockImplementation(() =>
+      VolkanoRequest.post = jest.fn(() =>
         Promise.reject({ status: 1337, message: 'Network Error' })
       )
 
@@ -129,13 +129,13 @@ describe('Authentication utils', () => {
     })
 
     it('deletes session from browser', async () => {
-      VolkanoRequest.delete.mockImplementation(() => Promise.resolve({ status: 200 }))
+      VolkanoRequest.delete = jest.fn(() => Promise.resolve({ status: 200 }))
       await AuthApi.signOut()
       expect(getSession).not.toEqual(session)
     })
 
     it('deletes session from browser even if server is unreachable', async () => {
-      VolkanoRequest.delete.mockImplementation(() =>
+      VolkanoRequest.delete = jest.fn(() =>
         Promise.reject({ status: 500, message: 'Network Error' })
       )
       try {

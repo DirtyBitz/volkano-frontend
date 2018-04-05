@@ -30,7 +30,7 @@ const mockItems = [
 describe('Item API', () => {
   describe('getAllItems', () => {
     it('returns an array of items', async () => {
-      VolkanoRequest.get.mockImplementation(() => {
+      VolkanoRequest.get = jest.fn(() => {
         return mockItems
       })
 
@@ -39,7 +39,7 @@ describe('Item API', () => {
     })
 
     it('handles network errors gracefully', async () => {
-      VolkanoRequest.get.mockImplementation(() => {
+      VolkanoRequest.get = jest.fn(() => {
         throw { status: 500, message: 'Server is on fire' }
       })
 
@@ -58,7 +58,7 @@ describe('Item API', () => {
     const tags = 'cute, doggo'
 
     it('sends valid parameters to backend', async () => {
-      VolkanoRequest.post.mockImplementation((path, params) => {
+      VolkanoRequest.post = jest.fn((path, params) => {
         return params
       })
 
@@ -69,7 +69,7 @@ describe('Item API', () => {
     })
 
     it('throws with errors for invalid item', async () => {
-      VolkanoRequest.post.mockImplementation(() => {
+      VolkanoRequest.post = jest.fn(() => {
         throw {
           status: 422,
           data: { url: ["can't be blank"], title: ['has already been taken'] },
@@ -77,7 +77,7 @@ describe('Item API', () => {
       })
 
       try {
-        const item = await ItemApi.createItem(title, url, tags)
+        await ItemApi.createItem(title, url, tags)
         expect('this should never happen').toBe(true)
       } catch (error) {
         expect(error.errors.url).toContain("can't be blank")
@@ -86,12 +86,12 @@ describe('Item API', () => {
     })
 
     it('handles network errors gracefully', async () => {
-      VolkanoRequest.post.mockImplementation(() => {
+      VolkanoRequest.post = jest.fn(() => {
         throw { status: 500, message: 'Network Error' }
       })
 
       try {
-        const item = await ItemApi.createItem(title, url, tags)
+        await ItemApi.createItem(title, url, tags)
         expect('this should never happen').toBe(true)
       } catch (error) {
         expect(error.errors).toMatch('Network error')
@@ -99,12 +99,12 @@ describe('Item API', () => {
     })
 
     it('knows that items are not teapots', async () => {
-      VolkanoRequest.post.mockImplementation(() => {
+      VolkanoRequest.post = jest.fn(() => {
         throw { status: 418, message: 'I am a teapot' }
       })
 
       try {
-        const item = await ItemApi.createItem(title, url, tags)
+        await ItemApi.createItem(title, url, tags)
         expect('this should never happen').toBe(true)
       } catch (error) {
         expect(error.errors).toMatch('Unknown server error')
@@ -122,7 +122,7 @@ describe('Item API', () => {
     })
 
     it('handles errors just fine', async () => {
-      VolkanoRequest.delete.mockImplementation(() => {
+      VolkanoRequest.delete = jest.fn(() => {
         throw { status: 404, data: {} }
       })
 

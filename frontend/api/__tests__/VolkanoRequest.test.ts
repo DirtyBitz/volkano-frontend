@@ -22,7 +22,7 @@ describe('Volkano request adapter', () => {
       clearSession()
     })
 
-    it('creates a session when on signin', async () => {
+    it('creates a session on successful signin', async () => {
       mock.onPost().reply(
         200,
         {
@@ -38,6 +38,20 @@ describe('Volkano request adapter', () => {
       await VolkanoRequest.post('/auth/sign_in', {})
       const signedIn = hasSession()
       expect(signedIn).toBe(true)
+    })
+
+    it('does not create a session on failed signin', async () => {
+      mock.onPost().reply(422, {
+        errors: ['Invalid credentials'],
+      })
+
+      try {
+        await VolkanoRequest.post('/auth/sign_in', {})
+      } catch (error) {
+        /* Ignore error in test */
+      }
+      const signedIn = hasSession()
+      expect(signedIn).toBe(false)
     })
 
     it('does not create a session for non-signin actions', async () => {
