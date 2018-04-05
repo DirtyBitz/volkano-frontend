@@ -79,5 +79,5 @@ function itemsWithTags(items: Item[], tags: ITag[]) {
     })
     return matchingTags.length === tags.length
   })
-  return filtered || []
+  return filtered
 }

@@ -19,6 +19,7 @@ export default class AuthApi {
     userFormFields: IUserRegisterDetails
   ): Promise<void | string[]> {
     const config = getConfig()
+    /* istanbul ignore next */
     const host =
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.FRONTEND_URL) ||
       'this value only used in tests'
