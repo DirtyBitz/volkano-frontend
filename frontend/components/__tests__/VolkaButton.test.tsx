@@ -11,7 +11,7 @@ describe('VolkaButton component', () => {
     defaultProps = {
       title: 'press me',
       onClick: jest.fn(),
-      primary: false,
+      className: undefined,
       disabled: false,
       isLoading: false,
       ghost: false,
@@ -27,7 +27,7 @@ describe('VolkaButton component', () => {
   })
 
   it('should render primary button', () => {
-    defaultProps.primary = true
+    defaultProps.className = 'primary'
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)
     const button = buttonWrap.find('button').first()
     expect(button.props().className).toEqual('primary')
