@@ -3,7 +3,7 @@ javascript: (function () {
   function startup() {
     let initialized = document.getElementById("VolkaScript");
     if (initialized) {
-      console.log("VolkaScript already initialized");
+      alert("Please click an image to add it, or right-click to abort.");
       return;
     }
 
