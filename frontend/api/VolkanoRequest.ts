@@ -1,74 +1,102 @@
 import axios, { AxiosResponse } from 'axios'
-import { ISession, setSession, getSession } from '../utils/Session'
+import { ISession, setSession, getSession, clearSession } from '../utils/Session'
 import { convertUserJson } from '../models/User'
 import getConfig from 'next/config'
 
-export interface VolkanoHTTPError {
+export interface IVolkanoHTTPError {
   status: number
   message: string
   data?: any
 }
 
-export interface VolkanoHTTPResponse {
+export interface IVolkanoHTTPResponse {
   data: any
 }
 
 export default class VolkanoRequest {
-  public static async get(path: string, params = {}) {
-    return await this.request(path, 'get', params)
+  public static async get(path: string, data = {}) {
+    return await this.request(path, 'get', data)
   }
 
-  public static async post(path: string, params: any) {
-    return await this.request(path, 'post', params)
+  public static async post(path: string, data: any) {
+    return await this.request(path, 'post', data)
   }
 
-  public static async delete(path: string, params = {}) {
-    return await this.request(path, 'delete', params)
+  public static async delete(path: string, data = {}) {
+    return await this.request(path, 'delete', data)
   }
 
-  public static async put(path: string, params: any) {
-    return await this.request(path, 'put', params)
+  public static async put(path: string, data: any) {
+    return await this.request(path, 'put', data)
   }
 
   private static async request(
     path: string,
     method: string,
-    params
-  ): Promise<VolkanoHTTPResponse> {
+    data
+  ): Promise<IVolkanoHTTPResponse> {
     const session = getSession()
     const config = getConfig()
     const host =
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.BACKEND_URL) ||
       'this value only used in tests'
     const url = `${host + path}.json`
-    const options = { url, method, params, headers: session }
+    const options = { url, method, data, headers: session }
+
+    let response
     try {
-      const result: AxiosResponse = await axios(options)
-      const headers = result.headers
-
-      if (headers.token) {
-        let user
-        if (path.match('/auth') && result.data.data) {
-          user = convertUserJson(result.data.data)
-        } else {
-          user = session.user
-        }
-        const newSession: ISession = {
-          uid: headers.uid,
-          client: headers.client,
-          token: headers.token,
-          user,
-        }
-
-        setSession(newSession)
-      }
-
-      return Promise.resolve({ data: result.data })
+      response = await axios(options)
     } catch (error) {
-      return Promise.reject({
-        status: error.response.status,
-        message: error.message,
-      })
+      return this.handleError(session, error)
     }
+
+    setSession(this.newSession(session, response))
+    return Promise.resolve(response.data)
+  }
+
+  /*
+    401: clear session, raise regular error
+    422: update session, raise regular error
+    500: do nothing about session, raise regular error
+  */
+  private static async handleError(oldSession, error) {
+    switch (error.response.status) {
+      case 401:
+        clearSession()
+        break
+      case 422:
+        setSession(this.newSession(oldSession, error.response))
+        break
+      case 500:
+      default:
+        break
+    }
+
+    return Promise.reject({
+      status: error.response.status,
+      data: error.response.data,
+      message: error.message,
+    })
+  }
+
+  private static newSession(oldSession, response) {
+    if (!response.headers.token) return oldSession
+
+    let headers = response.headers
+    let user
+    try {
+      user = convertUserJson(response.data.data)
+    } catch {
+      user = headers.user
+    }
+
+    const newSession: ISession = {
+      uid: headers.uid,
+      client: headers.client,
+      token: headers.token,
+      user,
+    }
+
+    return newSession
   }
 }
