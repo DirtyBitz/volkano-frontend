@@ -31,11 +31,11 @@ describe('Item API', () => {
   describe('getAllItems', () => {
     it('returns an array of items', async () => {
       VolkanoRequest.get.mockImplementation(() => {
-        return { data: mockItems }
+        return mockItems
       })
 
-      const results = await ItemApi.getAllItems()
-      expect(results.items).toHaveLength(2)
+      const collection = await ItemApi.getAllItems()
+      expect(collection.items).toHaveLength(2)
     })
 
     it('handles network errors gracefully', async () => {
@@ -68,16 +68,21 @@ describe('Item API', () => {
       expect(item.tag_list).toEqual(tags)
     })
 
-    it('returns errors for invalid item', async () => {
+    it('throws with errors for invalid item', async () => {
       VolkanoRequest.post.mockImplementation(() => {
         throw {
           status: 422,
-          data: { errors: ['URL cannot be blank'] },
+          data: { url: ["can't be blank"], title: ['has already been taken'] },
         }
       })
 
-      const { errors } = await ItemApi.createItem(title, url, tags)
-      expect(errors).toContain('URL cannot be blank')
+      try {
+        const item = await ItemApi.createItem(title, url, tags)
+        expect('this should never happen').toBe(true)
+      } catch (error) {
+        expect(error.errors.url).toContain("can't be blank")
+        expect(error.errors.title).toContain('has already been taken')
+      }
     })
 
     it('handles network errors gracefully', async () => {
@@ -85,8 +90,12 @@ describe('Item API', () => {
         throw { status: 500, message: 'Network Error' }
       })
 
-      const { errors } = await ItemApi.createItem(title, url, tags)
-      expect(errors).toMatch('Network error')
+      try {
+        const item = await ItemApi.createItem(title, url, tags)
+        expect('this should never happen').toBe(true)
+      } catch (error) {
+        expect(error.errors).toMatch('Network error')
+      }
     })
 
     it('knows that items are not teapots', async () => {
@@ -94,8 +103,12 @@ describe('Item API', () => {
         throw { status: 418, message: 'I am a teapot' }
       })
 
-      const { errors } = await ItemApi.createItem(title, url, tags)
-      expect(errors).toMatch('Unknown server error')
+      try {
+        const item = await ItemApi.createItem(title, url, tags)
+        expect('this should never happen').toBe(true)
+      } catch (error) {
+        expect(error.errors).toMatch('Unknown server error')
+      }
     })
   })
 
@@ -113,8 +126,11 @@ describe('Item API', () => {
         throw { status: 404, data: {} }
       })
 
-      const { errors } = await ItemApi.deleteItem(3)
-      expect(errors).toMatch('No such item')
+      try {
+        await ItemApi.deleteItem(3)
+      } catch (error) {
+        expect(error.errors).toMatch('No such item')
+      }
     })
   })
 })

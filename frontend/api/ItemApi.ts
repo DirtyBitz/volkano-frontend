@@ -7,14 +7,14 @@ export interface ICollectionData {
 export class ItemApi {
   public static async getAllItems() {
     try {
-      const response = await VolkanoRequest.get('/items')
-      const items = {
-        items: response.data.map(item => {
+      const rawItems = await VolkanoRequest.get('/items')
+      const collection: ICollectionData = {
+        items: rawItems.map(item => {
           const tags = item.tags.map(tag => tag.name)
           return { ...item, tags }
         }),
       }
-      return items
+      return collection
     } catch (error) {
       return Promise.reject(handleError(error))
     }
@@ -27,7 +27,7 @@ export class ItemApi {
       const { item: data } = await VolkanoRequest.post('/items', params)
       return data
     } catch (error) {
-      return Promise.resolve(handleError(error))
+      return Promise.reject(handleError(error))
     }
   }
 
@@ -35,7 +35,7 @@ export class ItemApi {
     try {
       await VolkanoRequest.delete(`/items/${id}`)
     } catch (error) {
-      return Promise.resolve(handleError(error))
+      return Promise.reject(handleError(error))
     }
   }
 }
@@ -44,12 +44,11 @@ const handleError = (error: IVolkanoHTTPError) => {
   if (error.message === 'Network Error') {
     return { errors: 'Network error' }
   }
-
   switch (error.status) {
     case 404:
       return { errors: 'No such item' }
     case 422:
-      return { errors: error.data.errors }
+      return { errors: error.data }
     case 500:
       return { errors: 'Internal server error' }
     default:
