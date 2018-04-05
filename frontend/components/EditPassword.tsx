@@ -129,6 +129,7 @@ class EditPassword extends React.Component<IProps, IState> {
             display: flex;
             background: #f9f9f9;
             font-size: 0.9em;
+            text-align: center;
           }
 
           label {

@@ -33,12 +33,12 @@ class ProfilePage extends React.Component {
             width: '420px',
             backgroundColor: '#e9ebed',
             margin: '0 auto',
+            textAlign: 'center',
           }}>
           <div
             style={{
               paddingLeft: '10px',
               paddingTop: '10px',
-              textAlign: 'center',
             }}>
             <EditableField
               label="E-mail"
