@@ -54,11 +54,7 @@ describe('Layout component', () => {
       const links = navigation.find('Link')
 
       const profile = links.filterWhere((link: any) => {
-        const linktext =
-          link
-            .find('a')
-            .first()
-            .text() === fakeProps.user.email
+        const linktext = link.find('a').first()
         const linkurl = link.prop('href') === '/profile'
         return linktext && linkurl
       })
