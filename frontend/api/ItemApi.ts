@@ -1,6 +1,5 @@
 import { Item } from '../models/Item'
-import VolkanoRequest from './VolkanoRequest'
-
+import VolkanoRequest, { IVolkanoHTTPError } from './VolkanoRequest'
 export interface ICollectionData {
   items: Item[]
 }
@@ -17,18 +16,18 @@ export class ItemApi {
       }
       return items
     } catch (error) {
-      console.error('Error fetching collection', error)
+      return Promise.reject(handleError(error))
     }
   }
 
-  public static async createItem(title: string, url: string, tags: string) {
-    const params = { data: { item: { title, url, tag_list: tags } } }
+  public static async createItem(title: string, url: string, tags: string): Promise<any> {
+    const params = { item: { title, url, tag_list: tags } }
 
     try {
-      const response = await VolkanoRequest.post('/items', params)
-      return response.data
+      const { item: data } = await VolkanoRequest.post('/items', params)
+      return data
     } catch (error) {
-      console.error('Error creating item', error)
+      return Promise.resolve(handleError(error))
     }
   }
 
@@ -36,7 +35,24 @@ export class ItemApi {
     try {
       await VolkanoRequest.delete(`/items/${id}`)
     } catch (error) {
-      console.error('Error deleting item', error)
+      return Promise.resolve(handleError(error))
     }
+  }
+}
+
+const handleError = (error: IVolkanoHTTPError) => {
+  if (error.message === 'Network Error') {
+    return { errors: 'Network error' }
+  }
+
+  switch (error.status) {
+    case 404:
+      return { errors: 'No such item' }
+    case 422:
+      return { errors: error.data.errors }
+    case 500:
+      return { errors: 'Internal server error' }
+    default:
+      return { errors: 'Unknown server error' }
   }
 }
