@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { ISession, setSession, getSession, clearSession } from '../utils/Session'
 import { convertUserJson, isValidUserJson } from '../models/User'
 import getConfig from 'next/config'
@@ -7,10 +7,6 @@ export interface IVolkanoHTTPError {
   status: number
   message: string
   data?: any
-}
-
-export interface IVolkanoHTTPResponse {
-  data: any
 }
 
 export default class VolkanoRequest {
@@ -30,11 +26,7 @@ export default class VolkanoRequest {
     return await this.request(path, 'put', data)
   }
 
-  private static async request(
-    path: string,
-    method: string,
-    data
-  ): Promise<IVolkanoHTTPResponse> {
+  private static async request(path: string, method: string, data): Promise<any> {
     const session = getSession()
     const config = getConfig()
     /* istanbul ignore next */
