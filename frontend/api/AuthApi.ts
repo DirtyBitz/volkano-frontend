@@ -25,7 +25,7 @@ export default class AuthApi {
       'this value only used in tests'
     const data = {
       ...userFormFields,
-      confirm_success_url: `${host}/emailconfirmation`,
+      confirm_success_url: `${host}/accountcreated`,
     }
 
     try {

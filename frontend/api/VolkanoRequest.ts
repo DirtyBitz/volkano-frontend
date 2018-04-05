@@ -35,7 +35,6 @@ export default class VolkanoRequest {
       'this value only used in tests'
     const url = `${host + path}.json`
     const options = { url, method, data, headers: session }
-
     let response
     try {
       response = await axios(options)
@@ -43,7 +42,8 @@ export default class VolkanoRequest {
       return this.handleError(session, error)
     }
 
-    setSession(this.newSession(session, response))
+    if (session || path.match('/auth/sign_in'))
+      setSession(this.newSession(session, response))
     return Promise.resolve(response.data)
   }
 
