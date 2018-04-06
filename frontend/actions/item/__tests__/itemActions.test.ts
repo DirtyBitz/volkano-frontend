@@ -3,19 +3,19 @@ import ItemActionTypeKeys from '../ItemActionTypeKeys'
 import { Item } from '../../../models/Item'
 import { ICollectionData } from '../../../api/ItemApi'
 
-const toBeDeleted: Item = {
-  id: 0,
-  title: 'Dummy',
-  url: 'dummy',
-  uid: 0,
-  categories: [],
-  tags: [],
-}
-
-const fakeItems: ICollectionData = { items: [toBeDeleted] }
-
 describe('Item actions', () => {
   describe('fetching collection', () => {
+    const toBeDeleted: Item = {
+      id: 0,
+      title: 'Dummy',
+      url: 'dummy',
+      uid: 0,
+      categories: [],
+      tags: [],
+    }
+
+    const fakeItems: ICollectionData = { items: [toBeDeleted] }
+
     it('starts loading entire collection', () => {
       const expected = {
         type: ItemActionTypeKeys.FETCHING_COLLECTION,
