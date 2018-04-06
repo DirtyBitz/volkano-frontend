@@ -2,12 +2,12 @@ import * as React from 'react'
 import Link from 'next/link'
 import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
-interface Props {
+interface IProps {
   isSignedIn: boolean
   user?: IUser
 }
 
-export default class Navigation extends React.Component<Props> {
+export default class Navigation extends React.Component<IProps> {
   render() {
     const { isSignedIn, user } = this.props
     return (

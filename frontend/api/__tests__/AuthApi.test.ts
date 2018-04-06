@@ -138,6 +138,7 @@ describe('Authentication utils', () => {
       VolkanoRequest.delete = jest.fn(() =>
         Promise.reject({ status: 500, message: 'Network Error' })
       )
+
       try {
         await AuthApi.signOut()
         expect('This should not happen').toBe(true)

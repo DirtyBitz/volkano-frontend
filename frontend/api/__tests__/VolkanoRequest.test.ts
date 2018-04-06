@@ -13,6 +13,7 @@ import { IUser, IUserJson } from '../../models/User'
 describe('Volkano request adapter', () => {
   let mock
   let session: ISession
+
   beforeEach(() => {
     mock = new MockAdapter(axios)
   })
@@ -36,6 +37,7 @@ describe('Volkano request adapter', () => {
       )
 
       await VolkanoRequest.post('/auth/sign_in', {})
+
       const signedIn = hasSession()
       expect(signedIn).toBe(true)
     })
@@ -50,6 +52,7 @@ describe('Volkano request adapter', () => {
       } catch (error) {
         /* Ignore error in test */
       }
+
       const signedIn = hasSession()
       expect(signedIn).toBe(false)
     })
@@ -58,6 +61,7 @@ describe('Volkano request adapter', () => {
       mock.onPost().reply(200, { data: 'user data goes here' })
 
       await VolkanoRequest.post('/auth', {})
+
       const signedIn = hasSession()
       expect(signedIn).toBe(false)
     })
@@ -85,6 +89,7 @@ describe('Volkano request adapter', () => {
       })
 
       await VolkanoRequest.get('/')
+
       expect(token).toBe(session.token)
     })
 
@@ -102,10 +107,10 @@ describe('Volkano request adapter', () => {
         image: null,
         provider: null,
       }
-
       mock.onPost().reply(200, { data: userJson }, { token: newToken })
 
       await VolkanoRequest.post('/auth/sign_in', {})
+
       const { user, token } = getSession()
       expect(user).toEqual(expectedUser)
       expect(token).toEqual(newToken)
@@ -119,6 +124,7 @@ describe('Volkano request adapter', () => {
       setSession(oldSession)
 
       await VolkanoRequest.post('/items', {})
+
       const { user, token } = getSession()
       expect(token).toEqual(newToken)
       expect(user).toEqual(oldUser)
@@ -176,8 +182,7 @@ describe('Volkano request adapter', () => {
       mock.onPost().reply(500, {})
 
       try {
-        const response = await VolkanoRequest.post('/', { item: 'hello' })
-        console.error('Did get response', response)
+        await VolkanoRequest.post('/', { item: 'hello' })
       } catch (error) {
         expect(error.status).toEqual(500)
       }
@@ -192,6 +197,7 @@ describe('Volkano request adapter', () => {
       .reply(config => [200, { data: JSON.parse(config.data) }, { token: undefined }])
 
     const response = await VolkanoRequest.put('/', { nickname: 'joe' })
+
     expect(response.data.nickname).toEqual('joe')
   })
 
@@ -202,7 +208,7 @@ describe('Volkano request adapter', () => {
 
     const response = await VolkanoRequest.delete('/', { id: 1 })
 
-    expect(response.data.id).toEqual(1)
+    expect(response.data.id).toBe(1)
   })
 
   it('should send DELETE requests even without data', async () => {

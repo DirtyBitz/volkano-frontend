@@ -193,6 +193,7 @@ describe('Collection reducer', () => {
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
+
     it('should create a filtered list when adding single tag', () => {
       const originalItems: Item[] = [
         { uid: 1, title: 'dog', tags: ['dog'], id: 1, url: '', categories: [] },
@@ -222,6 +223,7 @@ describe('Collection reducer', () => {
 
       expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })
+
     it('should create filtered list when adding multiple tags', () => {
       const originalItems: Item[] = [
         { uid: 1, title: 'dog', tags: ['dog', 'animal'], id: 1, url: '', categories: [] },

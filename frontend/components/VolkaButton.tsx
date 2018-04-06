@@ -42,15 +42,18 @@ export class VolkaButton extends React.Component<IProps, IState> {
     /* istanbul ignore next */
     if (this.button && this.button.clientWidth) {
       this.setState({
-        buttonWidth: this.button.clientWidth + 1 + 'px',
+        buttonWidth: `${this.button.clientWidth + 1}px`
       })
     }
   }
 
   private getOnClickFunction = () => {
     const { disabled, isLoading } = this.props
-    const noOp = () => {}
-    if (disabled || isLoading) return noOp
+    const noOp = () => { }
+
+    if (disabled || isLoading)
+      return noOp
+
     const onClick = this.props.onClick || noOp
     return onClick
   }
@@ -89,6 +92,7 @@ export class VolkaButton extends React.Component<IProps, IState> {
             outline: none;
             width: ${this.state.buttonWidth || 'auto'};
             white-space: nowrap;
+
             &:hover {
               cursor: pointer;
               background: #6d9eff;
@@ -102,9 +106,11 @@ export class VolkaButton extends React.Component<IProps, IState> {
               background: ${Colors.primaryHover};
             }
           }
+
           .button-icon {
             margin-right: 6px;
           }
+
           .disabled,
           .loading {
             background: ${Colors.disabledButton};
@@ -114,10 +120,12 @@ export class VolkaButton extends React.Component<IProps, IState> {
               cursor: not-allowed;
             }
           }
+
           .ghost {
             border: 1px solid rgba(255, 255, 255, 0.75);
             color: #fff;
             background: transparent;
+
             &:hover {
               background: rgba(255, 255, 255, 0.4);
               color: #222;

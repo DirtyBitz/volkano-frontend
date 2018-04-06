@@ -86,9 +86,7 @@ describe('Layout component', () => {
     })
 
     it('runs in production', () => {
-      getConfig.mockImplementation(() => {
-        return { publicRuntimeConfig: { ENV: 'production' } }
-      })
+      getConfig.mockImplementation(() => { return { publicRuntimeConfig: { ENV: 'production' } } })
 
       layout = shallow(<Layout />)
       expect(getConfig).toHaveBeenCalled()

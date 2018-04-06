@@ -14,8 +14,7 @@ export interface ISession {
 
 export function hasSession() {
   const session = jsCookie.get('session')
-  if (session) return true
-  return false
+  return !!session
 }
 
 export function getSession(): ISession | undefined {

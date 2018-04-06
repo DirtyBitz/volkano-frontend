@@ -14,7 +14,7 @@ class SignUpPage extends React.Component {
       Router.push('/emailconfirmation')
     } catch (error) {
       if (error.errors) {
-        throw new SubmissionError({ ...error.errors, _error: error.errors.full_messages })
+        throw new SubmissionError(error.errors)
       }
     }
   }

@@ -2,36 +2,20 @@ import { ItemApi } from '../ItemApi'
 import VolkanoRequest from '../VolkanoRequest'
 jest.mock('../VolkanoRequest')
 
-const mockItems = [
-  {
-    id: 39,
-    tags: [
-      {
-        name: 'funny',
-      },
-      {
-        name: 'isak_cosplay',
-      },
-    ],
-  },
-  {
-    id: 40,
-    tags: [
-      {
-        name: 'doggo',
-      },
-      {
-        name: 'cute',
-      },
-    ],
-  },
-]
-
 describe('Item API', () => {
   describe('getAllItems', () => {
     it('returns an array of items', async () => {
       VolkanoRequest.get = jest.fn(() => {
-        return mockItems
+        return [
+          {
+            id: 39,
+            tags: [{ name: 'funny', }, { name: 'isak_cosplay', },],
+          },
+          {
+            id: 40,
+            tags: [{ name: 'doggo', }, { name: 'cute', },],
+          },
+        ]
       })
 
       const collection = await ItemApi.getAllItems()
@@ -58,9 +42,7 @@ describe('Item API', () => {
     const tags = 'cute, doggo'
 
     it('sends valid parameters to backend', async () => {
-      VolkanoRequest.post = jest.fn((path, params) => {
-        return params
-      })
+      VolkanoRequest.post = jest.fn((path, params) => params)
 
       const item = await ItemApi.createItem(title, url, tags)
       expect(item.title).toEqual(title)
@@ -100,7 +82,7 @@ describe('Item API', () => {
 
     it('knows that items are not teapots', async () => {
       VolkanoRequest.post = jest.fn(() => {
-        throw { status: 418, message: 'I am a teapot' }
+        throw { status: 418, message: "I'm a teapot" }
       })
 
       try {

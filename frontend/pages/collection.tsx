@@ -115,10 +115,10 @@ class CollectionPage extends React.Component<IProps, IState> {
         {this.state.selectedItem
           ? false
           : true && (
-              <div id="add-item" onClick={this.addItemPage}>
-                <span>+</span>
-              </div>
-            )}
+            <div id="add-item" onClick={this.addItemPage}>
+              <span>+</span>
+            </div>
+          )}
 
         <div onKeyDown={this.keyHandler}>
           <Modal
