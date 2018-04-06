@@ -53,7 +53,7 @@ export default class Navigation extends React.Component<Props> {
               user && (
                 <Link href="/profile">
                   <a id="profile-link">
-                    <VolkaButton icon={faUser} />
+                    <VolkaButton icon={faUser} title={user.nickname || user.email} />
                   </a>
                 </Link>
               )}
@@ -63,7 +63,7 @@ export default class Navigation extends React.Component<Props> {
                   <VolkaButton
                     icon={faSignOutAlt}
                     onClick={this.signOut}
-                    className={'danger'}
+                    className='danger'
                   />
                 </a>
               )}

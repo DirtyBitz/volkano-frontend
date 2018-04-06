@@ -106,9 +106,6 @@ export class VolkaButton extends React.Component<IProps, IState> {
               background: ${Colors.dangerHover};
             }
           }
-          <<<<<<< head ======= .warning {
-          }
-          >>>>>>> 35d2305.. :lipstick: add more button colors, no title needed on button now
           .button-icon {
             margin-right: 6px;
           }
