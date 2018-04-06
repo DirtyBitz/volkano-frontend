@@ -2,7 +2,16 @@
 const timestamp = Cypress.moment().format('x')
 const baseURL = 'http://localhost:3000'
 
+const login = () => {
+  // Sign in through UI to ensure VolkanoRequest-adapter is being used
+  cy.visit('http://localhost:3000/signin')
+  cy.get('input[name=login]').type(`test@example.com`)
+  cy.get('input[name=password]').type('password{enter}')
+  cy.url().should('contain', 'profile')
+}
+
 describe('Authentication', function () {
+
   beforeEach(() => {
     cy.visit(baseURL)
   })
@@ -19,11 +28,7 @@ describe('Authentication', function () {
 
   context('a user who is signed in', () => {
     beforeEach(() => {
-      // Sign in through UI to ensure VolkanoRequest-adapter is being used
-      cy.visit('http://localhost:3000/signin')
-      cy.get('input[name=login]').type(`test@example.com`)
-      cy.get('input[name=password]').type('password{enter}')
-      cy.url().should('contain', 'profile')
+      login()
     })
 
     it('can view profile page', () => {
@@ -58,12 +63,9 @@ describe('Front page', () => {
   })
 })
 
-describe.skip('Collections', () => {
+describe('Collections', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/signin')
-    cy.get('input[name=email]').type('test@example.com')
-    cy.get('input[name=password]').type('password{enter}')
-    cy.url().should.be('/')
+    login()
   })
 
   describe('browsing', () => {
@@ -75,5 +77,22 @@ describe.skip('Collections', () => {
     it('shows cat pictures when searching for the word "cat"')
     it('shows images when searching for "image"')
     it('shows videos when searching for "video"')
+  })
+
+  describe('adding items', () => {
+    it('adds an item to the collection', () => {
+      const time = Cypress.moment().format('x')
+
+      // Check that collection does not already contain
+      cy.visit('http://localhost:3000/collection')
+      cy.get('#collage').should('not.contain', time)
+      cy.get('#add-item').click()
+      cy.get('input[name=url]').type(`https://example.com/example${time}.jpg`)
+      cy.get('input[name=title]').type(`${time}`)
+      cy.get('input[name=tags]').type('example, pic{enter}')
+
+      cy.request('/collection')
+      cy.get('#collage').should('contain', `${time}`)
+    })
   })
 })
