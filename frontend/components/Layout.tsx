@@ -31,6 +31,10 @@ export class Layout extends React.Component<IProps, IState> {
       this.setState({
         session,
       })
+    } else {
+      this.setState({
+        session: undefined
+      })
     }
   }
 
