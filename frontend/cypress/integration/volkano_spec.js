@@ -2,7 +2,7 @@
 const timestamp = Cypress.moment().format('x')
 const baseURL = 'http://localhost:3000'
 
-describe.skip('Authentication', function() {
+describe('Authentication', function () {
   beforeEach(() => {
     cy.visit(baseURL)
   })
@@ -12,22 +12,38 @@ describe.skip('Authentication', function() {
       cy.contains('Sign up').click()
       cy.get('input[name=email]').type(`test${timestamp}@example.com`)
       cy.get('input[name=password]').type('password123')
-      cy.get('input[name=password-confirmation]').type('password123{enter}')
+      cy.get('input[name=passwordConfirmation]').type('password123{enter}')
       cy.should('not.contain', 'error')
     })
   })
 
-  context('a user who is signed in', function() {
+  context('a user who is signed in', () => {
     beforeEach(() => {
-      cy.login('test@example.com', 'password').then(res => {
-        cy.log(res.headers['access-token'])
-      })
+      // Sign in through UI to ensure VolkanoRequest-adapter is being used
+      cy.visit('http://localhost:3000/signin')
+      cy.get('input[name=login]').type(`test@example.com`)
+      cy.get('input[name=password]').type('password{enter}')
+      cy.url().should('contain', 'profile')
     })
 
     it('can view profile page', () => {
-      cy.visit('http://localhost:3000/profile')
+      cy.request('/profile')
       cy.contains('@example.com').click()
       cy.contains('Sign out')
+    })
+
+    it('can view their collection', () => {
+      cy.visit('http://localhost:3000/collection')
+      cy.get('#collage').children().should('exist')
+    })
+
+    it('can change their password')
+  })
+
+  context('someone who is not logged in', () => {
+    it('should be redirected to signin when trying to view collection', () => {
+      cy.visit('http://localhost:3000/collection')
+      cy.url().should('contain', 'signin')
     })
   })
 })
@@ -39,23 +55,6 @@ describe('Front page', () => {
 
   it('has Brand Name in page title', () => {
     cy.title().should('include', 'Volkano')
-  })
-
-  // The nav bar is unit tested, should we just check that it
-  // is rendered here and trust the unit tests have done their job?
-  describe('the nav bar', () => {
-    // TODO: should verify that clicking link leads to /signin
-    it.skip('has link to sign in', () => {
-      cy.get('#signin-link').should('contain', 'Sign in')
-      cy.get('#signin-link').click()
-      cy.url().should('contain', '/signin')
-    })
-
-    it.skip('has link to sign up', () => {
-      cy.get('#signup-link').should('contain', 'Sign up')
-      cy.contains('Sign up').click()
-      cy.url().should('contain', '/signup')
-    })
   })
 })
 
