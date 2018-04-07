@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 u = User.create(email: 'test@example.com', password: 'password', confirmed_at: Time.now.utc)
+u.reload
+u.tokens = nil
+u.save
 
 URLS = ['https://i.imgur.com/Hb6S4V5.jpg',
   'https://i.imgur.com/1dOwTta.jpg',
