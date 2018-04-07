@@ -81,7 +81,7 @@ cypress:
     - bundle exec rails s & > /dev/null
     - cd ../frontend
     - yarn install
-    - yarn start & > /dev/null
+    - PORT=3000 yarn start & > /dev/null
     - yarn cyprun
 
 staging:
