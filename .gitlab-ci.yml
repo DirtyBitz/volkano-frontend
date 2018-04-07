@@ -74,14 +74,17 @@ cypress:
       - frontend/cypress/videos/
   services:
     - postgres:alpine
+  variables:
+    DATABASE_URL: postgres://postgres:super_secret_password__DO_NOT_STEAL@postgres:5432
+    RAILS_ENV: production
   script:
     - cd backend
     - bundle install --jobs $(nproc) --path=gems
-    - bundle exec rails db:setup
-    - bundle exec rails s & > /dev/null
+    - bundle exec rails db:create db:migrate db:seed
+    - bundle exec rails s &
     - cd ../frontend
     - yarn install
-    - PORT=3000 yarn start & > /dev/null
+    - PORT=3000 yarn start &
     - yarn cyprun
 
 staging:

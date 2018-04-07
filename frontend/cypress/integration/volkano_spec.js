@@ -4,20 +4,16 @@ const baseURL = 'http://localhost:3000'
 
 const login = () => {
   // Sign in through UI to ensure VolkanoRequest-adapter is being used
-  cy.visit('http://localhost:3000/signin')
+  cy.visit(`${baseURL}/signin`)
   cy.get('input[name=login]').type(`test@example.com`)
   cy.get('input[name=password]').type('password{enter}')
   cy.url().should('contain', 'profile')
 }
 
-describe('Authentication', function () {
-
-  beforeEach(() => {
-    cy.visit(baseURL)
-  })
-
+describe('Authentication', function() {
   context('a first time visitor', () => {
     it('can sign up for an account', () => {
+      cy.visit(baseURL)
       cy.contains('Sign up').click()
       cy.get('input[name=email]').type(`test${timestamp}@example.com`)
       cy.get('input[name=password]').type('password123')
@@ -32,22 +28,24 @@ describe('Authentication', function () {
     })
 
     it('can view profile page', () => {
-      cy.request('/profile')
+      cy.visit(`${baseURL}/profile`)
       cy.contains('@example.com').click()
       cy.contains('Sign out')
     })
 
     it('can view their collection', () => {
-      cy.visit('http://localhost:3000/collection')
-      cy.get('#collage').children().should('exist')
+      cy.visit(`${baseURL}/collection`)
+      cy.url().should('contain', 'collection')
+      cy
+        .get('#collage')
+        .children()
+        .should('exist')
     })
-
-    it('can change their password')
   })
 
   context('someone who is not logged in', () => {
     it('should be redirected to signin when trying to view collection', () => {
-      cy.visit('http://localhost:3000/collection')
+      cy.visit(`${baseURL}/collection`)
       cy.url().should('contain', 'signin')
     })
   })
@@ -63,36 +61,20 @@ describe('Front page', () => {
   })
 })
 
-describe('Collections', () => {
+describe('Collection', () => {
   beforeEach(() => {
     login()
   })
 
-  describe('browsing', () => {
-    it('has a grid displaying collected items')
-    it('can switch to full-screen mode')
-  })
+  it('can add a new item to their collection', () => {
+    cy.visit(`${baseURL}/collection`)
+    cy.url().should('contain', 'collection')
+    cy.get('#add-item').click()
+    cy.get('input[name=url]').type(`https://maxjohansen.com/image.jpg`)
+    cy.get('input[name=title]').type('example image of hotto doggu')
+    cy.get('input[name=tags]').type('example, pic{enter}')
 
-  describe('searching', () => {
-    it('shows cat pictures when searching for the word "cat"')
-    it('shows images when searching for "image"')
-    it('shows videos when searching for "video"')
-  })
-
-  describe('adding items', () => {
-    it('adds an item to the collection', () => {
-      const time = Cypress.moment().format('x')
-
-      // Check that collection does not already contain
-      cy.visit('http://localhost:3000/collection')
-      cy.get('#collage').should('not.contain', time)
-      cy.get('#add-item').click()
-      cy.get('input[name=url]').type(`https://example.com/example${time}.jpg`)
-      cy.get('input[name=title]').type(`${time}`)
-      cy.get('input[name=tags]').type('example, pic{enter}')
-
-      cy.request('/collection')
-      cy.get('#collage').should('contain', `${time}`)
-    })
+    cy.visit(`${baseURL}/collection`)
+    cy.get('#collage').should('contain', 'hotto doggu')
   })
 })
