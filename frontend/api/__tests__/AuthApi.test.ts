@@ -131,7 +131,7 @@ describe('Authentication utils', () => {
     it('deletes session from browser', async () => {
       VolkanoRequest.delete = jest.fn(() => Promise.resolve({ status: 200 }))
       await AuthApi.signOut()
-      expect(getSession).not.toEqual(session)
+      expect(getSession()).not.toEqual(session)
     })
 
     it('deletes session from browser even if server is unreachable', async () => {
@@ -146,6 +146,38 @@ describe('Authentication utils', () => {
         expect(error).toEqual([ErrorState.NETWORK_ERROR])
       }
       expect(getSession()).not.toEqual(session)
+    })
+  })
+
+  describe('updateUser', async () => {
+    it('sends update request to backend', async () => {
+      VolkanoRequest.put = jest.fn(() => {
+        Promise.resolve({ status: 204 })
+      })
+
+      await AuthApi.updateUser({ value: 'ignored' })
+      expect(VolkanoRequest.put).toHaveBeenCalledTimes(1)
+    })
+
+    it('throws an error when given invalid parameters', async () => {
+      VolkanoRequest.put = jest.fn(() =>
+        Promise.reject({
+          status: 422,
+          data: {
+            errors: {
+              nickname: 'already taken',
+              full_messages: 'Nickname has already been taken',
+            },
+          },
+        })
+      )
+
+      try {
+        await AuthApi.updateUser({ value: 'ignored' })
+        expect('this should never happen').toBe(true)
+      } catch (error) {
+        expect(error.errors.nickname).toEqual('already taken')
+      }
     })
   })
 })

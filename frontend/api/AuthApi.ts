@@ -56,6 +56,14 @@ export default class AuthApi {
       clearSession()
     }
   }
+
+  public static async updateUser(params) {
+    try {
+      await VolkanoRequest.put('/auth', params)
+    } catch (error) {
+      return Promise.reject(handleError(error))
+    }
+  }
 }
 
 const handleError = (error: IVolkanoHTTPError) => {
