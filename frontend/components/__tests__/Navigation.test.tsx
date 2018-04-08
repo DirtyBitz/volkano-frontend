@@ -61,6 +61,11 @@ describe('Layout component', () => {
 
       expect(profile.length).toBe(1)
     })
+
+    it('has a link to sign out', () => {
+      const signOut = navigation.find('a#signout')
+      expect(signOut.length).toBe(1)
+    })
   })
 
   describe('when not signed in', () => {
@@ -86,6 +91,11 @@ describe('Layout component', () => {
       )
 
       expect(collection.length).toBe(0)
+    })
+
+    it('does not have a link to sign out', () => {
+      const signOut = navigation.find('a#signout')
+      expect(signOut.length).toBe(0)
     })
   })
 })

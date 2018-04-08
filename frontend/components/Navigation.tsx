@@ -3,19 +3,13 @@ import Link from 'next/link'
 import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
 import { faUser, faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
-import { clearSession } from '../utils/Session'
-import Router from 'next/router'
+import { signOut } from '../utils/Auth'
 interface Props {
   isSignedIn: boolean
   user?: IUser
 }
 
 export default class Navigation extends React.Component<Props> {
-  private signOut = () => {
-    clearSession()
-    Router.push('/')
-  }
-
   render() {
     const { isSignedIn, user } = this.props
     return (
@@ -60,11 +54,7 @@ export default class Navigation extends React.Component<Props> {
             {isSignedIn &&
               user && (
                 <a id="signout">
-                  <VolkaButton
-                    icon={faSignOutAlt}
-                    onClick={this.signOut}
-                    className='danger'
-                  />
+                  <VolkaButton icon={faSignOutAlt} onClick={signOut} className="danger" />
                 </a>
               )}
           </div>
