@@ -5,13 +5,9 @@ import Layout from '../components/Layout'
 import { getSession } from '../utils/Session'
 import { withAuth } from '../utils/withAuth'
 import EditableField from '../components/EditableField'
-import VolkanoRequest from '../api/VolkanoRequest'
+import AuthApi from '../api/AuthApi'
 
 class ProfilePage extends React.Component {
-  private updateUser = params => {
-    VolkanoRequest.put('/auth', params)
-  }
-
   render() {
     const session = getSession()
     return (
@@ -19,13 +15,13 @@ class ProfilePage extends React.Component {
         <EditableField
           label="E-mail"
           value={session ? session.user.email : ''}
-          onSave={newValue => this.updateUser({ email: newValue })}
+          onSave={newValue => AuthApi.updateUser({ email: newValue })}
         />
 
         <EditableField
           label="Nickname"
           value={session ? session.user.nickname : ''}
-          onSave={newValue => this.updateUser({ nickname: newValue })}
+          onSave={newValue => AuthApi.updateUser({ nickname: newValue })}
         />
       </Layout>
     )
