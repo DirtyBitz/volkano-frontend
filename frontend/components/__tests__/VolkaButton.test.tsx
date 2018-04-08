@@ -77,6 +77,15 @@ describe('VolkaButton component', () => {
     expect(icon.icon.faUser.iconName).toBe(faUser.iconName)
   })
 
+  it('should render button with icon even without title', () => {
+    defaultProps.icon = { faUser }
+    defaultProps.title = undefined
+    buttonWrap = shallow(<VolkaButton {...defaultProps} />)
+    const fontawesome = buttonWrap.find('.fa-icon').first()
+    const renderedIcon = fontawesome.props().icon
+    expect(renderedIcon).toHaveProperty('faUser')
+  })
+
   it('should show loading animation when loading', () => {
     defaultProps.isLoading = true
     buttonWrap = shallow(<VolkaButton {...defaultProps} />)

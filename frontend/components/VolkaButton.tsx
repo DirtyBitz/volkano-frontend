@@ -32,7 +32,6 @@ export class VolkaButton extends React.Component<IProps, IState> {
     const classNames = []
     if (this.props.className) classNames.push(this.props.className)
     if (this.props.disabled) classNames.push('disabled')
-    if (this.props.icon && this.props.title) classNames.push('with-icon')
     if (this.props.isLoading) classNames.push('loading')
     if (this.props.ghost) classNames.push('ghost')
     return classNames
