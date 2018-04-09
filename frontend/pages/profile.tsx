@@ -13,19 +13,6 @@ class ProfilePage extends React.Component {
     const session = getSession()
     return (
       <Layout title="Profile">
-        <EditableField
-          label="E-mail"
-          value={session ? session.user.email : ''}
-          onSave={newValue => AuthApi.updateUser({ email: newValue })}
-        />
-
-        <EditableField
-          label="Nickname"
-          value={session ? session.user.nickname : ''}
-          onSave={newValue => AuthApi.updateUser({ nickname: newValue })}
-        />
-
-        <EditPassword onSave={newValue => console.log(newValue)} />
         <div
           style={{
             border: 'solid #bbb 1px',
@@ -43,13 +30,13 @@ class ProfilePage extends React.Component {
             <EditableField
               label="E-mail"
               value={session ? session.user.email : ''}
-              onSave={newValue => this.updateUser({ email: newValue })}
+              onSave={newValue => AuthApi.updateUser({ email: newValue })}
             />
 
             <EditableField
               label="Nickname"
               value={session ? session.user.nickname : ''}
-              onSave={newValue => this.updateUser({ nickname: newValue })}
+              onSave={newValue => AuthApi.updateUser({ nickname: newValue })}
             />
             <div
               style={{
@@ -57,7 +44,7 @@ class ProfilePage extends React.Component {
                 paddingBottom: '10px',
                 paddingRight: '10px',
               }}>
-              <EditPassword onSave={newValue => console.log(newValue)} />
+              <EditPassword />
             </div>
           </div>
         </div>

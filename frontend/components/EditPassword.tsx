@@ -1,13 +1,6 @@
 import * as React from 'react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faEdit, faCheckSquare } from '@fortawesome/fontawesome-free-solid'
-import { Colors } from '../constants/Colors'
 import { VolkaButton } from './VolkaButton'
-import { AuthenticationApi } from '../api/AuthenticationApi'
-
-interface IProps {
-  onSave: (newValue: string) => void
-}
+import AuthApi from '../api/AuthApi'
 
 interface IState {
   isEditing: boolean
@@ -15,11 +8,10 @@ interface IState {
   newPassword: string
   confirmPassword: string
   passwordsMatch: boolean
-  successMessage?: string
-  errorMessage?: string
+  message?: string
 }
 
-class EditPassword extends React.Component<IProps, IState> {
+class EditPassword extends React.Component<{}, IState> {
   valueInput: any
 
   constructor(props) {
@@ -34,19 +26,15 @@ class EditPassword extends React.Component<IProps, IState> {
   }
 
   private onSubmit = async () => {
-    // Sende request
     try {
-      const response = await AuthenticationApi.changeUserPassword(
+      await AuthApi.updatePassword(
         this.state.currentPassword,
         this.state.newPassword,
         this.state.confirmPassword
       )
-      // Set asuccess message and change to not editing
-      console.log('OK with msg:', response.data.message)
-      this.setState({ successMessage: response.data.message, isEditing: false })
+      this.setState({ message: 'Password changed', isEditing: false })
     } catch (error) {
-      console.log('Error object:', error)
-      this.setState({ errorMessage: error.message, isEditing: false })
+      this.setState({ message: error.message, isEditing: false })
     }
   }
 
@@ -64,15 +52,11 @@ class EditPassword extends React.Component<IProps, IState> {
 
   render() {
     const { isEditing, confirmPassword, newPassword, currentPassword } = this.state
-
-    console.log(this.state)
-
     return (
       <div className={isEditing ? 'editable-field is-editing' : 'editable-field'}>
         {!isEditing && (
           <div id="change-password-action">
-            <span>{this.state.successMessage}</span>
-            <span>{this.state.errorMessage}</span>
+            <span>{this.state.message}</span>
             <div className="button">
               <VolkaButton
                 title="Change Password"
