@@ -30,7 +30,7 @@ describe('Authentication', function() {
     it('can view profile page', () => {
       cy.visit(`${baseURL}/profile`)
       cy.contains('@example.com').click()
-      cy.contains('Sign out')
+      cy.get('#signout')
     })
 
     it('can view their collection', () => {
