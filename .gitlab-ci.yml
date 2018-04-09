@@ -78,6 +78,7 @@ cypress:
       - frontend/cypress/videos/
   services:
     - postgres:alpine
+  dependencies: []
   variables:
     DATABASE_URL: postgres://postgres:super_secret_password__DO_NOT_STEAL@postgres:5432
     RAILS_ENV: production
@@ -102,6 +103,7 @@ staging:
   type: Deploy
   tags:
     - ci-alpine-latest
+  dependencies: []
   script:
     - gem install dpl
     - dpl --provider=heroku --app=volkano-staging --api-key=$HEROKU_API_KEY
@@ -113,6 +115,7 @@ production:
   type: Deploy
   tags:
     - ci-alpine-latest
+  dependencies: []
   script:
     - gem install dpl
     - dpl --provider=heroku --app=volkano --api-key=$HEROKU_API_KEY
