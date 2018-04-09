@@ -69,12 +69,14 @@ describe('Collection', () => {
   it('can add a new item to their collection', () => {
     cy.visit(`${baseURL}/collection`)
     cy.url().should('contain', 'collection')
+    const time = Cypress.moment().format('x')
+    cy.get('#collage').should('not.contain', time)
     cy.get('#add-item').click()
-    cy.get('input[name=url]').type(`https://maxjohansen.com/image.jpg`)
-    cy.get('input[name=title]').type('example image of hotto doggu')
+    cy.get('input[name=url]').type(`https://example.com/example${time}.jpg`)
+    cy.get('input[name=title]').type(`example image of hotto doggu at ${time}`)
     cy.get('input[name=tags]').type('example, pic{enter}')
 
     cy.visit(`${baseURL}/collection`)
-    cy.get('#collage').should('contain', 'hotto doggu')
+    cy.get('#collage').should('contain', time)
   })
 })
