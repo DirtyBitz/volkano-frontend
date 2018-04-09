@@ -2,11 +2,11 @@
 const timestamp = Cypress.moment().format('x')
 const baseURL = 'http://localhost:3000'
 
-const login = () => {
+const login = (username = 'test@example.com', password = 'password') => {
   // Sign in through UI to ensure VolkanoRequest-adapter is being used
   cy.visit(`${baseURL}/signin`)
-  cy.get('input[name=login]').type(`test@example.com`)
-  cy.get('input[name=password]').type('password{enter}')
+  cy.get('input[name=login]').type(`${username}`)
+  cy.get('input[name=password]').type(`${password}{enter}`)
   cy.url().should('contain', 'profile')
 }
 
