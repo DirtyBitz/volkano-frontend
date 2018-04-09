@@ -12,8 +12,6 @@ interface IState {
 }
 
 class EditPassword extends React.Component<{}, IState> {
-  valueInput: any
-
   constructor(props) {
     super(props)
     this.state = {
@@ -59,7 +57,7 @@ class EditPassword extends React.Component<{}, IState> {
             <span>{this.state.message}</span>
             <div className="button">
               <VolkaButton
-                title="Change Password"
+                title="Change password"
                 onClick={() => this.setState({ isEditing: true })}
               />
             </div>
@@ -68,6 +66,13 @@ class EditPassword extends React.Component<{}, IState> {
 
         {isEditing && (
           <div id="change-password-container">
+            <div className="button">
+              <VolkaButton
+                title="Cancel"
+                className="danger"
+                onClick={() => this.setState({ isEditing: false })}
+              />
+            </div>
             <div className="button">
               <VolkaButton title="Change password" onClick={this.onSubmit} />
             </div>
@@ -102,7 +107,9 @@ class EditPassword extends React.Component<{}, IState> {
         )}
         <style jsx>{`
           .button {
-            margin-bottom: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            display: inline-block;
           }
 
           .content {
