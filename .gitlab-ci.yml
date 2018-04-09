@@ -4,9 +4,6 @@ variables:
   POSTGRES_PASSWORD: super_secret_password__DO_NOT_STEAL
   CI_DATABASE: postgres
 
-cache:
-  key: "$CI_COMMIT_REF_NAME"
-
 image: maxjohansen/volkano
 
 stages:
@@ -27,6 +24,11 @@ jest:
   stage: Unit tests
   tags:
     - ci-alpine-latest
+  cache:
+    key: dependencies
+    policy: push
+    paths:
+      - frontend/node_modules
   script:
     - cd frontend
     - yarn install
@@ -41,6 +43,12 @@ rspec:
     - ci-alpine-latest
   services:
     - postgres:alpine
+  cache:
+    key: dependencies
+    policy: push
+    paths:
+      - backend/.bundle
+      - gems
   script:
     - cd backend
     - bundle install --jobs $(nproc) --path=../gems
@@ -61,10 +69,6 @@ coverage:
 
 cypress:
   stage: End to end tests
-  cache:
-    paths:
-      - backend/gems
-      - frontend/node_modules
   tags:
     - ci-alpine-latest
   artifacts:
@@ -77,9 +81,16 @@ cypress:
   variables:
     DATABASE_URL: postgres://postgres:super_secret_password__DO_NOT_STEAL@postgres:5432
     RAILS_ENV: production
+  cache:
+    key: dependencies
+    policy: pull
+    paths:
+      - frontend/node_modules
+      - backend/.bundle
+      - gems
   script:
     - cd backend
-    - bundle install --jobs $(nproc) --path=gems
+    - bundle install --jobs $(nproc) --path=../gems
     - bundle exec rails db:create db:migrate db:seed
     - bundle exec rails s &
     - cd ../frontend
