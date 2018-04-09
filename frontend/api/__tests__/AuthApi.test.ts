@@ -180,4 +180,41 @@ describe('Authentication utils', () => {
       }
     })
   })
+
+  describe('updatePassword', async () => {
+    it('sends update request to backend', async () => {
+      VolkanoRequest.put = jest.fn(() => {
+        Promise.resolve({ status: 200 })
+      })
+
+      await AuthApi.updatePassword('oldpass', 'newpass', 'newpass')
+      expect(VolkanoRequest.put).toHaveBeenCalledTimes(1)
+      expect(VolkanoRequest.put).toHaveBeenCalledWith('/auth/password', {
+        current_password: 'oldpass',
+        password: 'newpass',
+        password_confirmation: 'newpass',
+      })
+    })
+
+    it('throws an error when password is wrong', async () => {
+      VolkanoRequest.put = jest.fn(() =>
+        Promise.reject({
+          status: 422,
+          data: {
+            errors: {
+              current_password: 'is invalid',
+              full_messages: 'Current password is invalid',
+            },
+          },
+        })
+      )
+
+      try {
+        await AuthApi.updatePassword('oldpass', 'newpass', 'newpass')
+        expect('this should never happen').toBe(true)
+      } catch (error) {
+        expect(error.errors.current_password).toEqual('is invalid')
+      }
+    })
+  })
 })

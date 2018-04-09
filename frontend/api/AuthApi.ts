@@ -64,6 +64,22 @@ export default class AuthApi {
       return Promise.reject(handleError(error))
     }
   }
+
+  public static async updatePassword(
+    current_password: string,
+    password: string,
+    password_confirmation: string
+  ) {
+    try {
+      await VolkanoRequest.put('/auth/password', {
+        current_password,
+        password,
+        password_confirmation,
+      })
+    } catch (error) {
+      return Promise.reject(handleError(error))
+    }
+  }
 }
 
 const handleError = (error: IVolkanoHTTPError) => {
