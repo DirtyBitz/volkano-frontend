@@ -2,12 +2,13 @@ import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
 import store from '../store'
 import Layout from '../components/Layout'
-import { SiteLayout } from '../constants/SiteLayout'
 import { VolkaButton } from '../components/VolkaButton'
+import { hasSession } from '../utils/Session'
 import Link from 'next/link'
 
 export class App extends React.Component<{}, {}> {
   render() {
+    const isSignedIn = hasSession()
     return (
       <Layout fixedHeader title="Volkano">
         <div id="jumbo">
@@ -17,17 +18,18 @@ export class App extends React.Component<{}, {}> {
               <p>Start collecting today!</p>
               <br />
               <br />
-              <Link href="/signup">
-                <VolkaButton ghost title="Create Account" />
-              </Link>
+              {!isSignedIn && (
+                <Link href="/signup">
+                  <VolkaButton ghost title="Create Account" />
+                </Link>
+              )}
             </div>
           </div>
 
           <img src="https://www.svgrepo.com/show/31499/volcano.svg" />
         </div>
-
-        <div id="info-boxes">
-          <div className="info-box">
+        <ul id="info-boxes">
+          <li className="info-box">
             <h3>Our vision</h3>
             <p>
               Our goal through this project is to bring you joy when seeing images you
@@ -35,24 +37,21 @@ export class App extends React.Component<{}, {}> {
               people experience when they see an image they want to collect, but do not
               want to download it onto their current device.
             </p>
-          </div>
-          <div className="info-box">
+          </li>
+          <li className="info-box">
             <h3>Our product</h3>
-            <p>
-              Volkano is a place where you can easily save images, gifs, youtube-videos
-              and more you come across online, in a single place. You can also browse your
-              collection and easily share your items.
-            </p>
-          </div>
-          <div className="info-box">
+            Volkano is a place where you can easily save images, gifs, youtube-videos and
+            more you come across online, in a single place. You can also browse your
+            collection and easily share your items.
+          </li>
+          <li className="info-box">
             <h3>Who are we?</h3>
             <p>
               We are a group of students from UiT The Arctic University of Norway working
               on a group project to create something beautiful.
             </p>
-          </div>
-        </div>
-
+          </li>
+        </ul>
         <style jsx>{`
           #jumbo {
             display: flex;
@@ -81,19 +80,26 @@ export class App extends React.Component<{}, {}> {
           }
 
           #info-boxes {
-            margin: 0 auto;
+            list-style: none;
+            -ms-box-orient: horizontal;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -moz-flex;
+            display: -webkit-flex;
             display: flex;
-            max-width: ${SiteLayout.pagewidth}px;
-            padding: ${SiteLayout.defaultPadding};
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            justify-content: center;
 
             .info-box {
               margin: 15px;
               padding: 15px;
               border-radius: 5px;
-              border: 1px solid #eee;
               background: #fff;
+              width: 400px;
               text-align: center;
-              max-width: 33%;
+              box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 
               h3 {
                 padding-bottom: 10px;

@@ -33,7 +33,7 @@ export class Layout extends React.Component<IProps, IState> {
       })
     } else {
       this.setState({
-        session: undefined
+        session: undefined,
       })
     }
   }
@@ -113,7 +113,6 @@ export class Layout extends React.Component<IProps, IState> {
             top: 0;
             left: 0;
             right: 0;
-            background: transparent;
           }
 
           .main {
