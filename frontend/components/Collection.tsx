@@ -1,10 +1,7 @@
 import * as React from 'react'
-import * as withRedux from 'next-redux-wrapper'
-import store from '../store'
-import { Dispatch } from 'react-redux'
+import { Dispatch, connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
-import Layout from '../components/Layout'
 import {
   allItems,
   removeItem,
@@ -13,12 +10,11 @@ import {
   clearTags,
 } from '../actions/item/ItemActions'
 import { ICollectionState } from '../reducers/collection'
-import ItemCard from '../components/ItemCard'
-import { SearchBar, ITag } from '../components/SearchBar'
+import ItemCard from './ItemCard'
+import { SearchBar, ITag } from './SearchBar'
 import { Item } from '../models/Item'
 import Modal from 'react-modal'
-import { ItemModal } from '../components/ItemModal'
-import { withAuth } from '../utils/withAuth'
+import { ItemModal } from './ItemModal'
 import Router from 'next/router'
 
 interface IProps extends IStoreState {
@@ -33,7 +29,8 @@ interface IProps extends IStoreState {
 interface IState {
   selectedItem?: Item
 }
-class CollectionPage extends React.Component<IProps, IState> {
+
+class Collection extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -89,7 +86,7 @@ class CollectionPage extends React.Component<IProps, IState> {
     const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     return (
-      <Layout title="Collection">
+      <div>
         <div id="search-bar">
           <SearchBar
             addTag={addTag}
@@ -195,15 +192,17 @@ class CollectionPage extends React.Component<IProps, IState> {
             justify-content: center;
           }
         `}</style>
-      </Layout>
+      </div>
     )
   }
 }
+
 const mapStateToProps = (state: IStoreState) => {
   return {
     collection: state.collection,
   }
 }
+
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     allItems: bindActionCreators(allItems, dispatch),
@@ -214,6 +213,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-const AuthCollectionPage = withAuth(CollectionPage)
-
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(AuthCollectionPage)
+export default connect(mapStateToProps, mapDispatchToProps)(Collection)
