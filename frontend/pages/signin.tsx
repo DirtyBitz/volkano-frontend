@@ -20,7 +20,7 @@ class SigninPage extends React.Component {
 
     const isSignedIn = hasSession()
     if (isSignedIn) {
-      Router.push('/profile')
+      Router.push('/')
     }
   }
 
