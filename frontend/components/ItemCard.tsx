@@ -57,7 +57,7 @@ export default class ItemCard extends React.Component<IProps> {
           .item-wrap {
             padding-bottom: 15px;
             padding-right: 15px;
-            width: 20%;
+            width: 300px;
           }
 
           .item {
@@ -65,6 +65,8 @@ export default class ItemCard extends React.Component<IProps> {
             border-radius: 5px;
             overflow: hidden;
             cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            padding-bottom: 5px;
             transition: transform 1s ease, opacity 1s ease;
           }
 
