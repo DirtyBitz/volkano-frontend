@@ -2,16 +2,34 @@ import * as React from 'react'
 import Link from 'next/link'
 import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
-import { faUser, faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
+import {
+  faUser,
+  faSignOutAlt,
+  faBars,
+  faTimes,
+} from '@fortawesome/fontawesome-free-solid'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { signOut } from '../utils/Auth'
 interface Props {
   isSignedIn: boolean
   user?: IUser
+  handleDropDownState: () => void
 }
 
-export default class Navigation extends React.Component<Props> {
+interface IState {
+  showBurger: boolean
+}
+
+export default class Navigation extends React.Component<Props, IState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showBurger: false,
+    }
+  }
   render() {
-    const { isSignedIn, user } = this.props
+    const { isSignedIn, user, handleDropDownState } = this.props
+    const { showBurger } = this.state
     return (
       <nav>
         <div id="main-nav">
@@ -43,6 +61,20 @@ export default class Navigation extends React.Component<Props> {
             </div>
           )}
           <div id="user-nav">
+            <div>
+              <a
+                id="burger-nav"
+                onClick={() => {
+                  this.setState({ showBurger: !this.state.showBurger })
+                  handleDropDownState()
+                }}>
+                <FontAwesomeIcon
+                  className="fa-icon"
+                  icon={showBurger ? faTimes : faBars}
+                  color="#fff"
+                />
+              </a>
+            </div>
             {isSignedIn &&
               user && (
                 <Link href="/profile">
@@ -85,6 +117,11 @@ export default class Navigation extends React.Component<Props> {
                 display: flex;
               }
             }
+            #burger-nav {
+              font-size: 25px;
+              display: none;
+              user-select: none;
+            }
           }
 
           #home-link {
@@ -107,6 +144,18 @@ export default class Navigation extends React.Component<Props> {
           #profile-link,
           #signout {
             margin-left: 15px;
+          }
+          @media only screen and (max-width: 550px) {
+            #signin-link,
+            #signup-link,
+            #profile-link,
+            #signout {
+              display: none;
+            }
+            #burger-nav {
+              display: block !important;
+              font-size: 25px;
+            }
           }
         `}</style>
       </nav>

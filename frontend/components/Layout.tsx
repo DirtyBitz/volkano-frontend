@@ -1,10 +1,14 @@
 import * as React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import Navigation from './Navigation'
 import Footer from './Footer'
 import { getSession, ISession } from '../utils/Session'
 import getConfig from 'next/config'
 import ReactGA from 'react-ga'
+import { VolkaButton } from './VolkaButton'
+import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
+import { signOut } from '../utils/Auth'
 
 interface IProps {
   title?: string
@@ -13,6 +17,7 @@ interface IProps {
 
 interface IState {
   session: ISession
+  dropDownOpen: boolean
 }
 
 export class Layout extends React.Component<IProps, IState> {
@@ -20,6 +25,7 @@ export class Layout extends React.Component<IProps, IState> {
     super(props)
     this.state = {
       session: null,
+      dropDownOpen: false,
     }
   }
 
@@ -38,6 +44,10 @@ export class Layout extends React.Component<IProps, IState> {
     }
   }
 
+  handleDropDownState = () => {
+    this.setState({ dropDownOpen: !this.state.dropDownOpen })
+  }
+
   private googleAnalytics() {
     const config = getConfig()
     /* istanbul ignore next */
@@ -54,7 +64,7 @@ export class Layout extends React.Component<IProps, IState> {
 
   render() {
     const { title, fixedHeader, children } = this.props
-
+    const { dropDownOpen, session } = this.state
     return (
       <div className="page">
         <Head>
@@ -89,14 +99,82 @@ export class Layout extends React.Component<IProps, IState> {
         </Head>
         <header className={fixedHeader ? 'fixed-header' : ''}>
           <Navigation
-            isSignedIn={this.state.session ? true : false}
-            user={this.state.session && this.state.session.user}
+            isSignedIn={session ? true : false}
+            user={session && session.user}
+            handleDropDownState={this.handleDropDownState}
           />
         </header>
+        {dropDownOpen &&
+          this.state.session && (
+            <div className="dropdown-menu">
+              <Link href="/">
+                <a>Home</a>
+              </Link>
+              <Link href="/profile">
+                <a>Profile</a>
+              </Link>
+              <Link href="/collection">
+                <a>Collection</a>
+              </Link>
+              <Link href="/additem">
+                <a>Add new item</a>
+              </Link>
+              <a>
+                {this.state.session.user.nickname || session.user.email}
+                <div style={{ paddingTop: '5px' }}>
+                  <VolkaButton
+                    icon={faSignOutAlt}
+                    onClick={signOut}
+                    title={'Sign Out'}
+                    className="danger"
+                  />
+                </div>
+              </a>
+            </div>
+          )}
+        {dropDownOpen &&
+          !this.state.session && (
+            <div className="dropdown-menu">
+              <Link href="/">
+                <a>Home</a>
+              </Link>
+              <Link href="/signin">
+                <a>Sign In</a>
+              </Link>
+              <Link href="/signup">
+                <a>Sign Up</a>
+              </Link>
+            </div>
+          )}
         <div className="main">{children}</div>
         <Footer />
 
         <style jsx>{`
+          .dropdown-menu {
+            width: 100%;
+            background: #44474c;
+            margin-top: 60px;
+            position: fixed;
+            animation-name: dropdown-animation;
+            animation-duration: 0.5s;
+            z-index: 1;
+            a {
+              display: block;
+              padding: 12px;
+              border-top: 1px solid #383a3d;
+              text-align: center;
+              text-decoration: none;
+              color: white;
+            }
+            @keyframes dropdown-animation {
+              from {
+                margin-top: -100px;
+              }
+              to {
+                margin-top: 60px;
+              }
+            }
+          }
           .page {
             height: 100%;
             display: flex;
@@ -106,6 +184,8 @@ export class Layout extends React.Component<IProps, IState> {
           header {
             background: #1c222a;
             color: #fff;
+            z-index: 3;
+            max-heigth: 63px;
           }
 
           header.fixed-header {
@@ -117,6 +197,11 @@ export class Layout extends React.Component<IProps, IState> {
 
           .main {
             flex: 1;
+          }
+          @media only screen and (min-width: 551px) {
+            .dropdown-menu {
+              display: none;
+            }
           }
         `}</style>
 
