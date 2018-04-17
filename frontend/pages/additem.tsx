@@ -34,11 +34,12 @@ class CreateItemPage extends React.Component<IProps> {
 
   render() {
     return (
-      <Layout title="Add item">
+      <Layout fixedHeader title="Add item">
         <h1
           style={{
             textAlign: 'center',
             padding: '10px',
+            paddingTop: '60px',
           }}>
           Collect an image
         </h1>

@@ -21,11 +21,12 @@ class SignUpPage extends React.Component {
 
   render() {
     return (
-      <Layout title="Sign Up">
+      <Layout fixedHeader title="Sign Up">
         <h1
           style={{
             textAlign: 'center',
             padding: '10px',
+            marginTop: '60px',
           }}>
           Create a user to start collecting!
         </h1>

@@ -12,7 +12,7 @@ class ProfilePage extends React.Component {
   render() {
     const session = getSession()
     return (
-      <Layout title="Profile">
+      <Layout fixedHeader title="Profile">
         <div
           style={{
             border: 'solid #bbb 1px',
@@ -20,6 +20,7 @@ class ProfilePage extends React.Component {
             width: '420px',
             backgroundColor: '#e9ebed',
             margin: '0 auto',
+            marginTop: '100px',
             textAlign: 'center',
           }}>
           <div

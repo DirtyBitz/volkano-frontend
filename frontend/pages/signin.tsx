@@ -26,11 +26,12 @@ class SigninPage extends React.Component {
 
   render() {
     return (
-      <Layout title="Sign In">
+      <Layout fixedHeader title="Sign In">
         <h1
           style={{
             textAlign: 'center',
             padding: '10px',
+            marginTop: '60px',
           }}>
           Sign in
         </h1>
