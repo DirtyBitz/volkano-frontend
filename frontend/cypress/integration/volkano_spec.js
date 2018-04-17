@@ -99,7 +99,7 @@ describe('Hamburger Button when unauthorized', () => {
     cy.url().should('contain', 'signin')
   })
 })
-describe.only('Hamburger Button when authorized', () => {
+describe('Hamburger Button when authorized', () => {
   beforeEach(() => {
     cy.visit(baseURL)
     login()
@@ -109,7 +109,7 @@ describe.only('Hamburger Button when authorized', () => {
   it('has a button that redirects to collection', () => {
     cy.get('#burger-nav').click()
     cy
-      .get('#dropdown-menu')
+      .get('.dropdown-menu')
       .contains('Collection')
       .click()
     cy.url().should('contain', 'collection')
@@ -118,7 +118,7 @@ describe.only('Hamburger Button when authorized', () => {
   it('has a button that redirects to profile', () => {
     cy.get('#burger-nav').click()
     cy
-      .get('#dropdown-menu')
+      .get('.dropdown-menu')
       .contains('Profile')
       .click()
     cy.url().should('contain', 'profile')
@@ -127,7 +127,7 @@ describe.only('Hamburger Button when authorized', () => {
   it('has a button that sign out the user', () => {
     cy.get('#burger-nav').click()
     cy
-      .get('#dropdown-menu')
+      .get('.dropdown-menu')
       .contains('Sign Out')
       .click()
     cy.wait(500)
