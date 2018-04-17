@@ -89,7 +89,7 @@ class CollectionPage extends React.Component<IProps, IState> {
     const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     return (
-      <Layout title="Collection">
+      <Layout fixedHeader title="Collection">
         <div id="search-bar">
           <SearchBar
             addTag={addTag}
@@ -115,10 +115,10 @@ class CollectionPage extends React.Component<IProps, IState> {
         {this.state.selectedItem
           ? false
           : true && (
-            <div id="add-item" onClick={this.addItemPage}>
-              <span>+</span>
-            </div>
-          )}
+              <div id="add-item" onClick={this.addItemPage}>
+                <span>+</span>
+              </div>
+            )}
 
         <div onKeyDown={this.keyHandler}>
           <Modal
@@ -161,6 +161,7 @@ class CollectionPage extends React.Component<IProps, IState> {
 
         <style jsx>{`
           #search-bar {
+            margin-top: 62px;
             margin-bottom: 10px;
           }
           #add-item {
@@ -191,7 +192,8 @@ class CollectionPage extends React.Component<IProps, IState> {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            margin-right: -15px;
+            margin: 10px 15px 10px 15px;
+            justify-content: center;
           }
         `}</style>
       </Layout>
