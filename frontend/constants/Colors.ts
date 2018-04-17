@@ -6,6 +6,7 @@ const Colors = {
   dangerHover: 'rgba(178, 51, 51)',
   infoButton: 'rgba(#6d9eff, 0.8)',
   infoHover: 'rgba(109, 158, 255)',
+  primaryBackground: '#1c222a',
 }
 
 export { Colors }
