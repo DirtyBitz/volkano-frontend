@@ -138,8 +138,11 @@ describe('Hamburger Button when authorized', () => {
 })
 
 describe('Profile page', () => {
+  const testPassword = 'password'
+  const newPassword = 'password1'
+
   beforeEach(() => {
-    login()
+    login('test@test.com', testPassword)
     cy.visit(`${baseURL}/profile`)
     cy.url().should('contain', 'profile')
   })
@@ -177,12 +180,11 @@ describe('Profile page', () => {
     cy.contains(/current password/i).should('not.exist')
 
     cy.contains(/change password/i).click()
-    const password = 'password'
-    const newPassword = 'password1'
+
     cy
       .contains(/current password/i)
       .siblings('input')
-      .type(password)
+      .type(testPassword)
 
     cy
       .contains(/new password/i)
@@ -196,8 +198,8 @@ describe('Profile page', () => {
 
     cy.contains(/change password/i).click()
 
-    cy.get('#signout')
-    login('test@example.com', newPassword)
+    cy.get('#signout').click()
+    login('test@test.com', newPassword)
     cy.visit(`${baseURL}/profile`)
     cy.url().should('contain', 'profile')
   })
