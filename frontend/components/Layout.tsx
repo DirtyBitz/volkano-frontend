@@ -44,6 +44,7 @@ export class Layout extends React.Component<IProps, IState> {
     }
   }
 
+  /* istanbul ignore next */
   handleDropDownState = () => {
     this.setState({ dropDownOpen: !this.state.dropDownOpen })
   }
@@ -105,7 +106,7 @@ export class Layout extends React.Component<IProps, IState> {
           />
         </header>
         {dropDownOpen &&
-          this.state.session && (
+          session && (
             <div className="dropdown-menu">
               <Link href="/">
                 <a>Home</a>
@@ -120,7 +121,7 @@ export class Layout extends React.Component<IProps, IState> {
                 <a>Add new item</a>
               </Link>
               <a>
-                {this.state.session.user.nickname || session.user.email}
+                {session.user.nickname || session.user.email}
                 <div style={{ paddingTop: '5px' }}>
                   <VolkaButton
                     icon={faSignOutAlt}
@@ -133,7 +134,7 @@ export class Layout extends React.Component<IProps, IState> {
             </div>
           )}
         {dropDownOpen &&
-          !this.state.session && (
+          !session && (
             <div className="dropdown-menu">
               <Link href="/">
                 <a>Home</a>

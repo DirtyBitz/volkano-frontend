@@ -5,6 +5,7 @@ import Navigation from '../Navigation'
 const props = {
   isSignedIn: undefined,
   user: undefined,
+  handleDropDownState: jest.fn(),
 }
 
 describe('Layout component', () => {
@@ -14,12 +15,27 @@ describe('Layout component', () => {
     navigation = shallow(<Navigation {...props} />)
   })
 
+  it('has a button for the burger menu', () => {
+    const links = navigation.find('a')
+
+    const burgerlink = links.filterWhere((link: any) => link.prop('id') === 'burger-nav')
+
+    expect(burgerlink.length).toBe(1)
+  })
+
   it('has a link to the homepage', () => {
     const links = navigation.find('Link')
 
     const homelink = links.filterWhere((link: any) => link.prop('href') === '/')
 
     expect(homelink.length).toBe(1)
+  })
+  it('should call handleDropDownState when burger menu is clicked', () => {
+    const links = navigation.find('a')
+    const burgerlink = links.filterWhere((link: any) => link.prop('id') === 'burger-nav')
+    burgerlink.simulate('click')
+
+    expect(props.handleDropDownState).toHaveBeenCalledTimes(1)
   })
 
   describe('when signed in', () => {
@@ -30,6 +46,7 @@ describe('Layout component', () => {
         user: {
           email: 'testuser',
         },
+        handleDropDownState: jest.fn(),
       }
       navigation = shallow(<Navigation {...fakeProps} />)
     })
