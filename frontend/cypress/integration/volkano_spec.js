@@ -139,7 +139,6 @@ describe('Hamburger Button when authorized', () => {
 
 describe('Profile page', () => {
   const testPassword = 'password'
-  const newPassword = 'password1'
 
   beforeEach(() => {
     login('test@test.com', testPassword)
@@ -186,6 +185,7 @@ describe('Profile page', () => {
       .siblings('input')
       .type(testPassword)
 
+    const newPassword = 'password1'
     cy
       .contains(/new password/i)
       .siblings('input')
