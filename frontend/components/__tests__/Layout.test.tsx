@@ -10,8 +10,7 @@ jest.mock('react-ga')
 jest.mock('../../utils/Session')
 
 describe('Layout component', () => {
-  let layout: ShallowWrapper<{}, { session: ISession }>
-  const callback = jest.fn()
+  let layout: ShallowWrapper<{}, { session: ISession; dropDownOpen: boolean }>
 
   beforeEach(() => {
     layout = shallow(<Layout />)
@@ -63,11 +62,6 @@ describe('Layout component', () => {
   it('has a dropdown menu when dropDownOpen is true and session is true', () => {
     layout.setState({
       dropDownOpen: true,
-      session: {
-        user: {
-          email: 'mail@test.no',
-        },
-      },
     })
     const divs = layout.find('div')
     const burgerlink = divs.filterWhere(
@@ -82,19 +76,6 @@ describe('Layout component', () => {
     layout = shallow(<Layout />)
     const { session } = layout.state()
     expect(session).toBeFalsy()
-  })
-
-  it('can render with a fixed header', () => {
-    const fakeProps = { fixedHeader: true }
-    layout = shallow(<Layout {...fakeProps} />)
-    const fixed = layout.find('header').hasClass('fixed-header')
-    expect(fixed).toBe(true)
-  })
-
-  it('can render without a fixed header', () => {
-    layout = shallow(<Layout />)
-    const fixed = layout.find('header').hasClass('fixed-header')
-    expect(fixed).toBe(false)
   })
 
   it('has a dropdown menu when dropDownOpen is true', () => {

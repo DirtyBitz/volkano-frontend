@@ -10,7 +10,7 @@ export class App extends React.Component<{}, {}> {
   render() {
     const isSignedIn = hasSession()
     return (
-      <Layout fixedHeader title="Volkano">
+      <Layout title="Volkano">
         <div id="jumbo">
           <div id="welcome-msg">
             <h1>Welcome to Volka.no</h1>

@@ -34,7 +34,7 @@ class CreateItemPage extends React.Component<IProps> {
 
   render() {
     return (
-      <Layout fixedHeader title="Add item">
+      <Layout title="Add item">
         <h1
           style={{
             textAlign: 'center',

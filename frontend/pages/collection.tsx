@@ -89,7 +89,7 @@ class CollectionPage extends React.Component<IProps, IState> {
     const { addTag, removeTag, clearTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     return (
-      <Layout fixedHeader title="Collection">
+      <Layout title="Collection">
         <div id="search-bar">
           <SearchBar
             addTag={addTag}
@@ -146,11 +146,10 @@ class CollectionPage extends React.Component<IProps, IState> {
           }
           .modal-overlay {
             position: fixed;
-            top: 0px;
+            top: 60px;
             left: 0;
             right: 0;
             bottom: 0px;
-            background: transparent;
             display: flex;
             flex-direction: column;
             align-items: center;

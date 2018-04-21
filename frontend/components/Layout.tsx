@@ -12,7 +12,6 @@ import { signOut } from '../utils/Auth'
 
 interface IProps {
   title?: string
-  fixedHeader?: boolean
 }
 
 interface IState {
@@ -64,7 +63,7 @@ export class Layout extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { title, fixedHeader, children } = this.props
+    const { title, children } = this.props
     const { dropDownOpen, session } = this.state
     return (
       <div className="page">
@@ -98,7 +97,7 @@ export class Layout extends React.Component<IProps, IState> {
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
         </Head>
-        <header className={fixedHeader ? 'fixed-header' : ''}>
+        <header>
           <Navigation
             isSignedIn={session ? true : false}
             user={session && session.user}
@@ -187,9 +186,6 @@ export class Layout extends React.Component<IProps, IState> {
             color: #fff;
             z-index: 3;
             max-heigth: 63px;
-          }
-
-          header.fixed-header {
             position: fixed;
             top: 0;
             left: 0;

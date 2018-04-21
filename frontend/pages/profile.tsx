@@ -12,7 +12,7 @@ class ProfilePage extends React.Component {
   render() {
     const session = getSession()
     return (
-      <Layout fixedHeader title="Profile">
+      <Layout title="Profile">
         <div
           style={{
             border: 'solid #bbb 1px',

@@ -21,7 +21,7 @@ class SignUpPage extends React.Component {
 
   render() {
     return (
-      <Layout fixedHeader title="Sign Up">
+      <Layout title="Sign Up">
         <h1
           style={{
             textAlign: 'center',
