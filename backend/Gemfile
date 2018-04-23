@@ -57,6 +57,3 @@ group :production do
 end
 
 gem 'tzinfo-data'
-
-# Added at 2018-04-23 15:14:44 +0200 by isak:
-gem "mime-types", "~> 3.1"
