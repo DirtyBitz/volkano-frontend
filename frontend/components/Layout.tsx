@@ -9,6 +9,7 @@ import ReactGA from 'react-ga'
 import { VolkaButton } from './VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { signOut } from '../utils/Auth'
+import withSentry from '../utils/withSentry'
 
 interface IProps {
   title?: string
@@ -232,4 +233,4 @@ export class Layout extends React.Component<IProps, IState> {
   }
 }
 
-export default Layout
+export default withSentry(Layout)

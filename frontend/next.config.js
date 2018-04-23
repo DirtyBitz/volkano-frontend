@@ -8,17 +8,12 @@ module.exports = (phase, { defaultConfig }) => {
     FRONTEND_URL: 'http://localhost:3000',
   }
 
-  if (current_env === 'production') {
+  if (current_env === 'production' || current_env === 'staging') {
     publicRuntimeConfig = {
       ENV: current_env,
-      BACKEND_URL: 'https://api.volka.no',
-      FRONTEND_URL: 'https://volka.no',
-    }
-  } else if (current_env === 'staging') {
-    publicRuntimeConfig = {
-      ENV: current_env,
-      BACKEND_URL: 'https://beta-api.volka.no',
-      FRONTEND_URL: 'https://beta.volka.no',
+      BACKEND_URL: `https://${process.env.BACKEND_HOSTNAME}`,
+      FRONTEND_URL: `https://${process.env.FRONTEND_HOSTNAME}`,
+      SENTRY_DSN: process.env.SENTRY_DSN,
     }
   }
 
