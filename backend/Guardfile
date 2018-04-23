@@ -35,6 +35,7 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
   watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
+  watch(%r{^spec/lib/(.+)\.rb$}) { "#{rspec.spec_dir}/lib" }
   watch(%r{^spec/factories/(.+)\.rb$}) do |m|
     %W[
       spec/models/#{m[1].singularize}_spec.rb
