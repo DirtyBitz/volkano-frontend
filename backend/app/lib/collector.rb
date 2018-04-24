@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'net/http'
+
 class Collector
   def initialize(url)
     @url = url
@@ -27,7 +29,7 @@ class Collector
       'youtube'
     when /jpe?g|gif|png|svg/
       'image'
-    when /mp4|mov|avi|mkv/
+    when /mp4|mov|avi|mkv|webm/
       'video'
     when /mp3|ogg|wav|flac|aac|wma/
       'audio'
@@ -50,6 +52,11 @@ class Collector
     host = URI(@url).host
     domain = PublicSuffix.parse(host).domain.downcase
     domain.match?(/\d+\.\d+/) ? nil : domain
+  end
+
+  def valid?
+    response = Net::HTTP.get_response(URI(@url))
+    response.is_a? Net::HTTPSuccess
   end
 
   def valid?

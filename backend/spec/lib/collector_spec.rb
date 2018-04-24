@@ -2,6 +2,7 @@
 
 require_relative '../../app/lib/collector'
 require 'spec_helper'
+require 'webmock/rspec'
 
 RSpec.describe Collector do
   describe 'given valid url' do
@@ -43,6 +44,30 @@ RSpec.describe Collector do
         categories: ['youtu.be', 'youtube'],
         type: 'youtube'
       )
+    end
+
+    it "should confirm it's valid" do
+      uri = 'https://example.com/cute_kitten.jpg'
+      stub_request(:get, uri)
+        .to_return(status: 200)
+
+      item = Collector.new(uri)
+
+      expect(item).to be_valid
+      expect(WebMock).to have_requested(:get, uri).once
+    end
+  end
+
+  describe 'given invalid url' do
+    it "should confirm it's invalid" do
+      uri = 'https://example.com/cute_kitten.jpg'
+      stub_request(:get, uri)
+        .to_return(status: 404)
+
+      item = Collector.new(uri)
+
+      expect(item).to_not be_valid
+      expect(WebMock).to have_requested(:get, uri).once
     end
   end
 end
