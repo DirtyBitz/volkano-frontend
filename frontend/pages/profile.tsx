@@ -8,7 +8,10 @@ import EditableField from '../components/EditableField'
 import AuthApi from '../api/AuthApi'
 import EditPassword from '../components/EditPassword'
 
-class ProfilePage extends React.Component<{}, { errors }> {
+interface IState {
+  errors?: any
+}
+class ProfilePage extends React.Component<{}, IState> {
   constructor(props) {
     super(props)
     this.state = { errors: undefined }
@@ -37,14 +40,14 @@ class ProfilePage extends React.Component<{}, { errors }> {
             <EditableField
               label="E-mail"
               value={session ? session.user.email : ''}
-              onSave={newValue => this.validate({ email: newValue })}
+              onSave={newValue => this.update({ email: newValue })}
               error={errors && errors.email}
             />
 
             <EditableField
               label="Nickname"
               value={session ? session.user.nickname : ''}
-              onSave={newValue => this.validate({ nickname: newValue })}
+              onSave={newValue => this.update({ nickname: newValue })}
               error={errors && errors.nickname}
             />
             <div
@@ -61,7 +64,7 @@ class ProfilePage extends React.Component<{}, { errors }> {
     )
   }
 
-  validate = async value => {
+  update = async value => {
     try {
       await AuthApi.updateUser({
         nickname: value.nickname,
