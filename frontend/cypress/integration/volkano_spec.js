@@ -142,8 +142,6 @@ describe('Profile page', () => {
 
   beforeEach(() => {
     login('test@test.com', testPassword)
-    cy.visit(`${baseURL}/profile`)
-    cy.url().should('contain', 'profile')
   })
 
   it('can cancel password change', () => {
