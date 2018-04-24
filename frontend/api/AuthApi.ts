@@ -59,7 +59,7 @@ export default class AuthApi {
 
   public static async updateUser(params) {
     try {
-      await VolkanoRequest.put('/auth', params)
+      return await VolkanoRequest.put('/auth', params)
     } catch (error) {
       return Promise.reject(handleError(error))
     }
