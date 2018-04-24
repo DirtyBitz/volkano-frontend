@@ -7,6 +7,7 @@ interface IProps {
   label: string
   value: string
   onSave: (newValue: string) => void
+  error: string[]
 }
 
 interface IState {
@@ -49,7 +50,7 @@ class EditableField extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { label } = this.props
+    const { label, error, value } = this.props
     const { isEditing, inputValue } = this.state
 
     return (
@@ -85,6 +86,11 @@ class EditableField extends React.Component<IProps, IState> {
                 onClick={this.startEdit}
               />
             </span>
+            {error && (
+              <div className="validation-error">
+                {error.map(err => <span key={err}>{err}</span>)}
+              </div>
+            )}
           </div>
         )}
         <style jsx>{`
@@ -145,6 +151,20 @@ class EditableField extends React.Component<IProps, IState> {
               align-self: center;
               margin-bottom: 0;
               margin-left: -20px;
+            }
+            .validation-error {
+              display: flex;
+              position: relative;
+              span {
+                position: absolute;
+                left: 10px;
+                background: rgba(163, 0, 0, 0.75);
+                color: #fff;
+                border-radius: 5px;
+                padding: 5px;
+                animation: fadein 0.5s;
+                white-space: nowrap;
+              }
             }
           }
 
