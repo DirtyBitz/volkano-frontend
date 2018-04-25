@@ -36,11 +36,25 @@ class Collector
     end
   end
 
-  def host_without_www
-    uri = URI.parse(@url)
-    uri = URI.parse("http://#{@url}") if uri.scheme.nil?
-    host = uri.host.downcase
-    host.start_with?('www.') ? host[4..-1] : host
+  def size
+    url = URI(@url)
+    http = Net::HTTP.new(url.host, url.port)
+
+    http.use_ssl = true if url.scheme.match?(/https/)
+
+    head = http.request_head(url.path.empty? ? '/' : url.path)
+    head.content_length
+  end
+
+  def host
+    host = URI(@url).host
+    domain = PublicSuffix.parse(host).domain.downcase
+    domain.match?(/\d+\.\d+/) ? nil : domain
+  end
+
+  def valid?
+    response = Net::HTTP.get_response(URI(@url))
+    response.is_a? Net::HTTPSuccess
   end
 
   class InvalidType < StandardError
