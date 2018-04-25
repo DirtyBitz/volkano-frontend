@@ -11,6 +11,7 @@
     "precyprun": "wait-on http://localhost:3000",
     "cypen": "cypress open",
     "cyprun": "cypress run",
+    "cyprecord": "cypress run --record",
     "test": "jest --watch",
     "quicktest": "jest --no-cache",
     "ci": "jest --no-cache --coverage --ci",

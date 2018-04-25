@@ -1,3 +1,4 @@
 {
-    "defaultCommandTimeout": 5000
+  "defaultCommandTimeout": 5000,
+  "projectId": "rmsut6"
 }
