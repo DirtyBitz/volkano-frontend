@@ -10,7 +10,7 @@ const login = (username = 'test@example.com', password = 'password') => {
   cy.url().should('contain', 'profile')
 }
 
-describe('Authentication', function() {
+describe('Authentication', () => {
   context('a first time visitor', () => {
     it('can sign up for an account', () => {
       cy.visit(baseURL)
@@ -99,9 +99,9 @@ describe('Hamburger Button when unauthorized', () => {
     cy.url().should('contain', 'signin')
   })
 })
+
 describe('Hamburger Button when authorized', () => {
   beforeEach(() => {
-    cy.visit(baseURL)
     login()
     cy.viewport(500, 693)
   })
@@ -131,7 +131,80 @@ describe('Hamburger Button when authorized', () => {
       .contains('Sign Out')
       .click()
     cy.wait(500)
+
     cy.visit(`${baseURL}/collection`)
     cy.url().should('contain', 'signin')
+  })
+})
+
+describe('Profile page', () => {
+  beforeEach(() => {
+    login()
+    cy.visit(`${baseURL}/profile`)
+    cy.url().should('contain', 'profile')
+  })
+
+  it('can cancel password change', () => {
+    cy
+      .get('.button')
+      .contains('Change password')
+      .click()
+
+    cy
+      .get('.button')
+      .contains('Cancel')
+      .click()
+  })
+
+  it('can change username', () => {
+    cy
+      .get('label')
+      .contains('Nickname')
+      .siblings('.content')
+      .within(() => {
+        cy.get('.icon').click()
+      })
+    cy.get('input').type('{selectall}Hugh Mungus')
+    cy.get('.confirm-button').click()
+
+    cy.contains('Hugh Mungus')
+  })
+
+  it('can change password', () => {
+    cy
+      .get('.button')
+      .contains('Change password')
+      .click()
+
+    const password = 'password'
+    const newPassword = 'password1'
+
+    cy
+      .get('label')
+      .contains('Current password')
+      .siblings('input')
+      .type(password)
+
+    cy
+      .get('label')
+      .contains('New password')
+      .siblings('input')
+      .type(newPassword)
+
+    cy
+      .get('label')
+      .contains('Confirm password')
+      .siblings('input')
+      .type('password1')
+
+    cy
+      .get('.button')
+      .contains('Change password')
+      .click()
+
+    cy.get('#signout')
+    login('test@example.com', newPassword)
+    cy.visit(`${baseURL}/profile`)
+    cy.url().should('contain', 'profile')
   })
 })

@@ -59,8 +59,7 @@ export default class VolkanoRequest {
         clearSession()
         break
       case 422:
-        if (oldSession)
-          setSession(this.newSession(oldSession, error.response))
+        if (oldSession) setSession(this.newSession(oldSession, error.response))
         break
       case 500:
       default:
@@ -75,8 +74,7 @@ export default class VolkanoRequest {
   }
 
   private static newSession(oldSession, response) {
-    if (!response.headers.token)
-      return oldSession
+    if (!response.headers.token) return oldSession
 
     let headers = response.headers
     let user

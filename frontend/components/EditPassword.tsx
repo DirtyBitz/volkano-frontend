@@ -86,7 +86,7 @@ class EditPassword extends React.Component<{}, IState> {
               />
             </div>
             <div className="content">
-              <label>New Password</label>
+              <label>New password</label>
               <input
                 type="password"
                 onChange={this.newPasswordChange}
@@ -95,7 +95,7 @@ class EditPassword extends React.Component<{}, IState> {
             </div>
             <div className="content">
               <label style={{ color: this.state.passwordsMatch ? 'black' : 'red' }}>
-                Confirm Password
+                Confirm password
               </label>
               <input
                 type="password"
