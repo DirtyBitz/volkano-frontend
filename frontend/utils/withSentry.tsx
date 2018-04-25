@@ -1,15 +1,21 @@
+import * as React from 'react'
 import getConfig from 'next/config'
-import React from 'react'
 import Raven from 'raven-js'
 
-function withSentry(Child) {
-  return class WrappedComponent extends React.Component {
+interface IState {
+  error: Error
+}
+
+export default function withSentry(WrappedComponent) {
+  return class extends React.Component<{}, IState> {
+    /* istanbul ignore next: Do not need to test React internals */
     static getInitialProps(context) {
-      if (Child.getInitialProps) {
-        return Child.getInitialProps(context)
+      if (WrappedComponent.getInitialProps) {
+        return WrappedComponent.getInitialProps(context)
       }
       return {}
     }
+
     constructor(props) {
       super(props)
       this.state = {
@@ -21,15 +27,14 @@ function withSentry(Child) {
       Raven.config(SENTRY_DSN).install()
     }
 
+    /* istanbul ignore next: Do not need to test React internals */
     componentDidCatch(error, errorInfo) {
       this.setState({ error })
       Raven.captureException(error, { extra: errorInfo })
     }
 
     render() {
-      return <Child {...this.props} error={this.state.error} />
+      return <WrappedComponent {...this.props} error={this.state.error} />
     }
   }
 }
-
-export default withSentry
