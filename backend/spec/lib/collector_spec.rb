@@ -6,12 +6,26 @@ require 'webmock/rspec'
 
 RSpec.describe Collector do
   describe 'given valid url' do
+    before(:each) do
+      stub_request(:any, /.*/)
+        .to_return(status: 200, body: '', headers: { content_length: 1337 })
+    end
+
     it 'should collect an image' do
       item = Collector.new('https://example.com/img.jpg').collect
 
       expect(item).to include(
         categories: include('example.com', 'jpg', 'image'),
         mediatype: 'image'
+      )
+    end
+
+    it 'should collect audio' do
+      item = Collector.new('https://example.com/sweet_beats.ogg').collect
+
+      expect(item).to include(
+        categories: include('example.com', 'ogg', 'audio'),
+        mediatype: 'audio'
       )
     end
 
@@ -59,8 +73,6 @@ RSpec.describe Collector do
 
     it "should confirm it's valid" do
       uri = 'https://example.com/cute_kitten.jpg'
-      stub_request(:get, uri)
-        .to_return(status: 200)
 
       item = Collector.new(uri)
 
@@ -70,15 +82,24 @@ RSpec.describe Collector do
   end
 
   describe 'given invalid url' do
-    it "should confirm it's invalid" do
-      uri = 'https://example.com/cute_kitten.jpg'
-      stub_request(:get, uri)
+    before(:each) do
+      stub_request(:any, /.*/)
         .to_return(status: 404)
+    end
+
+    it "should confirm it's invalid" do
+      uri = 'https://example.com/not_cute_kitten.jpg'
 
       item = Collector.new(uri)
 
       expect(item).to_not be_valid
       expect(WebMock).to have_requested(:get, uri).once
+    end
+
+    it 'should raise error on invalid media type' do
+      item = Collector.new('https://example.com/juicy.spunk')
+
+      expect { item.collect }.to raise_error(Collector::InvalidType)
     end
   end
 end

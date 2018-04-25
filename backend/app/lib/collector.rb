@@ -8,11 +8,11 @@ class Collector
   end
 
   def collect
-    { mediatype: type, categories: categories }
+    { mediatype: type, categories: categories, size: size }
   end
 
   def categories
-    [host_without_www, filetype, type].uniq.compact
+    [host, filetype, type].uniq.compact
   end
 
   def filetype
@@ -52,11 +52,6 @@ class Collector
     host = URI(@url).host
     domain = PublicSuffix.parse(host).domain.downcase
     domain.match?(/\d+\.\d+/) ? nil : domain
-  end
-
-  def valid?
-    response = Net::HTTP.get_response(URI(@url))
-    response.is_a? Net::HTTPSuccess
   end
 
   def valid?
