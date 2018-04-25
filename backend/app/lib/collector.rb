@@ -7,6 +7,20 @@ class Collector
     @url = url
   end
 
+  def request_metadata
+    url = URI(@url)
+    http = Net::HTTP.new(url.host, url.port)
+
+    http.use_ssl = true if url.scheme.match?(/https/)
+
+    head = http.request_head(url.path.empty? ? '/' : url.path)
+    head
+  end
+
+  def response
+    @response ||= request_metadata
+  end
+
   def collect
     { mediatype: type, categories: categories, size: size }
   end
@@ -39,13 +53,7 @@ class Collector
   end
 
   def size
-    url = URI(@url)
-    http = Net::HTTP.new(url.host, url.port)
-
-    http.use_ssl = true if url.scheme.match?(/https/)
-
-    head = http.request_head(url.path.empty? ? '/' : url.path)
-    head.content_length
+    response.content_length
   end
 
   def host
@@ -55,7 +63,6 @@ class Collector
   end
 
   def valid?
-    response = Net::HTTP.get_response(URI(@url))
     response.is_a? Net::HTTPSuccess
   end
 

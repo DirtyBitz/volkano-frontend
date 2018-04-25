@@ -77,7 +77,7 @@ RSpec.describe Collector do
       item = Collector.new(uri)
 
       expect(item).to be_valid
-      expect(WebMock).to have_requested(:get, uri).once
+      expect(WebMock).to have_requested(:head, uri).once
     end
   end
 
@@ -93,7 +93,7 @@ RSpec.describe Collector do
       item = Collector.new(uri)
 
       expect(item).to_not be_valid
-      expect(WebMock).to have_requested(:get, uri).once
+      expect(WebMock).to have_requested(:head, uri).once
     end
 
     it 'should raise error on invalid media type' do
