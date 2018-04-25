@@ -38,6 +38,18 @@ describe('Editable field', () => {
     expect(iconName).toEqual(faEdit.iconName)
   })
 
+  it('should show errors', () => {
+    defaultProps = {
+      label: 'Nickname',
+      value: 'Mellet',
+      error: ['already taken'],
+      onSave: jest.fn(),
+    }
+    wrapper = shallow(<EditableField {...defaultProps} />)
+    renderComponent()
+    wrapper.update().find('already taken')
+  })
+
   describe('when editing', () => {
     beforeEach(() => {
       renderComponent()
