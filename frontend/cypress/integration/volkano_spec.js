@@ -158,9 +158,8 @@ describe('Profile page', () => {
 
   it('can change username', () => {
     cy
-      .get('label')
-      .contains('Nickname')
-      .siblings('.content')
+      .contains(/nickname/i)
+      .siblings()
       .within(() => {
         cy.get('.icon').click()
       })
@@ -171,36 +170,31 @@ describe('Profile page', () => {
   })
 
   it('can change password', () => {
-    cy
-      .get('.button')
-      .contains('Change password')
-      .click()
+    cy.contains(/current password/i).should('not.exist')
+    cy.contains(/change password/i).click()
+    cy.contains(/current password/i)
+    cy.contains(/cancel/i).click()
+    cy.contains(/current password/i).should('not.exist')
 
+    cy.contains(/change password/i).click()
     const password = 'password'
     const newPassword = 'password1'
-
     cy
-      .get('label')
-      .contains('Current password')
+      .contains(/current password/i)
       .siblings('input')
       .type(password)
 
     cy
-      .get('label')
-      .contains('New password')
+      .contains(/new password/i)
       .siblings('input')
       .type(newPassword)
 
     cy
-      .get('label')
-      .contains('Confirm password')
+      .contains(/confirm password/i)
       .siblings('input')
-      .type('password1')
+      .type(newPassword)
 
-    cy
-      .get('.button')
-      .contains('Change password')
-      .click()
+    cy.contains(/change password/i).click()
 
     cy.get('#signout')
     login('test@example.com', newPassword)
