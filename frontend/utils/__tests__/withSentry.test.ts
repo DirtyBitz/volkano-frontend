@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import getConfig from 'next/config'
 import withSentry from '../withSentry'
-import { shallow, ShallowWrapper, mount } from 'enzyme'
+import { mount } from 'enzyme'
 import { Component, createElement } from 'react'
 jest.mock('raven-js')
 jest.mock('next/config')
