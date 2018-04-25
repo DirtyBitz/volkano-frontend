@@ -8,11 +8,11 @@ class Collector
   end
 
   def collect
-    { type: type, categories: categories }
+    { mediatype: type, categories: categories }
   end
 
   def categories
-    [host_without_www, filetype, type].uniq
+    [host_without_www, filetype, type].uniq.compact
   end
 
   def filetype

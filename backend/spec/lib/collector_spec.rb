@@ -11,7 +11,7 @@ RSpec.describe Collector do
 
       expect(item).to include(
         categories: include('example.com', 'jpg', 'image'),
-        type: 'image'
+        mediatype: 'image'
       )
     end
 
@@ -20,7 +20,7 @@ RSpec.describe Collector do
 
       expect(item).to include(
         categories: include('example.com', 'mp4', 'video'),
-        type: 'video'
+        mediatype: 'video'
       )
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Collector do
 
       expect(item).to include(
         categories: include('youtube.com', 'youtube'),
-        type: 'youtube'
+        mediatype: 'youtube'
       )
     end
 
@@ -41,8 +41,19 @@ RSpec.describe Collector do
       ).collect
 
       expect(item).to include(
-        categories: ['youtu.be', 'youtube'],
-        type: 'youtube'
+        categories: include('youtu.be', 'youtube'),
+        mediatype: 'youtube'
+      )
+    end
+
+    it 'should not collect hostname of ip address' do
+      item = Collector.new(
+        'https://10.0.0.1/image.jpg'
+      ).collect
+
+      expect(item).to include(
+        categories: %w[jpg image],
+        mediatype: 'image'
       )
     end
 

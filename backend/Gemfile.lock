@@ -282,6 +282,7 @@ DEPENDENCIES
   pry-doc
   pry-rails
   pry-stack_explorer
+  public_suffix
   puma (~> 3.7)
   rack-cors
   rails (~> 5.1.4)
