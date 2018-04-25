@@ -88,7 +88,7 @@ class EditableField extends React.Component<IProps, IState> {
             </span>
             {error && (
               <div className="validation-error">
-                {error.map(err => <span key={err}>{err}</span>)}
+                {error.map(err => <span key={err}>{`${label} ${err}`}</span>)}
               </div>
             )}
           </div>
