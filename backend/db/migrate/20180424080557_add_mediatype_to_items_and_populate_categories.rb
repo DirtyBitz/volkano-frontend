@@ -4,9 +4,7 @@ class AddMediatypeToItemsAndPopulateCategories < ActiveRecord::Migration[5.1]
   def up
     add_column :items, :mediatype, :string
     Item.all.each do |item|
-      collected = Collector.new(item.url)
-      collected.valid?
-      collected = collected.collect
+      collected = Collector.new(item.url).collect
       item.mediatype = collected.fetch(:mediatype, 'invalid')
       item.category_list = collected[:categories]
       item.save!
