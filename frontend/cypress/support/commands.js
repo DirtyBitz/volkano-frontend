@@ -24,18 +24,14 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login', (email, password) => {
+Cypress.Commands.add('login', (login = 'test@example.com', password = 'password') => {
   Cypress.log({
     name: 'login',
-    message: email + ' | ' + password,
+    message: login + ' | ' + password,
   })
 
-  return cy.request({
-    method: 'POST',
-    url: 'http://localhost:5000/auth/sign_in',
-    body: {
-      email,
-      password,
-    },
-  })
+  cy.visit('/signin')
+  cy.get('input[name=login]').type(`${login}`)
+  cy.get('input[name=password]').type(`${password}{enter}`)
+  cy.url().should('not.contain', '/signin')
 })
