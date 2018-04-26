@@ -9,7 +9,7 @@ describe('Auth utils', () => {
     it('delegates calls to lower level APIs', async () => {
       await signOut()
       expect(AuthApi.signOut).toHaveBeenCalledTimes(1)
-      expect(Router.push).toHaveBeenCalledWith('/')
+      expect(Router.reload).toHaveBeenCalledWith('/')
     })
   })
 })

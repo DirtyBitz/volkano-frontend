@@ -51,14 +51,6 @@ describe('Layout component', () => {
       navigation = shallow(<Navigation {...fakeProps} />)
     })
 
-    it('has a link to collection page', () => {
-      const links = navigation.find('Link')
-      const collection = links.filterWhere(
-        (link: any) => link.prop('href') === '/collection'
-      )
-      expect(collection.length).toBe(1)
-    })
-
     it('does not have a link to sign in page', () => {
       const links = navigation.find('Link')
 
@@ -99,15 +91,6 @@ describe('Layout component', () => {
       const profile = links.filterWhere((link: any) => link.prop('href') === '/profile')
 
       expect(profile.length).toBe(0)
-    })
-
-    it('does not have a link to collection page', () => {
-      const links = navigation.find('Link')
-      const collection = links.filterWhere(
-        (link: any) => link.prop('href') === '/collection'
-      )
-
-      expect(collection.length).toBe(0)
     })
 
     it('does not have a link to sign out', () => {
