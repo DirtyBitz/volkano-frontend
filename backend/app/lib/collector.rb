@@ -13,7 +13,11 @@ class Collector
 
     http.use_ssl = true if url.scheme.match?(/https/)
 
-    head = http.request_head(url.path.empty? ? '/' : url.path)
+    begin
+      head = http.request_head(url.path || '/')
+    rescue SocketError
+      return Net::HTTPError
+    end
     head
   end
 
@@ -53,7 +57,7 @@ class Collector
   end
 
   def size
-    response.content_length
+    response&.content_length
   end
 
   def host
