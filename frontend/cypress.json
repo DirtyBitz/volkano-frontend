@@ -1,4 +1,5 @@
 {
   "defaultCommandTimeout": 5000,
-  "projectId": "rmsut6"
+  "projectId": "rmsut6",
+  "baseUrl": "http://localhost:3000"
 }

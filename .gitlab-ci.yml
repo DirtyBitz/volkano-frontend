@@ -97,7 +97,7 @@ cypress:
     - cd ../frontend
     - yarn install
     - PORT=3000 yarn start &
-    - yarn cyprun
+    - yarn cyprecord
 
 staging:
   type: Deploy
