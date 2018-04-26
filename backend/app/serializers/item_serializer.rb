@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url, :created_at, :updated_at
+  attributes :id, :title, :url, :created_at, :updated_at, :mediatype, :size
   has_many :tags, include: true
   has_many :categories, include: true
 end
