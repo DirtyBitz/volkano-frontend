@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 export class App extends React.Component<{ req; isSignedIn }, {}> {
   static getInitialProps({ req }) {
-    return isSignedIn(req)
+    return { isSignedIn: isSignedIn(req) }
   }
 
   render() {

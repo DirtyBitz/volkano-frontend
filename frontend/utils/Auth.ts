@@ -14,9 +14,9 @@ export const isSignedIn = req => {
       ? cookies.split(';').filter(cookie => cookie.includes('session')).length == 1
       : false
 
-    return { isSignedIn }
+    return isSignedIn
   } else {
     const isSignedIn = hasSession()
-    return { isSignedIn }
+    return isSignedIn
   }
 }
