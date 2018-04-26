@@ -114,9 +114,6 @@ export class Layout extends React.Component<IProps, IState> {
               <Link href="/profile">
                 <a>Profile</a>
               </Link>
-              <Link href="/collection">
-                <a>Collection</a>
-              </Link>
               <Link href="/additem">
                 <a>Add new item</a>
               </Link>

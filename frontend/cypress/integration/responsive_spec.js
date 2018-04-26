@@ -27,32 +27,29 @@ describe('Responsive layout', () => {
         cy.login()
       })
 
-      it('has a button that redirects to collection', () => {
-        cy.get('#burger-nav').click()
-        cy
-          .get('.dropdown-menu')
-          .contains('Collection')
-          .click()
-        cy.url().should('contain', 'collection')
-      })
-
       it('has a button that redirects to profile', () => {
         cy.get('#burger-nav').click()
         cy
           .get('.dropdown-menu')
-          .contains('Profile')
+          .contains(/profile/i)
           .click()
         cy.url().should('contain', 'profile')
       })
 
       it('has a button that sign out the user', () => {
-        cy.get('#burger-nav').click()
         cy
-          .get('.dropdown-menu')
-          .contains('Sign Out')
+          .get('#burger-nav')
           .click()
-        cy.visit('/profile')
-        cy.url().should('contain', 'signin')
+          .then(() => {
+            cy
+              .get('.dropdown-menu')
+              .contains(/sign out/i)
+              .click()
+          })
+          .then(() => {
+            cy.visit('/profile')
+            cy.url().should('contain', 'signin')
+          })
       })
     })
   })
