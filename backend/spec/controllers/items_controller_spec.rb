@@ -8,6 +8,13 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   before(:each) do
+    allow_any_instance_of(Collector).to receive(:valid?)
+      .and_return(true)
+    allow_any_instance_of(Collector).to receive(:collect)
+      .and_return(
+        mediatype: 'image', size: 1337, categories: 'waddup'
+      )
+
     request.headers.merge! user.create_new_auth_token
   end
 

@@ -1,8 +1,18 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'webmock/rspec'
 
 RSpec.describe Item, type: :model do
+  before(:each) do
+    allow_any_instance_of(Collector).to receive(:valid?)
+      .and_return(true)
+    allow_any_instance_of(Collector).to receive(:collect)
+      .and_return(
+        mediatype: 'image', size: 1337, categories: 'waddup'
+      )
+  end
+
   it 'should have a valid factory' do
     valid_item = build(:item)
     expect(valid_item).to be_valid
@@ -38,5 +48,14 @@ RSpec.describe Item, type: :model do
   it 'should be taggable' do
     kitty_image = create(:item, tag_list: 'cute, cat, image')
     expect(kitty_image.tag_list).to contain_exactly('cute', 'cat', 'image')
+  end
+
+  it 'should not be valid unless URL is resolvable' do
+    allow_any_instance_of(Collector).to receive(:valid?)
+      .and_return(false)
+
+    bad_item = build(:item)
+    expect(bad_item).not_to be_valid
+    expect(bad_item.errors[:url]).to include('Invalid url')
   end
 end

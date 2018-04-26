@@ -3,6 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Items endpoint', type: :request do
+  before(:each) do
+    allow_any_instance_of(Collector).to receive(:valid?)
+      .and_return(true)
+    allow_any_instance_of(Collector).to receive(:collect)
+      .and_return(
+        mediatype: 'image', size: 1337, categories: 'waddup'
+      )
+  end
+
   context 'as a new user' do
     let(:user) { create(:user, :confirmed) }
 

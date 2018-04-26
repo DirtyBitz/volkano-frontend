@@ -103,9 +103,9 @@ RSpec.describe Collector do
     end
 
     it 'should be invalid for non-existent host' do
-      mock_request = Net::HTTP.new('example.com', 443)
-      expect(mock_request).to receive(:request_head).and_raise(SocketError.new)
-      Net::HTTP.should_receive(:new).and_return(mock_request)
+      expect_any_instance_of(Net::HTTP)
+        .to receive(:request_head)
+        .and_raise(SocketError.new)
 
       item = Collector.new('https://example.com/juicy.spunk')
 
