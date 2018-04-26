@@ -3,7 +3,12 @@
 u = User.create(email: 'test@example.com', password: 'password', confirmed_at: Time.now.utc)
 u.reload
 u.tokens = nil
-u.save
+u.save!
+
+u2 = User.create(email: 'test@test.com', password: 'password', confirmed_at: Time.now.utc)
+u2.reload
+u2.tokens = nil
+u2.save!
 
 URLS = ['https://i.imgur.com/Hb6S4V5.jpg',
   'https://i.imgur.com/1dOwTta.jpg',
