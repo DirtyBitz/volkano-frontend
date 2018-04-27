@@ -2,12 +2,12 @@ import Router from 'next/router'
 import AuthApi from '../api/AuthApi'
 import { getSession } from './Session'
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   await AuthApi.signOut()
   Router.push('/')
 }
 
-export const isSignedIn = async req => {
+export const isSignedIn = async (req): Promise<boolean> => {
   let session
   if (req && req.headers && req.headers.cookie) {
     // Serverside, we must check the cookie provided in headers
@@ -16,10 +16,10 @@ export const isSignedIn = async req => {
       const stripped = sessionCookie.replace(/^session=/, '').replace(/%2C/g, ',')
       session = JSON.parse(stripped)
     } catch (error) {
-      return false
+      return Promise.resolve(false)
     }
   } else {
-    // Clientside, get the cookie directly
+    // Clientside, get the cookie from browser
     session = getSession()
   }
 
