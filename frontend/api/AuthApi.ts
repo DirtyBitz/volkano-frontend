@@ -47,6 +47,23 @@ export default class AuthApi {
     }
   }
 
+  public static async isSignedIn(session) {
+    if (!session) {
+      return false
+    }
+    try {
+      await VolkanoRequest.get('/auth/validate_token', {
+        uid: session.uid,
+        token: session.token,
+        client: session.client,
+      })
+      return true
+    } catch (error) {
+      clearSession()
+      return false
+    }
+  }
+
   public static async signOut() {
     try {
       await VolkanoRequest.delete('/auth/sign_out')

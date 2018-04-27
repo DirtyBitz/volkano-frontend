@@ -10,8 +10,14 @@ interface IProps {
 
 export function withAuth(WrappedComponent) {
   return class extends React.Component<IProps> {
-    static async getInitialProps({ req }) {
-      return { isSignedIn: isSignedIn(req) }
+    /* istanbul ignore next: Do not need to test React internals */
+    static async getInitialProps(context) {
+      const { req } = context
+      if (WrappedComponent.getInitialProps) {
+        const childProps = WrappedComponent.getInitialProps(context)
+        return { isSignedIn: await isSignedIn(req), ...childProps }
+      }
+      return { isSignedIn: await isSignedIn(req) }
     }
 
     componentDidMount() {
@@ -23,7 +29,7 @@ export function withAuth(WrappedComponent) {
     render() {
       if (!this.props.isSignedIn)
         return (
-          <Layout>
+          <Layout {...this.props}>
             <div
               style={{
                 textAlign: 'center',

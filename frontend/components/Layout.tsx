@@ -13,6 +13,7 @@ import withSentry from '../utils/withSentry'
 
 interface IProps {
   title?: string
+  isSignedIn: boolean
 }
 
 interface IState {
@@ -100,7 +101,7 @@ export class Layout extends React.Component<IProps, IState> {
         </Head>
         <header>
           <Navigation
-            isSignedIn={session ? true : false}
+            isSignedIn={this.props.isSignedIn}
             user={session && session.user}
             handleDropDownState={this.handleDropDownState}
           />
