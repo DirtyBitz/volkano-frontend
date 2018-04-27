@@ -1,6 +1,6 @@
 import getConfig from 'next/config'
 import VolkanoRequest, { IVolkanoHTTPError } from '../api/VolkanoRequest'
-import { clearSession } from '../utils/Session'
+import { clearSession, ISession } from '../utils/Session'
 
 export interface IUserRegisterDetails {
   email: string
@@ -47,20 +47,21 @@ export default class AuthApi {
     }
   }
 
-  public static async isSignedIn(session) {
+  public static async isSignedIn(session: ISession): Promise<boolean> {
     if (!session) {
-      return false
+      return Promise.resolve(false)
     }
+
     try {
       await VolkanoRequest.get('/auth/validate_token', {
         uid: session.uid,
         token: session.token,
         client: session.client,
       })
-      return true
+      return Promise.resolve(true)
     } catch (error) {
       clearSession()
-      return false
+      return Promise.resolve(false)
     }
   }
 

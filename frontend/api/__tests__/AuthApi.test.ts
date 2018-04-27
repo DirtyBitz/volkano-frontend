@@ -1,7 +1,7 @@
 import AuthApi, { IUserRegisterDetails, ErrorState } from '../AuthApi'
 import VolkanoRequest from '../VolkanoRequest'
 import { IUser } from '../../models/User'
-import { getSession, setSession, ISession } from '../../utils/Session'
+import { getSession, setSession, ISession, clearSession } from '../../utils/Session'
 jest.mock('../VolkanoRequest')
 
 const mockUser: IUser = { email: 'test@example.com', id: 0 }
@@ -215,6 +215,38 @@ describe('Authentication utils', () => {
       } catch (error) {
         expect(error.errors.current_password).toEqual('is invalid')
       }
+    })
+  })
+
+  describe('isSignedIn', () => {
+    const validSession: ISession = { uid: '1', client: 'valid', token: 'valid' }
+
+    it('validates session against backend', async () => {
+      VolkanoRequest.get = jest.fn(() => {
+        return Promise.resolve('Session is a-ok!')
+      })
+
+      const isSignedIn = await AuthApi.isSignedIn(validSession)
+
+      expect(isSignedIn).toBe(true)
+      expect(VolkanoRequest.get).toHaveBeenCalledWith(
+        '/auth/validate_token',
+        validSession
+      )
+    })
+
+    it('rejects missing session', async () => {
+      const isSignedIn = await AuthApi.isSignedIn(undefined)
+      expect(isSignedIn).toBe(false)
+    })
+
+    it('clears session if backend says its invalid', async () => {
+      VolkanoRequest.get = jest.fn(async () => {
+        return Promise.reject('Session is not ok!')
+      })
+
+      const isSignedIn = await AuthApi.isSignedIn(validSession)
+      expect(isSignedIn).toBe(false)
     })
   })
 })
