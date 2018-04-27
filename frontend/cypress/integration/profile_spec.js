@@ -9,18 +9,6 @@ describe('Profile page', () => {
     cy.visit('/profile')
   })
 
-  it('can cancel password change', () => {
-    cy
-      .get('.button')
-      .contains('Change password')
-      .click()
-
-    cy
-      .get('.button')
-      .contains('Cancel')
-      .click()
-  })
-
   it('can change username', () => {
     cy
       .contains(/nickname/i)
@@ -31,7 +19,7 @@ describe('Profile page', () => {
     cy.get('input').type('{selectall}Hugh Mungus')
     cy.get('.confirm-button').click()
 
-    cy.contains('Hugh Mungus')
+    cy.contains(/^Hugh Mungus$/i)
   })
 
   it('can change password', () => {
@@ -60,10 +48,10 @@ describe('Profile page', () => {
       .type(newPassword)
 
     cy.contains(/change password/i).click()
-
     cy.get('#signout').click()
+    cy.wait(250)
     cy.login('test@test.com', newPassword)
     cy.visit('/profile')
-    cy.url().should('contain', 'profile')
+    cy.url().should('match', /profile/)
   })
 })

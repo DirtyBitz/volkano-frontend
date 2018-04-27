@@ -3,6 +3,7 @@ describe('Navigation', () => {
   context('as a user who is signed in', () => {
     beforeEach(() => {
       cy.login()
+      cy.visit('/')
     })
 
     it('has collection on home page', () => {

@@ -29,9 +29,19 @@ Cypress.Commands.add('login', (login = 'test@example.com', password = 'password'
     name: 'login',
     message: login + ' | ' + password,
   })
-
-  cy.visit('/signin')
-  cy.get('input[name=login]').type(`${login}`)
-  cy.get('input[name=password]').type(`${password}{enter}`)
-  cy.url().should('not.contain', '/signin')
+  cy
+    .request({
+      url: 'http://localhost:5000/auth/sign_in',
+      body: { login, password },
+      method: 'POST',
+    })
+    .then(({ headers, body }) => {
+      const session = {
+        client: headers.client,
+        uid: headers.uid,
+        token: headers.token,
+        user: body.data,
+      }
+      cy.setCookie('session', JSON.stringify(session))
+    })
 })
