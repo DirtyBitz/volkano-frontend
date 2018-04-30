@@ -49,6 +49,4 @@ describe('ItemCard component', () => {
     clickableDiv.simulate('click')
     expect(callback).toHaveBeenCalledTimes(1)
   })
-
-  it('should contain a conditional image based on image type')
 })
