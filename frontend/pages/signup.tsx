@@ -11,7 +11,7 @@ class SignUpPage extends React.Component {
   private handleSubmit = async (params: IUserRegisterDetails) => {
     try {
       await AuthApi.registerNewUser(params)
-      Router.push('/emailconfirmation')
+      Router.push('/accountcreated')
     } catch (error) {
       if (error.errors) {
         throw new SubmissionError(error.errors)
