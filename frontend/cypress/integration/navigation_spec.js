@@ -14,9 +14,8 @@ describe('Navigation', () => {
     })
 
     it('can view profile page', () => {
-      cy.visit('/profile')
-      cy.contains('@example.com').click()
-      cy.get('#signout')
+      cy.contains(/@example\.com/i).click()
+      cy.url().should('match', /profile/i)
     })
   })
 })
