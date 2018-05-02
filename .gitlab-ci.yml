@@ -76,6 +76,7 @@ cypress:
     paths:
       - frontend/cypress/screenshots/
       - frontend/cypress/videos/
+      - backend/log/
   services:
     - postgres:alpine
   dependencies: []
