@@ -4,11 +4,16 @@ import Router from 'next/router'
 import store from '../store'
 import SigninForm from '../components/SigninForm'
 import Layout from '../components/Layout'
-import { hasSession } from '../utils/Session'
 import AuthApi from '../api/AuthApi'
 import { SubmissionError } from 'redux-form'
+import { isSignedIn } from '../utils/Auth'
+import { getSession } from '../utils/Session'
 
 class SigninPage extends React.Component {
+  static async getInitialProps({ req }) {
+    return { isSignedIn: await isSignedIn(req) }
+  }
+
   private handleSubmit = async ({ login, password }) => {
     try {
       await AuthApi.signIn(login, password)
@@ -18,15 +23,16 @@ class SigninPage extends React.Component {
       }
     }
 
-    const isSignedIn = hasSession()
-    if (isSignedIn) {
+    const session = getSession()
+    const signedIn = await isSignedIn(session)
+    if (signedIn) {
       Router.push('/')
     }
   }
 
   render() {
     return (
-      <Layout title="Sign In">
+      <Layout title="Sign In" {...this.props}>
         <h1
           style={{
             textAlign: 'center',
