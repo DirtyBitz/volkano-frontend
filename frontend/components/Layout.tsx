@@ -8,7 +8,7 @@ import getConfig from 'next/config'
 import ReactGA from 'react-ga'
 import { VolkaButton } from './VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
-import { signOut } from '../utils/Auth'
+import { signOut, isSignedIn } from '../utils/Auth'
 import withSentry from '../utils/withSentry'
 
 interface IProps {
@@ -30,11 +30,12 @@ export class Layout extends React.Component<IProps, IState> {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.googleAnalytics()
 
     const session = getSession()
-    if (session) {
+    const signedIn = await isSignedIn(session)
+    if (signedIn) {
       this.setState({
         session,
       })
@@ -67,10 +68,11 @@ export class Layout extends React.Component<IProps, IState> {
   render() {
     const { title, children } = this.props
     const { dropDownOpen, session } = this.state
+    /* istanbul ignore next: TODO: conditionals should be split into components */
     return (
       <div className="page">
         <Head>
-          <title>{title || 'Volkano'}</title>
+          <title>{title ? `${title} | Volkano` : 'Volkano'}</title>
           <meta charSet="utf-8" />
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
           <link

@@ -17,3 +17,7 @@ export function getSession(): ISession | undefined {
 export function setSession(session: ISession) {
   fakeSession = session
 }
+
+export function clearSession() {
+  fakeSession = undefined
+}

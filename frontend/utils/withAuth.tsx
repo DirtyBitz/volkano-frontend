@@ -13,11 +13,12 @@ export function withAuth(WrappedComponent) {
     /* istanbul ignore next: Do not need to test React internals */
     static async getInitialProps(context) {
       const { req } = context
+      const signedIn = await isSignedIn(req)
       if (WrappedComponent.getInitialProps) {
         const childProps = WrappedComponent.getInitialProps(context)
-        return { isSignedIn: await isSignedIn(req), ...childProps }
+        return { isSignedIn: signedIn, ...childProps }
       }
-      return { isSignedIn: await isSignedIn(req) }
+      return { isSignedIn: signedIn }
     }
 
     componentDidMount() {
