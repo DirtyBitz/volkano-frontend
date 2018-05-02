@@ -1,7 +1,7 @@
 import AuthApi, { IUserRegisterDetails, ErrorState } from '../AuthApi'
 import VolkanoRequest from '../VolkanoRequest'
 import { IUser } from '../../models/User'
-import { getSession, setSession, ISession, clearSession } from '../../utils/Session'
+import { getSession, setSession, ISession } from '../../utils/Session'
 jest.mock('../VolkanoRequest')
 
 const mockUser: IUser = { email: 'test@example.com', id: 0 }
