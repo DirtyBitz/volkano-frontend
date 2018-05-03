@@ -240,7 +240,7 @@ describe('Authentication utils', () => {
       expect(isSignedIn).toBe(false)
     })
 
-    it('clears session if backend says its invalid', async () => {
+    it("clears session if backend says it's invalid", async () => {
       VolkanoRequest.get = jest.fn(async () => {
         return Promise.reject('Session is not ok!')
       })
