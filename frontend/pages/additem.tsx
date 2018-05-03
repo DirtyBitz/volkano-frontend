@@ -26,7 +26,7 @@ class CreateItemPage extends React.Component<IProps> {
   private handleSubmit = async (item: INewItem) => {
     try {
       await this.props.createItem(item)
-      Router.push('/collection')
+      Router.push('/')
     } catch (error) {
       throw new SubmissionError(error.errors)
     }
