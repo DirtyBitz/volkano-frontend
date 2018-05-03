@@ -24,6 +24,8 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+const backendUrl = Cypress.config('baseUrl').replace('3000', '5000')
+
 Cypress.Commands.add('login', (login = 'test@example.com', password = 'password') => {
   Cypress.log({
     name: 'login',
@@ -31,9 +33,10 @@ Cypress.Commands.add('login', (login = 'test@example.com', password = 'password'
   })
   cy
     .request({
-      url: 'http://localhost:5000/auth/sign_in',
+      url: `${backendUrl}/auth/sign_in`,
       body: { login, password },
       method: 'POST',
+      log: false,
     })
     .then(({ headers, body }) => {
       const session = {
@@ -44,4 +47,17 @@ Cypress.Commands.add('login', (login = 'test@example.com', password = 'password'
       }
       cy.setCookie('session', JSON.stringify(session))
     })
+})
+
+Cypress.Commands.add('reset_user', (email = 'test@example.com') => {
+  Cypress.log({
+    name: 'reset user',
+    message: email,
+  })
+  cy.request({
+    url: `${backendUrl}/fixtures`,
+    body: { email },
+    method: 'POST',
+    log: false,
+  })
 })

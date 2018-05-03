@@ -3,9 +3,11 @@ const timestamp = Cypress.moment().format('x')
 
 describe('Profile page', () => {
   const testPassword = 'password'
+  const testUser = `test${timestamp}@example.com`
 
   beforeEach(() => {
-    cy.login('test@test.com', testPassword)
+    cy.reset_user(testUser)
+    cy.login(testUser, testPassword)
     cy.visit('/profile')
   })
 
@@ -50,7 +52,7 @@ describe('Profile page', () => {
     cy.contains(/change password/i).click()
     cy.contains(/password changed/i)
     cy.get('#signout').click()
-    cy.login('test@test.com', newPassword)
+    cy.login(testUser, newPassword)
     cy.visit('/profile')
     cy.url().should('match', /profile/)
   })
