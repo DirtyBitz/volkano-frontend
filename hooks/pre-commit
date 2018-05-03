@@ -64,7 +64,7 @@ reject_all_violations() {
     local violations
     # Run rubocop with autocorrect and re-stage anything it fixes
     RUBOCOP_COMMAND="rubocop -Ra --no-color"
-    cd "$(git rev-parse --show-toplevel)/backend" && $RUBOCOP_COMMAND >/dev/null && git update-index --again
+    cd "$(git rev-parse --show-toplevel 2>/dev/null)/backend" && $RUBOCOP_COMMAND >/dev/null 2>&1 && git update-index --again >/dev/null 2>&1
     # Any remaining violations will abort the commit
     violations=$($RUBOCOP_COMMAND | grep -oE '([[:digit:]]+) offense(s?) detected')
     if [[ ! -z $violations ]]; then
