@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
 class UserFactory
-  def self.create_test_user
-    User.find_by(email: 'test@example.com').try(:destroy)
-    u = User.create(
-      email: 'test@example.com',
+  def self.create_test_user(email)
+    return unless email.end_with? 'example.com'
+
+    User.find_by(email: email).try(:destroy)
+    User.create!(
+      email: email,
       password: 'password',
       confirmed_at: Time.now.utc
     )
-    u.reload
-    u.tokens = nil
-    u.save!
-    u
   end
 end

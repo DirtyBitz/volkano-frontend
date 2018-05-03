@@ -4,7 +4,15 @@ class FixturesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def create
-    render json: UserFactory.create_test_user,
-           status: :created
+    if (user = UserFactory.create_test_user(fixture_params))
+      render json: user, status: :created
+    else
+      render json: { error: 'Email must be in the example.com domain' },
+             status: :bad_request
+    end
+  end
+
+  def fixture_params
+    params.require(:email)
   end
 end
