@@ -34,8 +34,8 @@ describe('Collection', () => {
 
     // TODO: Look into these
     // Backend validations
-    // cy.contains(/invalid url/i)
-    // cy.get('input[name=url]').type('{selectall}http://example.com/image.jpg')
-    // cy.contains(/invalid url/i).should('not.exist')
+    cy.contains(/invalid url/i)
+    cy.get('input[name=url]').type('{selectall}http://example.com/image.jpg')
+    cy.contains(/invalid url/i).should('not.exist')
   })
 })

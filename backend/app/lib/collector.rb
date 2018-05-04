@@ -67,6 +67,8 @@ class Collector
   end
 
   def valid?
+    return false unless @url.match?(%r{^(https?|ftp)://[^\s/$.?#].[^\s]*$}i)
+
     response.is_a? Net::HTTPSuccess
   end
 

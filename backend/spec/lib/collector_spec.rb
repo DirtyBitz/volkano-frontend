@@ -96,6 +96,15 @@ RSpec.describe Collector do
       expect(WebMock).to have_requested(:head, uri).once
     end
 
+    it "should confirm it's invalid when really invalid" do
+      uri = 'yoloswagballs'
+
+      item = Collector.new(uri)
+
+      expect(item).to_not be_valid
+      expect(WebMock).not_to have_requested(:head, uri)
+    end
+
     it 'should raise error on invalid media type' do
       item = Collector.new('https://example.com/juicy.spunk')
 
