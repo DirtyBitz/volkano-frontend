@@ -32,7 +32,6 @@ describe('Collection', () => {
     cy.get('input[name=title]').type('Great title{enter}')
     cy.contains(/title can't be blank/i).should('not.exist')
 
-    // TODO: Look into these
     // Backend validations
     cy.contains(/invalid url/i)
     cy.get('input[name=url]').type('{selectall}http://example.com/image.jpg')
