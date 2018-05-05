@@ -4,7 +4,7 @@ class AddMediatypeAndSizeToItemsAndPopulateCategories < ActiveRecord::Migration[
   def up
     add_column :items, :mediatype, :string
     add_column :items, :size, :integer
-    Item.all.each do |item|
+    Item.find_each do |item|
       collected = WebCollector.new(item.url).collect
       item.mediatype = collected.fetch(:mediatype, 'invalid')
       item.category_list = collected[:categories]
@@ -16,7 +16,7 @@ class AddMediatypeAndSizeToItemsAndPopulateCategories < ActiveRecord::Migration[
   def down
     remove_column :items, :mediatype
     remove_column :items, :size
-    Item.all.each do |item|
+    Item.find_each do |item|
       item.category_list = nil
       item.save!
     end
