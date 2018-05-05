@@ -2,7 +2,7 @@
 
 require 'net/http'
 
-class Collector
+class WebCollector
   def initialize(url)
     @url = url
   end

@@ -14,7 +14,7 @@ class Item < ApplicationRecord
             }
 
   validate do |item|
-    collector = Collector.new(item.url)
+    collector = WebCollector.new(item.url)
 
     if collector.valid?
       collected = collector.collect

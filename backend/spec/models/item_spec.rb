@@ -5,9 +5,9 @@ require 'webmock/rspec'
 
 RSpec.describe Item, type: :model do
   before(:each) do
-    allow_any_instance_of(Collector).to receive(:valid?)
+    allow_any_instance_of(WebCollector).to receive(:valid?)
       .and_return(true)
-    allow_any_instance_of(Collector).to receive(:collect)
+    allow_any_instance_of(WebCollector).to receive(:collect)
       .and_return(
         mediatype: 'image', size: 1337, categories: 'waddup'
       )
@@ -51,7 +51,7 @@ RSpec.describe Item, type: :model do
   end
 
   it 'should not be valid unless URL is resolvable' do
-    allow_any_instance_of(Collector).to receive(:valid?)
+    allow_any_instance_of(WebCollector).to receive(:valid?)
       .and_return(false)
 
     bad_item = build(:item)

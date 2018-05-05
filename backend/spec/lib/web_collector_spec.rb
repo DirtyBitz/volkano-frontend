@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../../app/lib/collector'
+require_relative '../../app/lib/web_collector'
 require 'spec_helper'
 require 'webmock/rspec'
 
-RSpec.describe Collector do
+RSpec.describe WebCollector do
   describe 'given valid url' do
     before(:each) do
       stub_request(:any, /.*/)
@@ -12,7 +12,7 @@ RSpec.describe Collector do
     end
 
     it 'should collect an image' do
-      item = Collector.new('https://example.com/img.jpg').collect
+      item = WebCollector.new('https://example.com/img.jpg').collect
 
       expect(item).to include(
         categories: include('example.com', 'jpg', 'image'),
@@ -21,7 +21,7 @@ RSpec.describe Collector do
     end
 
     it 'should collect audio' do
-      item = Collector.new('https://example.com/sweet_beats.ogg').collect
+      item = WebCollector.new('https://example.com/sweet_beats.ogg').collect
 
       expect(item).to include(
         categories: include('example.com', 'ogg', 'audio'),
@@ -30,7 +30,7 @@ RSpec.describe Collector do
     end
 
     it 'should collect a video' do
-      item = Collector.new('https://example.com/vid.mp4').collect
+      item = WebCollector.new('https://example.com/vid.mp4').collect
 
       expect(item).to include(
         categories: include('example.com', 'mp4', 'video'),
@@ -39,7 +39,7 @@ RSpec.describe Collector do
     end
 
     it 'should collect a youtube-video' do
-      item = Collector.new(
+      item = WebCollector.new(
         'https://www.youtube.com/watch?v=D-UmfqFjpl0'
       ).collect
 
@@ -50,7 +50,7 @@ RSpec.describe Collector do
     end
 
     it 'should collect a shortened youtube-link' do
-      item = Collector.new(
+      item = WebCollector.new(
         'https://youtu.be/D-UmfqFjpl0'
       ).collect
 
@@ -61,7 +61,7 @@ RSpec.describe Collector do
     end
 
     it 'should not collect hostname of ip address' do
-      item = Collector.new(
+      item = WebCollector.new(
         'https://10.0.0.1/image.jpg'
       ).collect
 
@@ -74,7 +74,7 @@ RSpec.describe Collector do
     it "should confirm it's valid" do
       uri = 'https://example.com/cute_kitten.jpg'
 
-      item = Collector.new(uri)
+      item = WebCollector.new(uri)
 
       expect(item).to be_valid
       expect(WebMock).to have_requested(:head, uri).once
@@ -90,7 +90,7 @@ RSpec.describe Collector do
     it "should confirm it's invalid" do
       uri = 'https://example.com/not_cute_kitten.jpg'
 
-      item = Collector.new(uri)
+      item = WebCollector.new(uri)
 
       expect(item).to_not be_valid
       expect(WebMock).to have_requested(:head, uri).once
@@ -99,16 +99,16 @@ RSpec.describe Collector do
     it "should confirm it's invalid when really invalid" do
       uri = 'yoloswagballs'
 
-      item = Collector.new(uri)
+      item = WebCollector.new(uri)
 
       expect(item).to_not be_valid
       expect(WebMock).not_to have_requested(:head, uri)
     end
 
     it 'should raise error on invalid media type' do
-      item = Collector.new('https://example.com/juicy.spunk')
+      item = WebCollector.new('https://example.com/juicy.spunk')
 
-      expect { item.collect }.to raise_error(Collector::InvalidType)
+      expect { item.collect }.to raise_error(WebCollector::InvalidType)
     end
 
     it 'should be invalid for non-existent host' do
@@ -116,7 +116,7 @@ RSpec.describe Collector do
         .to receive(:request_head)
         .and_raise(SocketError.new)
 
-      item = Collector.new('https://example.com/juicy.spunk')
+      item = WebCollector.new('https://example.com/juicy.spunk')
 
       expect(item).not_to be_valid
     end
