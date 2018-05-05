@@ -69,6 +69,8 @@ class WebCollector
   end
 
   def valid?
+    return false unless @url.match?(URI::DEFAULT_PARSER.make_regexp)
+
     response.is_a? Net::HTTPSuccess
   end
 

@@ -26,7 +26,7 @@ class Item < ApplicationRecord
       item.size = collected[:size]
       item.category_list = collected[:categories]
     else
-      item.errors[:url] << 'Invalid url'
+      item.errors[:url] << 'invalid URL'
     end
   end
 end

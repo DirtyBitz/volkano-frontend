@@ -56,6 +56,6 @@ RSpec.describe Item, type: :model do
 
     bad_item = build(:item)
     expect(bad_item).not_to be_valid
-    expect(bad_item.errors[:url]).to include('Invalid url')
+    expect(bad_item.errors[:url]).to include(/invalid url/i)
   end
 end
