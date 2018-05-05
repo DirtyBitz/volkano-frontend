@@ -11,6 +11,10 @@ class Item < ApplicationRecord
             uniqueness: {
               scope: %i[user url],
               message: 'already exists in collection'
+            },
+            format: {
+              with: URI::DEFAULT_PARSER.make_regexp,
+              message: 'invalid URL'
             }
 
   validate do |item|
