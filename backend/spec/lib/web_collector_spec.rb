@@ -71,6 +71,21 @@ RSpec.describe WebCollector do
       )
     end
 
+    it 'should collect an image with query parameters' do
+      stub_request(:any, /img\.jpg/)
+        .to_return(status: 403, body: 'Not validated')
+      stub_request(:any, /img\.jpg\?validated=true/)
+        .to_return(status: 200)
+
+      item = WebCollector.new('http://www.example.com/img.jpg?validated=true')
+
+      expect(item).to be_valid
+      expect(item.collect).to include(
+        categories: include('example.com', 'jpg', 'image'),
+        mediatype: 'image'
+      )
+    end
+
     it "should confirm it's valid" do
       uri = 'https://example.com/cute_kitten.jpg'
 

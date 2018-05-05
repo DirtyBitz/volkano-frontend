@@ -11,10 +11,12 @@ class WebCollector
     url = URI(@url)
     http = Net::HTTP.new(url.host, url.port)
 
-    http.use_ssl = true if url.scheme.match?(/https/)
+    http.use_ssl = true if url.scheme&.match?(/https/)
 
     begin
-      head = http.request_head(url.path || '/')
+      request_url = url.path || '/'
+      request_url += '?' + url.query unless url.query.nil?
+      head = http.request_head(request_url)
     rescue SocketError
       return Net::HTTPError
     end
@@ -38,7 +40,7 @@ class WebCollector
       return 'youtube'
     end
 
-    File.extname(@url).tr('.', '')
+    File.extname(@url).tr('.', '').sub(/\?.+/, '')
   end
 
   def type
