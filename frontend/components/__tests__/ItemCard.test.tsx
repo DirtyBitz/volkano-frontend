@@ -16,6 +16,7 @@ describe('ItemCard component', () => {
       uid: 2,
       tags: ['example', 'boy'],
       categories: ['png', 'image/png'],
+      mediatype: 'image',
     }
     callback = jest.fn()
     itemCard = shallow(<ItemCard item={item} onSelect={callback} />)
@@ -29,19 +30,6 @@ describe('ItemCard component', () => {
   it('should show title', () => {
     const title = item.title
     expect(itemCard.contains(title)).toBe(true)
-  })
-
-  it('should show image if imageItem', () => {
-    const imgtag = itemCard.find('img').prop('src')
-    expect(imgtag).toBe(item.url)
-  })
-
-  it('should show video if videoItem', () => {
-    item.url = 'https://www.youtube.com/watch?v=qbA42wQoWAs'
-    itemCard = shallow(<ItemCard item={item} onSelect={callback} />)
-
-    const youtubeVideo = itemCard.find('YouTube').first()
-    expect(youtubeVideo.props().videoId).toBe(item.url.split('v=')[1])
   })
 
   it('should call onselect function when clicked', () => {

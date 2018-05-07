@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { shallow } from 'enzyme'
 import { ItemModal } from '../ItemModal'
+import { Item } from '../../models/Item'
 
 describe('ItemModal component', () => {
+  let item: Item
   let itemModal
-  let item
   let closeCallback
   let deleteCallback
   let prevCallback
@@ -18,7 +19,10 @@ describe('ItemModal component', () => {
       uid: 2,
       tags: ['example', 'boy'],
       categories: ['png', 'image/png'],
+      mediatype: 'image',
+      size: 69,
     }
+
     closeCallback = jest.fn()
     deleteCallback = jest.fn()
     prevCallback = jest.fn()
@@ -42,27 +46,6 @@ describe('ItemModal component', () => {
   it('should show title', () => {
     const title = item.title
     expect(itemModal.contains(title)).toBe(true)
-  })
-
-  it('should show image if modal includes image', () => {
-    const imgtag = itemModal.find('img').prop('src')
-    expect(imgtag).toBe(item.url)
-  })
-
-  it('should show video if modal includes video', () => {
-    item.url = 'https://www.youtube.com/watch?v=qbA42wQoWAs'
-    itemModal = shallow(
-      <ItemModal
-        item={item}
-        onPrev={prevCallback}
-        onNext={nextCallback}
-        onClose={closeCallback}
-        onDelete={deleteCallback}
-      />
-    )
-
-    const youtubeVideo = itemModal.find('YouTube').first()
-    expect(youtubeVideo.props().videoId).toBe(item.url.split('v=')[1])
   })
 
   it('should call onDelete function when "trashcan icon" clicked', () => {

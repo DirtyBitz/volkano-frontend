@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Item } from '../models/Item'
-import YouTube from 'react-youtube'
 import { hashTagToColor } from '../utils/TagColors'
 import Modal from 'react-modal'
+import ItemRenderer from './ItemRenderer'
 
 interface IProps {
   item: Item
@@ -87,7 +87,7 @@ export default class ItemCard extends React.Component<IProps> {
     const { title } = this.props.item
     return (
       <figure>
-        <div className="image-container">{this.renderFileType()}</div>
+        <div className="image-container">{<ItemRenderer item={this.props.item} />}</div>
         <figcaption>{title}</figcaption>
         <style jsx>{`
           .image-container {
@@ -105,42 +105,5 @@ export default class ItemCard extends React.Component<IProps> {
         `}</style>
       </figure>
     )
-  }
-
-  private renderFileType = () => {
-    const { url } = this.props.item
-    if (url.includes('youtube')) return this.renderYouTube()
-    else return this.renderImage()
-  }
-
-  private renderYouTube = () => {
-    const { url } = this.props.item
-
-    const videoId = url.split('v=')[1]
-    const opts = {
-      width: '100%',
-      playerVars: {
-        autoplay: 0,
-      },
-    }
-
-    return (
-      <div>
-        <YouTube videoId={videoId} opts={opts} />
-        <style jsx>{`
-          div {
-            width: 100%;
-          }
-          .tag {
-            background-color: gray;
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-  private renderImage() {
-    const { url } = this.props.item
-    return <img src={url} width="100%" />
   }
 }

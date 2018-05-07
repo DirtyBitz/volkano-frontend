@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Item } from '../models/Item'
 import { hashTagToColor } from '../utils/TagColors'
-import YouTube from 'react-youtube'
+import ItemRenderer from './ItemRenderer'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import {
   faTimesCircle,
@@ -19,53 +19,9 @@ interface IProps {
 }
 
 export class ItemModal extends React.Component<IProps> {
-  private renderFileType() {
-    const { url } = this.props.item
-    if (url.includes('youtube')) return this.renderYouTube()
-    else return this.renderImage()
-  }
-
   private deleteItem = () => {
     const { onDelete, item } = this.props
     onDelete(item)
-  }
-
-  private renderYouTube() {
-    // Probably maybe fucked <3 Must add youtube seed.
-    const { url } = this.props.item
-
-    const videoId = url.split('v=')[1]
-    const opts = {
-      width: '100%',
-      playerVars: {
-        autoplay: 0,
-      },
-    }
-
-    return (
-      <div>
-        <YouTube videoId={videoId} opts={opts} />
-        <style jsx>{`
-          div {
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-  private renderImage() {
-    const { url } = this.props.item
-    return (
-      <div>
-        <img src={url} />
-        <style jsx>{`
-          img {
-            border-radius: 4px;
-            max-height: 75vh;
-          }
-        `}</style>
-      </div>
-    )
   }
 
   render() {
@@ -106,7 +62,7 @@ export class ItemModal extends React.Component<IProps> {
               size="2x"
             />
           </figcaption>
-          <div className="item-source">{this.renderFileType()}</div>
+          <div className="item-source">{<ItemRenderer item={item} />}</div>
           <div className="tags">
             {item.tags.map((tag: string) => (
               <span
