@@ -11,7 +11,8 @@ export class ItemApi {
       const collection: ICollectionData = {
         items: rawItems.map(item => {
           const tags = item.tags.map(tag => tag.name)
-          return { ...item, tags }
+          const categories = item.categories.map(category => category.name)
+          return { ...item, tags, categories }
         }),
       }
       return collection

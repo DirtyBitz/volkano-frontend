@@ -9,11 +9,13 @@ describe('Item API', () => {
         return [
           {
             id: 39,
-            tags: [{ name: 'funny', }, { name: 'isak_cosplay', },],
+            tags: [{ name: 'funny' }, { name: 'isak_cosplay' }],
+            categories: [{ name: 'nasty-host.com' }, { name: 'audio/mp3' }],
           },
           {
             id: 40,
-            tags: [{ name: 'doggo', }, { name: 'cute', },],
+            tags: [{ name: 'doggo' }, { name: 'cute' }],
+            categories: [{ name: 'hotto.host' }, { name: 'image/jpeg' }],
           },
         ]
       })
