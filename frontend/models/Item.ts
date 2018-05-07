@@ -5,4 +5,6 @@ export interface Item {
   uid: number
   tags: string[]
   categories: string[]
+  mediatype: string
+  size: number
 }
