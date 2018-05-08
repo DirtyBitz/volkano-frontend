@@ -1,7 +1,6 @@
 (function() {
   startup();
   const volkaURL = volkanoURLPleaseNoConflictingVariableNames;
-  console.log(volkanoURLPleaseNoConflictingVariableNames, volkaURL);
   function startup() {
     let style = document.createElement('style');
     style.setAttribute('id', 'VolkaStyle');
@@ -27,12 +26,6 @@
     for (const video of videos) {
       video.addEventListener('click', videoClick);
     }
-
-    const sounds = document.getElementsByTagName('video');
-    for (const sound of sounds) {
-      sound.addEventListener('click', mediaClick);
-    }
-
     document.addEventListener('contextmenu', abort, false);
   }
 
@@ -87,10 +80,7 @@
       video.removeEventListener('click', videoClick);
     }
 
-    const sounds = document.getElementsByTagName('video');
-    for (const sound of sounds) {
-      sound.removeEventListener('click', mediaClick);
-    }
+    document.removeEventListener('contextmenu', abort);
 
     let style = document.getElementById('VolkaStyle');
     style && style.parentNode.removeChild(style);
