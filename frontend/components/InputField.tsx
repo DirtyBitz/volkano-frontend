@@ -1,20 +1,21 @@
 import * as React from 'react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { Input } from 'semantic-ui-react'
 
 const renderField = field => {
   const { meta, type, asyncValidating, input, iconName, placeholder, autoFocus } = field
+  console.log(field)
+
   return (
     <div>
       <div id="field" className={asyncValidating ? 'async-validating' : ''}>
-        <span className="icon">
-          <FontAwesomeIcon icon={iconName} color="#bbb" />
-        </span>
-        <input
-          {...input}
-          type={type}
-          id={field.id}
+        <Input
+          icon={iconName}
+          iconPosition="left"
           placeholder={placeholder}
+          type={type}
           autoFocus={autoFocus}
+          error={meta.touched && meta.invalid}
+          {...input}
         />
         {meta.touched &&
           meta.error && (
@@ -26,28 +27,7 @@ const renderField = field => {
       <style jsx>{`
         #field {
           position: relative;
-          display: flex;
-          align-items: center;
           margin-bottom: 15px;
-
-          .icon {
-            background: #fff;
-            padding: 10px;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            width: 40px;
-            text-align: center;
-          }
-        }
-        input {
-          padding: 10px;
-          font-size: 15px;
-          font-family: 'Montserrat', sans-serif;
-          border: 0;
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-          border-left: 1px solid #f9f9f9;
-          outline: none;
         }
         .validation-error {
           display: flex;

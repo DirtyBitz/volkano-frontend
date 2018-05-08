@@ -22,41 +22,44 @@ class Profile extends React.Component<IProps, IState> {
     const { session } = this.props
     const { errors } = this.state
     return (
-      <div
-        style={{
-          border: 'solid #bbb 1px',
-          borderRadius: '10px',
-          width: '420px',
-          backgroundColor: '#e9ebed',
-          margin: '0 auto',
-          marginTop: '100px',
-          textAlign: 'center',
-        }}>
+      <div>
+        <div />
         <div
           style={{
-            paddingLeft: '10px',
-            paddingTop: '10px',
+            border: 'solid #bbb 1px',
+            borderRadius: '10px',
+            width: '420px',
+            backgroundColor: '#e9ebed',
+            margin: '0 auto',
+            marginTop: '100px',
+            textAlign: 'center',
           }}>
-          <EditableField
-            label="E-mail"
-            value={session ? session.user.email : ''}
-            onSave={newValue => this.update({ email: newValue })}
-            error={errors && errors.email}
-          />
-
-          <EditableField
-            label="Nickname"
-            value={session ? session.user.nickname : ''}
-            onSave={newValue => this.update({ nickname: newValue })}
-            error={errors && errors.nickname}
-          />
           <div
             style={{
-              textAlign: 'right',
-              paddingBottom: '10px',
-              paddingRight: '10px',
+              paddingLeft: '10px',
+              paddingTop: '10px',
             }}>
-            <EditPassword />
+            <EditableField
+              label="E-mail"
+              value={session ? session.user.email : ''}
+              onSave={newValue => this.update({ email: newValue })}
+              error={errors && errors.email}
+            />
+
+            <EditableField
+              label="Nickname"
+              value={session ? session.user.nickname : ''}
+              onSave={newValue => this.update({ nickname: newValue })}
+              error={errors && errors.nickname}
+            />
+            <div
+              style={{
+                textAlign: 'right',
+                paddingBottom: '10px',
+                paddingRight: '10px',
+              }}>
+              <EditPassword />
+            </div>
           </div>
         </div>
       </div>

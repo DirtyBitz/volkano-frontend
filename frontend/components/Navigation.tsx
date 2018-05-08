@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { IUser } from '../models/User'
 import { VolkaButton } from './VolkaButton'
 import {
@@ -10,6 +11,7 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { signOut } from '../utils/Auth'
+import { Button } from 'semantic-ui-react'
 interface Props {
   isSignedIn: boolean
   user?: IUser
@@ -43,15 +45,15 @@ export default class Navigation extends React.Component<Props, IState> {
           {!isSignedIn && (
             <div>
               <Link href="/signin">
-                <a id="signin-link">
-                  <VolkaButton title="Sign in" />
-                </a>
+                <Button id="signin-link" basic color="olive">
+                  Sign in
+                </Button>
               </Link>
 
               <Link href="/signup">
-                <a id="signup-link">
-                  <VolkaButton title="Sign up" />
-                </a>
+                <Button id="signup-link" basic color="olive">
+                  Sign up
+                </Button>
               </Link>
             </div>
           )}

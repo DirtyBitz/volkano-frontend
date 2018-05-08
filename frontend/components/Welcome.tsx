@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { VolkaButton } from '../components/VolkaButton'
-import Link from 'next/link'
+import Router from 'next/router'
+import { Button, Segment, Grid, Container } from 'semantic-ui-react'
 
 const Welcome = () => {
   return (
@@ -12,40 +12,54 @@ const Welcome = () => {
             <p>Start collecting today!</p>
             <br />
             <br />
-            <Link href="/signup">
-              <VolkaButton ghost title="Create Account" />
-            </Link>
+            <Button basic color="olive" onClick={() => Router.push('/signup')}>
+              Create Account
+            </Button>
           </div>
         </div>
 
         <img src="https://www.svgrepo.com/show/31499/volcano.svg" />
       </div>
-      <ul id="info-boxes">
-        <li className="info-box">
-          <h3>Our vision</h3>
-          <p>
-            Our goal through this project is to bring you joy when seeing images you would
-            love to collect online. We have a wish that we can end the frustration people
-            experience when they see an image they want to collect, but do not want to
-            download it onto their current device.
-          </p>
-        </li>
-        <li className="info-box">
-          <h3>Our product</h3>
-          <p>
-            Volkano is a place where you can easily save images, gifs, youtube-videos and
-            more you come across online, in a single place. You can also browse your
-            collection and easily share your items.
-          </p>
-        </li>
-        <li className="info-box">
-          <h3>Who are we?</h3>
-          <p>
-            We are a group of students from UiT The Arctic University of Norway working on
-            a group project to create something beautiful.
-          </p>
-        </li>
-      </ul>
+
+      <div className="info-boxes">
+        <Container>
+          <Grid columns="three">
+            <Grid.Row>
+              <Grid.Column>
+                <Segment>
+                  <h3>Our vision</h3>
+                  <p>
+                    Our goal through this project is to bring you joy when seeing images
+                    you would love to collect online. We have a wish that we can end the
+                    frustration people experience when they see an image they want to
+                    collect, but do not want to download it onto their current device.
+                  </p>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment>
+                  <h3>Our product</h3>
+                  <p>
+                    Volkano is a place where you can easily save images, gifs,
+                    youtube-videos and more you come across online, in a single place. You
+                    can also browse your collection and easily share your items.
+                  </p>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment>
+                  <h3>Who are we?</h3>
+                  <p>
+                    We are a group of students from UiT The Arctic University of Norway
+                    working on a group project to create something beautiful.
+                  </p>
+                </Segment>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      </div>
+
       <style jsx>{`
         #jumbo {
           display: flex;
@@ -73,26 +87,8 @@ const Welcome = () => {
           }
         }
 
-        #info-boxes {
-          list-style: none;
-          display: flex;
-          -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
-          justify-content: center;
-
-          .info-box {
-            margin: 15px;
-            padding: 15px;
-            border-radius: 5px;
-            background: #fff;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-
-            h3 {
-              padding-bottom: 10px;
-            }
-          }
+        .info-boxes {
+          margin-top: 15px;
         }
       `}</style>
     </div>

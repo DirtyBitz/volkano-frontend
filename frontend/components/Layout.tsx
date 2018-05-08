@@ -11,6 +11,7 @@ import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { signOut, isSignedIn } from '../utils/Auth'
 import withSentry from '../utils/withSentry'
 import Notifications from '../components/Notifications'
+import { Button } from 'semantic-ui-react'
 
 interface IProps {
   title?: string
@@ -127,12 +128,9 @@ export class Layout extends React.Component<IProps, IState> {
               <a>
                 {session.user.nickname || session.user.email}
                 <div style={{ paddingTop: '5px' }}>
-                  <VolkaButton
-                    icon={faSignOutAlt}
-                    onClick={signOut}
-                    title={'Sign Out'}
-                    className="danger"
-                  />
+                  <Button basic color="olive" onClick={signOut} className="danger">
+                    Sign Out
+                  </Button>
                 </div>
               </a>
             </div>
@@ -208,28 +206,12 @@ export class Layout extends React.Component<IProps, IState> {
         `}</style>
 
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-          /* Mini css reset */
-          * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-          }
-
           body,
           html,
           #__next {
             margin: 0;
             height: 100%;
-            font-family: 'Montserrat', sans-serif;
             background: #f9f9f9;
-          }
-
-          input {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1em;
-            outline: none;
           }
         `}</style>
       </div>
