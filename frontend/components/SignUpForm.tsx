@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { faUser, faLock, faIdBadge } from '@fortawesome/fontawesome-free-solid'
 import renderField from './InputField'
-import { VolkaButton } from './VolkaButton'
+import { Button } from 'semantic-ui-react'
 
 const SignUpForm = props => {
-  const { handleSubmit } = props
+  const { handleSubmit, submitting } = props
   return (
     <div>
       <div className="page">
@@ -16,7 +15,7 @@ const SignUpForm = props => {
             type="text"
             component={renderField}
             id="email-field"
-            iconName={faUser}
+            iconName="mail outline"
             placeholder="E-Mail"
           />
           <Field
@@ -24,7 +23,7 @@ const SignUpForm = props => {
             type="text"
             component={renderField}
             id="nickname-field"
-            iconName={faIdBadge}
+            iconName="user"
             placeholder="Nickname"
           />
           <Field
@@ -32,7 +31,7 @@ const SignUpForm = props => {
             type="password"
             component={renderField}
             id="pw-field"
-            iconName={faLock}
+            iconName="lock"
             placeholder="Password"
           />
           <Field
@@ -40,11 +39,13 @@ const SignUpForm = props => {
             type="password"
             component={renderField}
             id="pw-confirm-field"
-            iconName={faLock}
+            iconName="lock"
             placeholder="Confirm password"
           />
           <div className="buttons">
-            <VolkaButton primary title="Sign up" type="submit" />
+            <Button positive loading={submitting} type="submit">
+              Sign up
+            </Button>
           </div>
         </form>
 
@@ -91,7 +92,7 @@ const validate = values => {
     errors.password = "Password can't be blank"
   }
   if (!values.passwordConfirmation) {
-    errors.passwordConfirmation = 'This field should match the previous password field.'
+    errors.passwordConfirmation = 'This field should match the previous password field'
   }
   if (values.password < 6) {
     errors.password = 'The password needs to be at least 6 characters long'
