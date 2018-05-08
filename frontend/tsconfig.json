@@ -12,7 +12,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "typeRoots": [
-      "./node_modules/@types"
+      "./node_modules/@types", "./typings"
     ],
     "lib": ["dom", "es5", "es6", "es2016", "es2017", "esnext"],
     "jsx": "preserve"
