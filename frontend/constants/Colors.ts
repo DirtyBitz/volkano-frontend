@@ -7,6 +7,8 @@ const Colors = {
   infoButton: 'rgba(#6d9eff, 0.8)',
   infoHover: 'rgba(109, 158, 255)',
   primaryBackground: '#1c222a',
+  ERROR80: 'rgba(178, 34, 34, 0.8)',
+  ERROR100: 'rgba(178, 34, 34, 1)',
 }
 
 export { Colors }
