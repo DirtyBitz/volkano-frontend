@@ -69,6 +69,7 @@
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0",
     "sleep-promise": "^6.0.0",
+    "semantic-ui-react": "^0.80.0",
     "styled-jsx-plugin-sass": "^0.2.3",
     "wait-on": "^2.1.0"
   },
@@ -85,7 +86,7 @@
     "@types/react-redux": "^6.0.0",
     "@types/redux-form": "^7.0.14",
     "@types/redux-mock-store": "^0.0.13",
-    "@types/styled-jsx": "^2.2.2",
+    "@types/styled-jsx": "^2.2.3",
     "cypress": "2.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
