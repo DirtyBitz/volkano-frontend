@@ -1,4 +1,4 @@
-import { notificationReducer, INITIAL_NOTIFICIATION_STATE } from '../notifications'
+import { notificationReducer, INITIAL_NOTIFICATION_STATE } from '../notifications'
 import { createNotification, NotificationSeverity } from '../../models/Notification'
 import {
   removeNotification,
@@ -10,7 +10,7 @@ describe('Notification reducer', () => {
   it('should return the initial state', () => {
     const expectedState = []
 
-    const state = notificationReducer(INITIAL_NOTIFICIATION_STATE, OtherAction)
+    const state = notificationReducer(INITIAL_NOTIFICATION_STATE, OtherAction)
 
     expect(state).toEqual(expectedState)
   })
@@ -21,7 +21,7 @@ describe('Notification reducer', () => {
     const expectedState = [notificationToAdd]
 
     const state = notificationReducer(
-      INITIAL_NOTIFICIATION_STATE,
+      INITIAL_NOTIFICATION_STATE,
       addNotification(notificationToAdd)
     )
 

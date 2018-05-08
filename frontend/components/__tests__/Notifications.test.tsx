@@ -21,7 +21,7 @@ describe('Notification component', () => {
     expect(messageDiv).toBeTruthy()
   })
 
-  it('should render toasts when suplied', () => {
+  it('should render toasts when supplied', () => {
     const testToast = createNotification(NotificationSeverity.INFO, 'test', 5000)
     defaultProps.notifications.push(testToast)
     wrapper = shallow(<Notifications {...defaultProps} />)

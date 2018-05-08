@@ -2,10 +2,10 @@ import { NotificationActionTypes } from '../actions/notifications/NotificationAc
 import { INotification } from '../models/Notification'
 import { NotificationActionTypeKeys } from '../actions/notifications/NotificationActionTypeKeys'
 
-export const INITIAL_NOTIFICIATION_STATE: INotification[] = []
+export const INITIAL_NOTIFICATION_STATE: INotification[] = []
 
 export const notificationReducer = (
-  state = INITIAL_NOTIFICIATION_STATE,
+  state = INITIAL_NOTIFICATION_STATE,
   action: NotificationActionTypes
 ) => {
   switch (action.type) {
