@@ -10,6 +10,7 @@ import { VolkaButton } from './VolkaButton'
 import { faSignOutAlt } from '@fortawesome/fontawesome-free-solid'
 import { signOut, isSignedIn } from '../utils/Auth'
 import withSentry from '../utils/withSentry'
+import Notifications from '../components/Notifications'
 
 interface IProps {
   title?: string
@@ -108,6 +109,9 @@ export class Layout extends React.Component<IProps, IState> {
             handleDropDownState={this.handleDropDownState}
           />
         </header>
+
+        <Notifications />
+
         {dropDownOpen &&
           session && (
             <div className="dropdown-menu">
