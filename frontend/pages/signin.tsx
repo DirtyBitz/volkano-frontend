@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as withRedux from 'next-redux-wrapper'
+import { bindActionCreators } from 'redux'
 import Router from 'next/router'
 import store from '../store'
 import SigninForm from '../components/SigninForm'
@@ -8,8 +9,20 @@ import AuthApi from '../api/AuthApi'
 import { SubmissionError } from 'redux-form'
 import { isSignedIn } from '../utils/Auth'
 import { getSession } from '../utils/Session'
+import { Dispatch } from 'react-redux'
+import { IStoreState } from '../store/StoreState'
+import {
+  INotification,
+  createNotification,
+  NotificationSeverity,
+} from '../models/Notification'
+import { addNotification } from '../actions/notifications/NotificationActions'
 
-class SigninPage extends React.Component {
+interface IProps {
+  addNotification: (notification: INotification) => void
+}
+
+class SigninPage extends React.Component<IProps> {
   static async getInitialProps({ req }) {
     return { isSignedIn: await isSignedIn(req) }
   }
@@ -19,6 +32,14 @@ class SigninPage extends React.Component {
       await AuthApi.signIn(login, password)
     } catch (error) {
       if (error.errors) {
+        const notification = createNotification(
+          NotificationSeverity.ERROR,
+          'Failed to sign in.',
+          5000
+        )
+        this.props.addNotification(notification)
+        console.log('Should add notification')
+
         throw new SubmissionError({ login: error.errors.join('\n') })
       }
     }
@@ -47,4 +68,10 @@ class SigninPage extends React.Component {
   }
 }
 
-export default withRedux(store)(SigninPage)
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
+  return {
+    addNotification: bindActionCreators(addNotification, dispatch),
+  }
+}
+
+export default withRedux(store, undefined, mapDispatchToProps)(SigninPage)
