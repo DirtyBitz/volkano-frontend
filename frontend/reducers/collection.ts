@@ -1,7 +1,7 @@
 import ItemActionTypeKeys from '../actions/item/ItemActionTypeKeys'
 import ItemActionTypes from '../actions/item/ItemActionTypes'
 import { Item } from '../models/Item'
-import { ITag } from '../components/SearchBar'
+import { ITag } from '../components/Collection'
 
 export interface ICollectionState {
   isLoading: boolean
@@ -47,25 +47,11 @@ export default function collection(
         items: remainingItems,
         filteredItems: itemsWithTags(remainingItems, state.tags),
       }
-    case ItemActionTypeKeys.ADD_TAG:
-      const searchTags = [...state.tags, action.payload]
+    case ItemActionTypeKeys.SET_TAGS:
       return {
         ...state,
-        tags: searchTags,
-        filteredItems: itemsWithTags(state.items, searchTags),
-      }
-    case ItemActionTypeKeys.REMOVE_TAG:
-      const newTags = state.tags.filter(tag => tag.label !== action.payload.label)
-      return {
-        ...state,
-        tags: newTags,
-        filteredItems: itemsWithTags(state.items, newTags),
-      }
-    case ItemActionTypeKeys.CLEAR_TAGS:
-      return {
-        ...state,
-        tags: [],
-        filteredItems: [],
+        tags: action.payload,
+        filteredItems: itemsWithTags(state.items, action.payload),
       }
     default:
       return state
@@ -74,7 +60,8 @@ export default function collection(
 
 function itemsWithTags(items: Item[], tags: ITag[]) {
   const filtered = items.filter(item => {
-    const matchingTags = item.tags.filter(tag => {
+    const allTags = [...item.tags, ...item.categories]
+    const matchingTags = allTags.filter(tag => {
       return tags.find(t => t.label === tag)
     })
     return matchingTags.length === tags.length

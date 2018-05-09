@@ -5,9 +5,7 @@ enum ItemActionTypeKeys {
   ADD_ITEM = 'ADD_ITEM',
   DELETE_ITEM = 'DELETE_ITEM',
   ITEM_ERROR = 'ITEM_ERROR',
-  ADD_TAG = 'ADD_TAG',
-  REMOVE_TAG = 'REMOVE_TAG',
-  CLEAR_TAGS = 'CLEAR_TAGS',
+  SET_TAGS = 'SET_TAGS',
 }
 
 export default ItemActionTypeKeys

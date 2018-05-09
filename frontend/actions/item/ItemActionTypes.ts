@@ -1,7 +1,7 @@
 import ItemActionTypeKeys from './ItemActionTypeKeys'
 import { IOtherAction } from '../IOtherAction'
 import { ICollectionData } from '../../api/ItemApi'
-import { ITag } from '../../components/SearchBar'
+import { ITag } from '../../components/Collection'
 import { Item } from '../../models/Item'
 
 export interface IFetchCollectionPendingAction {
@@ -33,18 +33,9 @@ export interface IItemErrorAction {
   readonly payload: string[]
 }
 
-export interface IAddTagAction {
-  readonly type: ItemActionTypeKeys.ADD_TAG
-  readonly payload: ITag
-}
-
-export interface IRemoveTagAction {
-  readonly type: ItemActionTypeKeys.REMOVE_TAG
-  readonly payload: ITag
-}
-
-export interface IClearTagsAction {
-  readonly type: ItemActionTypeKeys.CLEAR_TAGS
+export interface ISetTagsAction {
+  readonly type: ItemActionTypeKeys.SET_TAGS
+  readonly payload: ITag[]
 }
 
 type ItemActionTypes =
@@ -53,9 +44,7 @@ type ItemActionTypes =
   | IFetchCollectionFailureAction
   | IItemAddedAction
   | IItemDeletedAction
-  | IAddTagAction
-  | IRemoveTagAction
-  | IClearTagsAction
+  | ISetTagsAction
   | IOtherAction
 
 export default ItemActionTypes

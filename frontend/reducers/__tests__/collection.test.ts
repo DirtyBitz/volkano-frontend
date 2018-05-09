@@ -4,13 +4,11 @@ import {
   collectionPending,
   collectionSuccess,
   collectionFailure,
-  addTag,
-  removeTag,
-  clearTags,
+  setTags,
   deleteItem,
 } from '../../actions/item/ItemActions'
 import { ICollectionData } from '../../api/ItemApi'
-import { ITag } from '../../components/SearchBar'
+import { ITag } from '../../components/Collection'
 import { Item } from '../../models/Item'
 
 const fakeData: ICollectionData = {
@@ -22,6 +20,8 @@ const fakeData: ICollectionData = {
       uid: 2,
       tags: ['animal', 'kitty'],
       categories: ['image/jpeg', 'jpg'],
+      mediatype: 'image',
+      size: 1337,
     },
     {
       id: 1,
@@ -30,6 +30,8 @@ const fakeData: ICollectionData = {
       uid: 2,
       tags: ['animal'],
       categories: ['image/jpeg', 'jpg'],
+      mediatype: 'image',
+      size: 1337,
     },
   ],
 }
@@ -94,9 +96,36 @@ describe('Collection reducer', () => {
     const initialState: ICollectionState = {
       isLoading: false,
       items: [
-        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
-        { id: 1, uid: 1, title: 'Second', url: 'secondurl', tags: [], categories: [] },
-        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+        {
+          id: 0,
+          uid: 0,
+          title: 'First',
+          url: 'firsturl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          id: 1,
+          uid: 1,
+          title: 'Second',
+          url: 'secondurl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          id: 2,
+          uid: 2,
+          title: 'Third',
+          url: 'thirdurl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
       ],
       tags: [],
       filteredItems: [],
@@ -105,13 +134,49 @@ describe('Collection reducer', () => {
     const expectedState: ICollectionState = {
       isLoading: false,
       items: [
-        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
-        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+        {
+          id: 0,
+          uid: 0,
+          title: 'First',
+          url: 'firsturl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          id: 2,
+          uid: 2,
+          title: 'Third',
+          url: 'thirdurl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
       ],
       tags: [],
       filteredItems: [
-        { id: 0, uid: 0, title: 'First', url: 'firsturl', tags: [], categories: [] },
-        { id: 2, uid: 2, title: 'Third', url: 'thirdurl', tags: [], categories: [] },
+        {
+          id: 0,
+          uid: 0,
+          title: 'First',
+          url: 'firsturl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          id: 2,
+          uid: 2,
+          title: 'Third',
+          url: 'thirdurl',
+          tags: [],
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
       ],
     }
     const action = deleteItem({
@@ -121,6 +186,8 @@ describe('Collection reducer', () => {
       url: 'secondurl',
       tags: [],
       categories: [],
+      mediatype: '',
+      size: 0,
     })
 
     const state = collection(initialState, action)
@@ -149,27 +216,7 @@ describe('Collection reducer', () => {
         filteredItems: [],
       }
 
-      const newState = collection(initState, addTag(testTags[0]))
-
-      expect(newState.tags).toEqual(expectedState.tags)
-    })
-
-    it('should remove a tag', () => {
-      const initState: ICollectionState = {
-        isLoading: false,
-        items: fakeData.items,
-        tags: [testTags[0]],
-        filteredItems: [],
-      }
-
-      const expectedState: ICollectionState = {
-        isLoading: false,
-        items: fakeData.items,
-        tags: [],
-        filteredItems: [],
-      }
-
-      const newState = collection(initState, removeTag(testTags[0]))
+      const newState = collection(initState, setTags([testTags[0]]))
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
@@ -189,15 +236,33 @@ describe('Collection reducer', () => {
         filteredItems: [],
       }
 
-      const newState = collection(initState, clearTags())
+      const newState = collection(initState, setTags([]))
 
       expect(newState.tags).toEqual(expectedState.tags)
     })
 
     it('should create a filtered list when adding single tag', () => {
       const originalItems: Item[] = [
-        { uid: 1, title: 'dog', tags: ['dog'], id: 1, url: '', categories: [] },
-        { uid: 2, title: 'cat', tags: ['cat'], id: 2, url: '', categories: [] },
+        {
+          uid: 1,
+          title: 'dog',
+          tags: ['dog'],
+          id: 1,
+          url: '',
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          uid: 2,
+          title: 'cat',
+          tags: ['cat'],
+          id: 2,
+          url: '',
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
       ]
 
       const tag: ITag = {
@@ -219,15 +284,33 @@ describe('Collection reducer', () => {
         filteredItems: [originalItems[0]],
       }
 
-      const newState = collection(initState, addTag(tag))
+      const newState = collection(initState, setTags([tag]))
 
       expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })
 
     it('should create filtered list when adding multiple tags', () => {
       const originalItems: Item[] = [
-        { uid: 1, title: 'dog', tags: ['dog', 'animal'], id: 1, url: '', categories: [] },
-        { uid: 2, title: 'cat', tags: ['cat', 'animal'], id: 2, url: '', categories: [] },
+        {
+          uid: 1,
+          title: 'dog',
+          tags: ['dog', 'animal'],
+          id: 1,
+          url: '',
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
+        {
+          uid: 2,
+          title: 'cat',
+          tags: ['cat', 'animal'],
+          id: 2,
+          url: '',
+          categories: [],
+          mediatype: '',
+          size: 0,
+        },
       ]
 
       const tag: ITag = {
@@ -254,44 +337,9 @@ describe('Collection reducer', () => {
         filteredItems: [originalItems[0]],
       }
 
-      const addFirstTag = collection(initState, addTag(tag))
-      const finalState = collection(addFirstTag, addTag(tag1))
+      const finalState = collection(initState, setTags([tag, tag1]))
 
       expect(finalState.filteredItems).toEqual(expectedState.filteredItems)
-    })
-
-    it('should filter correcly when removing a tag', () => {
-      const originalItems: Item[] = [
-        { uid: 1, title: 'dog', tags: ['dog', 'animal'], id: 1, url: '', categories: [] },
-        { uid: 2, title: 'cat', tags: ['cat', 'animal'], id: 2, url: '', categories: [] },
-      ]
-
-      const tag: ITag = {
-        label: 'dog',
-        value: 'dog',
-      }
-
-      const tag1: ITag = {
-        label: 'animal',
-        value: 'animal',
-      }
-
-      const initState: ICollectionState = {
-        isLoading: false,
-        items: originalItems,
-        tags: [tag, tag1],
-        filteredItems: [originalItems[0]],
-      }
-
-      const expectedState: ICollectionState = {
-        isLoading: false,
-        items: originalItems,
-        tags: [tag1],
-        filteredItems: [...originalItems],
-      }
-      const newState = collection(initState, removeTag(tag))
-
-      expect(newState.filteredItems).toEqual(expectedState.filteredItems)
     })
   })
 })

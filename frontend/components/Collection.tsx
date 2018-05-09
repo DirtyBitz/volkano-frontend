@@ -2,26 +2,23 @@ import * as React from 'react'
 import { Dispatch, connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
-import {
-  allItems,
-  removeItem,
-  addTag,
-  removeTag,
-  clearTags,
-} from '../actions/item/ItemActions'
+import { allItems, removeItem, setTags } from '../actions/item/ItemActions'
 import { ICollectionState } from '../reducers/collection'
 import ItemCard from './ItemCard'
-import { SearchBar, ITag } from './SearchBar'
 import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from './ItemModal'
-import Router from 'next/router'
+import Link from 'next/link'
+import { Grid, Dropdown } from 'semantic-ui-react'
+
+export interface ITag {
+  label: string
+  value: any
+}
 
 interface IProps extends IStoreState {
   allItems: Function
-  addTag: (tag: ITag) => void
-  removeTag: (tag: ITag) => void
-  clearTags: () => void
+  setTags: (tag: ITag[]) => void
   deleteItem: (item) => void
   collection: ICollectionState
 }
@@ -73,47 +70,56 @@ class Collection extends React.Component<IProps, IState> {
     }
   }
 
-  private addItemPage = () => {
-    Router.push('/additem')
-  }
-
   private deleteItem = (item: Item) => {
     this.props.deleteItem(item)
     this.unselectItem()
   }
 
   render() {
-    const { addTag, removeTag, clearTags, collection } = this.props
+    const { setTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
+    const items = showFiltered ? collection.filteredItems : collection.items
+    const searchTags = (collection.items || []).map(item => {
+      return [...item.categories, ...item.tags]
+    })
+    const catted = searchTags.reduce((prev, curr) => [...prev, ...curr], [])
+    const tags = [...new Set(catted)].map(val => ({ value: val, key: val, text: val }))
+
     return (
       <div>
         <div id="search-bar">
-          <SearchBar
+          <Dropdown
+            fluid
+            multiple
+            search
+            selection
+            options={tags}
+            onChange={(event, data) => {
+              const tags = data.value.map(val => ({ value: val, label: val }))
+              setTags(tags)
+            }}
+          />
+          {/* <SearchBar
             addTag={addTag}
             removeTag={removeTag}
             clearTags={clearTags}
             tags={collection.tags}
-          />
+          /> */}
         </div>
 
-        <div id="collage">
-          {showFiltered &&
-            collection.filteredItems.map(item => (
-              <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
-            ))}
-
-          {!showFiltered &&
-            collection.items &&
-            collection.items.map(item => (
-              <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
-            ))}
-        </div>
+        <Grid centered id="collage">
+          {(items || []).map(item => (
+            <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
+          ))}
+        </Grid>
 
         {this.state.selectedItem
           ? false
           : true && (
-              <div id="add-item" onClick={this.addItemPage}>
-                <span>+</span>
+              <div id="add-item">
+                <Link href="/additem">
+                  <span>+</span>
+                </Link>
               </div>
             )}
 
@@ -164,7 +170,7 @@ class Collection extends React.Component<IProps, IState> {
             position: fixed;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
             right: 30px;
             bottom: 30px;
             background: rgba(255, 255, 255, 0.95);
@@ -180,16 +186,8 @@ class Collection extends React.Component<IProps, IState> {
             background-color: #2ee59d;
             box-shadow: 0px 10px 10px rgba(46, 229, 157, 0.4);
             color: #fff;
-            transform: translateY(-2px);
+            transform: scale(1.1, 1.1);
             cursor: pointer;
-          }
-
-          #collage {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin: 10px 15px 10px 15px;
-            justify-content: center;
           }
         `}</style>
       </div>
@@ -206,9 +204,7 @@ const mapStateToProps = (state: IStoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     allItems: bindActionCreators(allItems, dispatch),
-    addTag: bindActionCreators(addTag, dispatch),
-    removeTag: bindActionCreators(removeTag, dispatch),
-    clearTag: bindActionCreators(clearTags, dispatch),
+    setTags: bindActionCreators(setTags, dispatch),
     deleteItem: bindActionCreators(removeItem, dispatch),
   }
 }

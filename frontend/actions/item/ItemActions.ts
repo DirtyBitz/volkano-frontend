@@ -9,11 +9,9 @@ import {
   IItemAddedAction,
   IItemDeletedAction,
   IItemErrorAction,
-  IAddTagAction,
-  IRemoveTagAction,
-  IClearTagsAction,
+  ISetTagsAction,
 } from './ItemActionTypes'
-import { ITag } from '../../components/SearchBar'
+import { ITag } from '../../components/Collection'
 import { Item } from '../../models/Item'
 
 export const allItems = () => {
@@ -84,16 +82,7 @@ export const itemError = (error: string[]): IItemErrorAction => ({
   payload: error,
 })
 
-export const addTag = (tag: ITag): IAddTagAction => ({
-  type: ItemActionTypeKeys.ADD_TAG,
-  payload: tag,
-})
-
-export const removeTag = (tag: ITag): IRemoveTagAction => ({
-  type: ItemActionTypeKeys.REMOVE_TAG,
-  payload: tag,
-})
-
-export const clearTags = (): IClearTagsAction => ({
-  type: ItemActionTypeKeys.CLEAR_TAGS,
+export const setTags = (tags: ITag[]): ISetTagsAction => ({
+  type: ItemActionTypeKeys.SET_TAGS,
+  payload: tags,
 })
