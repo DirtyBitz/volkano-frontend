@@ -5,20 +5,11 @@
     let style = document.createElement('style');
     style.setAttribute('id', 'VolkaStyle');
     style.innerHTML = `
-    img {
+    img, video {
       transition: transform .5s;
     }
 
-    img:hover {
-      border: 2px solid #8db517 !important;
-      cursor: crosshair !important;
-      transform: scale(1.05);
-    }
-    video {
-      transition: transform .5s;
-    }
-
-    video:hover {
+    img:hover, video:hover {
       border: 2px solid #8db517 !important;
       cursor: crosshair !important;
       transform: scale(1.05);
