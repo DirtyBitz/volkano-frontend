@@ -13,6 +13,15 @@
       border: 2px solid #8db517 !important;
       cursor: crosshair !important;
       transform: scale(1.05);
+    }
+    video {
+      transition: transform .5s;
+    }
+
+    video:hover {
+      border: 2px solid #8db517 !important;
+      cursor: crosshair !important;
+      transform: scale(1.05);
     }`;
     const head = document.getElementsByTagName('head')[0];
     head.appendChild(style);
