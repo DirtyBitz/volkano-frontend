@@ -1,11 +1,13 @@
 import * as React from 'react'
-import * as withRedux from 'next-redux-wrapper'
 import Layout from '../components/Layout'
-import store from '../store'
 import getConfig from 'next/config'
+import { connect } from 'react-redux'
 
 const redirect = props => {
-  const { publicRuntimeConfig: { ENV } } = getConfig()
+  const {
+    publicRuntimeConfig: { ENV },
+  } = getConfig()
+
   return (
     <Layout title="Account created">
       <h1
@@ -30,4 +32,4 @@ const redirect = props => {
   )
 }
 
-export default withRedux(store)(redirect)
+export default connect()(redirect)

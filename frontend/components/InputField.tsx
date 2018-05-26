@@ -3,7 +3,6 @@ import { Input } from 'semantic-ui-react'
 
 const renderField = field => {
   const { meta, type, asyncValidating, input, iconName, placeholder, autoFocus } = field
-  console.log(field)
 
   return (
     <div>

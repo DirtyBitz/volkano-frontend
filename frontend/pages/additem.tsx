@@ -1,10 +1,8 @@
 import * as React from 'react'
-import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
-import store from '../store'
 import Layout from '../components/Layout'
 import CreateItemForm from '../components/ItemForm'
-import { Dispatch } from 'react-redux'
+import { Dispatch, connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { createItem } from '../actions/item/ItemActions'
@@ -19,7 +17,7 @@ interface INewItem {
 
 interface IProps extends IStoreState {
   url: any
-  createItem: (item: INewItem) => Promise<void>
+  createItem: (item: INewItem) => (dispatch: any) => Promise<void>
 }
 
 class CreateItemPage extends React.Component<IProps> {
@@ -33,6 +31,7 @@ class CreateItemPage extends React.Component<IProps> {
   }
 
   render() {
+    const query = this.props.url ? this.props.url.query : undefined
     return (
       <Layout title="Add item">
         <h1
@@ -43,11 +42,12 @@ class CreateItemPage extends React.Component<IProps> {
           }}>
           Collect an image
         </h1>
-        <CreateItemForm onSubmit={this.handleSubmit} {...this.props.url.query} />
+        <CreateItemForm onSubmit={this.handleSubmit} {...query} />
       </Layout>
     )
   }
 }
+
 const mapStateToProps = (state: IStoreState) => {
   return {
     collection: state.collection,
@@ -60,4 +60,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-export default withRedux(store, mapStateToProps, mapDispatchToProps)(CreateItemPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateItemPage)

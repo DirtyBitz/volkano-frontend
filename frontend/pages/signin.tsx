@@ -1,15 +1,13 @@
 import * as React from 'react'
-import * as withRedux from 'next-redux-wrapper'
 import { bindActionCreators } from 'redux'
 import Router from 'next/router'
-import store from '../store'
 import SigninForm from '../components/SigninForm'
 import Layout from '../components/Layout'
 import AuthApi from '../api/AuthApi'
 import { SubmissionError } from 'redux-form'
 import { isSignedIn } from '../utils/Auth'
-import { getSession } from '../utils/Session'
-import { Dispatch } from 'react-redux'
+import { getSession, ISession } from '../utils/Session'
+import { Dispatch, connect } from 'react-redux'
 import { IStoreState } from '../store/StoreState'
 import {
   INotification,
@@ -17,14 +15,20 @@ import {
   NotificationSeverity,
 } from '../models/Notification'
 import { addNotification } from '../actions/notifications/NotificationActions'
+import { IAddNotification } from '../actions/notifications/NotificationActionTypes'
+import { addUser } from '../actions/user/UserActions'
+import { IAddUserAction } from '../actions/user/UserActionTypes'
 
 interface IProps {
-  addNotification: (notification: INotification) => void
+  session?: ISession
+  addNotification: (notification: INotification) => IAddNotification
+  addUser: (session: ISession) => IAddUserAction
 }
 
 class SigninPage extends React.Component<IProps> {
-  static async getInitialProps({ req }) {
-    return { isSignedIn: await isSignedIn(req) }
+  constructor(props: IProps) {
+    super(props)
+    if (props.session) Router.push('/', '/')
   }
 
   private handleSubmit = async ({ login, password }) => {
@@ -45,15 +49,14 @@ class SigninPage extends React.Component<IProps> {
     }
 
     const session = getSession()
-    const signedIn = await isSignedIn(session)
-    if (signedIn) {
-      Router.push('/')
-    }
+
+    this.props.addUser(session)
+    Router.push('/', '/')
   }
 
   render() {
     return (
-      <Layout title="Sign In" {...this.props}>
+      <Layout title="Sign In">
         <h1
           style={{
             textAlign: 'center',
@@ -68,10 +71,17 @@ class SigninPage extends React.Component<IProps> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
+const mapStateToProps = (state: IStoreState) => {
   return {
-    addNotification: bindActionCreators(addNotification, dispatch),
+    session: state.user.session,
   }
 }
 
-export default withRedux(store, undefined, mapDispatchToProps)(SigninPage)
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
+  return {
+    addNotification: bindActionCreators(addNotification, dispatch),
+    addUser: bindActionCreators(addUser, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SigninPage)

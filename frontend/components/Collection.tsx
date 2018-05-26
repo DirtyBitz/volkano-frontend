@@ -34,6 +34,7 @@ class Collection extends React.Component<IProps, IState> {
       selectedItem: undefined,
     }
   }
+
   componentDidMount() {
     this.props.allItems()
   }

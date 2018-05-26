@@ -3,21 +3,21 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import { getSession, ISession } from '../utils/Session'
 import getConfig from 'next/config'
 import ReactGA from 'react-ga'
-import { signOut, isSignedIn } from '../utils/Auth'
-import withSentry from '../utils/withSentry'
+import { signOut } from '../utils/Auth'
 import Notifications from '../components/Notifications'
 import { Button } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { IStoreState } from '../store/StoreState'
+import { IUserState } from '../reducers/user'
 
 interface IProps {
   title?: string
-  isSignedIn: boolean
+  user?: IUserState
 }
 
 interface IState {
-  session: ISession
   dropDownOpen: boolean
 }
 
@@ -25,25 +25,12 @@ export class Layout extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
-      session: null,
       dropDownOpen: false,
     }
   }
 
   async componentDidMount() {
     this.googleAnalytics()
-
-    const session = getSession()
-    const signedIn = await isSignedIn(session)
-    if (signedIn) {
-      this.setState({
-        session,
-      })
-    } else {
-      this.setState({
-        session: undefined,
-      })
-    }
   }
 
   /* istanbul ignore next */
@@ -66,8 +53,13 @@ export class Layout extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { title, children } = this.props
-    const { dropDownOpen, session } = this.state
+    const { title, children, user } = this.props
+    console.log('Layout user', user)
+    if (!user) return null
+
+    const { session } = user
+    const { dropDownOpen } = this.state
+
     /* istanbul ignore next: TODO: conditionals should be split into components */
     return (
       <div className="page">
@@ -100,10 +92,14 @@ export class Layout extends React.Component<IProps, IState> {
           />
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
+          <link
+            rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"
+          />
         </Head>
         <header>
           <Navigation
-            isSignedIn={this.props.isSignedIn}
+            isSignedIn={!!session}
             user={session && session.user}
             handleDropDownState={this.handleDropDownState}
           />
@@ -217,4 +213,10 @@ export class Layout extends React.Component<IProps, IState> {
   }
 }
 
-export default withSentry(Layout)
+const mapStateToProps = (state: IStoreState) => {
+  return {
+    user: state.user,
+  }
+}
+
+export default connect<void, void, IProps>(mapStateToProps)(Layout)

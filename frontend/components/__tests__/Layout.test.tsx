@@ -1,15 +1,21 @@
 import * as React from 'react'
-import { shallow, ShallowWrapper, mount } from 'enzyme'
+import { shallow, ShallowWrapper } from 'enzyme'
 import { Layout } from '../Layout'
 import Footer from '../Footer'
-import { setSession, ISession, getSession } from '../../utils/Session'
+import { setSession, ISession } from '../../utils/Session'
 import ReactGA from 'react-ga'
 import getConfig from 'next/config'
-import { isSignedIn } from '../../utils/Auth'
 jest.mock('next/config')
 jest.mock('react-ga')
 jest.mock('../../utils/Session')
 jest.mock('../../utils/Auth')
+
+const fakeSession = {
+  uid: 'test@example.com',
+  token: '123',
+  client: 'client',
+  user: { id: 123, email: 'test@example.com' },
+}
 
 describe('Layout component', () => {
   let layout: ShallowWrapper<
@@ -18,7 +24,7 @@ describe('Layout component', () => {
   >
 
   beforeEach(() => {
-    layout = shallow(<Layout isSignedIn={true} />)
+    layout = shallow(<Layout />)
   })
 
   it('should wrap everything in a div', () => {
@@ -49,7 +55,7 @@ describe('Layout component', () => {
   })
 
   it('changes title when title prop is set', () => {
-    const fakeProps = { title: 'Testpage', isSignedIn: true }
+    const fakeProps = { title: 'Testpage' }
     layout = shallow(<Layout {...fakeProps} />)
     const titleText = layout
       .find('title')
@@ -73,27 +79,9 @@ describe('Layout component', () => {
 
   it('knows when there is no session', () => {
     setSession(undefined)
-    layout = shallow(<Layout isSignedIn={false} />)
+    layout = shallow(<Layout session={undefined} />)
     const { session } = layout.state()
     expect(session).toBeFalsy()
-  })
-
-  it('knows when user is signed in', () => {
-    const expectedSession = getSession()
-    isSignedIn.mockImplementation(async () => {
-      return Promise.resolve(true)
-    })
-
-    const layout = shallow(<Layout isSignedIn={true} />)
-    expect(layout.state()).toEqual({ session: null, dropDownOpen: false })
-
-    // wait one tick for the promise to resolve
-    setImmediate(() => {
-      expect(layout.state()).toEqual({
-        session: expectedSession,
-        dropDownOpen: false,
-      })
-    })
   })
 
   it('has a dropdown menu when dropDownOpen is true', () => {
@@ -123,19 +111,21 @@ describe('Layout component', () => {
     })
 
     it('runs in production', () => {
+      // @ts-ignore
       getConfig.mockImplementation(() => {
         return { publicRuntimeConfig: { ENV: 'production' } }
       })
 
-      layout = shallow(<Layout isSignedIn={true} />)
+      layout = shallow(<Layout session={fakeSession} />)
       expect(getConfig).toHaveBeenCalled()
       expect(ReactGA.initialize).toHaveBeenCalledTimes(1)
       expect(ReactGA.pageview).toHaveBeenCalledTimes(1)
     })
 
     it('does not run unless explicitly in production mode', () => {
+      // @ts-ignore
       getConfig.mockImplementation(jest.fn())
-      layout = shallow(<Layout isSignedIn={true} />)
+      layout = shallow(<Layout session={fakeSession} />)
       expect(getConfig).toHaveBeenCalled()
       expect(ReactGA.initialize).not.toHaveBeenCalled()
       expect(ReactGA.pageview).not.toHaveBeenCalled()
