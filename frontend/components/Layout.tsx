@@ -58,6 +58,7 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
     }
   }
 
+  /* istanbul ignore next - singOut and removeUser allready tested */
   private handleSignOut = () => {
     signOut()
     this.props.removeUser()
@@ -225,10 +226,12 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
   }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = (state: IStoreState) => ({
   user: state.user,
 })
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
   removeUser: bindActionCreators(removeUser, dispatch),
 })

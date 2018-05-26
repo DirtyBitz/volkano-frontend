@@ -41,10 +41,5 @@ export const getReqSession = async req => {
     // Clientside, get the cookie from browser
     session = getSession()
   }
-
-  //const isValidToken = await AuthApi.isSignedIn(session)
-
-  //if (isValidToken) {
   return session
-  //}
 }
