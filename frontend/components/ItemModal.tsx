@@ -26,7 +26,9 @@ export class ItemModal extends React.Component<IProps> {
 
   render() {
     const { item } = this.props
-    const { title } = this.props.item
+
+    if (!item) return null
+
     return (
       <div>
         <div className="prevArrow">
@@ -49,7 +51,7 @@ export class ItemModal extends React.Component<IProps> {
         </div>
         <figure>
           <figcaption>
-            {title}
+            {item.title}
             <FontAwesomeIcon
               className="itemDelete"
               icon={faTrash}
