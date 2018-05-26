@@ -25,3 +25,21 @@ export const isSignedIn = async (req): Promise<boolean> => {
 
   return await AuthApi.isSignedIn(session)
 }
+
+export const getReqSession = req => {
+  let session
+  if (req && req.headers && req.headers.cookie) {
+    // Serverside, we must check the cookie provided in headers
+    try {
+      const sessionCookie = decodeURI(req.headers.cookie)
+      const stripped = sessionCookie.replace(/^session=/, '').replace(/%2C/g, ',')
+      session = JSON.parse(stripped)
+    } catch (error) {
+      return
+    }
+  } else {
+    // Clientside, get the cookie from browser
+    session = getSession()
+  }
+  return session
+}
