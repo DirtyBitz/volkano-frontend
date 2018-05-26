@@ -4,6 +4,8 @@ import createStore from '../store'
 import { IStoreState } from '../store/StoreState'
 import { getReqSession } from './Auth'
 import { addUser } from '../actions/user/UserActions'
+import getConfig from 'next/config'
+import Raven from 'raven-js'
 
 const isServer = typeof window === 'undefined'
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__'
@@ -21,7 +23,7 @@ function getOrCreateStore(initialState?: IStoreState) {
   return window[__NEXT_REDUX_STORE__]
 }
 
-export default NextApp => {
+const withRedux = NextApp => {
   return class Redux extends React.Component {
     reduxStore: any
 
@@ -53,8 +55,15 @@ export default NextApp => {
       this.reduxStore = getOrCreateStore(props.initialReduxState)
     }
 
+    /* istanbul ignore next: Do not need to test React internals */
+    componentDidCatch(error, errorInfo) {
+      Raven.captureException(error, { extra: errorInfo })
+    }
+
     render() {
       return <NextApp {...this.props} reduxStore={this.reduxStore} />
     }
   }
 }
+
+export default withRedux
