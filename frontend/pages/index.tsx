@@ -13,7 +13,6 @@ interface IProps {
 export class Frontpage extends React.Component<IProps, {}> {
   render() {
     const { user } = this.props
-
     return <Layout>{user && user.session ? <Collection /> : <Welcome />}</Layout>
   }
 }

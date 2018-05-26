@@ -8,20 +8,26 @@ import ReactGA from 'react-ga'
 import { signOut } from '../utils/Auth'
 import Notifications from '../components/Notifications'
 import { Button } from 'semantic-ui-react'
-import { connect } from 'react-redux'
+import { connect, Dispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { IUserState } from '../reducers/user'
+import { removeUser } from '../actions/user/UserActions'
 
-interface IProps {
+interface IExternalProps {
   title?: string
   user?: IUserState
+}
+
+interface IInternalProps {
+  removeUser: () => void
 }
 
 interface IState {
   dropDownOpen: boolean
 }
 
-export class Layout extends React.Component<IProps, IState> {
+export class Layout extends React.Component<IExternalProps & IInternalProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -52,13 +58,15 @@ export class Layout extends React.Component<IProps, IState> {
     }
   }
 
+  private handleSignOut = () => {
+    signOut()
+    this.props.removeUser()
+  }
+
   render() {
     const { title, children, user } = this.props
-    console.log('Layout user', user)
-    if (!user) return null
-
-    const { session } = user
     const { dropDownOpen } = this.state
+    const signedInUser = user && user.session ? user.session.user : undefined
 
     /* istanbul ignore next: TODO: conditionals should be split into components */
     return (
@@ -99,16 +107,16 @@ export class Layout extends React.Component<IProps, IState> {
         </Head>
         <header>
           <Navigation
-            isSignedIn={!!session}
-            user={session && session.user}
+            user={signedInUser}
             handleDropDownState={this.handleDropDownState}
+            onSignOut={this.handleSignOut}
           />
         </header>
 
         <Notifications />
 
         {dropDownOpen &&
-          session && (
+          signedInUser && (
             <div className="dropdown-menu">
               <Link href="/">
                 <a>Home</a>
@@ -120,9 +128,13 @@ export class Layout extends React.Component<IProps, IState> {
                 <a>Add new item</a>
               </Link>
               <a>
-                {session.user.nickname || session.user.email}
+                {user.session.user.nickname || user.session.user.email}
                 <div style={{ paddingTop: '5px' }}>
-                  <Button basic color="olive" onClick={signOut} className="danger">
+                  <Button
+                    basic
+                    color="olive"
+                    onClick={this.handleSignOut}
+                    className="danger">
                     Sign Out
                   </Button>
                 </div>
@@ -130,7 +142,7 @@ export class Layout extends React.Component<IProps, IState> {
             </div>
           )}
         {dropDownOpen &&
-          !session && (
+          !signedInUser && (
             <div className="dropdown-menu">
               <Link href="/">
                 <a>Home</a>
@@ -213,10 +225,14 @@ export class Layout extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: IStoreState) => {
-  return {
-    user: state.user,
-  }
-}
+const mapStateToProps = (state: IStoreState) => ({
+  user: state.user,
+})
 
-export default connect<void, void, IProps>(mapStateToProps)(Layout)
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
+  removeUser: bindActionCreators(removeUser, dispatch),
+})
+
+export default connect<void, void, IExternalProps>(mapStateToProps, mapDispatchToProps)(
+  Layout
+)

@@ -7,13 +7,13 @@ import { createStore, applyMiddleware } from 'redux'
 import { INITIAL_NOTIFICATION_STATE } from '../reducers/notifications'
 import { INITIAL_USER_STATE } from '../reducers/user'
 
-export const initialStore: IStoreState = {
+export const REDUX_INIT_STATE: IStoreState = {
   collection: collectionInitialState,
   notifications: INITIAL_NOTIFICATION_STATE,
   user: INITIAL_USER_STATE,
 }
 
-export default (initialState = initialStore) => {
+export default (initialState = REDUX_INIT_STATE) => {
   return createStore(
     reducers,
     initialState,

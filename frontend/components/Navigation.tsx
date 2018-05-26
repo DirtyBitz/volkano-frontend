@@ -1,20 +1,12 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { IUser } from '../models/User'
-import { VolkaButton } from './VolkaButton'
-import {
-  faUser,
-  faSignOutAlt,
-  faBars,
-  faTimes,
-} from '@fortawesome/fontawesome-free-solid'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { signOut } from '../utils/Auth'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
+import { IUser } from '../models/User'
 interface Props {
-  isSignedIn: boolean
   user?: IUser
   handleDropDownState: () => void
+  onSignOut: () => void
 }
 
 interface IState {
@@ -28,9 +20,10 @@ export default class Navigation extends React.Component<Props, IState> {
       showBurger: false,
     }
   }
+
   render() {
-    const { isSignedIn, user, handleDropDownState } = this.props
-    const { showBurger } = this.state
+    const { user, handleDropDownState, onSignOut } = this.props
+    const isSignedIn = !!user
     return (
       <nav>
         <div id="main-nav">
@@ -64,25 +57,27 @@ export default class Navigation extends React.Component<Props, IState> {
                   this.setState({ showBurger: !this.state.showBurger })
                   handleDropDownState()
                 }}>
-                <FontAwesomeIcon
-                  className="fa-icon"
-                  icon={showBurger ? faTimes : faBars}
-                  color="#fff"
-                />
+                mobile-nav
               </a>
             </div>
             {isSignedIn &&
               user && (
                 <Link href="/profile">
                   <a id="profile-link">
-                    <VolkaButton icon={faUser} title={user.nickname || user.email} />
+                    <Button icon basic color="orange">
+                      <Icon name="user" />
+                      {user.name || user.email}
+                    </Button>
                   </a>
                 </Link>
               )}
             {isSignedIn &&
               user && (
                 <a id="signout">
-                  <VolkaButton icon={faSignOutAlt} onClick={signOut} className="danger" />
+                  <Button icon basic color="red" onClick={onSignOut}>
+                    <Icon name="sign out" />
+                    Sign out
+                  </Button>
                 </a>
               )}
           </div>

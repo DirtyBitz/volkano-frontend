@@ -42,8 +42,6 @@ class SigninPage extends React.Component<IProps> {
           5000
         )
         this.props.addNotification(notification)
-        console.log('Should add notification')
-
         throw new SubmissionError({ login: error.errors.join('\n') })
       }
     }
