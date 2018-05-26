@@ -1,11 +1,10 @@
 import * as React from 'react'
-import store from '../store'
 import Layout from '../components/Layout'
 import SignUpForm from '../components/SignUpForm'
-import * as withRedux from 'next-redux-wrapper'
 import Router from 'next/router'
 import AuthApi, { IUserRegisterDetails } from '../api/AuthApi'
 import { SubmissionError } from 'redux-form'
+import { connect } from 'react-redux'
 
 class SignUpPage extends React.Component {
   private handleSubmit = async (params: IUserRegisterDetails) => {
@@ -36,4 +35,4 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default withRedux(store)(SignUpPage)
+export default connect()(SignUpPage)

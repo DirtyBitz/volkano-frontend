@@ -37,15 +37,19 @@ export default class Navigation extends React.Component<Props, IState> {
           {!isSignedIn && (
             <div>
               <Link href="/signin">
-                <Button id="signin-link" basic color="olive">
-                  Sign in
-                </Button>
+                <a id="signin-link">
+                  <Button basic color="olive">
+                    Sign in
+                  </Button>
+                </a>
               </Link>
 
               <Link href="/signup">
-                <Button id="signup-link" basic color="olive">
-                  Sign up
-                </Button>
+                <a id="signup-link">
+                  <Button basic color="olive">
+                    Sign up
+                  </Button>
+                </a>
               </Link>
             </div>
           )}
@@ -57,7 +61,7 @@ export default class Navigation extends React.Component<Props, IState> {
                   this.setState({ showBurger: !this.state.showBurger })
                   handleDropDownState()
                 }}>
-                mobile-nav
+                <Icon name="bars" />
               </a>
             </div>
             {isSignedIn &&

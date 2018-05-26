@@ -3,8 +3,8 @@ import Layout from '../components/Layout'
 import Profile from '../components/Profile'
 import { getSession } from '../utils/Session'
 import { withAuth } from '../utils/withAuth'
-import withSentry from '../utils/withSentry'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
 class ProfilePage extends React.Component<{ req; isSignedIn }, {}> {
   render() {
@@ -17,6 +17,6 @@ class ProfilePage extends React.Component<{ req; isSignedIn }, {}> {
   }
 }
 
-const AuthProfilePage = withAuth(ProfilePage)
-const SentryProfilePage = withSentry(AuthProfilePage)
-export default connect()(SentryProfilePage)
+const composedProfilePage = compose(withAuth)(ProfilePage)
+
+export default connect()(composedProfilePage)
