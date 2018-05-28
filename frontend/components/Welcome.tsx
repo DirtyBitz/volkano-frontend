@@ -23,39 +23,37 @@ const Welcome = () => {
 
       <div className="info-boxes">
         <Container>
-          <Grid columns="three">
-            <Grid.Row>
-              <Grid.Column>
-                <Segment>
-                  <h3>Our vision</h3>
-                  <p>
-                    Our goal through this project is to bring you joy when seeing images
-                    you would love to collect online. We have a wish that we can end the
-                    frustration people experience when they see an image they want to
-                    collect, but do not want to download it onto their current device.
-                  </p>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment>
-                  <h3>Our product</h3>
-                  <p>
-                    Volkano is a place where you can easily save images, gifs,
-                    youtube-videos and more you come across online, in a single place. You
-                    can also browse your collection and easily share your items.
-                  </p>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment>
-                  <h3>Who are we?</h3>
-                  <p>
-                    We are a group of students from UiT The Arctic University of Norway
-                    working on a group project to create something beautiful.
-                  </p>
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
+          <Grid stackable centered columns="three">
+            <Grid.Column>
+              <Segment>
+                <h3>Our vision</h3>
+                <p>
+                  Our goal through this project is to bring you joy when seeing images you
+                  would love to collect online. We have a wish that we can end the
+                  frustration people experience when they see an image they want to
+                  collect, but do not want to download it onto their current device.
+                </p>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <h3>Our product</h3>
+                <p>
+                  Volkano is a place where you can easily save images, gifs,
+                  youtube-videos and more you come across online, in a single place. You
+                  can also browse your collection and easily share your items.
+                </p>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <h3>Who are we?</h3>
+                <p>
+                  We are a group of students from UiT The Arctic University of Norway
+                  working on a group project to create something beautiful.
+                </p>
+              </Segment>
+            </Grid.Column>
           </Grid>
         </Container>
       </div>
