@@ -28,7 +28,7 @@ export function getSession(): ISession | undefined {
 
 export function setSession(session: ISession) {
   const config = getConfig()
-  const prod = config.publicRuntimeConfig.ENV !== 'development'
+  const prod = config && config.publicRuntimeConfig.ENV !== 'development'
   jsCookie.set('session', session, { expires: 7, secure: prod ? true : false })
 }
 
