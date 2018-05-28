@@ -36,7 +36,7 @@ export const getReqSession = async req => {
       const stripped = sessionCookie.replace(/^session=/, '').replace(/%2C/g, ',')
       session = JSON.parse(stripped)
     } catch (error) {
-      console.error('Failed parsing cookie', error, req.headers)
+      console.log('Failed parsing cookie', error, req.headers)
       return
     }
   } else {
