@@ -1,4 +1,5 @@
 import jsCookie from 'js-cookie'
+import getConfig from 'next/config'
 
 export interface ISession {
   token: string
@@ -26,7 +27,9 @@ export function getSession(): ISession | undefined {
 }
 
 export function setSession(session: ISession) {
-  jsCookie.set('session', session, { expires: 7 })
+  const config = getConfig()
+  const prod = config.publicRuntimeConfig.ENV !== 'development'
+  jsCookie.set('session', session, { expires: 7, secure: prod ? true : false })
 }
 
 export function clearSession() {
