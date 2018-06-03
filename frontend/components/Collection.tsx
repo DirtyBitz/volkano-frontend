@@ -6,7 +6,6 @@ import { allItems, removeItem, setTags } from '../actions/item/ItemActions'
 import { ICollectionState } from '../reducers/collection'
 import ItemCard from './ItemCard'
 import { Item } from '../models/Item'
-import Modal from 'react-modal'
 import { ItemModal } from './ItemModal'
 import Link from 'next/link'
 import { Grid, Dropdown, Button, ButtonGroup } from 'semantic-ui-react'
@@ -27,6 +26,7 @@ interface IProps extends IStoreState {
 
 interface IState {
   selectedItem?: Item
+  openModal: boolean
 }
 
 class Collection extends React.Component<IProps, IState> {
@@ -34,6 +34,7 @@ class Collection extends React.Component<IProps, IState> {
     super(props)
     this.state = {
       selectedItem: undefined,
+      openModal: false,
     }
   }
 
@@ -46,7 +47,10 @@ class Collection extends React.Component<IProps, IState> {
     this.props.allItems(currentPage + 1)
   }
 
+  private onItemClick = () => this.setState({ openModal: true })
+
   private onItemSelect = (item: Item) => {
+    this.onItemClick()
     this.setState({
       selectedItem: item,
     })
@@ -84,6 +88,7 @@ class Collection extends React.Component<IProps, IState> {
   }
 
   render() {
+    const { selectedItem } = this.state
     const { setTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     const items = showFiltered ? collection.filteredItems : collection.items
@@ -111,21 +116,24 @@ class Collection extends React.Component<IProps, IState> {
               setTags(tags)
             }}
           />
-          {/* <SearchBar
-            addTag={addTag}
-            removeTag={removeTag}
-            clearTags={clearTags}
-            tags={collection.tags}
-          /> */}
         </div>
-
         <Grid centered id="collage">
           {(items || []).map(item => (
             <ItemCard key={item.id} item={item} onSelect={this.onItemSelect} />
           ))}
         </Grid>
 
-        {this.state.selectedItem
+        <div onKeyDown={this.keyHandler}>
+          <ItemModal
+            item={selectedItem}
+            onClose={this.unselectItem}
+            onNext={() => this.onKeyEvent('ArrowRight')}
+            onPrev={() => this.onKeyEvent('ArrowLeft')}
+            onDelete={this.deleteItem}
+          />
+        </div>
+
+        {selectedItem
           ? false
           : true && (
               <div id="add-item">
@@ -152,44 +160,6 @@ class Collection extends React.Component<IProps, IState> {
             </Link>
           </div>
         )}
-
-        <div onKeyDown={this.keyHandler}>
-          <Modal
-            isOpen={this.state.selectedItem ? true : false}
-            onRequestClose={this.unselectItem}
-            className="modal"
-            overlayClassName="modal-overlay">
-            <ItemModal
-              item={this.state.selectedItem}
-              onClose={this.unselectItem}
-              onNext={() => this.onKeyEvent('ArrowRight')}
-              onPrev={() => this.onKeyEvent('ArrowLeft')}
-              onDelete={this.deleteItem}
-            />
-          </Modal>
-        </div>
-
-        <style jsx global>{`
-          .modal {
-            display: block;
-            background: white;
-            border-radius: 10px;
-            outline: none;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-          }
-          .modal-overlay {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            right: 0;
-            bottom: 0px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.8);
-          }
-        `}</style>
 
         <style jsx>{`
           #search-bar {
