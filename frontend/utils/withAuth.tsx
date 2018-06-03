@@ -11,7 +11,7 @@ export function withAuth(WrappedComponent) {
   return class extends React.Component<IProps> {
     /* istanbul ignore next: Do not need to test React internals */
     static async getInitialProps(context) {
-      const { reduxStore, req, res } = context
+      const { reduxStore, req } = context
 
       let childProps = {}
 
@@ -32,6 +32,7 @@ export function withAuth(WrappedComponent) {
 
     componentDidMount() {
       if (!this.props.isSignedIn) {
+        console.log('Redir to sign in page')
         Router.push('/signin')
       }
     }

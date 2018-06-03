@@ -232,6 +232,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-const composedCollection = withAuth(Collection)
-
-export default connect(mapStateToProps, mapDispatchToProps)(composedCollection)
+export default connect(mapStateToProps, mapDispatchToProps)(Collection)
