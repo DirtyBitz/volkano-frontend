@@ -1,8 +1,7 @@
 import * as React from 'react'
 import Router from 'next/router'
-import { isSignedIn } from './Auth'
-import { BeatLoader } from 'react-spinners'
-import { Layout } from '../components/Layout'
+import { Message, Icon, Segment, Container } from 'semantic-ui-react'
+import Layout from '../components/Layout'
 
 interface IProps {
   isSignedIn: boolean
@@ -12,13 +11,23 @@ export function withAuth(WrappedComponent) {
   return class extends React.Component<IProps> {
     /* istanbul ignore next: Do not need to test React internals */
     static async getInitialProps(context) {
-      const { req } = context
-      const signedIn = await isSignedIn(req)
+      const { reduxStore, req, res } = context
+
+      let childProps = {}
+
       if (WrappedComponent.getInitialProps) {
-        const childProps = WrappedComponent.getInitialProps(context)
-        return { isSignedIn: signedIn, ...childProps }
+        const compChildProps = WrappedComponent.getInitialProps(context)
+        childProps = compChildProps
       }
-      return { isSignedIn: signedIn }
+
+      const store = reduxStore.getState()
+      const isSignedIn = !!store.user.session
+
+      if (!isSignedIn && !req) {
+        Router.push('/signin')
+      }
+
+      return { ...childProps, isSignedIn }
     }
 
     componentDidMount() {
@@ -28,20 +37,22 @@ export function withAuth(WrappedComponent) {
     }
 
     render() {
-      if (!this.props.isSignedIn)
+      const { isSignedIn } = this.props
+      if (!isSignedIn) {
         return (
-          <Layout {...this.props}>
-            <div
-              style={{
-                textAlign: 'center',
-                position: 'relative',
-                top: '50%',
-                transform: 'translateY(-50%)',
-              }}>
-              <BeatLoader color="#444" size={20} />
-            </div>
+          <Layout>
+            <Container>
+              <Message icon>
+                <Icon name="circle notched" loading />
+                <Message.Content>
+                  <Message.Header>Redirecting</Message.Header>
+                  You can't access this page.
+                </Message.Content>
+              </Message>
+            </Container>
           </Layout>
         )
+      }
       return <WrappedComponent {...this.props} />
     }
   }

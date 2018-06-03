@@ -34,7 +34,6 @@ const withRedux = NextApp => {
       appContext.ctx.reduxStore = reduxStore
 
       const session = await getReqSession(appContext.ctx.req)
-      console.log('Request with session', session)
 
       if (!!appContext.ctx.req && session) {
         reduxStore.dispatch(addUser(session))
