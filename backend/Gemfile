@@ -11,19 +11,22 @@ end
 # To tag collected items
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts-as-taggable-on'
+# Authentication via Devise with tokens
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
 gem 'omniauth'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
+# Use Public Suffix to validate domains in URLs
 gem 'public_suffix'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5'
 # Use CORS middleware to support cross-origin requests
 gem 'rack-cors', require: 'rack/cors'
+# Use Kaminari for pagination
+gem 'api-pagination'
+gem 'kaminari'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
