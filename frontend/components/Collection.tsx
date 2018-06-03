@@ -115,9 +115,10 @@ class Collection extends React.Component<IProps, IState> {
             selection
             options={tags}
             onChange={(event, data) => {
-              const tags = data.options.map(option => ({
-                value: option.value,
-                label: option.value,
+              const values = data.value as string[]
+              const tags = values.map(value => ({
+                value: value,
+                label: value,
               }))
               setTags(tags)
             }}
