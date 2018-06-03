@@ -6,7 +6,11 @@ class User < ApplicationRecord
   # :recoverable, :trackable, :validatable and :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :items, dependent: :destroy
+  has_many :items,
+           -> { includes(:tags, :categories) },
+           inverse_of: :user,
+           dependent: :destroy
+
   validates :email, uniqueness: { case_insensitive: true }
   validates :nickname, uniqueness: true,
                        allow_blank: true,
