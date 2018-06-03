@@ -17,7 +17,7 @@ import { removeUser } from '../actions/user/UserActions'
 interface IExternalProps {
   title?: string
   user?: IUserState
-  noPadding?: boolean
+  transparentHeader?: boolean
 }
 
 interface IInternalProps {
@@ -66,7 +66,7 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
   }
 
   render() {
-    const { title, children, user, noPadding } = this.props
+    const { title, children, user, transparentHeader } = this.props
     const { dropDownOpen } = this.state
     const signedInUser = user && user.session ? user.session.user : undefined
 
@@ -193,9 +193,9 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
           }
 
           header {
-            background: #1c222a;
+            background: ${transparentHeader ? 'transparent' : '#1c222a'};
             color: #fff;
-            z-index: 3;
+            z-index: 999;
             max-heigth: 63px;
             position: fixed;
             top: 0;
@@ -204,9 +204,9 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
           }
 
           .main {
-            margin-top: 63px;
+            margin-top: ${transparentHeader ? '0px' : '63px'};
             flex: 1;
-            padding: ${noPadding ? '0' : '30px'};
+            padding: 30px;
           }
           @media only screen and (min-width: 551px) {
             .dropdown-menu {

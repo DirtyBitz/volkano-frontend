@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from '../components/Layout'
 import Welcome from '../components/Welcome'
 import Collection from '../components/Collection'
 import { connect } from 'react-redux'
@@ -13,7 +12,12 @@ interface IProps {
 export class Frontpage extends React.Component<IProps, {}> {
   render() {
     const { user } = this.props
-    return <Layout>{user && user.session ? <Collection /> : <Welcome />}</Layout>
+
+    if (user && user.session) {
+      return <Collection />
+    } else {
+      return <Welcome />
+    }
   }
 }
 

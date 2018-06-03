@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { signOut } from '../utils/Auth'
 import { Button, Icon } from 'semantic-ui-react'
 import { IUser } from '../models/User'
 interface Props {

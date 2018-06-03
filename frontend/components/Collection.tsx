@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { Grid, Dropdown, Button } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
 import BottomScrollListener from 'react-bottom-scroll-listener'
+import Layout from './Layout'
 
 export interface ITag {
   label: any
@@ -94,7 +95,7 @@ class Collection extends React.Component<IProps, IState> {
     const tags = [...new Set(catted)].map(val => ({ value: val, key: val, text: val }))
 
     return (
-      <div>
+      <Layout>
         <div id="search-bar">
           <Dropdown
             fluid
@@ -173,7 +174,7 @@ class Collection extends React.Component<IProps, IState> {
             justify-content: space-around;
           }
         `}</style>
-      </div>
+      </Layout>
     )
   }
 }
