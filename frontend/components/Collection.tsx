@@ -74,14 +74,6 @@ class Collection extends React.Component<IProps, IState> {
       : this.setState({ selectedItem: collection[index - 1] })
   }
 
-  private keyHandler = e => {
-    if (e.key === 'ArrowRight') {
-      this.onKeyEvent('ArrowRight')
-    } else if (e.key === 'ArrowLeft') {
-      this.onKeyEvent('ArrowLeft')
-    }
-  }
-
   private deleteItem = (item: Item) => {
     this.props.deleteItem(item)
     this.unselectItem()
@@ -123,15 +115,13 @@ class Collection extends React.Component<IProps, IState> {
           ))}
         </Grid>
 
-        <div onKeyDown={this.keyHandler}>
-          <ItemModal
-            item={selectedItem}
-            onClose={this.unselectItem}
-            onNext={() => this.onKeyEvent('ArrowRight')}
-            onPrev={() => this.onKeyEvent('ArrowLeft')}
-            onDelete={this.deleteItem}
-          />
-        </div>
+        <ItemModal
+          item={selectedItem}
+          onClose={this.unselectItem}
+          onNext={() => this.onKeyEvent('ArrowRight')}
+          onPrev={() => this.onKeyEvent('ArrowLeft')}
+          onDelete={this.deleteItem}
+        />
 
         {selectedItem
           ? false
