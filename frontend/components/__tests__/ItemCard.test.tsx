@@ -17,14 +17,10 @@ describe('ItemCard component', () => {
       tags: ['example', 'boy'],
       categories: ['png', 'image/png'],
       mediatype: 'image',
+      size: 12421,
     }
     callback = jest.fn()
     itemCard = shallow(<ItemCard item={item} onSelect={callback} />)
-  })
-
-  it('should show tags for item', () => {
-    const tags = itemCard.find('.tag')
-    expect(tags.length).toBe(2)
   })
 
   it('should show title', () => {

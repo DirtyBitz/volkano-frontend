@@ -37,10 +37,23 @@ describe('ItemModal component', () => {
       />
     )
   })
+  it('should not show modal when given undefined item', () => {
+    itemModal = shallow(
+      <ItemModal
+        item={undefined}
+        onPrev={prevCallback}
+        onNext={nextCallback}
+        onClose={closeCallback}
+        onDelete={deleteCallback}
+      />
+    )
+    const modal = itemModal.find('.modalView')
+    expect(modal.length).toBe(0)
+  })
 
-  it('should show tags for itemModal', () => {
-    const tags = itemModal.find('.modalTag')
-    expect(tags.length).toBe(2)
+  it('should show info button', () => {
+    const infoButton = itemModal.find('.infoButton')
+    expect(infoButton.length).toBe(1)
   })
 
   it('should show title', () => {
@@ -48,25 +61,14 @@ describe('ItemModal component', () => {
     expect(itemModal.contains(title)).toBe(true)
   })
 
-  it('should call onDelete function when "trashcan icon" clicked', () => {
-    const trashcan = itemModal.find('.itemDelete').first()
-    trashcan.simulate('click')
-    expect(deleteCallback).toHaveBeenCalledTimes(1)
-  })
-
-  it('should call onClose function when "close icon" clicked', () => {
-    const clickableButton = itemModal.find('.modalClose').first()
-    clickableButton.simulate('click')
-    expect(closeCallback).toHaveBeenCalledTimes(1)
-  })
-
-  it('should call onNext function when "next icon" clicked', () => {
-    const clickableButton = itemModal.find('.modalNext').first()
+  it('should call onNext function when "next button" clicked', () => {
+    const clickableButton = itemModal.find('.nextModal').first()
     clickableButton.simulate('click')
     expect(nextCallback).toHaveBeenCalledTimes(1)
   })
-  it('should call onPrev function when "prev icon" clicked', () => {
-    const clickableButton = itemModal.find('.modalPrev').first()
+
+  it('should call onPrev function when "prev button" clicked', () => {
+    const clickableButton = itemModal.find('.prevModal').first()
     clickableButton.simulate('click')
     expect(prevCallback).toHaveBeenCalledTimes(1)
   })
