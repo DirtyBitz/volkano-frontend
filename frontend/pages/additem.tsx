@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { IStoreState } from '../store/StoreState'
 import { createItem } from '../actions/item/ItemActions'
 import { SubmissionError } from 'redux-form'
+import { withAuth } from '../utils/withAuth'
 
 // Move this interface and reuse it in actions
 interface INewItem {
@@ -60,4 +61,6 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateItemPage)
+const composedCreateItemPage = withAuth(CreateItemPage)
+
+export default connect(mapStateToProps, mapDispatchToProps)(composedCreateItemPage)
