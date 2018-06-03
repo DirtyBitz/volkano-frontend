@@ -70,7 +70,7 @@ export default class Navigation extends React.Component<Props, IState> {
                   <a id="profile-link">
                     <Button icon basic color="orange">
                       <Icon name="user" />
-                      {user.name || user.email}
+                      {user.nickname || user.email}
                     </Button>
                   </a>
                 </Link>
