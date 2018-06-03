@@ -203,7 +203,9 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
           }
 
           .main {
+            margin-top: 63px;
             flex: 1;
+            padding: 30px;
           }
           @media only screen and (min-width: 551px) {
             .dropdown-menu {
