@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit, faTags } from '@fortawesome/fontawesome-free-solid'
-import { BeatLoader } from 'react-spinners'
+import { Button } from 'semantic-ui-react'
 
 const renderField = field => {
   const { meta, type, label, asyncValidating, input, iconName, inputValue } = field
@@ -12,7 +12,13 @@ const renderField = field => {
         <span className="icon">
           <FontAwesomeIcon icon={iconName} color="#bbb" />
         </span>
-        <input {...input} type={type} id={field.id} value={inputValue} placeholder={label} />
+        <input
+          {...input}
+          type={type}
+          id={field.id}
+          value={inputValue}
+          placeholder={label}
+        />
         {meta.touched &&
           meta.error && (
             <div className="validation-error">
@@ -108,18 +114,9 @@ const ItemForm = props => {
           iconName={faTags}
           inputValue={tags}
         />
-        <div className="buttons">
-          {submitting && (
-            <button type="submit" style={{ width: 100, height: 40 }}>
-              <BeatLoader color="#fff" size={15} />
-            </button>
-          )}
-          {!submitting && (
-            <button type="submit" style={{ width: 100, height: 40 }}>
-              Collect
-            </button>
-          )}
-        </div>
+        <Button positive loading={submitting} type="submit">
+          Collect
+        </Button>
       </form>
 
       <style jsx>{`
@@ -130,20 +127,6 @@ const ItemForm = props => {
           margin: 0 auto;
           background-color: #e9ebed;
           border-radius: 10px;
-        }
-
-        button {
-          padding: 10px 20px;
-          font-size: 1em;
-          background-color: rgba(#54b45f, 0.8);
-          color: white;
-          font-family: 'Montserrat', sans-serif;
-          border-radius: 10px;
-          cursor: pointer;
-          border: 0;
-        }
-        button:hover {
-          background-color: rgba(#54b45f, 1);
         }
       `}</style>
     </div>
