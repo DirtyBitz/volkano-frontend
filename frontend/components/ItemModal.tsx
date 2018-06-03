@@ -1,14 +1,7 @@
 import * as React from 'react'
 import { Item } from '../models/Item'
-import { hashTagToColor } from '../utils/TagColors'
 import ItemRenderer from './ItemRenderer'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import {
-  faTimesCircle,
-  faArrowCircleRight,
-  faArrowCircleLeft,
-  faTrash,
-} from '@fortawesome/fontawesome-free-solid'
+import { Modal, Button } from 'semantic-ui-react'
 
 interface IProps {
   item: Item
@@ -30,98 +23,44 @@ export class ItemModal extends React.Component<IProps> {
     if (!item) return null
 
     return (
-      <div>
-        <div className="prevArrow">
-          <FontAwesomeIcon
-            className="modalPrev"
-            icon={faArrowCircleLeft}
-            onClick={this.props.onPrev}
-            color="white"
-            size="4x"
-          />
-        </div>
-        <div className="nextArrow">
-          <FontAwesomeIcon
-            className="modalNext"
-            icon={faArrowCircleRight}
-            onClick={this.props.onNext}
-            color="white"
-            size="4x"
-          />
-        </div>
-        <figure>
-          <figcaption>
+      <div id="modal">
+        <Modal
+          size="large"
+          open={item ? true : false}
+          onClose={this.props.onClose}
+          closeIcon>
+          <Modal.Header>
             {item.title}
-            <FontAwesomeIcon
-              className="itemDelete"
-              icon={faTrash}
-              onClick={this.deleteItem}
+            <Button
+              style={{ marginRight: '15px' }}
+              onClick={this.props.onPrev}
+              color="vk"
+              icon="info"
+              floated="left"
             />
-            <FontAwesomeIcon
-              className="modalClose"
-              icon={faTimesCircle}
-              onClick={this.props.onClose}
-              size="2x"
+          </Modal.Header>
+          <Modal.Content image>
+            <ItemRenderer item={this.props.item} modalView={true} />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              onClick={this.props.onPrev}
+              positive
+              icon="arrow left"
+              labelPosition="left"
+              content="previous"
+              floated="left"
             />
-          </figcaption>
-          <div className="item-source">{<ItemRenderer item={item} />}</div>
-          <div className="tags">
-            {item.tags.map((tag: string) => (
-              <span
-                style={{ background: `${hashTagToColor(tag)}` }}
-                className="modalTag"
-                key={tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </figure>
-        <style jsx>{`
-          figure {
-            user-select: none;
-            min-width: 400px;
-          }
-          .prevArrow {
-            position: absolute;
-            left: 0;
-            bottom: 50%;
-            cursor: pointer;
-            user-select: none;
-          }
-          .nextArrow {
-            position: absolute;
-            right: 0;
-            bottom: 50%;
-            cursor: pointer;
-            user-select: none;
-          }
-          .modalClose {
-            cursor: pointer;
-            user-select: none;
-          }
-          figcaption {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.3em;
-            font-weight: bold;
-            align-items: center;
-          }
-          .item-source {
-            display: flex;
-            margin-left: 5px;
-            margin-right: 5px;
-            justify-content: center;
-          }
-          .tags {
-            padding: 15px 20px;
-            span {
-              padding: 5px;
-              border-radius: 3px;
-              margin-right: 10px;
-            }
-          }
-        `}</style>
+
+            <Button
+              onClick={this.props.onNext}
+              positive
+              icon="arrow right"
+              labelPosition="right"
+              content="next"
+            />
+          </Modal.Actions>
+        </Modal>
       </div>
     )
   }

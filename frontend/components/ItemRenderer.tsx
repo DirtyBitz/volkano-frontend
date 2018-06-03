@@ -4,6 +4,7 @@ import YouTube from 'react-youtube'
 
 interface IProps {
   item: Item
+  modalView?: boolean
 }
 
 export default class ItemRenderer extends React.Component<IProps> {
@@ -25,6 +26,10 @@ export default class ItemRenderer extends React.Component<IProps> {
 
   private renderYouTube = () => {
     const { url } = this.props.item
+    if (!window['YTConfig']) {
+      //@ts-ignore
+      var YTConfig = { host: 'http://www.youtube.com' }
+    }
 
     const videoId = url.split('v=')[1]
     const opts = {
@@ -50,13 +55,39 @@ export default class ItemRenderer extends React.Component<IProps> {
   }
 
   private renderImage() {
+    const { modalView } = this.props
     const { url } = this.props.item
-    return <img src={url} width="100%" />
+    return (
+      <img
+        style={{
+          objectFit: 'scale-down',
+          maxWidth: '100%',
+          maxHeight: modalView ? '70vh' : '100%',
+          margin: '0 auto',
+        }}
+        src={url}
+      />
+    )
   }
 
   private renderVideo() {
+    const { modalView } = this.props
     const { url } = this.props.item
-    return <video src={url} autoPlay muted controls loop width="100%" />
+    return (
+      <video
+        style={{
+          objectFit: 'scale-down',
+          maxWidth: '100%',
+          maxHeight: modalView ? '70vh' : '100%',
+        }}
+        src={url}
+        autoPlay
+        muted
+        controls
+        loop
+        width="100%"
+      />
+    )
   }
 
   private renderAudio() {
