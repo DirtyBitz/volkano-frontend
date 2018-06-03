@@ -9,7 +9,7 @@ import { Item } from '../models/Item'
 import Modal from 'react-modal'
 import { ItemModal } from './ItemModal'
 import Link from 'next/link'
-import { Grid, Dropdown } from 'semantic-ui-react'
+import { Grid, Dropdown, Button, ButtonGroup } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
 import { withAuth } from '../utils/withAuth'
 
@@ -142,7 +142,7 @@ class Collection extends React.Component<IProps, IState> {
           : true && (
               <div id="add-item">
                 <Link href="/additem">
-                  <span>+</span>
+                  <Button circular color="green" size="massive" icon="add" />
                 </Link>
               </div>
             )}
@@ -197,21 +197,6 @@ class Collection extends React.Component<IProps, IState> {
             justify-content: center;
             right: 30px;
             bottom: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-            width: 60px;
-            height: 60px;
-            font-size: 4em;
-            border-radius: 30px;
-            transition: all 0.2s;
-          }
-
-          #add-item:hover {
-            background-color: #2ee59d;
-            box-shadow: 0px 10px 10px rgba(46, 229, 157, 0.4);
-            color: #fff;
-            transform: scale(1.1, 1.1);
-            cursor: pointer;
           }
         `}</style>
       </div>
