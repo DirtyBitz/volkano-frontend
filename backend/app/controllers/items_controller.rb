@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
                current_user.items
              end
 
-    render json: @items
+    paginate json: @items
   end
 
   # GET /items/1
