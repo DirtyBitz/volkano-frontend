@@ -59,7 +59,6 @@ class SigninPage extends React.Component<IProps> {
           style={{
             textAlign: 'center',
             padding: '10px',
-            marginTop: '60px',
           }}>
           Sign in
         </h1>

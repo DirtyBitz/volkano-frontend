@@ -30,7 +30,6 @@ export const isSignedIn = async (req): Promise<boolean> => {
 export const getReqSession = async req => {
   let session
   if (req && req.headers && req.headers.cookie) {
-    //console.log('Getting session from cookie', req.headers.cookie)
     // Serverside, we must check the cookie provided in headers
     try {
       const cookies = cookie.parse(req.headers.cookie)
@@ -38,7 +37,6 @@ export const getReqSession = async req => {
         session = JSON.parse(cookies.session)
       }
     } catch (error) {
-      console.log('Failed parsing cookie', error, req.headers)
       return
     }
   } else {

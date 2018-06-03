@@ -39,7 +39,6 @@ class CreateItemPage extends React.Component<IProps> {
           style={{
             textAlign: 'center',
             padding: '10px',
-            paddingTop: '60px',
           }}>
           Collect an image
         </h1>

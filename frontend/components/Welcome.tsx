@@ -62,10 +62,12 @@ const Welcome = () => {
         #jumbo {
           display: flex;
           background: #1c222a;
-          padding-top: 100px;
           padding-bottom: 30px;
           color: #fff;
           flex-direction: column;
+          margin-left: -30px;
+          margin-top: -30px;
+          margin-right: -30px;
 
           img {
             margin: 0 auto;

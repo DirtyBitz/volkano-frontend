@@ -25,7 +25,6 @@ class SignUpPage extends React.Component {
           style={{
             textAlign: 'center',
             padding: '10px',
-            marginTop: '60px',
           }}>
           Create a user to start collecting!
         </h1>

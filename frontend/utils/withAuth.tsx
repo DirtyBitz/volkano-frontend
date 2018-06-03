@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Router from 'next/router'
-import { Message, Icon, Segment, Container } from 'semantic-ui-react'
+import { Message, Icon, Container } from 'semantic-ui-react'
 import Layout from '../components/Layout'
 
 interface IProps {
-  isSignedIn: boolean
+  isSignedIn?: boolean
 }
 
 export function withAuth(WrappedComponent) {

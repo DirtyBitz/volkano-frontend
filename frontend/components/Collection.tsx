@@ -11,9 +11,10 @@ import { ItemModal } from './ItemModal'
 import Link from 'next/link'
 import { Grid, Dropdown } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
+import { withAuth } from '../utils/withAuth'
 
 export interface ITag {
-  label: string
+  label: any
   value: any
 }
 
@@ -114,7 +115,10 @@ class Collection extends React.Component<IProps, IState> {
             selection
             options={tags}
             onChange={(event, data) => {
-              const tags = data.value.map(val => ({ value: val, label: val }))
+              const tags = data.options.map(option => ({
+                value: option.value,
+                label: option.value,
+              }))
               setTags(tags)
             }}
           />
@@ -182,8 +186,8 @@ class Collection extends React.Component<IProps, IState> {
 
         <style jsx>{`
           #search-bar {
-            margin-top: 62px;
             margin-bottom: 10px;
+            margin-bottom: 30px;
           }
           #add-item {
             position: fixed;
@@ -228,4 +232,6 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Collection)
+const composedCollection = withAuth(Collection)
+
+export default connect(mapStateToProps, mapDispatchToProps)(composedCollection)
