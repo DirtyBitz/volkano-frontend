@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { VolkaButton } from './VolkaButton'
 import AuthApi from '../api/AuthApi'
+import { Button, ButtonGroup } from 'semantic-ui-react'
 
 interface IState {
   isEditing: boolean
@@ -56,10 +57,12 @@ class EditPassword extends React.Component<{}, IState> {
           <div id="change-password-action">
             <span>{this.state.message}</span>
             <div className="button">
-              <VolkaButton
-                title="Change password"
-                onClick={() => this.setState({ isEditing: true })}
-              />
+              <Button
+                inverted
+                color="green"
+                onClick={() => this.setState({ isEditing: true })}>
+                Change password
+              </Button>
             </div>
           </div>
         )}
@@ -67,14 +70,18 @@ class EditPassword extends React.Component<{}, IState> {
         {isEditing && (
           <div id="change-password-container">
             <div className="button">
-              <VolkaButton
-                title="Cancel"
-                className="danger"
-                onClick={() => this.setState({ isEditing: false })}
-              />
-            </div>
-            <div className="button">
-              <VolkaButton title="Change password" onClick={this.onSubmit} />
+              <ButtonGroup>
+                <Button
+                  inverted
+                  color="red"
+                  onClick={() => this.setState({ isEditing: false })}>
+                  Cancel
+                </Button>
+                <Button.Or />
+                <Button inverted color="green" onClick={this.onSubmit}>
+                  Change password
+                </Button>
+              </ButtonGroup>
             </div>
             <div className="content">
               <label>Current password</label>
