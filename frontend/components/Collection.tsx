@@ -10,6 +10,7 @@ import Modal from 'react-modal'
 import { ItemModal } from './ItemModal'
 import Link from 'next/link'
 import { Grid, Dropdown } from 'semantic-ui-react'
+import { PulseLoader } from 'react-spinners'
 
 export interface ITag {
   label: string
@@ -85,6 +86,23 @@ class Collection extends React.Component<IProps, IState> {
     })
     const catted = searchTags.reduce((prev, curr) => [...prev, ...curr], [])
     const tags = [...new Set(catted)].map(val => ({ value: val, key: val, text: val }))
+
+    if (collection.isLoading) {
+      return (
+        <div className="sweet-loader">
+          <PulseLoader color={'#aaaaaa'} loading={collection.isLoading} size={30} />
+          <style jsx>
+            {`
+              .sweet-loader {
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-around;
+              }
+            `}
+          </style>
+        </div>
+      )
+    }
 
     return (
       <div>
