@@ -9,7 +9,8 @@ class MyApp extends App {
   props: any
 
   render() {
-    const { Component, pageProps, reduxStore } = this.props
+    const { Component, pageProps, reduxStore, router } = this.props
+    pageProps.url = router
     return (
       <Container>
         <Provider store={reduxStore}>
