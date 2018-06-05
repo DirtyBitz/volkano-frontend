@@ -1,6 +1,21 @@
 import * as React from 'react'
 import AuthApi from '../api/AuthApi'
 import { Button } from 'semantic-ui-react'
+import { Dispatch, connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addNotification } from '../actions/notifications/NotificationActions'
+import { IStoreState } from '../store/StoreState'
+import { IAddNotification } from '../actions/notifications/NotificationActionTypes'
+import {
+  INotification,
+  createNotification,
+  NotificationSeverity,
+} from '../models/Notification'
+import { SubmissionError } from 'redux-form'
+
+interface IProps {
+  addNotification: (notification: INotification) => IAddNotification
+}
 
 interface IState {
   isEditing: boolean
@@ -10,7 +25,7 @@ interface IState {
   passwordsMatch: boolean
 }
 
-class EditPassword extends React.Component<{}, IState> {
+class EditPassword extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -29,9 +44,22 @@ class EditPassword extends React.Component<{}, IState> {
         this.state.newPassword,
         this.state.confirmPassword
       )
+
+      const notification = createNotification(
+        NotificationSeverity.SUCCESS,
+        `Password has been updated`,
+        5000
+      )
+      this.props.addNotification(notification)
+
       this.setState({ isEditing: false })
     } catch (error) {
-      this.setState({ isEditing: false })
+      const notification = createNotification(
+        NotificationSeverity.ERROR,
+        `Could not change password`,
+        5000
+      )
+      this.props.addNotification(notification)
     }
   }
 
@@ -72,7 +100,7 @@ class EditPassword extends React.Component<{}, IState> {
                 onClick={() => this.setState({ isEditing: false })}>
                 Cancel
               </Button>
-              <Button inverted color="green" onClick={this.onSubmit}>
+              <Button inverted color="green" onClick={this.onSubmit} type="submit">
                 Change password
               </Button>
             </div>
@@ -80,6 +108,7 @@ class EditPassword extends React.Component<{}, IState> {
               <label>Current password</label>
               <input
                 autoFocus
+                name="currentPassword"
                 type="password"
                 onChange={event => this.setState({ currentPassword: event.target.value })}
                 value={currentPassword}
@@ -88,6 +117,7 @@ class EditPassword extends React.Component<{}, IState> {
             <div className="content">
               <label>New password</label>
               <input
+                name="password"
                 type="password"
                 onChange={this.newPasswordChange}
                 value={newPassword}
@@ -145,4 +175,9 @@ class EditPassword extends React.Component<{}, IState> {
   }
 }
 
-export default EditPassword
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
+  addNotification: bindActionCreators(addNotification, dispatch),
+})
+
+export default connect(undefined, mapDispatchToProps)(EditPassword)
