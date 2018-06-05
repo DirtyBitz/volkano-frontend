@@ -168,7 +168,7 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
             position: fixed;
             animation-name: dropdown-animation;
             animation-duration: 0.5s;
-            z-index: 1;
+            z-index: 998;
             a {
               display: block;
               padding: 12px;
