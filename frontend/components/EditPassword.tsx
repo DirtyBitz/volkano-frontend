@@ -1,6 +1,6 @@
 import * as React from 'react'
 import AuthApi from '../api/AuthApi'
-import { Button, ButtonGroup } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 interface IState {
   isEditing: boolean
@@ -8,7 +8,6 @@ interface IState {
   newPassword: string
   confirmPassword: string
   passwordsMatch: boolean
-  message?: string
 }
 
 class EditPassword extends React.Component<{}, IState> {
@@ -30,9 +29,9 @@ class EditPassword extends React.Component<{}, IState> {
         this.state.newPassword,
         this.state.confirmPassword
       )
-      this.setState({ message: 'Password changed', isEditing: false })
+      this.setState({ isEditing: false })
     } catch (error) {
-      this.setState({ message: error.message, isEditing: false })
+      this.setState({ isEditing: false })
     }
   }
 
@@ -54,15 +53,13 @@ class EditPassword extends React.Component<{}, IState> {
       <div className={isEditing ? 'editable-field is-editing' : 'editable-field'}>
         {!isEditing && (
           <div id="change-password-action">
-            <span>{this.state.message}</span>
-            <div className="button">
-              <Button
-                inverted
-                color="green"
-                onClick={() => this.setState({ isEditing: true })}>
-                Change password
-              </Button>
-            </div>
+            <Button
+              inverted
+              className="button"
+              color="green"
+              onClick={() => this.setState({ isEditing: true })}>
+              Change password
+            </Button>
           </div>
         )}
 
