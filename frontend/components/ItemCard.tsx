@@ -42,6 +42,11 @@ export default class ItemCard extends React.Component<IProps> {
           .item:hover {
             transform: scale(1.05);
           }
+          @media (hover: none) {
+            .item:hover {
+              transform: none;
+            }
+          }
         `}</style>
       </div>
     )

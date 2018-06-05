@@ -164,7 +164,7 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
           .dropdown-menu {
             width: 100%;
             background: #44474c;
-            margin-top: 60px;
+            margin-top: 55px;
             position: fixed;
             animation-name: dropdown-animation;
             animation-duration: 0.5s;
@@ -182,7 +182,7 @@ export class Layout extends React.Component<IExternalProps & IInternalProps, ISt
                 margin-top: -100px;
               }
               to {
-                margin-top: 60px;
+                margin-top: 55px;
               }
             }
           }
