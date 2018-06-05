@@ -1,11 +1,22 @@
 import * as React from 'react'
 import EditableField from '../components/EditableField'
 import EditPassword from '../components/EditPassword'
-import { ISession } from '../utils/Session'
 import AuthApi from '../api/AuthApi'
+import { IStoreState } from '../store/StoreState'
+import { Dispatch, connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addNotification } from '../actions/notifications/NotificationActions'
+import {
+  INotification,
+  createNotification,
+  NotificationSeverity,
+} from '../models/Notification'
+import { IAddNotification } from '../actions/notifications/NotificationActionTypes'
+import { IUserState } from '../reducers/user'
 
 interface IProps {
-  session: ISession
+  userState: IUserState
+  addNotification: (notification: INotification) => IAddNotification
 }
 
 interface IState {
@@ -19,7 +30,8 @@ class Profile extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { session } = this.props
+    const { userState } = this.props
+    const user = userState && userState.session ? userState.session.user : undefined
     const { errors } = this.state
     return (
       <div>
@@ -41,14 +53,14 @@ class Profile extends React.Component<IProps, IState> {
             }}>
             <EditableField
               label="E-mail"
-              value={session ? session.user.email : ''}
+              value={user ? user.email : ''}
               onSave={newValue => this.update({ email: newValue })}
               error={errors && errors.email}
             />
 
             <EditableField
               label="Nickname"
-              value={session ? session.user.nickname : ''}
+              value={user ? user.nickname : ''}
               onSave={newValue => this.update({ nickname: newValue })}
               error={errors && errors.nickname}
             />
@@ -68,15 +80,33 @@ class Profile extends React.Component<IProps, IState> {
 
   update = async value => {
     try {
+      const attribute = Object.keys(value)[0]
       await AuthApi.updateUser({
         nickname: value.nickname,
         email: value.email,
       })
+
       this.setState({ errors: undefined })
+      const notification = createNotification(
+        NotificationSeverity.SUCCESS,
+        `Successfully updated ${attribute}.`,
+        5000
+      )
+      this.props.addNotification(notification)
     } catch (error) {
       this.setState({ errors: error.errors })
     }
   }
 }
 
-export default Profile
+/* istanbul ignore next */
+const mapStateToProps = (state: IStoreState) => ({
+  userState: state.user,
+})
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
+  addNotification: bindActionCreators(addNotification, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
