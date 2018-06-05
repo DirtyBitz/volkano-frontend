@@ -23,14 +23,15 @@ export default class ItemCard extends React.Component<IProps> {
         <div className="item" onClick={this.onClick}>
           {this.renderItem()}
           <div className="taglist">
-            {item.tags.map((tag: string) => (
-              <span
-                style={{ background: `${hashTagToColor(tag)}` }}
-                className="tag"
-                key={tag}>
-                {tag}
-              </span>
-            ))}
+            {!!item.tags &&
+              item.tags.map((tag: string) => (
+                <span
+                  style={{ background: `${hashTagToColor(tag)}` }}
+                  className="tag"
+                  key={tag}>
+                  {tag}
+                </span>
+              ))}
           </div>
         </div>
         <style jsx>{`

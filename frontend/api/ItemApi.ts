@@ -4,6 +4,18 @@ export interface ICollectionData {
   items: Item[]
 }
 
+interface IItemJson {
+  id: number
+  title: string
+  url: string
+  categories: { name: string; taggings_count: number }[]
+  created_at: string
+  mediatype: string
+  size: number
+  tags: { name: string; taggings_count: number }[]
+  updated_at: string
+}
+
 export class ItemApi {
   public static async getItems(page: number = 1) {
     try {
@@ -26,7 +38,19 @@ export class ItemApi {
     const params = { item: { title, url, tag_list: tags } }
 
     try {
-      const item = (await VolkanoRequest.post('/items', params)) as Item
+      const itemResponse: IItemJson = await VolkanoRequest.post('/items', params)
+      const item: Item = {
+        id: itemResponse.id,
+        categories: itemResponse.categories
+          ? itemResponse.categories.map(cat => cat.name)
+          : [],
+        mediatype: itemResponse.mediatype,
+        size: itemResponse.size,
+        tags: itemResponse.tags ? itemResponse.tags.map(tag => tag.name) : [],
+        title: itemResponse.title,
+        uid: itemResponse.id,
+        url: itemResponse.url,
+      }
       return item
     } catch (error) {
       return Promise.reject(handleError(error))
