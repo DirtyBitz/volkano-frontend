@@ -20,7 +20,7 @@ describe('Item API', () => {
         ]
       })
 
-      const collection = await ItemApi.getAllItems()
+      const collection = await ItemApi.getItems()
       expect(collection.items).toHaveLength(2)
     })
 
@@ -30,7 +30,7 @@ describe('Item API', () => {
       })
 
       try {
-        await ItemApi.getAllItems()
+        await ItemApi.getItems()
         expect('this should never happen').toBe(true)
       } catch (error) {
         expect(error.errors).toMatch('Internal server error')

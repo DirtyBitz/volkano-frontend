@@ -5,9 +5,10 @@ export interface ICollectionData {
 }
 
 export class ItemApi {
-  public static async getAllItems() {
+  public static async getItems(page: number = 1) {
     try {
-      const rawItems = await VolkanoRequest.get('/items')
+      const path = page ? `/items?page=${page}` : '/items'
+      const rawItems = await VolkanoRequest.get(path)
       const collection: ICollectionData = {
         items: rawItems.map(item => {
           const tags = item.tags.map(tag => tag.name)

@@ -32,7 +32,6 @@ export function withAuth(WrappedComponent) {
 
     componentDidMount() {
       if (!this.props.isSignedIn) {
-        console.log('Redir to sign in page')
         Router.push('/signin')
       }
     }

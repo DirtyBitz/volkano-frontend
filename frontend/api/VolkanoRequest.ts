@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { ISession, setSession, getSession, clearSession } from '../utils/Session'
 import { convertUserJson, isValidUserJson } from '../models/User'
 import getConfig from 'next/config'
@@ -35,7 +35,7 @@ export default class VolkanoRequest {
       'this value only used in tests'
     const url = `${host + path}.json`
     const options = { url, method, data, headers: session }
-    let response
+    let response: AxiosResponse<any>
     try {
       response = await axios(options)
     } catch (error) {
