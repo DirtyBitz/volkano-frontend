@@ -56,7 +56,7 @@ class CreateItemPage extends React.Component<IProps> {
           }}>
           Collect an image
         </h1>
-        <CreateItemForm onSubmit={this.handleSubmit} {...query} />
+        <CreateItemForm onSubmit={this.handleSubmit} initialValues={query} />
       </Layout>
     )
   }
