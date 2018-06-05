@@ -1,19 +1,7 @@
-import { Item } from '../models/Item'
+import { Item, IItemJson } from '../models/Item'
 import VolkanoRequest, { IVolkanoHTTPError } from './VolkanoRequest'
 export interface ICollectionData {
   items: Item[]
-}
-
-interface IItemJson {
-  id: number
-  title: string
-  url: string
-  categories: { name: string; taggings_count: number }[]
-  created_at: string
-  mediatype: string
-  size: number
-  tags: { name: string; taggings_count: number }[]
-  updated_at: string
 }
 
 export class ItemApi {

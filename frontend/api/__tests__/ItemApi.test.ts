@@ -1,5 +1,6 @@
 import { ItemApi } from '../ItemApi'
 import VolkanoRequest from '../VolkanoRequest'
+import { IItemJson, Item } from '../../models/Item'
 jest.mock('../VolkanoRequest')
 
 describe('Item API', () => {
@@ -48,6 +49,38 @@ describe('Item API', () => {
       const item = await ItemApi.createItem(title, url, tags)
       expect(item.title).toEqual(title)
       expect(item.url).toEqual(url)
+    })
+
+    it('converts server json to correct format', async () => {
+      const fakeItem: IItemJson = {
+        id: 1,
+        categories: [
+          { name: 'cat1', taggings_count: 1 },
+          { name: 'cat2', taggings_count: 1 },
+        ],
+        created_at: '123',
+        mediatype: '',
+        size: 123,
+        tags: [{ name: 'tag1', taggings_count: 1 }, { name: 'tag2', taggings_count: 1 }],
+        title: 'title',
+        updated_at: '',
+        url: 'http://url.com',
+      }
+      VolkanoRequest.post = jest.fn((path, params) => fakeItem)
+
+      const expects: Item = {
+        id: fakeItem.id,
+        categories: ['cat1', 'cat2'],
+        mediatype: fakeItem.mediatype,
+        size: fakeItem.size,
+        tags: ['tag1', 'tag2'],
+        title: fakeItem.title,
+        uid: fakeItem.id,
+        url: fakeItem.url,
+      }
+
+      const item = await ItemApi.createItem(fakeItem.title, fakeItem.url, 'tag1, tag2')
+      expect(item).toEqual(expects)
     })
 
     it('throws with errors for invalid item', async () => {
