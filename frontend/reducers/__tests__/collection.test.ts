@@ -1,4 +1,4 @@
-import collection, { collectionInitialState, ICollectionState } from '../collection'
+import collection, { COLLECTION_INITIAL_STATE, ICollectionState } from '../collection'
 import { OtherAction } from '../../actions/IOtherAction'
 import {
   collectionPending,
@@ -10,6 +10,7 @@ import {
 import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/Collection'
 import { Item } from '../../models/Item'
+import { getMockItems } from '../../models/__mockdata__/Item'
 
 const fakeData: ICollectionData = {
   items: [
@@ -38,7 +39,11 @@ const fakeData: ICollectionData = {
 
 describe('Collection reducer', () => {
   it('should return the initial state', () => {
+    // Explisitly declase state in this test,
+    // don't spread the initial state
     const expectedState: ICollectionState = {
+      hasFetchedAll: false,
+      currentPage: 0,
       isLoading: false,
       items: undefined,
       errors: undefined,
@@ -51,24 +56,19 @@ describe('Collection reducer', () => {
 
   it('should handle collection pending', () => {
     const expectedState: ICollectionState = {
+      ...COLLECTION_INITIAL_STATE,
       isLoading: true,
-      items: undefined,
-      errors: undefined,
-      tags: [],
-      filteredItems: [],
     }
 
-    const newState = collection(collectionInitialState, collectionPending())
+    const newState = collection(COLLECTION_INITIAL_STATE, collectionPending())
 
     expect(newState).toEqual(expectedState)
   })
   it('should handle when collect items is rejected', async () => {
     const expectedState: ICollectionState = {
-      isLoading: false,
+      ...COLLECTION_INITIAL_STATE,
+      currentPage: 0,
       errors: ['this is a fake error message'],
-      items: undefined,
-      tags: [],
-      filteredItems: [],
     }
 
     const newState = collection(
@@ -81,20 +81,32 @@ describe('Collection reducer', () => {
 
   it('should handle when collect items is successful', async () => {
     const expectedState: ICollectionState = {
-      isLoading: false,
+      ...COLLECTION_INITIAL_STATE,
+      currentPage: 1,
       items: fakeData.items,
-      tags: [],
-      filteredItems: [],
     }
 
-    const state = collection(expectedState, collectionSuccess(fakeData))
+    const state = collection(undefined, collectionSuccess(fakeData))
 
     expect(state).toEqual(expectedState)
   })
 
+  it('should handle pagination', async () => {
+    const fakeItems1 = { items: getMockItems(25) }
+    const fakeItems2 = { items: getMockItems(25) }
+    const fakeItems3 = { items: [] }
+
+    const state1 = collection(undefined, collectionSuccess(fakeItems1))
+    const state2 = collection(state1, collectionSuccess(fakeItems2))
+    const finalState = collection(state2, collectionSuccess(fakeItems3))
+    expect(finalState.items.length).toEqual(50)
+    expect(finalState.hasFetchedAll).toEqual(true)
+  })
+
   it('should handle item deletion', async () => {
     const initialState: ICollectionState = {
-      isLoading: false,
+      ...COLLECTION_INITIAL_STATE,
+      currentPage: 1,
       items: [
         {
           id: 0,
@@ -127,12 +139,11 @@ describe('Collection reducer', () => {
           size: 0,
         },
       ],
-      tags: [],
-      filteredItems: [],
     }
 
     const expectedState: ICollectionState = {
-      isLoading: false,
+      ...COLLECTION_INITIAL_STATE,
+      currentPage: 1,
       items: [
         {
           id: 0,
@@ -155,7 +166,6 @@ describe('Collection reducer', () => {
           size: 0,
         },
       ],
-      tags: [],
       filteredItems: [
         {
           id: 0,
@@ -203,17 +213,15 @@ describe('Collection reducer', () => {
 
     it('should add a tag', () => {
       const initState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
         items: fakeData.items,
-        tags: [],
-        filteredItems: [],
       }
 
       const expectedState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
+        currentPage: 1,
         items: fakeData.items,
         tags: [testTags[0]],
-        filteredItems: [],
       }
 
       const newState = collection(initState, setTags([testTags[0]]))
@@ -223,17 +231,15 @@ describe('Collection reducer', () => {
 
     it('should clear all tags', () => {
       const initState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
         items: fakeData.items,
         tags: [...testTags],
-        filteredItems: [],
       }
 
       const expectedState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
+        currentPage: 1,
         items: fakeData.items,
-        tags: [],
-        filteredItems: [],
       }
 
       const newState = collection(initState, setTags([]))
@@ -271,14 +277,13 @@ describe('Collection reducer', () => {
       }
 
       const initState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
         items: originalItems,
-        tags: [],
-        filteredItems: [],
       }
 
       const expectedState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
+        currentPage: 1,
         items: originalItems,
         tags: [tag],
         filteredItems: [originalItems[0]],
@@ -324,14 +329,13 @@ describe('Collection reducer', () => {
       }
 
       const initState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
         items: originalItems,
-        tags: [],
-        filteredItems: [],
       }
 
       const expectedState: ICollectionState = {
-        isLoading: false,
+        ...COLLECTION_INITIAL_STATE,
+        currentPage: 1,
         items: originalItems,
         tags: [tag, tag1],
         filteredItems: [originalItems[0]],

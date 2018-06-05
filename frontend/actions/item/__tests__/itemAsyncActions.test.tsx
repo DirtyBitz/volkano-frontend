@@ -20,7 +20,7 @@ describe('Item thunk actions', () => {
     it('with no errors', async () => {
       const expectedActions = [
         actions.collectionPending(),
-        actions.collectionSuccess(await ItemApi.getAllItems()),
+        actions.collectionSuccess(await ItemApi.getItems()),
       ]
 
       await store.dispatch(actions.allItems())
@@ -29,7 +29,7 @@ describe('Item thunk actions', () => {
     })
 
     it('with errors', async () => {
-      ItemApi.getAllItems = jest.fn(() => {
+      ItemApi.getItems = jest.fn(() => {
         throw ['Did throw']
       })
       const expectedActions = [

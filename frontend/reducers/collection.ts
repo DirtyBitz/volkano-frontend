@@ -5,20 +5,24 @@ import { ITag } from '../components/Collection'
 
 export interface ICollectionState {
   isLoading: boolean
+  currentPage: number
+  hasFetchedAll: boolean
   items?: Item[]
   errors?: string[]
   tags: ITag[]
   filteredItems: Item[]
 }
 
-export const collectionInitialState: ICollectionState = {
+export const COLLECTION_INITIAL_STATE: ICollectionState = {
   isLoading: false,
+  currentPage: 0,
+  hasFetchedAll: false,
   tags: [],
   filteredItems: [],
 }
 
 export default function collection(
-  state = collectionInitialState,
+  state = COLLECTION_INITIAL_STATE,
   action: ItemActionTypes
 ): ICollectionState {
   switch (action.type) {
@@ -32,7 +36,9 @@ export default function collection(
       return {
         ...state,
         isLoading: false,
-        items: action.payload.items,
+        items: comineItems(action.payload.items, state.items),
+        currentPage: state.currentPage + 1,
+        hasFetchedAll: action.payload.items.length === 0 ? true : false,
       }
     case ItemActionTypeKeys.FETCH_COLLECTION_FAILURE:
       return {
@@ -67,4 +73,20 @@ function itemsWithTags(items: Item[], tags: ITag[]) {
     return matchingTags.length === tags.length
   })
   return filtered
+}
+
+function comineItems(newItems: Item[], oldItems?: Item[]) {
+  if (!oldItems) {
+    return newItems
+  }
+  const combinedItems: Item[] = [...oldItems]
+
+  newItems.forEach(newItem => {
+    const allreadyAdded = oldItems.find(item => item.id === newItem.id)
+    if (!allreadyAdded) {
+      combinedItems.push(newItem)
+    }
+  })
+
+  return combinedItems
 }

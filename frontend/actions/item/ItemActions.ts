@@ -14,11 +14,11 @@ import {
 import { ITag } from '../../components/Collection'
 import { Item } from '../../models/Item'
 
-export const allItems = () => {
+export const allItems = (page?: number) => {
   return async (dispatch: Dispatch<IStoreState>) => {
     dispatch(collectionPending())
     try {
-      const collection = await ItemApi.getAllItems()
+      const collection = await ItemApi.getItems(page)
       dispatch(collectionSuccess(collection))
     } catch (error) {
       dispatch(collectionFailure(error))
