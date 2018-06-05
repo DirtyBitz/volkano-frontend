@@ -8,6 +8,13 @@ import { IStoreState } from '../store/StoreState'
 import { createItem } from '../actions/item/ItemActions'
 import { SubmissionError } from 'redux-form'
 import { withAuth } from '../utils/withAuth'
+import { addNotification } from '../actions/notifications/NotificationActions'
+import { IAddNotification } from '../actions/notifications/NotificationActionTypes'
+import {
+  INotification,
+  createNotification,
+  NotificationSeverity,
+} from '../models/Notification'
 
 // Move this interface and reuse it in actions
 interface INewItem {
@@ -19,12 +26,19 @@ interface INewItem {
 interface IProps extends IStoreState {
   url: any
   createItem: (item: INewItem) => (dispatch: any) => Promise<void>
+  addNotification: (notification: INotification) => IAddNotification
 }
 
 class CreateItemPage extends React.Component<IProps> {
   private handleSubmit = async (item: INewItem) => {
     try {
       await this.props.createItem(item)
+      const notification = createNotification(
+        NotificationSeverity.SUCCESS,
+        `Successfully added ${item.title} to your collection.`,
+        5000
+      )
+      this.props.addNotification(notification)
       Router.push('/')
     } catch (error) {
       throw new SubmissionError(error.errors)
@@ -57,6 +71,7 @@ const mapStateToProps = (state: IStoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => {
   return {
     createItem: bindActionCreators(createItem, dispatch),
+    addNotification: bindActionCreators(addNotification, dispatch),
   }
 }
 
