@@ -14,7 +14,7 @@ interface IProps {
 interface IState {
   isOpen: boolean
 }
-export class InfoModal extends React.Component<IProps, IState> {
+export default class InfoModal extends React.Component<IProps, IState> {
   timeout: any
   constructor(props) {
     super(props)
@@ -23,6 +23,7 @@ export class InfoModal extends React.Component<IProps, IState> {
     }
   }
 
+  /* istanbul ignore next */
   handleOpen = () => {
     this.setState({ isOpen: true })
 
@@ -31,6 +32,7 @@ export class InfoModal extends React.Component<IProps, IState> {
     }, 2500)
   }
 
+  /* istanbul ignore next */
   handleClose = () => {
     this.setState({ isOpen: false })
     clearTimeout(this.timeout)
@@ -40,6 +42,7 @@ export class InfoModal extends React.Component<IProps, IState> {
     const { onDelete, item } = this.props
     onDelete(item)
   }
+  /* istanbul ignore next */
   private copyUrl = () => {
     const range = document.createRange()
     range.selectNode(document.getElementById('urlLink'))
@@ -58,7 +61,7 @@ export class InfoModal extends React.Component<IProps, IState> {
         }}
         relaxed
         divided>
-        <List.Item className="titleModal" icon="id badge" content={<p>{item.title}</p>} />
+        <List.Item className="titleModal" icon="id badge" content={item.title} />
         <List.Item
           className="urlModal"
           icon="linkify"
@@ -98,42 +101,35 @@ export class InfoModal extends React.Component<IProps, IState> {
         <List.Item
           className="tagsModal"
           icon="tags"
-          content={(item.tags || []).map(
-            /* istanbul ignore next */
-            tag => (
-              <Label
-                key={tag}
-                style={{ marginBottom: '3px' }}
-                as="a"
-                content={tag}
-                tag
-                color="teal"
-              />
-            )
-          )}
+          content={(item.tags || []).map(tag => (
+            <Label
+              key={tag}
+              style={{ marginBottom: '3px' }}
+              as="a"
+              content={tag}
+              tag
+              color="teal"
+            />
+          ))}
         />
         <List.Item
           icon="file archive outline"
           className="categoriesModal"
-          content={(item.categories || []).map(
-            /* istanbul ignore next */
-            category => (
-              <Label
-                key={category}
-                style={{ marginBottom: '3px' }}
-                as="a"
-                content={category}
-                color="purple"
-                icon="info"
-              />
-            )
-          )}
+          content={(item.categories || []).map(category => (
+            <Label
+              key={category}
+              style={{ marginBottom: '3px' }}
+              as="a"
+              content={category}
+              color="purple"
+              icon="info"
+            />
+          ))}
         />
         <List.Item
           className="deleteModal"
           content={
             <Button
-              className="deleteModalButton"
               negative
               icon="trash outline"
               content="delete"
