@@ -6,6 +6,7 @@ import {
   collectionFailure,
   setTags,
   deleteItem,
+  addItem,
 } from '../../actions/item/ItemActions'
 import { ICollectionData } from '../../api/ItemApi'
 import { ITag } from '../../components/Collection'
@@ -101,6 +102,16 @@ describe('Collection reducer', () => {
     const finalState = collection(state2, collectionSuccess(fakeItems3))
     expect(finalState.items.length).toEqual(50)
     expect(finalState.hasFetchedAll).toEqual(true)
+  })
+
+  it('should handle adding single item', async () => {
+    const fakeItems1 = { items: getMockItems(3) }
+    const newItem = getMockItems(1)[0]
+
+    const state1 = collection(undefined, collectionSuccess(fakeItems1))
+    const finalState = collection(state1, addItem(newItem))
+
+    expect(finalState.items.length).toEqual(4)
   })
 
   it('should handle item deletion', async () => {

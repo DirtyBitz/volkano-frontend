@@ -59,6 +59,11 @@ export default function collection(
         tags: action.payload,
         filteredItems: itemsWithTags(state.items, action.payload),
       }
+    case ItemActionTypeKeys.ADD_ITEM:
+      return {
+        ...state,
+        items: !!state.items ? [...state.items, action.payload] : [action.payload],
+      }
     default:
       return state
   }
