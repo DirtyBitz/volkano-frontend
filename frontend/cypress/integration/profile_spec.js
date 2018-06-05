@@ -50,8 +50,9 @@ describe('Profile page', () => {
       .type(newPassword)
 
     cy.contains(/change password/i).click()
-    cy.contains(/password changed/i)
+    cy.contains(/password has been updated/i)
     cy.get('#signout').click()
+    cy.url().should('not.match', /profile/)
     cy.login(testUser, newPassword)
     cy.visit('/profile')
     cy.url().should('match', /profile/)
