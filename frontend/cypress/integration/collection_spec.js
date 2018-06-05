@@ -3,6 +3,10 @@ const timestamp = Cypress.moment().format('x')
 
 describe('Collection', () => {
   const testUser = `test${timestamp}@example.com`
+  const title = 'Timestamped: ' + timestamp
+  const url = 'http://maxjohansen.com/image.jpg'
+  const tags = 'test, tags'
+
   beforeEach(() => {
     cy.reset_user(testUser)
     cy.login(testUser)
@@ -11,9 +15,17 @@ describe('Collection', () => {
 
   it('can add an item', () => {
     cy.get('#add-item').click()
-    cy.get('input[name=url]').type('http://maxjohansen.com/image.jpg')
-    cy.get('input[name=title]').type('Timestamped: ' + timestamp)
-    cy.get('input[name=tags]').type('test, tags{enter}')
+    cy.get('input[name=url]').type(url)
+    cy.get('input[name=title]').type(title)
+    cy.get('input[name=tags]').type(tags + '{enter}')
+    cy.url().should('equal', 'http://localhost:3000/')
+    cy.get('#collage').contains(timestamp)
+  })
+
+  it('can add an item through bookmarklet', () => {
+    const queryParams = encodeURI(`url=${url}&title=${title}&tags=${tags}`)
+    cy.visit('/additem?' + queryParams)
+    cy.get('button[type=submit]').click()
     cy.url().should('equal', 'http://localhost:3000/')
     cy.get('#collage').contains(timestamp)
   })
