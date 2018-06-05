@@ -22,12 +22,12 @@ export class ItemApi {
     }
   }
 
-  public static async createItem(title: string, url: string, tags: string): Promise<any> {
+  public static async createItem(title: string, url: string, tags: string) {
     const params = { item: { title, url, tag_list: tags } }
 
     try {
-      const { item: data } = await VolkanoRequest.post('/items', params)
-      return data
+      const item = (await VolkanoRequest.post('/items', params)) as Item
+      return item
     } catch (error) {
       return Promise.reject(handleError(error))
     }

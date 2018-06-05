@@ -43,7 +43,6 @@ class Collection extends React.Component<IProps, IState> {
 
   private fetchNextPage = () => {
     const { currentPage } = this.props.collection
-    console.log('Fetching page', currentPage + 1)
     this.props.allItems(currentPage + 1)
   }
 
