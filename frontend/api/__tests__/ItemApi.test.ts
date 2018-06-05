@@ -44,11 +44,14 @@ describe('Item API', () => {
     const tags = 'cute, doggo'
 
     it('sends valid parameters to backend', async () => {
-      VolkanoRequest.post = jest.fn((path, params) => params)
+      VolkanoRequest.post = jest.fn((path, params) => {
+        return params.item
+      })
 
       const item = await ItemApi.createItem(title, url, tags)
       expect(item.title).toEqual(title)
       expect(item.url).toEqual(url)
+      // @ts-ignore
       expect(item.tag_list).toEqual(tags)
     })
 
