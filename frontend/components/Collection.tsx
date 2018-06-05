@@ -8,7 +8,7 @@ import ItemCard from './ItemCard'
 import { Item } from '../models/Item'
 import { ItemModal } from './ItemModal'
 import Link from 'next/link'
-import { Grid, Dropdown, Button, ButtonGroup } from 'semantic-ui-react'
+import { Grid, Dropdown, Button } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
 import BottomScrollListener from 'react-bottom-scroll-listener'
 
@@ -59,6 +59,7 @@ class Collection extends React.Component<IProps, IState> {
   private unselectItem = () => {
     this.setState({
       selectedItem: undefined,
+      openModal: false,
     })
   }
 
@@ -69,6 +70,8 @@ class Collection extends React.Component<IProps, IState> {
     const index = collection.findIndex(item => {
       return this.state.selectedItem === item
     })
+    if (keyevent === 'ArrowRight' && collection.length - 1 == index) return
+    else if (keyevent === 'ArrowLeft' && index - 1 < 0) return
     keyevent === 'ArrowRight'
       ? this.setState({ selectedItem: collection[index + 1] })
       : this.setState({ selectedItem: collection[index - 1] })

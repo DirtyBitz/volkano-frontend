@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Item } from '../models/Item'
 import ItemRenderer from './ItemRenderer'
-import { Modal, Button, List, Label } from 'semantic-ui-react'
-import { bytesToSize } from '../utils/BytesToSize'
-import { InfoModal } from './infoModal'
+import { Modal, Button } from 'semantic-ui-react'
+import InfoModal from './InfoModal'
 interface IProps {
   item: Item
   onClose: () => void
