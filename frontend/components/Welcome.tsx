@@ -91,7 +91,7 @@ const Welcome = () => {
               <Icon name="plus" size="huge" />
               <h3>Add items</h3>
 
-              <p>Start collection your media</p>
+              <p>Start collecting your media</p>
             </div>
 
             <div className="step">

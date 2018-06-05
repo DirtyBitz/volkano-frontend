@@ -40,7 +40,7 @@ const fakeData: ICollectionData = {
 
 describe('Collection reducer', () => {
   it('should return the initial state', () => {
-    // Explisitly declase state in this test,
+    // Explicitly declase state in this test,
     // don't spread the initial state
     const expectedState: ICollectionState = {
       hasFetchedAll: false,
