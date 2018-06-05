@@ -11,7 +11,7 @@ import { ItemModal } from './ItemModal'
 import Link from 'next/link'
 import { Grid, Dropdown, Button, ButtonGroup } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
-import { withAuth } from '../utils/withAuth'
+import BottomScrollListener from 'react-bottom-scroll-listener'
 
 export interface ITag {
   label: any
@@ -38,7 +38,13 @@ class Collection extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.props.allItems()
+    this.fetchNextPage()
+  }
+
+  private fetchNextPage = () => {
+    const { currentPage } = this.props.collection
+    console.log('Fetching page', currentPage + 1)
+    this.props.allItems(currentPage + 1)
   }
 
   private onItemSelect = (item: Item) => {
@@ -88,23 +94,6 @@ class Collection extends React.Component<IProps, IState> {
     const catted = searchTags.reduce((prev, curr) => [...prev, ...curr], [])
     const tags = [...new Set(catted)].map(val => ({ value: val, key: val, text: val }))
 
-    if (collection.isLoading) {
-      return (
-        <div className="sweet-loader">
-          <PulseLoader color={'#aaaaaa'} loading={collection.isLoading} size={30} />
-          <style jsx>
-            {`
-              .sweet-loader {
-                margin: 0 auto;
-                display: flex;
-                justify-content: space-around;
-              }
-            `}
-          </style>
-        </div>
-      )
-    }
-
     return (
       <div>
         <div id="search-bar">
@@ -146,6 +135,24 @@ class Collection extends React.Component<IProps, IState> {
                 </Link>
               </div>
             )}
+        {collection.isLoading && (
+          <div className="sweet-loader">
+            <PulseLoader color={'#aaaaaa'} loading={collection.isLoading} size={30} />
+          </div>
+        )}
+
+        {!collection.hasFetchedAll &&
+          !collection.isLoading && (
+            <BottomScrollListener offset={400} onBottom={this.fetchNextPage} />
+          )}
+
+        {!!this.state.selectedItem && (
+          <div id="add-item">
+            <Link href="/additem">
+              <span>+</span>
+            </Link>
+          </div>
+        )}
 
         <div onKeyDown={this.keyHandler}>
           <Modal
@@ -197,6 +204,11 @@ class Collection extends React.Component<IProps, IState> {
             justify-content: center;
             right: 30px;
             bottom: 30px;
+          }
+          .sweet-loader {
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
           }
         `}</style>
       </div>
