@@ -4,7 +4,11 @@ import { getSession } from './Session'
 import * as cookie from 'cookie'
 
 export const signOut = async (): Promise<void> => {
-  await AuthApi.signOut()
+  try {
+    await AuthApi.signOut()
+  } catch (error) {
+    // TODO: Show warning that the user was already disconnected/not signed in anymore. (?)
+  }
   Router.push('/')
 }
 
