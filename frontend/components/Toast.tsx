@@ -3,10 +3,11 @@ import { Colors } from '../constants/Colors'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/fontawesome-free-solid'
 import { INotification, NotificationSeverity } from '../models/Notification'
+import { Message, Transition, Icon } from 'semantic-ui-react'
 
 interface IState {
   duration?: number
-  isClosing: boolean
+  open: boolean
 }
 
 interface IProps {
@@ -23,7 +24,7 @@ export class Toast extends React.Component<IProps, IState> {
     super(props)
     this.state = {
       duration: props.notification.duration,
-      isClosing: false,
+      open: true,
     }
   }
 
@@ -39,80 +40,29 @@ export class Toast extends React.Component<IProps, IState> {
     if (this.closeTimer) clearTimeout(this.closeTimer)
   }
 
+  private getType() {
+    const severity = this.props.notification.severity
+    return {
+      info: severity === NotificationSeverity.INFO,
+      warning: severity === NotificationSeverity.WARNING,
+      success: severity === NotificationSeverity.SUCCESS,
+      error: severity === NotificationSeverity.ERROR,
+    }
+  }
+
   render() {
     const { notification } = this.props
+    const { open } = this.state
+
     return (
-      <div className={`notification ${this.generateClassNames()}`}>
-        <div className="notification-msg">{notification.message}</div>
-
-        <div className="close-button" onClick={this.onRemoveClick}>
-          <FontAwesomeIcon className="fa-icon" icon={faTimes} color="#fff" />
-        </div>
-
-        <style jsx>{`
-          .notification {
-            margin-top: 10px;
-            color: #fff;
-            display: flex;
-            animation: fadein 0.3s;
-            border-radius: 5px;
-            overflow: hidden;
-          }
-
-          .fade-out {
-            animation: fadeout 0.3s;
-            opacity: 0;
-            pointer-events: none;
-          }
-
-          .notification-msg {
-            padding: 15px 30px;
-            flex: 1;
-          }
-          .close-button {
-            padding: 15px 30px;
-            border-left: 1px solid #fff;
-            &:hover {
-              cursor: pointer;
-              background: ${Colors.ERROR100};
-            }
-          }
-          .info {
-            background: blue;
-          }
-          .warning {
-            background: orange;
-          }
-          .success {
-            background: green;
-          }
-          .error {
-            background: ${Colors.ERROR80};
-          }
-
-          @keyframes fadein {
-            from {
-              opacity: 0;
-              transform: scaleY(0);
-            }
-            to {
-              opacity: 1;
-              transform: scaleY(1);
-            }
-          }
-
-          @keyframes fadeout {
-            from {
-              opacity: 1;
-              transform: scaleY(1);
-            }
-            to {
-              opacity: 0;
-              transform: scaleY(0);
-            }
-          }
-        `}</style>
-      </div>
+      <Transition visible={open} animation="fade left" unmountOnHide transitionOnMount>
+        <Message
+          className="notification"
+          {...this.getType()}
+          onDismiss={this.onRemoveClick}>
+          <Message.Content>{notification.message}</Message.Content>
+        </Message>
+      </Transition>
     )
   }
 
@@ -123,33 +73,9 @@ export class Toast extends React.Component<IProps, IState> {
   }
 
   private fadeOut = () => {
-    this.setState({ isClosing: true })
+    this.setState({ open: false })
     setTimeout(() => {
       this.props.onRemoveClick(this.props.notification.id)
     }, FADE_OUT_TIME)
-  }
-
-  private generateClassNames = () => {
-    const { severity } = this.props.notification
-    let classNames = []
-
-    switch (severity) {
-      case NotificationSeverity.INFO:
-        classNames.push('info')
-        break
-      case NotificationSeverity.WARNING:
-        classNames.push('warning')
-        break
-      case NotificationSeverity.SUCCESS:
-        classNames.push('success')
-        break
-      case NotificationSeverity.ERROR:
-        classNames.push('error')
-        break
-    }
-
-    if (this.state.isClosing) classNames.push('fade-out')
-
-    return classNames.join(' ')
   }
 }
