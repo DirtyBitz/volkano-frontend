@@ -33,7 +33,7 @@ export default class VolkanoRequest {
     const host =
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.BACKEND_URL) ||
       'this value only used in tests'
-    const url = `${host + path}.json`
+    const url = `${host + path}`
     const options = { url, method, data, headers: session }
     let response: AxiosResponse<any>
     try {

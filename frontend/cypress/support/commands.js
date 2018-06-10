@@ -61,3 +61,17 @@ Cypress.Commands.add('reset_user', (email = 'test@example.com') => {
     log: false,
   })
 })
+
+Cypress.Commands.add('logout', () => {
+  cy.getCookie('session', { log: false }).then(cookie => {
+    if (!cookie) {
+      Cypress.log({ name: 'error', message: 'tried to log out without session' })
+      return
+    }
+    const {
+      user: { email },
+    } = JSON.parse(decodeURI(cookie.value))
+    Cypress.log({ name: 'logout', message: 'logged out ' + email })
+    cy.clearCookie('session', { log: false })
+  })
+})

@@ -1,4 +1,4 @@
-import { UserActionTypes } from '../actions/user/USerActionTypes'
+import { UserActionTypes } from '../actions/user/UserActionTypes'
 import { UserActionTypeKeys } from '../actions/user/UserActionTypeKeys'
 import { ISession } from '../utils/Session'
 
