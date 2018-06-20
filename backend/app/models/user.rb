@@ -7,7 +7,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :items,
-           -> { includes(:tags, :categories) },
+           -> { includes(:tags, :categories).order(updated_at: :desc) },
            inverse_of: :user,
            dependent: :destroy
 
