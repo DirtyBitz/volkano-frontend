@@ -36,7 +36,7 @@ export default function collection(
       return {
         ...state,
         isLoading: false,
-        items: comineItems(action.payload.items, state.items),
+        items: combineItems(action.payload.items, state.items),
         currentPage: state.currentPage + 1,
         hasFetchedAll: action.payload.items.length === 0 ? true : false,
       }
@@ -80,15 +80,15 @@ function itemsWithTags(items: Item[], tags: ITag[]) {
   return filtered
 }
 
-function comineItems(newItems: Item[], oldItems?: Item[]) {
+function combineItems(newItems: Item[], oldItems?: Item[]) {
   if (!oldItems) {
     return newItems
   }
   const combinedItems: Item[] = [...oldItems]
 
   newItems.forEach(newItem => {
-    const allreadyAdded = oldItems.find(item => item.id === newItem.id)
-    if (!allreadyAdded) {
+    const alreadyAdded = oldItems.find(item => item.id === newItem.id)
+    if (!alreadyAdded) {
       combinedItems.push(newItem)
     }
   })

@@ -23,9 +23,11 @@ export default class AuthApi {
     const host =
       (config && config.publicRuntimeConfig && config.publicRuntimeConfig.FRONTEND_URL) ||
       'this value only used in tests'
+
+    const login = userFormFields.nickname || userFormFields.email
     const data = {
       ...userFormFields,
-      confirm_success_url: `${host}/accountcreated`,
+      confirm_success_url: `${host}/signin?login=${login}`,
     }
 
     try {

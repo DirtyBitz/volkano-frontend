@@ -19,6 +19,7 @@ import { addUser } from '../actions/user/UserActions'
 import { IAddUserAction } from '../actions/user/UserActionTypes'
 
 interface IProps {
+  url?: any
   session?: ISession
   addNotification: (notification: INotification) => IAddNotification
   addUser: (session: ISession) => IAddUserAction
@@ -52,6 +53,7 @@ class SigninPage extends React.Component<IProps> {
   }
 
   render() {
+    const query = this.props.url ? this.props.url.query : undefined
     return (
       <Layout title="Sign In">
         <h1
@@ -61,7 +63,7 @@ class SigninPage extends React.Component<IProps> {
           }}>
           Sign in
         </h1>
-        <SigninForm onSubmit={this.handleSubmit} />
+        <SigninForm onSubmit={this.handleSubmit} initialValues={query} />
       </Layout>
     )
   }

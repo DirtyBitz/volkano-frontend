@@ -19,6 +19,7 @@ const SignInForm = props => {
             iconName="user"
           />
           <Field
+            autoFocus
             name="password"
             type="password"
             component={renderField}
@@ -63,6 +64,7 @@ const validate = values => {
 
 export default reduxForm({
   form: 'signin',
+  touchOnBlur: false,
   validate,
   asyncBlurFields: ['username'],
 })(SignInForm)

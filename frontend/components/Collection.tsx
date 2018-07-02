@@ -12,6 +12,7 @@ import { Grid, Dropdown, Button } from 'semantic-ui-react'
 import { PulseLoader } from 'react-spinners'
 import BottomScrollListener from 'react-bottom-scroll-listener'
 import Layout from './Layout'
+import EmptyCollection from './EmptyCollection'
 
 export interface ITag {
   label: any
@@ -88,12 +89,20 @@ class Collection extends React.Component<IProps, IState> {
     const { setTags, collection } = this.props
     const showFiltered = collection.tags.length > 0
     const items = showFiltered ? collection.filteredItems : collection.items
+    const hasNoItems =
+      !collection.isLoading && collection.hasFetchedAll && collection.items.length === 0
     const searchTags = (collection.items || []).map(item => {
       return [...item.categories, ...item.tags]
     })
     const catted = searchTags.reduce((prev, curr) => [...prev, ...curr], [])
     const tags = [...new Set(catted)].map(val => ({ value: val, key: val, text: val }))
 
+    if (hasNoItems)
+      return (
+        <Layout>
+          <EmptyCollection />
+        </Layout>
+      )
     return (
       <Layout>
         <div id="search-bar">
@@ -127,15 +136,15 @@ class Collection extends React.Component<IProps, IState> {
           onDelete={this.deleteItem}
         />
 
-        {selectedItem
-          ? false
-          : true && (
-              <div id="add-item">
-                <Link href="/additem">
-                  <Button circular color="green" size="massive" icon="add" />
-                </Link>
-              </div>
-            )}
+        {selectedItem ? (
+          false
+        ) : (
+          <div id="add-item">
+            <Link href="/additem">
+              <Button circular color="green" size="massive" icon="add" />
+            </Link>
+          </div>
+        )}
         {collection.isLoading && (
           <div className="sweet-loader">
             <PulseLoader color={'#aaaaaa'} loading={collection.isLoading} size={30} />
@@ -146,14 +155,6 @@ class Collection extends React.Component<IProps, IState> {
           !collection.isLoading && (
             <BottomScrollListener offset={400} onBottom={this.fetchNextPage} />
           )}
-
-        {!!this.state.selectedItem && (
-          <div id="add-item">
-            <Link href="/additem">
-              <span>+</span>
-            </Link>
-          </div>
-        )}
 
         <style jsx>{`
           #search-bar {

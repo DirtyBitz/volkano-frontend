@@ -3,6 +3,7 @@ import { Input } from 'semantic-ui-react'
 
 const renderField = field => {
   const { meta, type, asyncValidating, input, iconName, placeholder, autoFocus } = field
+  const empty = !input.value
 
   return (
     <div>
@@ -12,7 +13,7 @@ const renderField = field => {
           iconPosition="left"
           placeholder={placeholder}
           type={type}
-          autoFocus={autoFocus}
+          autoFocus={empty && autoFocus}
           error={meta.touched && meta.invalid}
           {...input}
         />

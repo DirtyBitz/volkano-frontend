@@ -112,6 +112,7 @@ const validate = values => {
 
 export default reduxForm({
   form: 'signup',
+  touchOnBlur: false,
   validate,
   asyncBlurFields: ['email'],
 })(SignUpForm)

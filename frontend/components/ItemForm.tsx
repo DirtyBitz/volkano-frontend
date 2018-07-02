@@ -1,44 +1,50 @@
 import * as React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { Button } from 'semantic-ui-react'
+import { Button, Segment } from 'semantic-ui-react'
 import renderField from './InputField'
 
 const ItemForm = props => {
   const { handleSubmit, submitting } = props
   return (
     <div className="page">
-      <form onSubmit={handleSubmit}>
-        <Field
-          name="url"
-          type="text"
-          component={renderField}
-          placeholder="URL"
-          id="url-field"
-          iconName="copy"
-        />
-        <Field
-          autoFocus
-          name="title"
-          type="text"
-          component={renderField}
-          placeholder="Title"
-          id="title-field"
-          iconName="edit"
-        />
-        <Field
-          name="tags"
-          type="text"
-          component={renderField}
-          placeholder="Tags (comma-separated)"
-          id="tags-field"
-          iconName="tags"
-        />
-        <Button positive loading={submitting} type="submit">
-          Collect
-        </Button>
-      </form>
-
+      <Segment compact>
+        <form onSubmit={handleSubmit}>
+          <Field
+            autoFocus
+            name="url"
+            type="text"
+            component={renderField}
+            placeholder="URL"
+            id="url-field"
+            iconName="copy"
+          />
+          <Field
+            autoFocus
+            name="title"
+            type="text"
+            component={renderField}
+            placeholder="Title"
+            id="title-field"
+            iconName="edit"
+          />
+          <Field
+            name="tags"
+            type="text"
+            component={renderField}
+            placeholder="Tags (comma-separated)"
+            id="tags-field"
+            iconName="tags"
+          />
+          <Button positive loading={submitting} type="submit">
+            Collect
+          </Button>
+        </form>
+      </Segment>
       <style jsx>{`
+        .page {
+          display: flex;
+          justify-content: space-around;
+        }
         form {
           text-align: center;
           padding: 20px;
@@ -68,5 +74,6 @@ const validate = values => {
 
 export default reduxForm({
   form: 'additem',
+  touchOnBlur: false,
   validate,
 })(ItemForm)
