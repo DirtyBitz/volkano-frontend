@@ -1,0 +1,27 @@
+{
+  "name": "volkano-frontend",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "BACKEND_HOSTNAME": {
+      "required": true
+    },
+    "HEROKU_ENV": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
