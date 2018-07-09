@@ -8,8 +8,6 @@ const FAKE_SESSION = {
   client: 'string',
   user: {
     email: 'string',
-    id: 1,
-    name: 'string',
     nickname: 'string',
   },
 }
@@ -18,7 +16,7 @@ describe('User reducer', () => {
   it('should initialiaze empty', () => {
     const expectedState = INITIAL_USER_STATE
 
-    const state = userReducer(INITIAL_USER_STATE, OtherAction)
+    const state = userReducer(undefined, OtherAction)
 
     expect(state).toEqual(expectedState)
   })

@@ -1,31 +1,17 @@
 export interface IUserJson {
-  id: number
-  uid: string
   email: string
-  provider: string | null
-  name: string | null
   nickname: string | null
-  image: string | null
 }
 
 export interface IUser {
-  id: number
   email: string
-  name?: string
-  nickname?: string
-  image?: string
+  nickname: string | null
 }
 
-export const convertUserJson = (userJson: IUserJson): IUser => ({
-  id: userJson.id,
-  email: userJson.email,
-  name: userJson.name,
-  nickname: userJson.nickname,
-})
+export const convertUserJson = (userJson: IUserJson): IUser => userJson
 
 export const isValidUserJson = (userJson: IUserJson): boolean =>
   userJson &&
-  userJson.hasOwnProperty('uid') &&
   userJson.hasOwnProperty('email') &&
-  userJson.hasOwnProperty('name') &&
+  userJson.hasOwnProperty('nickname') &&
   true

@@ -5,7 +5,6 @@ let fakeSession: ISession = {
   uid: 'bleh',
   token: 'fake-token',
   user: {
-    id: 1,
     email: 'test@mail.com',
   },
 }
